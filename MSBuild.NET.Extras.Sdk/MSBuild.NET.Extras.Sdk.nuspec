@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+	<metadata>
+		<id>MSBuild.NET.Extras.Sdk</id>
+		<version>1.0.0</version>
+		<authors>Nirmal Guru</authors>
+		<owners>NIRIN</owners>
+		<copyright>© NIRIN Foundation.</copyright>
+		<serviceable>true</serviceable>
+		<tags>msbuild dotnet sdk xamarin ios android uwp tizen</tags>
+		<description>Additional MSBuild targets and properties for SDK-style .NET projects.</description>
+		<licenseUrl>https://github.com/nirin/msbuild-sdks/blob/master/LICENSE.md</licenseUrl>
+		<projectUrl>https://github.com/nirin/msbuild-sdks</projectUrl>
+		<developmentDependency>true</developmentDependency>
+		<releaseNotes>See the Readme for how to use/configure these targets.
+
+https://github.com/nirin/msbuild-sdks/blob/master/README.md</releaseNotes>
+		<dependencies>
+			<dependency id="NuGet.Build.Tasks.Pack" version="[4.3.0]" exclude="all" />
+		</dependencies>
+	</metadata>
+	<files>
+		<file src="build\**\*.*" target="build" />
+		<file src="buildMultiTargeting\**\*.*" target="buildMultiTargeting" />
+		<file src="Sdk\**\*.*" target="Sdk" />
+	</files>
+</package>

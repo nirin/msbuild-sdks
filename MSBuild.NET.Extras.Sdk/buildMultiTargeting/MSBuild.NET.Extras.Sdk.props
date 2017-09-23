@@ -1,0 +1,9 @@
+<Project>
+
+	<PropertyGroup>
+		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+	</PropertyGroup>
+
+	<Import Project="$(MSBuildThisFileDirectory)..\build\MSBuild.NET.Extras.Sdk.props" />
+
+</Project>

@@ -1,0 +1,17 @@
+<Project>
+
+	<PropertyGroup>
+		<TargetFrameworkVersion Condition="'$(TargetFrameworkVersion)' == ''">v1.0</TargetFrameworkVersion>
+		<IPhoneResourcePrefix Condition="'$(IPhoneResourcePrefix)' == ''">Resources</IPhoneResourcePrefix>
+		<LanguageTargets>$(MSBuildThisFileDirectory)languageTargets\Xamarin.TVOS.targets</LanguageTargets>
+		<ConsolePause Condition="'$(ConsolePause)' == ''">false</ConsolePause>
+	</PropertyGroup>
+
+	<ItemGroup Condition="'$(DisableImplicitFrameworkReferences)' != 'true'">
+		<Reference Include="System" />
+		<Reference Include="System.Xml" />
+		<Reference Include="System.Core" />
+		<Reference Include="Xamarin.TVOS" />
+	</ItemGroup>
+
+</Project>

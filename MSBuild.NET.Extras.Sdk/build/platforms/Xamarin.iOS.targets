@@ -1,0 +1,23 @@
+<Project>
+
+	<PropertyGroup>
+		<TargetFrameworkVersion Condition="'$(TargetFrameworkVersion)' == ''">v1.0</TargetFrameworkVersion>
+		<IPhoneResourcePrefix Condition="'$(IPhoneResourcePrefix)' == ''">Resources</IPhoneResourcePrefix>
+		<LanguageTargets>$(MSBuildThisFileDirectory)languageTargets\Xamarin.iOS.targets</LanguageTargets>
+	</PropertyGroup>
+
+	<ItemGroup Condition="'$(DisableImplicitFrameworkReferences)' != 'true'">
+		<Reference Include="System" />
+		<Reference Include="System.Runtime" />
+		<Reference Include="System.Collections" />
+		<Reference Include="System.Threading.Tasks" />
+		<Reference Include="System.IdentityModel" />
+		<Reference Include="System.Net.Http" />
+		<Reference Include="System.Xml" />
+		<Reference Include="System.Xml.Linq" />
+		<Reference Include="System.Core" />
+		<Reference Include="System.Runtime.Serialization" />
+		<Reference Include="Xamarin.iOS" />
+	</ItemGroup>
+
+</Project>
