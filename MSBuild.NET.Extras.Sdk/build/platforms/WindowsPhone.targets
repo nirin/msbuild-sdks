@@ -1,8 +1,11 @@
-<Project>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
 	<PropertyGroup>
-		<LanguageTargets>$(MSBuildThisFileDirectory)languageTargets\WindowsPhone.targets</LanguageTargets>
-		<DefineConstants Condition="'$(DisableImplicitFrameworkDefines)' == 'false'">$(DefineConstants);SILVERLIGHT;WINDOWS_PHONE</DefineConstants>
+		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<DefineConstants Condition="'$(DisableImplicitFrameworkDefines)' != 'true'">$(DefineConstants);SILVERLIGHT;WINDOWS_PHONE</DefineConstants>
 	</PropertyGroup>
 
 </Project>

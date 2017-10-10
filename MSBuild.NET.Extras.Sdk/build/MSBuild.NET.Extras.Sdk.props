@@ -1,8 +1,8 @@
-<Project>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
 	<PropertyGroup>
 		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
-		<MSBuildSdkExtrasDotNet>$(MSBuildThisFileDirectory)MSBuild.NET.Extras.Core.targets</MSBuildSdkExtrasDotNet>
+		<MSBuildSdkExtrasDotNet>$(MSBuildThisFileDirectory)MSBuild.NET.Extras.targets</MSBuildSdkExtrasDotNet>
 	</PropertyGroup>
 
 </Project>

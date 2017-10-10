@@ -1,4 +1,8 @@
-﻿<Project>
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+	<PropertyGroup>
+		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+	</PropertyGroup>
 
 	<PropertyGroup Condition="$(_SdkShortFrameworkProfileCount) == 2 and
 			$(_SdkShortFrameworkProfile.Contains('+wp81+')) and

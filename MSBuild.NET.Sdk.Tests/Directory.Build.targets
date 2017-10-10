@@ -9,11 +9,14 @@
 		<Message Text="NugetTargetMoniker = $(NugetTargetMoniker)" />
 		<Message Text="TargetPlatformIdentifier = $(TargetPlatformIdentifier)" />
 		<Message Text="NuGetBuildTasksPackTargets = $(NuGetBuildTasksPackTargets)" />
+		<Message Text="PackDependsOn = $(PackDependsOn)" />
+		<Message Text="SuppressWarnIfOldSdk = $(SuppressWarnIfOldSdk)" />
 		<Message Text="MSBuildSdksPath = $(MSBuildSdksPath)" />
+		<Message Text="MSBuildFrameworkToolsPath = $(MSBuildFrameworkToolsPath)" />
 	</Target>
 
 	<Target Name="ExtrasSdkTest" BeforeTargets="MSBuildAllProjectsTest">
-		<Message Text="Lang = $(_SdkLanguageName)" />
+		<Message Text="_SdkLanguageName = $(_SdkLanguageName)" />
 		<Message Text="_SdkShortFrameworkIdentifier = $(_SdkShortFrameworkIdentifier)" />
 		<Message Text="_SdkShortFrameworkVersion = $(_SdkShortFrameworkVersion)" />
 		<Message Text="_SdkShortFrameworkProfile = $(_SdkShortFrameworkProfile)" />

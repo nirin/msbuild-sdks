@@ -1,9 +1,12 @@
-<Project>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+	<PropertyGroup>
+		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+	</PropertyGroup>
 
 	<PropertyGroup>
 		<SilverlightVersion>$(TargetFrameworkVersion)</SilverlightVersion>
-		<LanguageTargets>$(MSBuildThisFileDirectory)languageTargets\Silverlight.targets</LanguageTargets>
-		<DefineConstants Condition="'$(DisableImplicitFrameworkDefines)' == 'false'">$(DefineConstants);SILVERLIGHT</DefineConstants>
+		<DefineConstants Condition="'$(DisableImplicitFrameworkDefines)' != 'true'">$(DefineConstants);SILVERLIGHT</DefineConstants>
 		<ValidateXaml Condition="'$(ValidateXaml)' == ''">true</ValidateXaml>
 		<AppDesignerFolder Condition="'$(AppDesignerFolder)' == ''">Properties</AppDesignerFolder>
 		<SilverlightApplication Condition="'$(SilverlightApplication)' == ''">false</SilverlightApplication>

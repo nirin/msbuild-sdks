@@ -1,5 +1,8 @@
 @echo Off
 
+REM Set Root Path
+set WD=%~dp0
+
 REM Check MyGet
 if not "%BuildRunner%" == "MyGet" (
 	set PackageVersion=%1
@@ -13,10 +16,10 @@ if not "%PackageVersion%" == "" (
 )
 
 REM Generate Package
-call %nuget% pack MSBuild.NET.Extras.Sdk\MSBuild.NET.Extras.Sdk.nuspec -OutputDirectory Packages %version%
+call %nuget% pack %WD%MSBuild.NET.Extras.Sdk\MSBuild.NET.Extras.Sdk.nuspec -OutputDirectory %WD%Packages %version%
 
 REM Check MyGet
 if not "%BuildRunner%" == "MyGet" (
 	REM Push Package
-	call %nuget% push Packages\*.nupkg
+	call %nuget% push %WD%Packages\*.nupkg
 )
