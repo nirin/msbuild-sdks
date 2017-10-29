@@ -10,7 +10,7 @@
 		<Message Text="TargetPlatformIdentifier = $(TargetPlatformIdentifier)" />
 		<Message Text="NuGetBuildTasksPackTargets = $(NuGetBuildTasksPackTargets)" />
 		<Message Text="PackDependsOn = $(PackDependsOn)" />
-		<Message Text="SuppressWarnIfOldSdk = $(SuppressWarnIfOldSdk)" />
+		<Message Text="SuppressOldSdkWarning = $(SuppressOldSdkWarning)" />
 		<Message Text="MSBuildSdksPath = $(MSBuildSdksPath)" />
 		<Message Text="MSBuildFrameworkToolsPath = $(MSBuildFrameworkToolsPath)" />
 	</Target>

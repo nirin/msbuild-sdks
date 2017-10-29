@@ -6,16 +6,16 @@
 
 	<!-- By default we suppress the old sdk warning, if the user has loaded v4.3.0+ NuGet 'Pack' target, which contain some fixes around PRI files. -->
 	<PropertyGroup>
-		<PackDependsOn>WarnIfOldSdk;$(PackDependsOn)</PackDependsOn>
-		<SuppressWarnIfOldSdk Condition="'$(SuppressWarnIfOldSdk)' == '' and '$(ImportNuGetBuildTasksPackTargetsFromSdk)' == 'false'">true</SuppressWarnIfOldSdk>
+		<PackDependsOn>WarnWhenUsingOldSdk;$(PackDependsOn)</PackDependsOn>
+		<SuppressOldSdkWarning Condition="'$(SuppressOldSdkWarning)' == '' and '$(ImportNuGetBuildTasksPackTargetsFromSdk)' == 'false'">true</SuppressOldSdkWarning>
 	</PropertyGroup>
 
 	<!-- Check to see if we are on an Old SDK and warn the user about 'Pack' target! -->
-	<Target Name="WarnIfOldSdk" Condition="'$(SuppressWarnIfOldSdk)' != 'true'">
-		<Warning Text="There are known issues using the 'Pack' target that comes with the v1 SDKs. Update to v2 and above SDKs to use the fixed 'Pack' target. If you don't need the fixed 'Pack' target the set 'SuppressWarnIfOldSdk' property to 'true'. If you need to use the v1 SDKs and to use the 'Pack' target, then add a 'NuGet.Build.Tasks.Pack' v4.3.0 and above dependency to proceed." />
+	<Target Name="WarnWhenUsingOldSdk" Condition="'$(SuppressOldSdkWarning)' != 'true'">
+		<Warning Text="There are known issues using the 'Pack' target that comes with the v1 SDKs. Update to v2 and above SDKs to use the fixed 'Pack' target. If you don't need the fixed 'Pack' target the set 'SuppressOldSdkWarning' property to 'true'. If you need to use the v1 SDKs and to use the 'Pack' target, then add a 'NuGet.Build.Tasks.Pack' v4.3.0 and above dependency to proceed." />
 	</Target>
 
-	<ImportGroup Condition="'$(SuppressWarnIfOldSdk)' != 'true'">
+	<ImportGroup Condition="'$(SuppressOldSdkWarning)' != 'true'">
 		<Import Project="$(MSBuildSdksPath)\NuGet.Build.Tasks.Pack\build\NuGet.Build.Tasks.Pack.targets" Condition="'$(IsMultiTargetingBuild)' != 'true'" />
 		<Import Project="$(MSBuildSdksPath)\NuGet.Build.Tasks.Pack\buildCrosstargeting\NuGet.Build.Tasks.Pack.targets" Condition="'$(IsMultiTargetingBuild)' == 'true'" />
 	</ImportGroup>

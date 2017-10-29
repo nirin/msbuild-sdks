@@ -2,7 +2,7 @@
 
 	<PropertyGroup>
 		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
-		<MSBuildSdkExtrasDotNet>$(MSBuildThisFileDirectory)MSBuild.NET.Extras.targets</MSBuildSdkExtrasDotNet>
+		<MSBuildSdkExtrasDotNetTargets>$(MSBuildThisFileDirectory)MSBuild.NET.Extras.targets</MSBuildSdkExtrasDotNetTargets>
 	</PropertyGroup>
 
 </Project>

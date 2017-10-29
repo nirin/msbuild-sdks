@@ -52,11 +52,11 @@ If you plan to target UWP, then you must include the UWP meta-package in your pr
 
 ``` xml
 <ItemGroup Condition="'$(TargetFramework)' == 'uap10.0'">
-  <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform" Version="5.4.0" />
+  <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform" Version="6.0.1" />
 </ItemGroup>
 ```
 
-Starting with Visual Studio 2017 Update 4 (aka _v15.4_), you can specify the `TargetPlatformMinVersion` with the TFM. The exact value depends on your installed Windows SDK. It may be something like `uap10.0.16300`. You can even multi-target to support older versions too, so have a `uap10.0` and `uap10.0.16300` (supports .NET Standard 2.0) target with different capabilities.
+Starting with Visual Studio 2017 Update 4 (aka _v15.4_), you can specify the `TargetPlatformMinVersion` with the TFM. The exact value depends on your installed Windows SDK. It may be something like `uap10.0.16299`. You can even multi-target to support older versions too, so have a `uap10.0` and `uap10.0.16299` (supports .NET Standard 2.0) target with different capabilities.
 
 ## Targeting Tizen
 

@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.26730.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{5DD5E4FA-CB73-4610-85AB-557B54E96AA9}") = "MSBuild.NET.Extras.Sdk", "MSBuild.NET.Extras.Sdk\MSBuild.NET.Extras.Sdk.nuproj", "{4D8D241C-7316-4988-834B-0CDF8FC85298}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MSBuild.NET.Extras.Sdk.Tests", "MSBuild.NET.Extras.Sdk.Tests\MSBuild.NET.Extras.Sdk.Tests.csproj", "{5A871583-13E3-4FC5-8FCB-B08AC5A2D01D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MSBuild.NET.Sdk.Tests", "MSBuild.NET.Sdk.Tests\MSBuild.NET.Sdk.Tests.csproj", "{5A871583-13E3-4FC5-8FCB-B08AC5A2D01D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8647C74A-083C-4EAF-B9B0-2172D4A27BFC}"
 	ProjectSection(SolutionItems) = preProject

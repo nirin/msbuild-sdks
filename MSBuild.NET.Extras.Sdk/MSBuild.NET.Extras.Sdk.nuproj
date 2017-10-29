@@ -1,7 +1,38 @@
 <Project Sdk="NuGet.Packaging.Sdk">
 
-	<PropertyGroup>
-		<NuSpecFile Include="$(MSBuildProjectName).nuspec" />
+	<PropertyGroup Label="Globals">
+		<ProjectGuid>208ec1b3-8458-4382-9c82-e20bdc7a0cac</ProjectGuid>
 	</PropertyGroup>
+
+	<PropertyGroup Label="PackageInfo">
+		<Title>MSBuild Sdks Extras for .NET</Title>
+		<PackageId>MSBuild.NET.Extras.Sdk</PackageId>
+		<PackageVersion Condition="'$(PackageVersion)' == ''">1.0.0</PackageVersion>
+		<Authors>Nirmal Guru</Authors>
+		<Owners>NIRIN</Owners>
+		<Copyright>© NIRIN Foundation.</Copyright>
+		<Serviceable>true</Serviceable>
+		<PackageTags>msbuild dotnet sdk xamarin ios android tizen windows uwp sl portable</PackageTags>
+		<Summary>Additional MSBuild targets and properties for SDK-style .NET projects.</Summary>
+		<Description>Additional MSBuild targets and properties for SDK-style .NET projects.</Description>
+		<PackageLicenseUrl>https://github.com/nirin/msbuild-sdks/blob/master/License.md</PackageLicenseUrl>
+		<PackageProjectUrl>https://github.com/nirin/msbuild-sdks</PackageProjectUrl>
+		<RepositoryUrl>git://github.com/nirin/msbuild-sdks</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+		<DevelopmentDependency>true</DevelopmentDependency>
+		<IsDevelopmentDependency>true</IsDevelopmentDependency>
+		<NeutralLanguage>en</NeutralLanguage>
+		<PackageReleaseNotes></PackageReleaseNotes>
+	</PropertyGroup>
+
+	<PropertyGroup Label="Build">
+		<EmitNuSpec>true</EmitNuSpec>
+		<NoPackageAnalysis>true</NoPackageAnalysis>
+		<IncludeBuildOutput>false</IncludeBuildOutput>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageFile Include="**\*.props;**\*.targets" Exclude="**\*~\;**\*~\**\*" />
+	</ItemGroup>
 
 </Project>
