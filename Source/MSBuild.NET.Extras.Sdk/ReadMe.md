@@ -2,11 +2,11 @@
 
 ## Summary
 
-This package contains a few extra extensions to the SDK-style projects that are currently not available in `Microsoft.NET.Sdk` SDK. This feature is tracked in [dotnet/sdk#491](/dotnet/sdk/issues/491)
+This package contains a few extra extensions to the SDK-style projects that are currently not available in `Microsoft.NET.Sdk` SDK. This feature is tracked in [dotnet/sdk#491](https://github.com/dotnet/sdk/issues/491)
 
 The primary goal of this project is to enable multi-targeting without you having to enter in tons of properties within your `csproj`, `vbproj`, `fsproj`, thus keeping it nice and clean.
 
-See the [original project](/onovotny/MSBuildSdkExtras/) by [Oren Novotny](/onovotny) for more information.
+See the [original project](https://github.com/onovotny/MSBuildSdkExtras/) by [Oren Novotny](https://github.com/onovotny) for more information.
 
 ### Package Name: `MSBuild.NET.Extras.Sdk`
 
@@ -23,7 +23,7 @@ Visual Studio 2017 Update 6 (aka _v15.6_) includes support for SDK's resolved fr
 1. Create a new project
     - .NET Core console app or .NET Standard class library.
     - With your exisiting SDK-style project.
-    - With the templates in the repo's [Tests](../../Tests) folder.
+    - With the templates in the repo's [TestProjects](../../TestProjects) folder.
 
 2. Replace `Microsoft.NET.Sdk` with `MSBuild.NET.Extras.Sdk` to the project's top-level `Sdk` attribute.
 3. Then you can edit the `TargetFramework` to a different TFM, or you can rename `TargetFramework` to `TargetFrameworks` and specify multiple TFM's with a `;` separator.
@@ -67,7 +67,7 @@ For those who are using in a `PackageReference` style, you can't do that with v2
 
 1. The same as above, replace the Sdk attribute's value.
 2. Remove the workaround import specified with the old way. The import property should be `MSBuildSdkExtrasDotNet`.
-3. Do a trial build and then compare your project with the templates in the repo's [Tests](../../Tests) folder to troubleshoot any issues if you encounter them.
+3. Do a trial build and then compare your project with the templates in the repo's [TestProjects](../../TestProjects) folder to troubleshoot any issues if you encounter them.
 4. Please file a issue if you can't troubleshoot on your own. So, that I can help you with the issue you are facing.
 
 Your previous project:
