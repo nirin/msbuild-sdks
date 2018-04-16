@@ -1,0 +1,14 @@
+<Project Sdk="MSBuild.NET.Extras.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net46</TargetFramework>
+		<FrameworkProjectType>Wpf</FrameworkProjectType>
+		<ProjectGuid>{3B9FBEE7-205A-4616-B813-D91E8D452E1F}</ProjectGuid>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<AssemblyName>WpfLib</AssemblyName>
+		<AssemblyTitle>Windows Presentation Foundation Library</AssemblyTitle>
+	</PropertyGroup>
+
+</Project>

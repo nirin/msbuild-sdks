@@ -1,0 +1,22 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+	<PropertyGroup>
+		<Company>NIRIN</Company>
+		<Authors>Nirmal Guru</Authors>
+		<Copyright>© NIRIN Foundation</Copyright>
+		<FileVersion>1.0.0.0</FileVersion>
+		<AssemblyVersion>1.0.0</AssemblyVersion>
+		<InformationalVersion>1.0 Test Project</InformationalVersion>
+		<Product>MSBuild-Sdks Test Projects</Product>
+		<Description>Project for Sdk testing.</Description>
+		<Description Condition="'$(AssemblyTitle)' != ''">$(AssemblyTitle) $(Description)</Description>
+		<RootNamespace Condition="'$(AssemblyName)' != ''">TestProjects.$(AssemblyName)</RootNamespace>
+		<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+		<IsPackable>false</IsPackable>
+	</PropertyGroup>
+
+	<Import Project="$(BuildToolsPath)MSBuild.TestOutput.targets"/>
+
+	<Import Project="$(MSBuildThisFileDirectory)..\$(MSBuildThisFile)"/>
+
+</Project>

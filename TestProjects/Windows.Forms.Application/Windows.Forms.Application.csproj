@@ -1,0 +1,16 @@
+﻿<Project Sdk="MSBuild.NET.Extras.Sdk">
+
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>net46</TargetFramework>
+		<FrameworkProjectType>WinForms</FrameworkProjectType>
+		<ProjectGuid>{48DD01AF-5599-4477-8C21-944732B8F592}</ProjectGuid>
+		<EmbeddedResourceGeneratedCodeIsPublic>true</EmbeddedResourceGeneratedCodeIsPublic>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<AssemblyName>WinFormsApp</AssemblyName>
+		<AssemblyTitle>Windows Forms Application</AssemblyTitle>
+	</PropertyGroup>
+
+</Project>

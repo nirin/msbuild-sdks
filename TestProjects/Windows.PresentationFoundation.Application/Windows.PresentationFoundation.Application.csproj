@@ -1,0 +1,15 @@
+﻿<Project Sdk="MSBuild.NET.Extras.Sdk">
+
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>net46</TargetFramework>
+		<FrameworkProjectType>Wpf</FrameworkProjectType>
+		<ProjectGuid>{60A78791-6C26-4382-9689-70792B01856D}</ProjectGuid>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<AssemblyName>WpfApp</AssemblyName>
+		<AssemblyTitle>Windows Presentation Foundation Application</AssemblyTitle>
+	</PropertyGroup>
+
+</Project>

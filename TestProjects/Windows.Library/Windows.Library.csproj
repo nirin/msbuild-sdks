@@ -1,0 +1,13 @@
+<Project Sdk="MSBuild.NET.Extras.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net46</TargetFramework>
+		<ProjectGuid>{3FD746AE-17B6-4BBD-9001-5654E50E17BF}</ProjectGuid>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<AssemblyName>WinClassLib</AssemblyName>
+		<AssemblyTitle>Windows Class Library</AssemblyTitle>
+	</PropertyGroup>
+
+</Project>
