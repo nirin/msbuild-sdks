@@ -1,0 +1,62 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+	<PropertyGroup>
+		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(TargetFramework)' == 'win' OR '$(TargetFramework)' == 'win8' OR '$(TargetFramework)' == 'win80'">
+		<TargetPlatformVersion>8.0</TargetPlatformVersion>
+		<TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+		<NugetTargetMoniker>Windows,Version=v8.0</NugetTargetMoniker>
+		<DefineConstants Condition="'$(DisableImplicitFrameworkDefines)' != 'true'">$(DefineConstants);NETFX_CORE;WINDOWS_APP</DefineConstants>
+		<!-- Need to override the built-in implicit defines for win8 or it'll be NETCORE4_5 -->
+		<ImplicitFrameworkDefine Condition="'$(DisableImplicitFrameworkDefines)' != 'true'">WINDOWS8</ImplicitFrameworkDefine>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(TargetFramework)' == 'win81'">
+		<TargetPlatformVersion>8.1</TargetPlatformVersion>
+		<TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+		<NugetTargetMoniker>Windows,Version=v8.1</NugetTargetMoniker>
+		<DefineConstants Condition="'$(DisableImplicitFrameworkDefines)' != 'true'">$(DefineConstants);NETFX_CORE;WINDOWS_APP</DefineConstants>
+		<!-- Need to override the built-in implicit defines for win81 or it'll be NETCORE4_5_1 -->
+		<ImplicitFrameworkDefine Condition="'$(DisableImplicitFrameworkDefines)' != 'true'">WINDOWS8_1</ImplicitFrameworkDefine>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(TargetFramework)' == 'wpa' OR '$(TargetFramework)' == 'wpa81'">
+		<TargetPlatformVersion>8.1</TargetPlatformVersion>
+		<TargetFrameworkVersion>v8.1</TargetFrameworkVersion>
+		<NugetTargetMoniker>WindowsPhoneApp,Version=v8.1</NugetTargetMoniker>
+		<DefineConstants Condition="'$(DisableImplicitFrameworkDefines)' != 'true'">$(DefineConstants);NETFX_CORE;WINDOWS_APP</DefineConstants>
+		<!-- Need to override the built-in implicit defines for wpa81 or it'll be WINDOWSPHONEAPP8_1 -->
+		<ImplicitFrameworkDefine Condition="'$(DisableImplicitFrameworkDefines)' != 'true'">WINDOWS_PHONE_APP</ImplicitFrameworkDefine>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="$(TargetFramework.StartsWith('uap10.0'))">
+		<TargetFrameworkVersion>v5.0</TargetFrameworkVersion>
+		<CopyLocalLockFileAssemblies Condition="'$(CopyLocalLockFileAssemblies)' == ''">false</CopyLocalLockFileAssemblies>
+		<DefineConstants Condition="'$(DisableImplicitFrameworkDefines)' != 'true'">$(DefineConstants);NETFX_CORE;WINDOWS_UAP</DefineConstants>
+
+		<TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
+		<!-- Calculate defaults based on 10.0 or specific version based on TFM to handle uap10.0.17133, etc -->
+		<TargetPlatformVersion Condition="'$(TargetPlatformVersion)' == '' AND '$(_ShortFrameworkVersion)' == '10.0'">10.0.17133.0</TargetPlatformVersion>
+		<TargetPlatformVersion Condition="'$(TargetPlatformVersion)' == ''">$([System.Version]::Parse('$(_ShortFrameworkVersion)')).0</TargetPlatformVersion>
+		<TargetPlatformMinVersion Condition="'$(TargetPlatformMinVersion)' == '' AND '$(_ShortFrameworkVersion)' == '10.0'">10.0.10240.0</TargetPlatformMinVersion>
+		<TargetPlatformMinVersion Condition="'$(TargetPlatformMinVersion)' == ''">$([System.Version]::Parse('$(_ShortFrameworkVersion)')).0</TargetPlatformMinVersion>
+
+		<NugetTargetMoniker Condition="'$(NugetTargetMoniker)' == '' AND '$(_ShortFrameworkVersion)' == '10.0'">UAP,Version=v10.0.10240.0</NugetTargetMoniker>
+		<NugetTargetMoniker Condition="'$(NugetTargetMoniker)' == ''">UAP,Version=v$([System.Version]::Parse('$(_ShortFrameworkVersion)')).0</NugetTargetMoniker>
+
+		<!-- Need to override the built-in implicit defines for UAP (WINDOWS10_10240) or it'll be NETCORE5_0 -->
+		<ImplicitFrameworkDefine Condition="'$(DisableImplicitFrameworkDefines)' != 'true'">WINDOWS10_$(TargetPlatformMinVersion.Split('.')[2])</ImplicitFrameworkDefine>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="$(TargetFramework.StartsWith('uap10.0')) AND '$(_ImplicitPlatformPackageVersion)' == ''">
+		<_ImplicitPlatformPackageVersion Condition="'$(TargetPlatformVersion)' >= '10.0.10150'">5.4.2</_ImplicitPlatformPackageVersion>
+		<_ImplicitPlatformPackageVersion Condition="'$(TargetPlatformVersion)' >= '10.0.15138'">6.0.8</_ImplicitPlatformPackageVersion>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<DisableImplicitFrameworkDefines Condition="'$(DisableImplicitFrameworkDefines)' != 'true'">true</DisableImplicitFrameworkDefines>
+	</PropertyGroup>
+
+</Project>

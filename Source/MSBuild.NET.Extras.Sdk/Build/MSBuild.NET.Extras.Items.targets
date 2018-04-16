@@ -1,0 +1,43 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+	<PropertyGroup>
+		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<EnableEmbeddedResourceCodeGenerator Condition="'$(EnableEmbeddedResourceCodeGenerator)' == ''">true</EnableEmbeddedResourceCodeGenerator>
+		<DefaultDesignerFileSuffix Condition="'$(DefaultDesignerFileSuffix)' == ''">.Designer</DefaultDesignerFileSuffix>
+		<!-- Add conditional compilation symbols for the target framework (for example NET471, NETSTANDARD2_0, NETCOREAPP2_1) -->
+		<ImplicitFrameworkDefine Condition="'$(DisableImplicitFrameworkDefines)' != 'true'">$(TargetFramework.Replace('.','_').ToUpperInvariant())</ImplicitFrameworkDefine>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(EnableEmbeddedResourceCodeGenerator)' == 'true'">
+		<EmbeddedResourceCodeGeneratorTool Condition="'$(EmbeddedResourceGeneratedCodeIsPublic)' != 'true'">ResXFileCodeGenerator</EmbeddedResourceCodeGeneratorTool>
+		<EmbeddedResourceCodeGeneratorTool Condition="'$(EmbeddedResourceGeneratedCodeIsPublic)' == 'true'">PublicResXFileCodeGenerator</EmbeddedResourceCodeGeneratorTool>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(AppendTargetFrameworkToOutputPath)' == ''">
+		<AppendTargetFrameworkToOutputPath Condition="'$(TargetFrameworks)' == ''">false</AppendTargetFrameworkToOutputPath>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<!-- Don't generate assembly info for generated projects -->
+		<GenerateAssemblyInfo Condition="'$(IsGeneratedProject)' == 'true'">false</GenerateAssemblyInfo>
+	</PropertyGroup>
+
+	<ItemGroup Condition="'$(DisableImplicitFrameworkReferences)' != 'true'">
+		<!-- Set Pack=false on implicit references so they don't get added to NuGet packages as framework assemblies -->
+		<_SdkImplicitReference Update="@(_SdkImplicitReference)" IsImplicitlyDefined="true" Pack="false"/>
+
+		<!--
+			Don't duplicate any references that are explicit in the project file.
+			This means that if you do want to include a framework assembly in your NuGet package,
+			you can just add the Reference to your project file.
+		-->
+		<_SdkImplicitReference Remove="@(Reference)"/>
+
+		<!-- Add the implicit references to @(Reference) -->
+		<Reference Include="@(_SdkImplicitReference)"/>
+	</ItemGroup>
+
+</Project>

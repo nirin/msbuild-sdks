@@ -1,0 +1,27 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+	<PropertyGroup>
+		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+	</PropertyGroup>
+
+	<!-- Check for _*_wpftmp.*proj files -->
+	<PropertyGroup>
+		<GeneratedProjectSuffixPattern>_[a-z0-9]{8}_wpftmp%24</GeneratedProjectSuffixPattern>
+		<IsGeneratedProject Condition="$([System.Text.RegularExpressions.Regex]::IsMatch('$(MSBuildProjectName)', '$(GeneratedProjectSuffixPattern)'))">true</IsGeneratedProject>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(IsGeneratedProject)' == 'true'">
+		<_SdkOriginalProjectName Condition="'$(_SdkOriginalProjectName)' == ''">$([System.Text.RegularExpressions.Regex]::Replace('$(MSBuildProjectName)', '$(GeneratedProjectSuffixPattern)', ''))</_SdkOriginalProjectName>
+		<_SdkOriginalProjectFile Condition="'$(_SdkOriginalProjectFile)' == ''">$(_SdkOriginalProjectName)$(MSBuildProjectExtension)</_SdkOriginalProjectFile>
+		<_SdkOriginalProjectExtensionsPath Condition="'$(_SdkOriginalProjectExtensionsPath)' == '' AND $(MSBuildProjectExtensionsPath.Contains('$(MSBuildProjectName)'))">$(MSBuildProjectExtensionsPath.Replace('$(MSBuildProjectName)', '$(_SdkOriginalProjectName)'))</_SdkOriginalProjectExtensionsPath>
+	</PropertyGroup>
+
+	<!--
+		WPF sometimes creates a temporary project, since it changes the peoject file, it breaks Project Extensions import.
+		In order to properly import Project Extensions, we need the user to set '_SdkOriginalProjectFile' and use it to import Project Extensions.
+	-->
+	<ImportGroup Condition="'$(_SdkOriginalProjectFile)' != '' AND '$(ImportProjectExtensionProps)' == 'true'">
+		<Import Project="$(_SdkOriginalProjectExtensionsPath)$(_SdkOriginalProjectFile).*.props" Condition="Exists('$(_SdkOriginalProjectExtensionsPath)')"/>
+	</ImportGroup>
+
+</Project>

@@ -1,0 +1,7 @@
+/Restore
+/MaxCPUCount
+/BinaryLogger
+/DetailedSummary
+/Verbosity:normal
+/NodeReuse:false
+/Target:Build

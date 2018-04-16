@@ -13,23 +13,25 @@
 *.userprefs
 
 # Build results
-[Xx]64/
-[Xx]86/
-[Bb]ld/
 [Bb]in/
 [Oo]bj/
+[Xx]64/
+[Xx]86/
 [Ll]og/
 [Ll]ogs/
 [Dd]ebug/
 [Dd]ebugPublic/
 [Rr]elease/
 [Rr]eleases/
+[Pp]ackages/
 [Bb]uilds/
 [Bb]inaries/
 [Oo]bjects/
 
+# MSBuild ingores
+*.binlog
 
-# Visual Studio 2015 cache/options directory
+# Visual Studio 14+ cache/options directory
 .vs/
 # Uncomment if you have tasks that create the project's static files in wwwroot
 #wwwroot/
@@ -78,6 +80,9 @@ artifacts/
 *.pidb
 *.svclog
 *.scc
+
+# MSBuild Response files
+!Directory.Build.rsp
 
 # Chutzpah Test files
 _Chutzpah*
@@ -145,7 +150,7 @@ DocProject/Help/Html2
 DocProject/Help/html
 
 # Click-Once directory
-publish/
+[Pp]ublish/
 
 # Publish Web Output
 *.[Pp]ublish.xml
@@ -196,12 +201,15 @@ _pkginfo.txt
 # Others
 ClientBin/
 ~$*
-*~
+_*/
+~*/
+*~/
+*~.*
 *.dbmdl
 *.dbproj.schemaview
 *.pfx
+!*_TemporaryKey.pfx
 *.publishsettings
-*.ignore.*
 orleans.codegen.cs
 node_modules/
 bower_components/

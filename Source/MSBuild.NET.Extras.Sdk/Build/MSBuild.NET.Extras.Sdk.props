@@ -1,0 +1,56 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+	<PropertyGroup>
+		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+	</PropertyGroup>
+
+	<Import Project="$(MSBuildThisFileDirectory)MSBuild.NET.Workarounds.props"/>
+
+	<Choose>
+		<When Condition="'$(MSBuildProjectExtension)' == '.csproj'">
+			<PropertyGroup>
+				<_LanguageSourceName>CSharp</_LanguageSourceName>
+				<!--<DefaultLanguageSourceExtension>.cs</DefaultLanguageSourceExtension>-->
+			</PropertyGroup>
+		</When>
+
+		<When Condition="'$(MSBuildProjectExtension)' == '.vbproj'">
+			<PropertyGroup>
+				<_LanguageSourceName>VisualBasic</_LanguageSourceName>
+				<!--<DefaultLanguageSourceExtension>.vb</DefaultLanguageSourceExtension>-->
+			</PropertyGroup>
+		</When>
+
+		<When Condition="'$(MSBuildProjectExtension)' == '.fsproj'">
+			<PropertyGroup>
+				<_LanguageSourceName>FSharp</_LanguageSourceName>
+				<!--<DefaultLanguageSourceExtension>.fs</DefaultLanguageSourceExtension>-->
+			</PropertyGroup>
+		</When>
+
+		<Otherwise/>
+	</Choose>
+
+	<PropertyGroup>
+		<DefaultLanguage Condition="'$(DefaultLanguage)' == ''">$(LangName)</DefaultLanguage>
+		<DefaultLanguage Condition="'$(DefaultLanguage)' == ''">$([System.Globalization.CultureInfo]::CurrentUICulture.Name)</DefaultLanguage>
+		<SupportedCultures Condition="'$(SupportedCultures)' == ''">$(DefaultLanguage)</SupportedCultures>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(AppDesignerFolder)' == ''">
+		<AppDesignerFolder Condition="'$(_LanguageSourceName)' != 'VisualBasic'">Properties</AppDesignerFolder>
+		<AppDesignerFolder Condition="'$(_LanguageSourceName)' == 'VisualBasic'">My Project</AppDesignerFolder>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<DefaultProjectTypeGuid Condition="'$(_LanguageSourceName)' == 'CSharp'">{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</DefaultProjectTypeGuid>
+		<DefaultProjectTypeGuid Condition="'$(_LanguageSourceName)' == 'VisualBasic'">{F184B08F-C81C-45F6-A57F-5ABD9991F28F}</DefaultProjectTypeGuid>
+		<!-- F# Legacy ProjectTypeGuid: {F2A71F9B-5D33-465A-A702-920D77279786} -->
+		<DefaultProjectTypeGuid Condition="'$(_LanguageSourceName)' == 'FSharp'">{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}</DefaultProjectTypeGuid>
+	</PropertyGroup>
+
+	<Import Project="$(MSBuildThisFileDirectory)MSBuild.NET.ProjectSystem.props"/>
+	<Import Project="$(MSBuildThisFileDirectory)MSBuild.NET.Extras.Items.props"/>
+	<Import Project="$(MSBuildThisFileDirectory)Platforms\*.props"/>
+
+</Project>

@@ -1,0 +1,37 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+	<Import Project="$(MSBuildThisFileDirectory)..\$(MSBuildThisFile)"/>
+
+	<PropertyGroup Label="PackageInfo">
+		<Authors>Nirmal Guru</Authors>
+		<Owners>NIRIN</Owners>
+		<Copyright>© NIRIN Foundation.</Copyright>
+		<Serviceable>true</Serviceable>
+		<PackageTags>msbuild;project;sdk</PackageTags>
+		<Summary>MSBuild targets and properties for SDK-style projects.</Summary>
+		<Description>MSBuild targets and properties for SDK-style projects.</Description>
+		<PackageLicenseUrl>https://github.com/nirin/msbuild-sdks/blob/master/License.md</PackageLicenseUrl>
+		<PackageProjectUrl>https://github.com/nirin/msbuild-sdks</PackageProjectUrl>
+		<RepositoryUrl>git://github.com/nirin/msbuild-sdks</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+		<DevelopmentDependency>true</DevelopmentDependency>
+		<NeutralLanguage>en</NeutralLanguage>
+		<PackageReleaseNotes></PackageReleaseNotes>
+	</PropertyGroup>
+
+	<PropertyGroup Label="Build">
+		<NoPackageAnalysis>true</NoPackageAnalysis>
+		<IncludeBuildOutput>false</IncludeBuildOutput>
+	</PropertyGroup>
+
+	<PropertyGroup Label="Items">
+		<EnableDefaultPackageItems>true</EnableDefaultPackageItems>
+		<ExcludeDefaultBuildFiles>false</ExcludeDefaultBuildFiles>
+	</PropertyGroup>
+
+	<ItemGroup Condition="'$(EnableDefaultItems)' == 'true' AND '$(EnableDefaultPackageItems)' == 'true'">
+		<None Remove="*\**\*.*"/>
+		<PackageFile Include="*\**\*.*" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)"/>
+	</ItemGroup>
+
+</Project>
