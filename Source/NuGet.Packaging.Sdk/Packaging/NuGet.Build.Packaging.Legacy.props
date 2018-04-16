@@ -1,0 +1,11 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+	<!-- This targets is used to adjust renamed properties, items and metadata -->
+
+	<PropertyGroup>
+		<PrimaryOutputKind Condition="'$(PrimaryOutputKind)' == ''">$(PrimaryOutputPackageFileKind)</PrimaryOutputKind>
+		<!-- Previously, $(IncludeOutputsInPackage) == false disabled inclusion of project references -->
+		<IncludeProjectReferencesInPackage Condition="'$(IncludeProjectReferencesInPackage)' == ''">$(IncludeOutputsInPackage)</IncludeProjectReferencesInPackage>
+	</PropertyGroup>
+
+</Project>

@@ -1,0 +1,11 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+	<Import Project="$(MSBuildThisFileDirectory)MSBuild.Defaults.props"/>
+
+	<Import Project="$(MSBuildThisFileDirectory)MSBuild.Defaults.Items.props"/>
+
+	<Import Project="$(MSBuildThisFileDirectory)..\VisualStudio\Microsoft.VisualStudio.props"/>
+
+	<Import Project="$(MSBuildThisFileDirectory)MSBuild.OutputPaths.props" Condition="'$(ImportedMSBuildOutputPathsProps)' != 'true'"/>
+
+</Project>

@@ -1,0 +1,11 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+	<Import Project="$(MSBuildProjectFullPath).user" Condition="Exists('$(MSBuildProjectFullPath).user')"/>
+
+	<Import Project="$(MSBuildThisFileDirectory)MSBuild.Defaults.targets"/>
+
+	<Import Project="$(MSBuildThisFileDirectory)MSBuild.OutputPaths.targets"/>
+
+	<Import Project="$(MSBuildThisFileDirectory)MSBuild.Defaults.Items.targets"/>
+
+</Project>

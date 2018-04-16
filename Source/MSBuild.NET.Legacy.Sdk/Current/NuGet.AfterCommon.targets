@@ -1,0 +1,15 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+	<!-- Import NuGet.targets (required for GetReferenceNearestTargetFrameworkTask and used for Restore functionality) -->
+	<PropertyGroup Condition="'$(ImportNuGetRestoreTargetsFromSdk)' == 'false'">
+		<DevEnvDir Condition="'$(DevEnvDir)' == '' AND '$([MSBuild]::IsRunningFromVisualStudio())' == 'true'">$(MSBuildToolsPath32)\..\..\..\Common7\IDE\</DevEnvDir>
+		<NuGetRestoreTargets Condition="'$(NuGetRestoreTargets)' == '' AND '$([MSBuild]::IsRunningFromVisualStudio())' == 'true'">$(DevEnvDir)CommonExtensions\Microsoft\NuGet\NuGet.targets</NuGetRestoreTargets>
+		<NuGetRestoreTargets Condition="'$(NuGetRestoreTargets)' == ''">$(MSBuildToolsPath)\NuGet.targets</NuGetRestoreTargets>
+	</PropertyGroup>
+
+	<!-- This will import NuGet restore targets. We need restore to work before any package assets are available. -->
+	<Import Project="$(NuGetRestoreTargets)" Condition="Exists('$(NuGetRestoreTargets)') AND '$(ImportNuGetRestoreTargetsFromSdk)' == 'false'"/>
+
+	<Import Project="Sdk.Restore.targets" Sdk="NuGet.Packaging.Sdk" Condition="'$(ImportNuGetRestoreTargetsFromSdk)' != 'false'"/>
+
+</Project>

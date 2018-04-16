@@ -1,0 +1,10 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+	<Import Project="$(CustomProjectCoreTargetsPath)" Condition="Exists('$(CustomProjectCoreTargetsPath)')"/>
+	<Import Project="$(MSBuildThisFileDirectory)..\Core\MSBuild.Core.targets" Condition="!Exists('$(CustomProjectCoreTargetsPath)')"/>
+
+	<PropertyGroup>
+		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+	</PropertyGroup>
+
+</Project>

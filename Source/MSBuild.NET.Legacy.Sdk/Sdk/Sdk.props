@@ -1,0 +1,19 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+	<Import Project="$(MSBuildThisFileDirectory)..\Microsoft.Legacy.props" Condition="'$(ImportedMicrosoftLegacyProps)' != 'true'"/>
+
+	<PropertyGroup>
+		<!--
+			We can override this property in both Directory.Build.props and ProjectExtension props,
+			since ProjectCore props is imported after those two.
+		-->
+		<CustomProjectCorePropsPath>$(MSBuildLegacySdkPath)Microsoft.Common.props</CustomProjectCorePropsPath>
+	</PropertyGroup>
+
+	<Import Project="Sdk.props" Sdk="MSBuild.Core.Sdk" Condition="'$(ImportedMSBuildCoreSdkProps)' != 'true'"/>
+
+	<PropertyGroup>
+		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+	</PropertyGroup>
+
+</Project>

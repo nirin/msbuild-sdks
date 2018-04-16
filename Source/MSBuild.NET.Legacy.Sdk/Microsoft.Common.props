@@ -1,0 +1,19 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+	<Choose>
+		<When Condition="'$(MSBuildAssemblyVersion)' == ''">
+			<PropertyGroup>
+				<MicrosoftCommonPropsPath>$(MSBuildLegacySdkPath)Inbox\$(MSBuildThisFile)</MicrosoftCommonPropsPath>
+			</PropertyGroup>
+		</When>
+		<Otherwise>
+			<PropertyGroup>
+				<MicrosoftCommonPropsPath>$(MSBuildLegacySdkPath)Current\$(MSBuildThisFile)</MicrosoftCommonPropsPath>
+			</PropertyGroup>
+		</Otherwise>
+	</Choose>
+
+	<Import Project="$(MSBuildLegacySdkPath)Extensions\$(MSBuildThisFile)" Condition="'$(ImportLegacyExtensionProps)' == 'true'"/>
+	<Import Project="$(MicrosoftCommonPropsPath)" Condition="'$(ImportLegacyExtensionProps)' != 'true'"/>
+
+</Project>

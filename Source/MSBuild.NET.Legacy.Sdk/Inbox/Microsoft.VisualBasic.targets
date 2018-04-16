@@ -1,0 +1,25 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+	<Import Project="$(MSBuildThisFileDirectory)DisableExtensions\Microsoft.VisualBasic.targets"/>
+	<Import Project="$(MSBuildThisFileDirectory)DisableExtensions\Microsoft.Common.targets"/>
+	<Import Project="$(MSBuildThisFileDirectory)DisableExtensions\Microsoft.NETFramework.props"/>
+	<Import Project="$(MSBuildThisFileDirectory)DisableExtensions\Microsoft.NETFramework.targets"/>
+
+	<PropertyGroup>
+		<!-- Same condition as in .NET 4.5 VB targets so that we can override the behaviour where it defaults to MSBuildToolsPath, which would be incorrect in this case -->
+		<VbcToolPath Condition="'$(VbcToolPath)' == '' AND '$(BuildingInsideVisualStudio)' != 'true'">$(MSBuildFrameworkToolsPath)</VbcToolPath>
+	</PropertyGroup>
+
+	<Import Project="$(MSBuildFrameworkToolsPath)\Microsoft.VisualBasic.targets"/>
+
+	<!--
+		Fix up FrameworkPathOverride, which is primarily used to determine the location of mscorlib.dll in the (relatively uncommon)
+		situation where the reference assemblies, in which it's usually found, are not installed.
+		Defined here rather than in Microsoft.Common.targets because the .NET Microsoft.VisualBasic.targets
+		imports Microsoft.Common.targets from the current directory.
+	-->
+	<PropertyGroup>
+		<FrameworkPathOverride Condition="!Exists('$(FrameworkPathOverride)\mscorlib.dll')">$(MSBuildFrameworkToolsPath)</FrameworkPathOverride>
+	</PropertyGroup>
+
+</Project>

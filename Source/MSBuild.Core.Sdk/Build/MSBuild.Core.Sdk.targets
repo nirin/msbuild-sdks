@@ -1,0 +1,23 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+	<PropertyGroup>
+		<ImportProjectCoreTargets Condition="'$(ImportProjectCoreTargets)' == ''">true</ImportProjectCoreTargets>
+		<ImportProjectExtensionTargets Condition="'$(ImportProjectExtensionTargets)' == ''">true</ImportProjectExtensionTargets>
+		<ImportDirectoryBuildTargets Condition="'$(ImportDirectoryBuildTargets)' == ''">true</ImportDirectoryBuildTargets>
+	</PropertyGroup>
+
+	<ImportGroup>
+		<Import Project="$(MSBuildThisFileDirectory)MSBuild.ProjectCore.targets" Condition="'$(ImportProjectCoreTargets)' == 'true'"/>
+		<Import Project="$(MSBuildThisFileDirectory)MSBuild.ProjectExtension.targets" Condition="'$(ImportProjectExtensionTargets)' == 'true'"/>
+		<Import Project="$(MSBuildThisFileDirectory)Directory.Build.targets" Condition="'$(ImportDirectoryBuildTargets)' == 'true'"/>
+	</ImportGroup>
+
+	<PropertyGroup>
+		<ImportedMSBuildCoreSdkTargets>true</ImportedMSBuildCoreSdkTargets>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+	</PropertyGroup>
+
+</Project>

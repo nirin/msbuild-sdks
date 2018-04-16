@@ -6,12 +6,24 @@ MSBuild SDKs are used to configure and extend your build. MSBuild 15.0 introduce
 
 [![MSBuild-SDKs](https://img.shields.io/badge/msbuild--sdks-myget-brightgreen.svg)](https://myget.org/gallery/msbuild-sdks)
 
+### [MSBuild.Core.Sdk](Source/MSBuild.Core.Sdk)
+
+Supports projects that do not compile to an assembly. This is usually the base SDK for other SDKs listed here.
+
+### [MSBuild.NET.Legacy.Sdk](Source/MSBuild.NET.Legacy.Sdk)
+
+Supports only .NET Framework (Windows). Contains the original .NET Framework Build files that were included with MSBuild. Use them to slowly migrate your legacy projects to SDK-style.
+
 ### [MSBuild.NET.Extras.Sdk](Source/MSBuild.NET.Extras.Sdk)
 
 Adds a few extra extensions to the SDK-style projects that are currently not available in `Microsoft.NET.Sdk` SDK. This feature is being tracked in [dotnet/sdk#491](/dotnet/sdk/issues/491)
 
 [![MSBuild.NET.Extras.Sdk](https://img.shields.io/nuget/v/MSBuild.NET.Extras.Sdk.svg)](https://nuget.org/packages/MSBuild.NET.Extras.Sdk)
 [![MSBuild.NET.Extras.Sdk](https://img.shields.io/myget/msbuild-sdks/v/MSBuild.NET.Extras.Sdk.svg)](https://myget.org/feed/msbuild-sdks/package/nuget/MSBuild.NET.Extras.Sdk)
+
+### [NuGet.Packaging.Sdk](Source/NuGet.Packaging.Sdk)
+
+Supports only NuGet Package authoring. It's basically an SDK wrappper around [NuGet.Build.Packaging](/NuGet/NuGet.Build.Packaging) aka NuGetizer-3000 project, with NuGet Restore and Pack targets optimized for SDK-style.
 
 ## Working
 
