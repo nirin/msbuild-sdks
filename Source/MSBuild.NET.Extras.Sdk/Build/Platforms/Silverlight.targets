@@ -8,7 +8,6 @@
 		<SilverlightVersion>$(TargetFrameworkVersion)</SilverlightVersion>
 		<DefineConstants Condition="'$(DisableImplicitFrameworkDefines)' != 'true'">$(DefineConstants);SILVERLIGHT</DefineConstants>
 		<ValidateXaml Condition="'$(ValidateXaml)' == ''">true</ValidateXaml>
-		<AppDesignerFolder Condition="'$(AppDesignerFolder)' == ''">Properties</AppDesignerFolder>
 		<SilverlightApplication Condition="'$(SilverlightApplication)' == ''">false</SilverlightApplication>
 		<ThrowErrorsInValidation Condition="'$(ThrowErrorsInValidation)' == ''">true</ThrowErrorsInValidation>
 	</PropertyGroup>
