@@ -5,11 +5,25 @@
 	</PropertyGroup>
 
 	<!--
-		WPF sometimes creates a temporary project, since it changes the peoject file, it breaks Project Extensions import.
-		In order to properly import Project Extensions, we need the user to set '_SdkOriginalProjectFile' and use it to import Project Extensions.
+		WPF sometimes creates a temporary project, since it changes the peoject file, it breaks MSBuildProjectName and inturn RootNamespace.
+		When that is the case we simply fix-up RootNamespace by removing the project generated suffix.
 	-->
-	<ImportGroup Condition="'$(_SdkOriginalProjectFile)' != '' AND '$(ImportProjectExtensionTargets)' == 'true'">
-		<Import Project="$(_SdkOriginalProjectExtensionsPath)$(_SdkOriginalProjectFile).*.targets" Condition="'Exists('$(_SdkOriginalProjectExtensionsPath)')"/>
+	<Target Name="_CheckAndFixupRootNamespaceGeneratedSuffixPattern"
+			BeforeTargets="_CompileTemporaryAssembly;CoreCompile"
+			Condition="('$(IsGeneratedProject)' == 'true') AND $([System.Text.RegularExpressions.Regex]::IsMatch('$(RootNamespace)', '$(GeneratedProjectSuffixPattern)'))">
+		<PropertyGroup>
+			<_RootNamespaceInGeneratedProject>$(RootNamespace)</_RootNamespaceInGeneratedProject>
+			<RootNamespace>$([System.Text.RegularExpressions.Regex]::Replace('$(_RootNamespaceInGeneratedProject)', '$(GeneratedProjectSuffixPattern)', ''))</RootNamespace>
+		</PropertyGroup>
+		<Message Importance="High" Text="The RootNamespace in the generated project was '$(_RootNamespaceInGeneratedProject)' and the fixed-up RootNamespace is $(RootNamespace)."/>
+	</Target>
+
+	<!--
+		WPF sometimes creates a temporary project, since it changes the peoject file, it breaks Project Extensions import.
+		In order to properly import Project Extensions, we need the user to set '_OriginalProjectFile' and use it to import Project Extensions.
+	-->
+	<ImportGroup Condition="'$(_OriginalProjectFile)' != '' AND '$(ImportProjectExtensionTargets)' == 'true'">
+		<Import Project="$(_OriginalProjectExtensionsPath)$(_OriginalProjectFile).*.targets" Condition="'Exists('$(_OriginalProjectExtensionsPath)')"/>
 	</ImportGroup>
 
 	<!--

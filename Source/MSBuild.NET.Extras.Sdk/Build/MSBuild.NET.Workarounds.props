@@ -6,22 +6,22 @@
 
 	<!-- Check for _*_wpftmp.*proj files -->
 	<PropertyGroup>
-		<GeneratedProjectSuffixPattern>_[a-z0-9]{8}_wpftmp%24</GeneratedProjectSuffixPattern>
-		<IsGeneratedProject Condition="$([System.Text.RegularExpressions.Regex]::IsMatch('$(MSBuildProjectName)', '$(GeneratedProjectSuffixPattern)'))">true</IsGeneratedProject>
+		<GeneratedProjectSuffixPattern>_[a-z0-9]{8}_wpftmp</GeneratedProjectSuffixPattern>
+		<IsGeneratedProject Condition="$([System.Text.RegularExpressions.Regex]::IsMatch('$(MSBuildProjectName)', '$(GeneratedProjectSuffixPattern)%24'))">true</IsGeneratedProject>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(IsGeneratedProject)' == 'true'">
-		<_SdkOriginalProjectName Condition="'$(_SdkOriginalProjectName)' == ''">$([System.Text.RegularExpressions.Regex]::Replace('$(MSBuildProjectName)', '$(GeneratedProjectSuffixPattern)', ''))</_SdkOriginalProjectName>
-		<_SdkOriginalProjectFile Condition="'$(_SdkOriginalProjectFile)' == ''">$(_SdkOriginalProjectName)$(MSBuildProjectExtension)</_SdkOriginalProjectFile>
-		<_SdkOriginalProjectExtensionsPath Condition="'$(_SdkOriginalProjectExtensionsPath)' == '' AND $(MSBuildProjectExtensionsPath.Contains('$(MSBuildProjectName)'))">$(MSBuildProjectExtensionsPath.Replace('$(MSBuildProjectName)', '$(_SdkOriginalProjectName)'))</_SdkOriginalProjectExtensionsPath>
+		<_OriginalProjectName Condition="'$(_OriginalProjectName)' == ''">$([System.Text.RegularExpressions.Regex]::Replace('$(MSBuildProjectName)', '$(GeneratedProjectSuffixPattern)', ''))</_OriginalProjectName>
+		<_OriginalProjectFile Condition="'$(_OriginalProjectFile)' == ''">$(_OriginalProjectName)$(MSBuildProjectExtension)</_OriginalProjectFile>
+		<_OriginalProjectExtensionsPath Condition="'$(_OriginalProjectExtensionsPath)' == '' AND $(MSBuildProjectExtensionsPath.Contains('$(MSBuildProjectName)'))">$(MSBuildProjectExtensionsPath.Replace('$(MSBuildProjectName)', '$(_OriginalProjectName)'))</_OriginalProjectExtensionsPath>
 	</PropertyGroup>
 
 	<!--
 		WPF sometimes creates a temporary project, since it changes the peoject file, it breaks Project Extensions import.
-		In order to properly import Project Extensions, we need the user to set '_SdkOriginalProjectFile' and use it to import Project Extensions.
+		In order to properly import Project Extensions, we need the user to set '_OriginalProjectFile' and use it to import Project Extensions.
 	-->
-	<ImportGroup Condition="'$(_SdkOriginalProjectFile)' != '' AND '$(ImportProjectExtensionProps)' == 'true'">
-		<Import Project="$(_SdkOriginalProjectExtensionsPath)$(_SdkOriginalProjectFile).*.props" Condition="Exists('$(_SdkOriginalProjectExtensionsPath)')"/>
+	<ImportGroup Condition="'$(_OriginalProjectFile)' != '' AND '$(ImportProjectExtensionProps)' == 'true'">
+		<Import Project="$(_OriginalProjectExtensionsPath)$(_OriginalProjectFile).*.props" Condition="Exists('$(_OriginalProjectExtensionsPath)')"/>
 	</ImportGroup>
 
 </Project>

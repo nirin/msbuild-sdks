@@ -36,6 +36,11 @@
 		<DisableImplicitFrameworkDefines Condition="'$(DisableImplicitFrameworkDefines)' != 'true'">true</DisableImplicitFrameworkDefines>
 	</PropertyGroup>
 
+	<PropertyGroup Condition="'$(ApplicationManifest)' == ''">
+		<ApplicationManifest Condition="Exists('$(MSBuildProjectDirectory)\$(AppDesignerFolder)\app.manifest')">$(AppDesignerFolder)\app.manifest</ApplicationManifest>
+		<ApplicationManifest Condition="Exists('$(MSBuildProjectDirectory)\app.manifest')">app.manifest</ApplicationManifest>
+	</PropertyGroup>
+
 	<PropertyGroup>
 		<EnableDefaultSettingsItems Condition="'$(EnableDefaultSettingsItems)' == ''">true</EnableDefaultSettingsItems>
 		<EnableSettingsCodeGenerator Condition="'$(EnableSettingsCodeGenerator)' == ''">true</EnableSettingsCodeGenerator>
@@ -67,8 +72,8 @@
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(EnableDefaultWpfItems)' == 'true' AND '$(ApplicationDefinitionFile)' == ''">
-		<ApplicationDefinitionFile Condition="Exists('$(MSBuildProjectDirectory)\App.xaml')">$(MSBuildProjectDirectory)\App.xaml</ApplicationDefinitionFile>
-		<ApplicationDefinitionFile Condition="Exists('$(MSBuildProjectDirectory)\Application.xaml')">$(MSBuildProjectDirectory)\Application.xaml</ApplicationDefinitionFile>
+		<ApplicationDefinitionFile Condition="Exists('$(MSBuildProjectDirectory)\App.xaml')">App.xaml</ApplicationDefinitionFile>
+		<ApplicationDefinitionFile Condition="Exists('$(MSBuildProjectDirectory)\Application.xaml')">Application.xaml</ApplicationDefinitionFile>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(EnableDefaultWpfItems)' == 'true'">

@@ -23,7 +23,7 @@ Adds a few extra extensions to the SDK-style projects that are currently not ava
 
 ### [NuGet.Packaging.Sdk](Source/NuGet.Packaging.Sdk)
 
-Supports only NuGet Package authoring. It's basically an SDK wrappper around [NuGet.Build.Packaging](https://github.com/NuGet/NuGet.Build.Packaging) aka NuGetizer-3000 project, with NuGet Restore and Pack targets optimized for SDK-style.
+Supports NuGet Restore/Pack Tasks and Package authoring. It's basically an SDK wrappper around [NuGet.Build.Packaging](https://github.com/NuGet/NuGet.Build.Packaging) aka NuGetizer-3000 project, with NuGet Restore and Pack targets optimized for SDK-style.
 
 ## Working
 

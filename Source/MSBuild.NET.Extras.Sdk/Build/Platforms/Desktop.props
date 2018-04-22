@@ -49,6 +49,11 @@
 		<Service Include="$(UserControlDesignerService)" Condition="'$(EnableUserControlDesigner)' == 'true'"/>
 	</ItemGroup>
 
+	<ItemGroup Condition="'$(DisableImplicitFrameworkReferences)' != 'true' AND '$(TargetFrameworkIdentifier)' == '.NETFramework'">
+		<_SdkImplicitReference Include="System.Data.DataSetExtensions" Condition="'$(_TargetFrameworkVersionWithoutV)' >= '3.5'"/>
+		<_SdkImplicitReference Include="System.Net.Http"/>
+	</ItemGroup>
+
 	<ItemGroup Condition="'$(DisableImplicitFrameworkReferences)' != 'true' AND '$(EnableImplicitWpfReferences)' == 'true' AND '$(TargetFrameworkIdentifier)' == '.NETFramework'">
 		<_SdkImplicitReference Include="System.Xaml" Condition="'$(_TargetFrameworkVersionWithoutV)' >= '4.0'"/>
 		<_SdkImplicitReference Include="WindowsBase" Condition="'$(_TargetFrameworkVersionWithoutV)' >= '3.0'"/>
@@ -59,7 +64,6 @@
 	<ItemGroup Condition="'$(DisableImplicitFrameworkReferences)' != 'true' AND '$(EnableImplicitAspNetReferences)' == 'true' AND '$(TargetFrameworkIdentifier)' == '.NETFramework'">
 		<_SdkImplicitReference Include="System.Web"/>
 		<_SdkImplicitReference Include="System.Web.Http"/>
-		<_SdkImplicitReference Include="System.Net.Http"/>
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(DisableImplicitFrameworkReferences)' != 'true' AND '$(EnableImplicitWinFormsReferences)' == 'true' AND '$(TargetFrameworkIdentifier)' == '.NETFramework'">
