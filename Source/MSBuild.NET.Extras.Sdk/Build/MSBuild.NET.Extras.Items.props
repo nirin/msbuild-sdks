@@ -59,16 +59,19 @@
 		<Resource Include="$(DefaultResourceIncludes)" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder);$(DefaultResourceExcludes)">
 			<Generator>MSBuild:XamlIntelliSenseFileGenerator</Generator>
 		</Resource>
+		<UpToDateCheckInput Include="@(DefaultResourceIncludes)"/>
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(EnableDefaultPageItems)' == 'true'">
 		<None Remove="$(ApplicationDefinitionFile)"/>
 		<ApplicationDefinition Include="$(ApplicationDefinitionFile)" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)"/>
+		<UpToDateCheckInput Include="@(ApplicationDefinition)"/>
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(EnableDefaultPageItems)' == 'true'">
 		<None Remove="**\*.xaml"/>
 		<Page Include="**\*.xaml" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder);$(DefaultPageExcludes)"/>
+		<UpToDateCheckInput Include="@(Page)"/>
 		<Compile Update="**\*.xaml$(DefaultLanguageSourceExtension)">
 			<DependentUpon>%(Filename)</DependentUpon>
 		</Compile>
