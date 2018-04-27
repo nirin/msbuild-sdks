@@ -1,0 +1,24 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+	<Import Project="$(MSBuildThisFileDirectory)..\$(MSBuildThisFile)"/>
+
+	<PropertyGroup>
+		<BuildFolder>~Builds</BuildFolder>
+		<BuildPath>$(SolutionDir)</BuildPath>
+		<PublishFolder>~Publish</PublishFolder>
+		<PublishPath>$(SolutionDir)</PublishPath>
+	</PropertyGroup>
+
+	<Import Project="$(BuildToolsPath)MSBuild.OutputPaths.props"/>
+
+	<PropertyGroup>
+		<RestoreOutputPath>$(MSBuildProjectExtensionsPath)</RestoreOutputPath>
+		<CustomBeforeSdkTargets>$(BuildToolsPath)MSBuild.OutputPaths.targets</CustomBeforeSdkTargets>
+		<IsLegacyProject Condition="$(MSBuildProjectName.EndsWith('LPS')) OR $(SolutionName.EndsWith('LPS'))">true</IsLegacyProject>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(IsLegacyProject)' == 'true'">
+		<CustomBeforeMicrosoftCommonTargets>$(CustomBeforeSdkTargets)</CustomBeforeMicrosoftCommonTargets>
+	</PropertyGroup>
+
+</Project>
