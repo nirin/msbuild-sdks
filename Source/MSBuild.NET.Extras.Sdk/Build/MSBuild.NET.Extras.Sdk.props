@@ -52,5 +52,6 @@
 	<Import Project="$(MSBuildThisFileDirectory)MSBuild.NET.ProjectSystem.props"/>
 	<Import Project="$(MSBuildThisFileDirectory)MSBuild.NET.Extras.Items.props"/>
 	<Import Project="$(MSBuildThisFileDirectory)Platforms\*.props"/>
+	<Import Project="$(MSBuildThisFileDirectory)PlatformItems\*.$(_LanguageSourceName).props"/>
 
 </Project>

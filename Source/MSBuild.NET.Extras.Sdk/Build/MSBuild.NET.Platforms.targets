@@ -13,11 +13,14 @@
 		<_SdkPlatformName Condition="'$(TargetFrameworkIdentifier)' == 'MonoAndroid' OR '$(TargetFrameworkIdentifier)' == 'MonoTouch' OR '$(TargetFrameworkIdentifier)' == 'MonoMac'">Xamarin</_SdkPlatformName>
 
 		<_SdkPlatformTargets>$(MSBuildThisFileDirectory)Platforms\$(_SdkPlatformName).targets</_SdkPlatformTargets>
+		<_SdkPlatformItemsTargets>$(MSBuildThisFileDirectory)PlatformItems\$(_SdkPlatformName).$(_LanguageSourceName).targets</_SdkPlatformItemsTargets>
 		<_SdkLanguageTargets>$(MSBuildThisFileDirectory)LanguageTargets\$(_SdkPlatformName).targets</_SdkLanguageTargets>
 		<LanguageTargets Condition="Exists('$(_SdkLanguageTargets)')">$(_SdkLanguageTargets)</LanguageTargets>
 	</PropertyGroup>
 
 	<Import Project="$(_SdkPlatformTargets)" Condition="Exists('$(_SdkPlatformTargets)')"/>
+
+	<Import Project="$(_SdkPlatformItemsTargets)" Condition="Exists('$(_SdkPlatformItemsTargets)')"/>
 
 	<!-- Update '_TargetFrameworkVersionWithoutV'. Since, we could have updated 'TargetFrameworkVersion' within platform targets -->
 	<PropertyGroup Condition="'$(TargetFrameworkVersion)' != ''">

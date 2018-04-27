@@ -5,6 +5,15 @@
 	</PropertyGroup>
 
 	<ItemDefinitionGroup>
+		<_SdkImplicitReference>
+			<IsImplicitlyDefined>true</IsImplicitlyDefined>
+		</_SdkImplicitReference>
+		<_SdkImplicitImport>
+			<IsImplicitlyDefined>true</IsImplicitlyDefined>
+		</_SdkImplicitImport>
+	</ItemDefinitionGroup>
+
+	<ItemDefinitionGroup>
 		<Compile>
 			<SubType>Code</SubType>
 		</Compile>

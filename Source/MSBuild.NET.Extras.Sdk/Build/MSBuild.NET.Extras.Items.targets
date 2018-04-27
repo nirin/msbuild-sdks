@@ -5,15 +5,25 @@
 	</PropertyGroup>
 
 	<PropertyGroup>
-		<EnableEmbeddedResourceCodeGenerator Condition="'$(EnableEmbeddedResourceCodeGenerator)' == ''">true</EnableEmbeddedResourceCodeGenerator>
 		<DefaultDesignerFileSuffix Condition="'$(DefaultDesignerFileSuffix)' == ''">.Designer</DefaultDesignerFileSuffix>
 		<!-- Add conditional compilation symbols for the target framework (for example NET471, NETSTANDARD2_0, NETCOREAPP2_1) -->
 		<ImplicitFrameworkDefine Condition="'$(DisableImplicitFrameworkDefines)' != 'true'">$(TargetFramework.Replace('.','_').ToUpperInvariant())</ImplicitFrameworkDefine>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(EnableEmbeddedResourceCodeGenerator)' == 'true'">
+	<PropertyGroup Condition="'$(EnableEmbeddedResourceCodeGenerator)' == ''">
+		<EnableEmbeddedResourceCodeGenerator Condition="'$(_LanguageSourceName)' == 'CSharp'">true</EnableEmbeddedResourceCodeGenerator>
+		<EnableEmbeddedResourceCodeGenerator Condition="'$(_LanguageSourceName)' == 'VisualBasic'">true</EnableEmbeddedResourceCodeGenerator>
+		<EnableEmbeddedResourceCodeGenerator Condition="'$(EnableEmbeddedResourceCodeGenerator)' == ''">false</EnableEmbeddedResourceCodeGenerator>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(EnableEmbeddedResourceCodeGenerator)' == 'true' AND '$(_LanguageSourceName)' == 'CSharp'">
 		<EmbeddedResourceCodeGeneratorTool Condition="'$(EmbeddedResourceGeneratedCodeIsPublic)' != 'true'">ResXFileCodeGenerator</EmbeddedResourceCodeGeneratorTool>
 		<EmbeddedResourceCodeGeneratorTool Condition="'$(EmbeddedResourceGeneratedCodeIsPublic)' == 'true'">PublicResXFileCodeGenerator</EmbeddedResourceCodeGeneratorTool>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(EnableEmbeddedResourceCodeGenerator)' == 'true' AND '$(_LanguageSourceName)' == 'VisualBasic'">
+		<EmbeddedResourceCodeGeneratorTool Condition="'$(EmbeddedResourceGeneratedCodeIsPublic)' != 'true'">VbMyResourcesResXFileCodeGenerator</EmbeddedResourceCodeGeneratorTool>
+		<EmbeddedResourceCodeGeneratorTool Condition="'$(EmbeddedResourceGeneratedCodeIsPublic)' == 'true'">PublicVbMyResourcesResXFileCodeGenerator</EmbeddedResourceCodeGeneratorTool>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(AppendTargetFrameworkToOutputPath)' == ''">
@@ -27,7 +37,7 @@
 
 	<ItemGroup Condition="'$(DisableImplicitFrameworkReferences)' != 'true'">
 		<!-- Set Pack=false on implicit references so they don't get added to NuGet packages as framework assemblies -->
-		<_SdkImplicitReference Update="@(_SdkImplicitReference)" IsImplicitlyDefined="true" Pack="false"/>
+		<_SdkImplicitReference Update="@(_SdkImplicitReference)" Pack="false"/>
 
 		<!--
 			Don't duplicate any references that are explicit in the project file.
