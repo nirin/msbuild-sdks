@@ -267,8 +267,8 @@
 			Win32Resource="$(Win32Resource)"
 			VBRuntime="$(VBRuntime)"/>
 
-		<!-- Only Applicable to the regular CoreCompile:
-			<ItemGroup>
+		<!-- Only Applicable to the regular CoreCompile: -->
+		<!-- <ItemGroup>
 				<_CoreCompileResourceInputs Remove="@(_CoreCompileResourceInputs)"/>
 			</ItemGroup>
 

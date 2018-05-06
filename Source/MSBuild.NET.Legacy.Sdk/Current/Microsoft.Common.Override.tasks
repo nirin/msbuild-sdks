@@ -1,0 +1,36 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+	<!-- This file lists UsingTask elements that we wish to override any other UsingTask elements -->
+
+	<!-- NOTE: Listing a <UsingTask> tag in a *.tasks file like this one rather than in a project or targets file
+		 can give a significant performance advantage in a large build, because every time a <UsingTask> tag
+		 is encountered, it will cause the task to be rediscovered next time the task is used. -->
+
+	<!-- NOTE: Using the fully qualified class name in a <UsingTask> tag is faster than using a partially qualified name. -->
+
+	<PropertyGroup Condition="'$(MSBuildLegacyTasksAssemblyFullName)' == ''">
+		<MSBuildLegacyTasksAssemblyFullName_CLR2>Microsoft.Build.Tasks.v3.5, Version=3.5.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</MSBuildLegacyTasksAssemblyFullName_CLR2>
+		<MSBuildLegacyTasksAssemblyFullName_CLR4>Microsoft.Build.Tasks.v4.0, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</MSBuildLegacyTasksAssemblyFullName_CLR4>
+		<MSBuildLegacyTasksAssemblyFullName_CLRC>Microsoft.Build.Tasks.Core, Version=15.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</MSBuildLegacyTasksAssemblyFullName_CLRC>
+
+		<MSBuildLegacyTasksAssemblyFullName Condition="'$(MSBuildAssemblyVersion)' == ''">$(MSBuildLegacyTasksAssemblyFullName_CLR4)</MSBuildLegacyTasksAssemblyFullName>
+		<MSBuildLegacyTasksAssemblyFullName Condition="'$(MSBuildAssemblyVersion)' != ''">$(MSBuildLegacyTasksAssemblyFullName_CLRC)</MSBuildLegacyTasksAssemblyFullName>
+	</PropertyGroup>
+
+	<UsingTask TaskName="Microsoft.Build.Tasks.MSBuild"                   AssemblyName="$(MSBuildLegacyTasksAssemblyFullName_CLRC)" Condition="'$(MSBuildToolsVersion)' == '3.5' OR '$(MSBuildToolsVersion)' == '2.0'"/>
+	<UsingTask TaskName="Microsoft.Build.Tasks.ConvertToAbsolutePath"     AssemblyName="$(MSBuildLegacyTasksAssemblyFullName_CLRC)" Condition="'$(MSBuildToolsVersion)' == '3.5' OR '$(MSBuildToolsVersion)' == '2.0'"/>
+	<UsingTask TaskName="Microsoft.Build.Tasks.FindUnderPath"             AssemblyName="$(MSBuildLegacyTasksAssemblyFullName_CLRC)" Condition="'$(MSBuildToolsVersion)' == '3.5' OR '$(MSBuildToolsVersion)' == '2.0'"/>
+	<UsingTask TaskName="Microsoft.Build.Tasks.ReadLinesFromFile"         AssemblyName="$(MSBuildLegacyTasksAssemblyFullName_CLRC)" Condition="'$(MSBuildToolsVersion)' == '3.5' OR '$(MSBuildToolsVersion)' == '2.0'"/>
+	<UsingTask TaskName="Microsoft.Build.Tasks.ResolveComReference"       AssemblyName="$(MSBuildLegacyTasksAssemblyFullName_CLRC)" Condition="'$(MSBuildToolsVersion)' == '3.5' OR '$(MSBuildToolsVersion)' == '2.0'"/>
+	<UsingTask TaskName="Microsoft.Build.Tasks.ResolveAssemblyReference"  AssemblyName="$(MSBuildLegacyTasksAssemblyFullName_CLRC)" Condition="'$(MSBuildToolsVersion)' == '4.0'"/>
+
+	<UsingTask TaskName="Microsoft.Build.Tasks.GenerateResource"          AssemblyName="$(MSBuildLegacyTasksAssemblyFullName_CLRC)" Condition="('$(MSBuildToolsVersion)' == '3.5' OR '$(MSBuildToolsVersion)' == '2.0') AND !('$(DisableOutOfProcTaskHost)' == '' AND $([MSBuild]::DoesTaskHostExist(`CLR2`,`CurrentArchitecture`)))"/>
+	<UsingTask TaskName="Microsoft.Build.Tasks.GenerateResource"          AssemblyName="$(MSBuildLegacyTasksAssemblyFullName_CLR2)" Condition="('$(MSBuildToolsVersion)' == '3.5' OR '$(MSBuildToolsVersion)' == '2.0') AND ('$(DisableOutOfProcTaskHost)' == '' AND $([MSBuild]::DoesTaskHostExist(`CLR2`,`CurrentArchitecture`)))" Runtime="CLR2"/>
+
+	<UsingTask TaskName="Microsoft.Build.Tasks.RegisterAssembly"          AssemblyName="$(MSBuildLegacyTasksAssemblyFullName_CLRC)" Condition="('$(MSBuildToolsVersion)' == '3.5' OR '$(MSBuildToolsVersion)' == '2.0') AND !('$(DisableOutOfProcTaskHost)' == '' AND $([MSBuild]::DoesTaskHostExist(`CLR2`,`CurrentArchitecture`)))"/>
+	<UsingTask TaskName="Microsoft.Build.Tasks.RegisterAssembly"          AssemblyName="$(MSBuildLegacyTasksAssemblyFullName_CLR2)" Condition="('$(MSBuildToolsVersion)' == '3.5' OR '$(MSBuildToolsVersion)' == '2.0') AND ('$(DisableOutOfProcTaskHost)' == '' AND $([MSBuild]::DoesTaskHostExist(`CLR2`,`CurrentArchitecture`)))" Runtime="CLR2"/>
+
+	<UsingTask TaskName="Microsoft.Build.Tasks.UnregisterAssembly"        AssemblyName="$(MSBuildLegacyTasksAssemblyFullName_CLRC)" Condition="('$(MSBuildToolsVersion)' == '3.5' OR '$(MSBuildToolsVersion)' == '2.0') AND !('$(DisableOutOfProcTaskHost)' == '' AND $([MSBuild]::DoesTaskHostExist(`CLR2`,`CurrentArchitecture`)))"/>
+	<UsingTask TaskName="Microsoft.Build.Tasks.UnregisterAssembly"        AssemblyName="$(MSBuildLegacyTasksAssemblyFullName_CLR2)" Condition="('$(MSBuildToolsVersion)' == '3.5' OR '$(MSBuildToolsVersion)' == '2.0') AND ('$(DisableOutOfProcTaskHost)' == '' AND $([MSBuild]::DoesTaskHostExist(`CLR2`,`CurrentArchitecture`)))" Runtime="CLR2"/>
+
+</Project>

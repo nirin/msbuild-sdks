@@ -1,0 +1,12 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+	<ImportGroup Condition="'$(ImportedMicrosoftLegacyTasks)' != 'true'">
+		<Import Project="$(MSBuildThisFileDirectory)..\Microsoft.Common.tasks"/>
+		<Import Project="$(MSBuildThisFileDirectory)..\Microsoft.Common.Override.tasks"/>
+	</ImportGroup>
+
+	<PropertyGroup>
+		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+	</PropertyGroup>
+
+</Project>

@@ -10,7 +10,7 @@
 		<CustomProjectCorePropsPath>$(MSBuildLegacySdkPath)Microsoft.Common.props</CustomProjectCorePropsPath>
 	</PropertyGroup>
 
-	<Import Project="Sdk.props" Sdk="MSBuild.Core.Sdk" Condition="'$(ImportedMSBuildCoreSdkProps)' != 'true'"/>
+	<Import Project="Sdk.props" Sdk="MSBuild.Core.Sdk"/>
 
 	<PropertyGroup>
 		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>

@@ -2,6 +2,11 @@
 
 	<Import Project="$(MSBuildProjectFullPath).user" Condition="Exists('$(MSBuildProjectFullPath).user')"/>
 
+	<PropertyGroup>
+		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildProjectFullPath);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+		<MSBuildAllProjects Condition="Exists('$(MSBuildProjectFullPath).user')">$(MSBuildAllProjects);$(MSBuildProjectFullPath).user</MSBuildAllProjects>
+	</PropertyGroup>
+
 	<!-- VS10 without SP1 and without VS11 will not have VisualStudioVersion set, so do that here -->
 	<PropertyGroup>
 		<VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -498,11 +503,6 @@
 		<WebReference_EnableLegacyEventingModel Condition="'$(WebReference_EnableLegacyEventingModel)' == ''">false</WebReference_EnableLegacyEventingModel>
 	</PropertyGroup>
 
-	<PropertyGroup>
-		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildProjectFullPath);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
-		<MSBuildAllProjects Condition="Exists('$(MSBuildProjectFullPath).user')">$(MSBuildAllProjects);$(MSBuildProjectFullPath).user</MSBuildAllProjects>
-	</PropertyGroup>
-
 	<!--
 		These parameters control where to look in the registry for directories to search for
 		assemblies in the assembly resolution tasks.
@@ -589,7 +589,7 @@
 		<PropertyPageSchema Include="
 							$(CommonXamlResourcesDirectory)General.xaml;
 							$(CommonXamlResourcesDirectory)Debugger_General.xaml">
-		<Context>Project</Context>
+			<Context>Project</Context>
 		</PropertyPageSchema>
 
 		<PropertyPageSchema Include="$(CommonXamlResourcesDirectory)General.BrowseObject.xaml">
@@ -609,7 +609,7 @@
 			$(CommonXamlResourcesDirectory)None.xaml;
 			$(CommonXamlResourcesDirectory)Content.xaml;
 			$(CommonXamlResourcesDirectory)EmbeddedResource.xaml;">
-		<Context>File;BrowseObject</Context>
+			<Context>File;BrowseObject</Context>
 		</PropertyPageSchema>
 
 		<PropertyPageSchema Include="$(CommonXamlResourcesDirectory)SpecialFolder.xaml;">
@@ -677,6 +677,34 @@
 			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
 		</EmbeddedResource>
 	</ItemDefinitionGroup>
+
+	<!--
+		Target that allows targets consuming source control confirmation to establish a dependency on targets producing this information.
+
+		Any target that reads SourceRevisionId, PrivateRepositoryUrl, SourceRoot, and other source control properties and items
+		should depend on this target and be conditioned on '$(SourceControlInformationFeatureSupported)' == 'true'.
+
+		SourceRevisionId property uniquely identifies the source control revision of the repository the project belongs to.
+		For Git repositories this id is a commit hash, for TFVC repositories it's the changeset number, etc.
+
+		PrivateRepositoryUrl property stores the URL of the repository supplied by the CI server or retrieved from source control manager.
+		Targets consuming this property shall not publish its value implicitly as it might inadvertently reveal an internal URL.
+		Instead, they shall only do so if the project sets PublishRepositoryUrl property to true. For example, the NuGet Pack target
+		may include the repository URL in the nuspec file generated for NuGet package produced by the project if PublishRepositoryUrl is true.
+
+		SourceRoot item group lists all source roots that the project source files reside under and their mapping to source control server URLs,
+		if available. This includes both source files under source control as well as source files in source packages. SourceRoot items are
+		used by compilers to determine path map in deterministic build and by SourceLink provider, which maps local paths to URLs of source files
+		stored on the source control server.
+
+		Source control information provider that sets these properties and items shall execute before this target (by including
+		InitializeSourceControlInformation in its BeforeTargets) and set source control properties and items that haven't been initialized yet.
+	-->
+	<Target Name="InitializeSourceControlInformation" />
+
+	<PropertyGroup>
+		<SourceControlInformationFeatureSupported>true</SourceControlInformationFeatureSupported>
+	</PropertyGroup>
 
 	<!--
 		***********************************************************************************************
@@ -1098,7 +1126,7 @@
 	-->
 	<Target
 		Name="GetReferenceAssemblyPaths"
-		DependsOnTargets="$(GetReferenceAssemblyPathsDependsOn)">
+		DependsOnTargets="$(GetReferenceAssemblyPathsDependsOn);GetFrameworkPaths">
 
 		<!-- if TargetFrameworkDirectory doesn't have a custom value, clear it out; that way we can get reference paths and target framework directories all in the right order -->
 		<PropertyGroup>
@@ -1285,9 +1313,8 @@
 	</PropertyGroup>
 	<Target
 		Name="UnmanagedUnregistration"
-		Condition="(('$(_AssemblyTimestampBeforeCompile)' != '$(_AssemblyTimestampAfterCompile)' OR '$(RegisterForComInterop)' != 'true' OR '$(OutputType)' != 'library') or
-						('$(_AssemblyTimestampBeforeCompile)' == '')) AND
-					Exists('@(_UnmanagedRegistrationCache)')"
+		Condition="(('$(_AssemblyTimestampBeforeCompile)' != '$(_AssemblyTimestampAfterCompile)' OR '$(RegisterForComInterop)' != 'true' OR '$(OutputType)' != 'library') OR
+			('$(_AssemblyTimestampBeforeCompile)' == '')) AND Exists('@(_UnmanagedRegistrationCache)')"
 		DependsOnTargets="$(UnmanagedUnregistrationDependsOn)">
 
 		<PropertyGroup>
@@ -1299,9 +1326,8 @@
 				incorrect behavior in some cases, but it's the same incorrect behavior as Visual Studio 2010, and thus better
 				than causing build breaks on upgrade to Win8 the way not doing so would.  For more details, see the
 				corresponding comment in GenerateResource. -->
-			<UnregisterAssemblyMSBuildRuntime
-				Condition="'$(UnregisterAssemblyMSBuildRuntime)' == '' and
-							$([MSBuild]::DoesTaskHostExist(`$(TargetFrameworkAsMSBuildRuntime)`, `$(UnregisterAssemblyMSBuildArchitecture)`))">$(TargetFrameworkAsMSBuildRuntime)</UnregisterAssemblyMSBuildRuntime>
+			<UnregisterAssemblyMSBuildRuntime Condition="'$(UnregisterAssemblyMSBuildRuntime)' == '' AND
+				$([MSBuild]::DoesTaskHostExist(`$(TargetFrameworkAsMSBuildRuntime)`, `$(UnregisterAssemblyMSBuildArchitecture)`))">$(TargetFrameworkAsMSBuildRuntime)</UnregisterAssemblyMSBuildRuntime>
 
 			<!-- If the targeted runtime doesn't exist, fall back to current -->
 			<UnregisterAssemblyMSBuildRuntime Condition="'$(UnregisterAssemblyMSBuildRuntime)' == ''">CurrentRuntime</UnregisterAssemblyMSBuildRuntime>
@@ -2928,7 +2954,6 @@
 
 		<PropertyGroup>
 			<GenerateResourceMSBuildArchitecture Condition="'$(GenerateResourceMSBuildArchitecture)' == ''">$(PlatformTargetAsMSBuildArchitecture)</GenerateResourceMSBuildArchitecture>
-
 			<ResgenToolPath Condition="'$(ResgenToolPath)' == ''">$(TargetFrameworkSDKToolsDirectory)</ResgenToolPath>
 		</PropertyGroup>
 
@@ -2944,9 +2969,8 @@
 				they'll have ResGen from the 7.0A SDK installed, so launching ResGen will still work, but the CLR2 task host is only installed by
 				the 8.0A SDK, which they won't have installed, and thus without this fallback mechanism, their projects targeting v3.5 will
 				suddenly start failing to build.-->
-			<GenerateResourceMSBuildRuntime
-				Condition="'$(GenerateResourceMSBuildRuntime)' == '' and
-							$([MSBuild]::DoesTaskHostExist(`$(TargetFrameworkAsMSBuildRuntime)`, `$(GenerateResourceMSBuildArchitecture)`))">$(TargetFrameworkAsMSBuildRuntime)</GenerateResourceMSBuildRuntime>
+			<GenerateResourceMSBuildRuntime Condition="'$(GenerateResourceMSBuildRuntime)' == '' AND
+				$([MSBuild]::DoesTaskHostExist(`$(TargetFrameworkAsMSBuildRuntime)`, `$(GenerateResourceMSBuildArchitecture)`))">$(TargetFrameworkAsMSBuildRuntime)</GenerateResourceMSBuildRuntime>
 
 			<!-- If the targeted runtime doesn't exist, fall back to current -->
 			<GenerateResourceMSBuildRuntime Condition="'$(GenerateResourceMSBuildRuntime)' == ''">CurrentRuntime</GenerateResourceMSBuildRuntime>
@@ -3267,8 +3291,8 @@
 			OutputFile="$(AssemblyAttributesPath)"
 			Language="$(Language)">
 
-		<Output TaskParameter="OutputFile" ItemName="Compile"/>
-		<Output TaskParameter="OutputFile" ItemName="FileWrites"/>
+			<Output TaskParameter="OutputFile" ItemName="Compile"/>
+			<Output TaskParameter="OutputFile" ItemName="FileWrites"/>
 		</WriteCodeFragment>
 	</Target>
 
@@ -4640,9 +4664,8 @@
 			incorrect behavior in some cases, but it's the same incorrect behavior as Visual Studio 2010, and thus better
 			than causing build breaks on upgrade to Win8 the way not doing so would.  For more details, see the
 				corresponding comment in GenerateResource. -->
-			<RegisterAssemblyMSBuildRuntime
-				Condition="'$(RegisterAssemblyMSBuildRuntime)' == '' and
-							$([MSBuild]::DoesTaskHostExist(`$(TargetFrameworkAsMSBuildRuntime)`, `$(RegisterAssemblyMSBuildArchitecture)`))">$(TargetFrameworkAsMSBuildRuntime)</RegisterAssemblyMSBuildRuntime>
+			<RegisterAssemblyMSBuildRuntime Condition="'$(RegisterAssemblyMSBuildRuntime)' == '' AND
+				$([MSBuild]::DoesTaskHostExist(`$(TargetFrameworkAsMSBuildRuntime)`, `$(RegisterAssemblyMSBuildArchitecture)`))">$(TargetFrameworkAsMSBuildRuntime)</RegisterAssemblyMSBuildRuntime>
 
 			<!-- If the targeted runtime doesn't exist, fall back to current -->
 			<RegisterAssemblyMSBuildRuntime Condition="'$(RegisterAssemblyMSBuildRuntime)' == ''">CurrentRuntime</RegisterAssemblyMSBuildRuntime>

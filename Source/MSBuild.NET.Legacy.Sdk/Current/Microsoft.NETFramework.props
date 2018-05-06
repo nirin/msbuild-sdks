@@ -84,7 +84,7 @@
 		<Prefer32Bit Condition="'$(Prefer32Bit)' == ''">false</Prefer32Bit>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(TargetFrameworkIdentifier)' == '.NETFramework' AND '$(TargetingClr2Framework)' != 'true' AND '$(TargetFrameworkVersion)' != 'v4.0'">
+	<PropertyGroup Condition="('$(TargetFrameworkIdentifier)' == '.NETFramework' AND '$(TargetingClr2Framework)' != 'true' AND '$(TargetFrameworkVersion)' != 'v4.0') or '$(TargetFrameworkIdentifier)' == '.NETCoreApp' or '$(TargetFrameworkIdentifier)' == '.NETStandard'">
 		<HighEntropyVA Condition="'$(HighEntropyVA)' == ''">true</HighEntropyVA>
 	</PropertyGroup>
 

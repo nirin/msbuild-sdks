@@ -1,0 +1,7 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+	<!-- This file redirects to all the tasks that ship by default with MSBuild within .NET Framework in Windows -->
+
+	<Import Project="$(MSBuildFrameworkToolsPath)\Microsoft.Common.OverrideTasks"/>
+
+</Project>
