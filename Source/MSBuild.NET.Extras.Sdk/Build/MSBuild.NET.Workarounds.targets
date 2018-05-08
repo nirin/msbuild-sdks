@@ -8,7 +8,7 @@
 		WPF sometimes creates a temporary project, since it changes the peoject file, it breaks MSBuildProjectName and inturn RootNamespace.
 		When that is the case we simply fix-up RootNamespace by removing the project generated suffix.
 	-->
-	<Target Name="_CheckAndFixupRootNamespaceGeneratedSuffixPattern"
+	<Target Name="_CheckAndFixupRootNamespaceWithGeneratedSuffix"
 			BeforeTargets="_CompileTemporaryAssembly;CoreCompile"
 			Condition="('$(IsGeneratedProject)' == 'true') AND $([System.Text.RegularExpressions.Regex]::IsMatch('$(RootNamespace)', '$(GeneratedProjectSuffixPattern)'))">
 		<PropertyGroup>
@@ -27,10 +27,10 @@
 	</ImportGroup>
 
 	<!--
-		Workaround to fix Intellisense file generation for XAML projects
+		Workaround to fix IntelliSense file generation for XAML projects
 		ISSUE: https://github.com/dotnet/project-system/issues/2488
 	-->
-	<Target Name="_DesignTimeBuildAndIntellisenseWorkaround"
+	<Target Name="_DesignTimeBuildAndIntelliSenseWorkaround"
 			AfterTargets="_CheckCompileDesignTimePrerequisite"
 			Condition="'@(Page)' != ''">
 		<PropertyGroup>
@@ -80,13 +80,13 @@
 	</Target>
 
 	<!-- By default we suppress the old sdk warning, if the user has loaded v4.3.0+ NuGet 'Pack' target, which contain some fixes around PRI files. -->
-	<PropertyGroup>
+	<PropertyGroup Condition="'$(_NETCoreSdkVersion)' &lt; '2.0'">
 		<PackDependsOn>WarnWhenUsingOldSdk;$(PackDependsOn)</PackDependsOn>
 		<SuppressOldSdkWarning Condition="'$(SuppressOldSdkWarning)' == '' AND '$(ImportNuGetBuildTasksPackTargetsFromSdk)' == 'false'">true</SuppressOldSdkWarning>
 	</PropertyGroup>
 
 	<!-- Check to see if we are on an Old SDK and warn the user about 'Pack' target! -->
-	<Target Name="WarnWhenUsingOldSdk" Condition="'$(SuppressOldSdkWarning)' != 'true'">
+	<Target Name="WarnWhenUsingOldSdk" Condition="'$(_NETCoreSdkVersion)' &lt; '2.0' AND '$(SuppressOldSdkWarning)' != 'true'">
 		<Warning Text="There are known issues using the 'Pack' target that comes with the v1 SDKs. Update to v2 and above SDKs to use the fixed 'Pack' target. If you don't need the fixed 'Pack' target the set 'SuppressOldSdkWarning' property to 'true'. If you need to use the v1 SDKs and to use the 'Pack' target, then add a 'NuGet.Build.Tasks.Pack' v4.3.0 and above, as a dependency to proceed."/>
 	</Target>
 
