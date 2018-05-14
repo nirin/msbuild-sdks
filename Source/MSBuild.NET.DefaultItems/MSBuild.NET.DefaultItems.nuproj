@@ -1,0 +1,16 @@
+<Project Sdk="NuGet.Packaging.Sdk">
+
+	<PropertyGroup Label="Globals">
+		<ProjectGuid>d954d633-9922-4aff-83f2-bf157e2ed850</ProjectGuid>
+	</PropertyGroup>
+
+	<PropertyGroup Label="PackageInfo">
+		<Title>MSBuild Default Items for .NET</Title>
+		<PackageId>MSBuild.NET.DefaultItems</PackageId>
+		<PackageVersion>1.0.0</PackageVersion>
+		<PackageTags>$(PackageTags);dotnet;default;items</PackageTags>
+		<Summary>An MSBuild Extension package for including default build items in .NET projects.</Summary>
+		<Description>An MSBuild Extension package for including various platfroms' (Android, Apple, Tizen, Web, Windows) default build items etc... in .NET projects.</Description>
+	</PropertyGroup>
+
+</Project>

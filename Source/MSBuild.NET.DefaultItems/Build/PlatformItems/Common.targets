@@ -6,8 +6,6 @@
 
 	<PropertyGroup>
 		<DefaultDesignerFileSuffix Condition="'$(DefaultDesignerFileSuffix)' == ''">.Designer</DefaultDesignerFileSuffix>
-		<!-- Add conditional compilation symbols for the target framework (for example NET471, NETSTANDARD2_0, NETCOREAPP2_1) -->
-		<ImplicitFrameworkDefine Condition="'$(DisableImplicitFrameworkDefines)' != 'true'">$(TargetFramework.Replace('.','_').ToUpperInvariant())</ImplicitFrameworkDefine>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(EnableEmbeddedResourceCodeGenerator)' == ''">
@@ -24,15 +22,6 @@
 	<PropertyGroup Condition="'$(EnableEmbeddedResourceCodeGenerator)' == 'true' AND '$(_LanguageSourceName)' == 'VisualBasic'">
 		<EmbeddedResourceCodeGeneratorTool Condition="'$(EmbeddedResourceGeneratedCodeIsPublic)' != 'true'">VbMyResourcesResXFileCodeGenerator</EmbeddedResourceCodeGeneratorTool>
 		<EmbeddedResourceCodeGeneratorTool Condition="'$(EmbeddedResourceGeneratedCodeIsPublic)' == 'true'">PublicVbMyResourcesResXFileCodeGenerator</EmbeddedResourceCodeGeneratorTool>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(AppendTargetFrameworkToOutputPath)' == ''">
-		<AppendTargetFrameworkToOutputPath Condition="'$(TargetFrameworks)' == ''">false</AppendTargetFrameworkToOutputPath>
-	</PropertyGroup>
-
-	<PropertyGroup>
-		<!-- Don't generate assembly info for generated projects -->
-		<GenerateAssemblyInfo Condition="'$(IsGeneratedProject)' == 'true'">false</GenerateAssemblyInfo>
 	</PropertyGroup>
 
 	<ItemGroup Condition="'$(DisableImplicitFrameworkReferences)' != 'true'">

@@ -4,24 +4,19 @@
 		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(IncrementalBuild)' == ''">
-		<IncrementalBuild Condition="'$(Configuration)' == 'Debug'">true</IncrementalBuild>
-		<IncrementalBuild Condition="'$(Configuration)' == 'Release'">false</IncrementalBuild>
-	</PropertyGroup>
+	<ItemDefinitionGroup>
+		<_SdkImplicitImport>
+			<IsImplicitlyDefined>true</IsImplicitlyDefined>
+		</_SdkImplicitImport>
+	</ItemDefinitionGroup>
 
-	<PropertyGroup>
-		<NoWarn Condition="'$(NoWarn)' != ''">$(NoWarn),42314</NoWarn>
-		<!--  Default: '-vbruntime:+', None: '-vbruntime:-', Embed: '-vbruntime:*' -->
-		<VBRuntime Condition="'$(VBRuntime)' == 'Embed'">Default</VBRuntime>
-	</PropertyGroup>
-
-	<ItemGroup Condition="'$(EnableDefaultMyAppItems)' == 'true' AND '$(TargetFrameworkIdentifier)' == '.NETFramework'">
+	<ItemGroup Condition="'$(EnableDefaultMyAppItems)' == 'true'">
 		<None Update="**\*.myapp" SubType="Designer">
 			<Generator Condition="'$(EnableMyAppCodeGenerator)' == 'false'">MSBuild:Compile</Generator>
 		</None>
 	</ItemGroup>
 
-	<ItemGroup Condition="'$(EnableDefaultMyAppItems)' == 'true' AND '$(EnableMyAppCodeGenerator)' == 'true' AND '$(TargetFrameworkIdentifier)' == '.NETFramework'">
+	<ItemGroup Condition="'$(EnableDefaultMyAppItems)' == 'true' AND '$(EnableMyAppCodeGenerator)' == 'true'">
 		<None Update="**\*.myapp">
 			<Generator>$(MyAppCodeGeneratorTool)</Generator>
 			<LastGenOutput>%(Filename)$(DefaultDesignerFileSuffix)$(DefaultLanguageSourceExtension)</LastGenOutput>
@@ -45,20 +40,20 @@
 		</EmbeddedResource>
 	</ItemGroup>
 
-	<ItemGroup Condition="'$(EnableDefaultSettingsItems)' == 'true' AND '$(EnableSettingsCodeGenerator)' == 'true' AND '$(TargetFrameworkIdentifier)' == '.NETFramework'">
+	<ItemGroup Condition="'$(EnableDefaultSettingsItems)' == 'true' AND '$(EnableSettingsCodeGenerator)' == 'true'">
 		<None Update="**\*.settings">
 			<CustomToolNamespace>My</CustomToolNamespace>
 		</None>
 	</ItemGroup>
 
-	<ItemGroup Condition="'$(EnableDefaultWpfItems)' == 'true' AND '$(TargetFrameworkIdentifier)' == '.NETFramework'">
+	<ItemGroup Condition="'$(EnableDefaultWpfItems)' == 'true'">
 		<Compile Update="$(ApplicationExtensionFile)" Condition="'$(ApplicationExtensionFile)' != ''">
 			<VBMyExtensionTemplateID>Microsoft.VisualBasic.WPF.MyExtension</VBMyExtensionTemplateID>
 			<VBMyExtensionTemplateVersion>1.0.0.0</VBMyExtensionTemplateVersion>
 		</Compile>
 	</ItemGroup>
 
-	<ItemGroup Condition="'$(DisableImplicitNamespaceImports)' != 'true' AND '$(EnableImplicitWpfReferences)' == 'true' AND '$(TargetFrameworkIdentifier)' == '.NETFramework'">
+	<ItemGroup Condition="'$(DisableImplicitNamespaceImports)' != 'true' AND '$(EnableImplicitWpfReferences)' == 'true'">
 		<_SdkImplicitImport Include="System.Windows"/>
 		<_SdkImplicitImport Include="System.Windows.Controls"/>
 		<_SdkImplicitImport Include="System.Windows.Data"/>
@@ -70,12 +65,12 @@
 		<_SdkImplicitImport Include="System.Windows.Navigation"/>
 	</ItemGroup>
 
-	<ItemGroup Condition="'$(DisableImplicitNamespaceImports)' != 'true' AND '$(EnableImplicitAspNetReferences)' == 'true' AND '$(TargetFrameworkIdentifier)' == '.NETFramework'">
+	<ItemGroup Condition="'$(DisableImplicitNamespaceImports)' != 'true' AND '$(EnableImplicitAspNetReferences)' == 'true'">
 		<_SdkImplicitImport Include="System.Web"/>
 		<_SdkImplicitImport Include="System.Web.Http"/>
 	</ItemGroup>
 
-	<ItemGroup Condition="'$(DisableImplicitNamespaceImports)' != 'true' AND '$(EnableImplicitWinFormsReferences)' == 'true' AND '$(TargetFrameworkIdentifier)' == '.NETFramework'">
+	<ItemGroup Condition="'$(DisableImplicitNamespaceImports)' != 'true' AND '$(EnableImplicitWinFormsReferences)' == 'true'">
 		<_SdkImplicitImport Include="System.Design"/>
 		<_SdkImplicitImport Include="System.Drawing"/>
 		<_SdkImplicitImport Include="System.Deployment"/>

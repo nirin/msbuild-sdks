@@ -19,13 +19,15 @@
 		<Import Project="$(MSBuildThisFileDirectory)MSBuild.NET.Platforms.targets" Condition="'$(TargetFrameworkIdentifier)' != ''"/>
 	</ImportGroup>
 
+	<PropertyGroup Condition="'$(AppendTargetFrameworkToOutputPath)' == ''">
+		<AppendTargetFrameworkToOutputPath Condition="'$(TargetFrameworks)' == ''">false</AppendTargetFrameworkToOutputPath>
+	</PropertyGroup>
+
 	<PropertyGroup Condition="'$(UsingLegacyProjectSystem)' == 'true'">
 		<ProjectTypeGuids>$(DefaultProjectTypeGuid);$(ProjectTypeGuids)</ProjectTypeGuids>
 		<ProjectTypeGuids Condition="$(ProjectTypeGuids.StartsWith(';'))">$(ProjectTypeGuids.TrimStart(';'))</ProjectTypeGuids>
 		<ProjectTypeGuids Condition="$(ProjectTypeGuids.EndsWith(';'))">$(ProjectTypeGuids.TrimEnd(';'))</ProjectTypeGuids>
 	</PropertyGroup>
-
-	<Import Project="$(MSBuildThisFileDirectory)MSBuild.NET.Extras.Items.targets"/>
 
 	<Import Project="$(MSBuildThisFileDirectory)MSBuild.NET.Workarounds.targets"/>
 

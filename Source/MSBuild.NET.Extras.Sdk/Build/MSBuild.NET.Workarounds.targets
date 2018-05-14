@@ -4,6 +4,11 @@
 		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
 	</PropertyGroup>
 
+	<PropertyGroup>
+		<!-- Don't generate assembly info for generated projects -->
+		<GenerateAssemblyInfo Condition="'$(IsGeneratedProject)' == 'true'">false</GenerateAssemblyInfo>
+	</PropertyGroup>
+
 	<!--
 		WPF sometimes creates a temporary project, since it changes the peoject file, it breaks MSBuildProjectName and inturn RootNamespace.
 		When that is the case we simply fix-up RootNamespace by removing the project generated suffix.

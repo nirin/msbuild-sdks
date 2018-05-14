@@ -4,13 +4,13 @@
 		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
 	</PropertyGroup>
 
-	<ItemGroup Condition="'$(EnableDefaultSettingsItems)' == 'true' AND '$(TargetFrameworkIdentifier)' == '.NETFramework'">
+	<ItemGroup Condition="'$(EnableDefaultSettingsItems)' == 'true'">
 		<None Update="**\*.settings" SubType="Designer">
 			<Generator Condition="'$(EnableSettingsCodeGenerator)' == 'false'">MSBuild:Compile</Generator>
 		</None>
 	</ItemGroup>
 
-	<ItemGroup Condition="'$(EnableDefaultSettingsItems)' == 'true' AND '$(EnableSettingsCodeGenerator)' == 'true' AND '$(TargetFrameworkIdentifier)' == '.NETFramework'">
+	<ItemGroup Condition="'$(EnableDefaultSettingsItems)' == 'true' AND '$(EnableSettingsCodeGenerator)' == 'true'">
 		<None Update="**\*.settings">
 			<Generator>$(SettingsCodeGeneratorTool)</Generator>
 			<LastGenOutput>%(Filename)$(DefaultDesignerFileSuffix)$(DefaultLanguageSourceExtension)</LastGenOutput>
@@ -28,7 +28,7 @@
 		</Compile>
 	</ItemGroup>
 
-	<ItemGroup Condition="'$(EnableDefaultAspNetItems)' == 'true' AND '$(TargetFrameworkIdentifier)' == '.NETFramework'">
+	<ItemGroup Condition="'$(EnableDefaultAspNetItems)' == 'true'">
 		<!-- TODO: Add Support ASP.NET Projects -->
 	</ItemGroup>
 
@@ -38,7 +38,7 @@
 		</Compile>
 	</ItemGroup>
 
-	<ItemGroup Condition="'$(EnableDefaultWinFormsItems)' == 'true' AND '$(TargetFrameworkIdentifier)' == '.NETFramework'">
+	<ItemGroup Condition="'$(EnableDefaultWinFormsItems)' == 'true'">
 		<EmbeddedResource Update="**\*.resx" Condition="'$(EnableDefaultEmbeddedResourceItems)' == 'true' AND '$(EnableEmbeddedResourceCodeGenerator)' == 'true'">
 			<DependentUpon Condition="'$(DependentUpon)' != ''">$([System.Text.RegularExpressions.Regex]::Replace('%(FileName)', '$(LangIdRegEx)|\$(DefaultDesignerFileSuffix)', '%(DefaultLanguageSourceExtension)'))</DependentUpon>
 		</EmbeddedResource>
@@ -49,24 +49,24 @@
 		<Service Include="$(UserControlDesignerService)" Condition="'$(EnableUserControlDesigner)' == 'true'"/>
 	</ItemGroup>
 
-	<ItemGroup Condition="'$(DisableImplicitFrameworkReferences)' != 'true' AND '$(TargetFrameworkIdentifier)' == '.NETFramework'">
+	<ItemGroup Condition="'$(DisableImplicitFrameworkReferences)' != 'true'">
 		<_SdkImplicitReference Include="System.Data.DataSetExtensions" Condition="'$(_TargetFrameworkVersionWithoutV)' >= '3.5'"/>
 		<_SdkImplicitReference Include="System.Net.Http"/>
 	</ItemGroup>
 
-	<ItemGroup Condition="'$(DisableImplicitFrameworkReferences)' != 'true' AND '$(EnableImplicitWpfReferences)' == 'true' AND '$(TargetFrameworkIdentifier)' == '.NETFramework'">
+	<ItemGroup Condition="'$(DisableImplicitFrameworkReferences)' != 'true' AND '$(EnableImplicitWpfReferences)' == 'true'">
 		<_SdkImplicitReference Include="System.Xaml" Condition="'$(_TargetFrameworkVersionWithoutV)' >= '4.0'"/>
 		<_SdkImplicitReference Include="WindowsBase" Condition="'$(_TargetFrameworkVersionWithoutV)' >= '3.0'"/>
 		<_SdkImplicitReference Include="PresentationCore" Condition="'$(_TargetFrameworkVersionWithoutV)' >= '3.0'"/>
 		<_SdkImplicitReference Include="PresentationFramework" Condition="'$(_TargetFrameworkVersionWithoutV)' >= '3.0'"/>
 	</ItemGroup>
 
-	<ItemGroup Condition="'$(DisableImplicitFrameworkReferences)' != 'true' AND '$(EnableImplicitAspNetReferences)' == 'true' AND '$(TargetFrameworkIdentifier)' == '.NETFramework'">
+	<ItemGroup Condition="'$(DisableImplicitFrameworkReferences)' != 'true' AND '$(EnableImplicitAspNetReferences)' == 'true'">
 		<_SdkImplicitReference Include="System.Web"/>
 		<_SdkImplicitReference Include="System.Web.Http"/>
 	</ItemGroup>
 
-	<ItemGroup Condition="'$(DisableImplicitFrameworkReferences)' != 'true' AND '$(EnableImplicitWinFormsReferences)' == 'true' AND '$(TargetFrameworkIdentifier)' == '.NETFramework'">
+	<ItemGroup Condition="'$(DisableImplicitFrameworkReferences)' != 'true' AND '$(EnableImplicitWinFormsReferences)' == 'true'">
 		<_SdkImplicitReference Include="System.Design"/>
 		<_SdkImplicitReference Include="System.Drawing"/>
 		<_SdkImplicitReference Include="System.Deployment"/>

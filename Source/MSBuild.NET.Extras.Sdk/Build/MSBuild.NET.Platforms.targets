@@ -13,14 +13,16 @@
 		<_SdkPlatformName Condition="'$(TargetFrameworkIdentifier)' == 'MonoAndroid' OR '$(TargetFrameworkIdentifier)' == 'MonoTouch' OR '$(TargetFrameworkIdentifier)' == 'MonoMac'">Xamarin</_SdkPlatformName>
 
 		<_SdkPlatformTargets>$(MSBuildThisFileDirectory)Platforms\$(_SdkPlatformName).targets</_SdkPlatformTargets>
-		<_SdkPlatformItemsTargets>$(MSBuildThisFileDirectory)PlatformItems\$(_SdkPlatformName).$(_LanguageSourceName).targets</_SdkPlatformItemsTargets>
 		<_SdkLanguageTargets>$(MSBuildThisFileDirectory)LanguageTargets\$(_SdkPlatformName).targets</_SdkLanguageTargets>
 		<LanguageTargets Condition="Exists('$(_SdkLanguageTargets)')">$(_SdkLanguageTargets)</LanguageTargets>
 	</PropertyGroup>
 
 	<Import Project="$(_SdkPlatformTargets)" Condition="Exists('$(_SdkPlatformTargets)')"/>
 
-	<Import Project="$(_SdkPlatformItemsTargets)" Condition="Exists('$(_SdkPlatformItemsTargets)')"/>
+	<PropertyGroup Condition="'$(ImplicitFrameworkDefine)' == ''">
+		<!-- Add conditional compilation symbols for the target framework (for example NET471, NETSTANDARD2_0, NETCOREAPP2_1) -->
+		<ImplicitFrameworkDefine Condition="'$(DisableImplicitFrameworkDefines)' != 'true'">$(TargetFramework.Replace('.','_').ToUpperInvariant())</ImplicitFrameworkDefine>
+	</PropertyGroup>
 
 	<!-- Update '_TargetFrameworkVersionWithoutV'. Since, we could have updated 'TargetFrameworkVersion' within platform targets -->
 	<PropertyGroup Condition="'$(TargetFrameworkVersion)' != ''">
