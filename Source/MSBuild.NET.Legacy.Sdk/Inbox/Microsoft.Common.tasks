@@ -3,5 +3,6 @@
 	<!-- This file redirects to all the tasks that ship by default with MSBuild within .NET Framework in Windows -->
 
 	<Import Project="$(MSBuildFrameworkToolsPath)\Microsoft.Common.Tasks"/>
+	<Import Project="$(MSBuildFrameworkToolsPath)\Microsoft.Common.OverrideTasks" Condition="Exists('$(MSBuildFrameworkToolsPath)\Microsoft.Common.OverrideTasks')"/>
 
 </Project>

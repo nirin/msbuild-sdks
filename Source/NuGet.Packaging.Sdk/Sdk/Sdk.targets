@@ -6,11 +6,7 @@
 		<ImportNuGetRestoreTargetsFromSdk>true</ImportNuGetRestoreTargetsFromSdk>
 	</PropertyGroup>
 
-	<Import Project="Sdk.targets" Sdk="MSBuild.Core.Sdk"/>
-
-	<Import Project="..\Microsoft.Legacy.props" Sdk="MSBuild.NET.Legacy.Sdk"/>
-	<Import Project="..\Microsoft.Common.targets" Sdk="MSBuild.NET.Legacy.Sdk"/>
-
+	<Import Project="Sdk.targets" Sdk="MSBuild.NET.Legacy.Sdk"/>
 	<Import Project="$(MSBuildThisFileDirectory)..\Build\NuGet.Packaging.Sdk.targets"/>
 	<!--<Import Project="Sdk.Restore.targets"/>-->
 

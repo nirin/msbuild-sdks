@@ -2,17 +2,17 @@
 
 	<Import Project="$(MSBuildThisFileDirectory)..\Microsoft.Legacy.props" Condition="'$(ImportedMicrosoftLegacyProps)' != 'true'"/>
 
+	<Import Project="Sdk.tasks" Condition="'$(ImportedMicrosoftLegacyTasks)' != 'true'"/>
+
 	<PropertyGroup Condition="'$(MicrosoftLegacyTargetsFileName)' == ''">
 		<MicrosoftLegacyTargetsFileName>Microsoft.Common.targets</MicrosoftLegacyTargetsFileName>
 		<MicrosoftLegacyTargetsFileName Condition="'$(MSBuildProjectExtension)' == '.csproj'">Microsoft.CSharp.targets</MicrosoftLegacyTargetsFileName>
 		<MicrosoftLegacyTargetsFileName Condition="'$(MSBuildProjectExtension)' == '.vbproj'">Microsoft.VisualBasic.targets</MicrosoftLegacyTargetsFileName>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(MicrosoftLegacyTargetsFileName)' != ''">
-		<CustomProjectCoreTargetsPath>$(MSBuildLegacySdkPath)$(MicrosoftLegacyTargetsFileName)</CustomProjectCoreTargetsPath>
-	</PropertyGroup>
-
 	<Import Project="Sdk.targets" Sdk="MSBuild.Core.Sdk"/>
+
+	<Import Project="$(MSBuildLegacySdkPath)$(MicrosoftLegacyTargetsFileName)"/>
 
 	<PropertyGroup>
 		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
