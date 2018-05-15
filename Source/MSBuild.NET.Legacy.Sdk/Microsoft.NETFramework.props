@@ -13,6 +13,14 @@
 		</Otherwise>
 	</Choose>
 
+	<PropertyGroup Condition="'$(MSBuildRuntimeType)' == 'Core'">
+		<MSBuildFrameworkToolsRoot Condition="'$(MSBuildFrameworkToolsRoot)' == ''">$(FrameworkDir64)</MSBuildFrameworkToolsRoot>
+		<MSBuildFrameworkToolsRoot Condition="'$(MSBuildFrameworkToolsRoot)' == ''">$(FrameworkDir)</MSBuildFrameworkToolsRoot>
+		<MSBuildFrameworkToolsPath Condition="'$(MSBuildFrameworkToolsPath)' == ''">$(MSBuildFrameworkToolsRoot)\$(FrameworkVersion64)</MSBuildFrameworkToolsPath>
+		<MSBuildFrameworkToolsPath Condition="'$(MSBuildFrameworkToolsPath)' == ''">$(MSBuildFrameworkToolsRoot)\$(FrameworkVersion)</MSBuildFrameworkToolsPath>
+		<MSBuildFrameworkToolsPath Condition="'$(MSBuildFrameworkToolsPath)' == '\'"/>
+	</PropertyGroup>
+
 	<Import Project="$(MSBuildLegacySdkPath)Extensions\$(MSBuildThisFile)" Condition="'$(ImportLegacyExtensionProps)' == 'true'"/>
 	<Import Project="$(MicrosoftNETFrameworkPropsPath)" Condition="'$(ImportLegacyExtensionProps)' != 'true'"/>
 

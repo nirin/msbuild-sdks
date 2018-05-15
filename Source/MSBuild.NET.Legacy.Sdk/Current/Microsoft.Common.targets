@@ -158,7 +158,7 @@
 	<PropertyGroup>
 
 		<!-- Required for enabling Team Build for packaging app package-generating projects -->
-		<OutDirWasSpecified Condition="'$(OutDir)'!='' AND '$(OutDirWasSpecified)' == ''">true</OutDirWasSpecified>
+		<OutDirWasSpecified Condition="'$(OutDir)' != '' AND '$(OutDirWasSpecified)' == ''">true</OutDirWasSpecified>
 
 		<OutDir Condition="'$(OutDir)' == ''">$(OutputPath)</OutDir>
 		<!-- Example, bin\Debug\ -->
@@ -217,12 +217,12 @@
 		<_DeploymentDeployManifestIdentity Condition="'$(HostInBrowser)' == 'true'">$(AssemblyName).xbap</_DeploymentDeployManifestIdentity>
 
 		<_DeploymentFileMappingExtension Condition="'$(MapFileExtensions)' == 'true'">.deploy</_DeploymentFileMappingExtension>
-		<_DeploymentFileMappingExtension Condition="'$(MapFileExtensions)'!='true'"></_DeploymentFileMappingExtension>
+		<_DeploymentFileMappingExtension Condition="'$(MapFileExtensions)' != 'true'"></_DeploymentFileMappingExtension>
 
 		<_DeploymentBuiltUpdateInterval Condition="'$(UpdatePeriodically)' == 'true'">$(UpdateInterval)</_DeploymentBuiltUpdateInterval>
 		<_DeploymentBuiltUpdateIntervalUnits Condition="'$(UpdatePeriodically)' == 'true'">$(UpdateIntervalUnits)</_DeploymentBuiltUpdateIntervalUnits>
-		<_DeploymentBuiltUpdateInterval Condition="'$(UpdatePeriodically)'!='true'">0</_DeploymentBuiltUpdateInterval>
-		<_DeploymentBuiltUpdateIntervalUnits Condition="'$(UpdatePeriodically)'!='true'">Days</_DeploymentBuiltUpdateIntervalUnits>
+		<_DeploymentBuiltUpdateInterval Condition="'$(UpdatePeriodically)' != 'true'">0</_DeploymentBuiltUpdateInterval>
+		<_DeploymentBuiltUpdateIntervalUnits Condition="'$(UpdatePeriodically)' != 'true'">Days</_DeploymentBuiltUpdateIntervalUnits>
 		<_DeploymentBuiltMinimumRequiredVersion Condition="'$(UpdateRequired)' == 'true' AND '$(Install)' == 'true'">$(MinimumRequiredVersion)</_DeploymentBuiltMinimumRequiredVersion>
 
 		<MaxTargetPath Condition="'$(MaxTargetPath)' == ''">100</MaxTargetPath>
@@ -234,7 +234,7 @@
 			record by default by setting TargetCulture to *.
 		-->
 		<TargetCulture Condition="'$(TargetCulture)' == ''">*</TargetCulture>
-		<FallbackCulture Condition="'$(UICulture)'!='' AND '$(FallbackCulture)' == ''">$(UICulture)</FallbackCulture>
+		<FallbackCulture Condition="'$(UICulture)' != '' AND '$(FallbackCulture)' == ''">$(UICulture)</FallbackCulture>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -347,7 +347,7 @@
 		<_WinMDDebugSymbolsOutputPath>$([System.IO.Path]::Combine('$(OutDir)', $([System.IO.Path]::GetFileName('$(WinMDExpOutputPdb)'))))</_WinMDDebugSymbolsOutputPath>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(OutputType)' == 'winmdobj' AND '$(DocumentationFile)'!=''">
+	<PropertyGroup Condition="'$(OutputType)' == 'winmdobj' AND '$(DocumentationFile)' != ''">
 		<WinMDOutputDocumentationFile Condition="'$(WinMDOutputDocumentationFile)' == ''">$(IntermediateOutputPath)$(TargetName).xml</WinMDOutputDocumentationFile>
 		<_WinMDDocFileOutputPath>$([System.IO.Path]::Combine('$(OutDir)', $([System.IO.Path]::GetFileName('$(WinMDOutputDocumentationFile)'))))</_WinMDDocFileOutputPath>
 	</PropertyGroup>
@@ -387,7 +387,7 @@
 		</DeployManifest>
 
 		<!-- Create an item for the intermediate trust info file -->
-		<_DeploymentIntermediateTrustInfoFile Include="$(IntermediateOutputPath)$(TargetName).TrustInfo.xml" Condition="'$(TargetZone)'!=''"/>
+		<_DeploymentIntermediateTrustInfoFile Include="$(IntermediateOutputPath)$(TargetName).TrustInfo.xml" Condition="'$(TargetZone)' != ''"/>
 	</ItemGroup>
 
 	<!--
@@ -401,7 +401,7 @@
 		<_DeploymentUrl Condition="'$(_DeploymentUrl)' == ''">$(InstallUrl)</_DeploymentUrl>
 		<_DeploymentUrl Condition="'$(_DeploymentUrl)' == ''">$(PublishUrl)</_DeploymentUrl>
 		<_DeploymentUrl Condition="!('$(UpdateUrl)' == '') AND '$(Install)' == 'false'"></_DeploymentUrl>
-		<_DeploymentUrl Condition="'$(_DeploymentUrl)'!=''">$(_DeploymentUrl)$(TargetDeployManifestFileName)</_DeploymentUrl>
+		<_DeploymentUrl Condition="'$(_DeploymentUrl)' != ''">$(_DeploymentUrl)$(TargetDeployManifestFileName)</_DeploymentUrl>
 		<!--
 			Need to explicitly blank out the _DeploymentUrl when it's not used. Otherwise an
 			inappropriate value may be used. For example a local path from the PublishUrl
@@ -493,7 +493,7 @@
 	-->
 	<PropertyGroup>
 		<DelaySign Condition="'$(SignAssembly)' != 'true'">false</DelaySign>
-		<DelaySign Condition="'$(DelaySign)'!='true'"></DelaySign>
+		<DelaySign Condition="'$(DelaySign)' != 'true'"></DelaySign>
 	</PropertyGroup>
 
 	<!-- These properties control web reference proxy generation. -->
@@ -1011,7 +1011,7 @@
 		Name="Run"
 		DependsOnTargets="$(RunDependsOn)">
 
-		<Error Text="Cannot run '$(TargetPath)' because project output type is not '.exe'" Condition="'$(TargetExt)'!='.exe'"/>
+		<Error Text="Cannot run '$(TargetPath)' because project output type is not '.exe'" Condition="'$(TargetExt)' != '.exe'"/>
 		<Exec Command="$(TargetPath) $(StartArguments)" WorkingDirectory="$(OutDir)" Condition="'$(StartWorkingDirectory)' == ''"/>
 		<Exec Command="$(TargetPath) $(StartArguments)" WorkingDirectory="$(StartWorkingDirectory)" Condition="'$(StartWorkingDirectory)' != ''"/>
 
@@ -1071,7 +1071,7 @@
 		DependsOnTargets="$(PrepareForBuildDependsOn)">
 
 		<ItemGroup>
-			<AppConfigWithTargetPath Include="$(AppConfig)" Condition="'$(AppConfig)'!=''">
+			<AppConfigWithTargetPath Include="$(AppConfig)" Condition="'$(AppConfig)' != ''">
 				<TargetPath>$(TargetFileName).config</TargetPath>
 			</AppConfigWithTargetPath>
 		</ItemGroup>
@@ -1282,7 +1282,7 @@
 	</PropertyGroup>
 	<Target
 		Name="PreBuildEvent"
-		Condition="'$(PreBuildEvent)'!=''"
+		Condition="'$(PreBuildEvent)' != ''"
 		DependsOnTargets="$(PreBuildEventDependsOn)">
 
 		<Exec WorkingDirectory="$(OutDir)" Command="$(PreBuildEvent)"/>
@@ -1425,7 +1425,7 @@
 	-->
 	<Target
 		Name="AssignProjectConfiguration"
-		Condition="'$(CurrentSolutionConfigurationContents)' != '' OR '@(ProjectReference)'!=''">
+		Condition="'$(CurrentSolutionConfigurationContents)' != '' OR '@(ProjectReference)' != ''">
 
 		<PropertyGroup>
 			<OnlyReferenceAndBuildProjectsEnabledInSolutionConfiguration Condition="'$(OnlyReferenceAndBuildProjectsEnabledInSolutionConfiguration)' == ''">true</OnlyReferenceAndBuildProjectsEnabledInSolutionConfiguration>
@@ -1453,8 +1453,8 @@
 			ResolveConfigurationPlatformUsingMappings="false"
 			SolutionConfigurationContents="$(CurrentSolutionConfigurationContents)"
 			AddSyntheticProjectReferencesForSolutionDependencies="$(AddSyntheticProjectReferencesForSolutionDependencies)"
-			OnlyReferenceAndBuildProjectsEnabledInSolutionConfiguration = "$(OnlyReferenceAndBuildProjectsEnabledInSolutionConfiguration)"
-			ShouldUnsetParentConfigurationAndPlatform = "$(ShouldUnsetParentConfigurationAndPlatform)">
+			OnlyReferenceAndBuildProjectsEnabledInSolutionConfiguration="$(OnlyReferenceAndBuildProjectsEnabledInSolutionConfiguration)"
+			ShouldUnsetParentConfigurationAndPlatform="$(ShouldUnsetParentConfigurationAndPlatform)">
 
 			<!-- EMITTED FOR COMPATIBILITY REASONS ONLY. CONSUME PROJECTREFERENCEWITHCONFIGURATION INSTEAD -->
 			<Output TaskParameter="AssignedProjects" ItemName="_ProjectReferenceWithConfiguration"/>
@@ -1498,7 +1498,7 @@
 		<ResolveNonMSBuildProjectOutput
 			ProjectReferences="@(ProjectReferenceWithConfiguration)"
 			PreresolvedProjectOutputs="$(VSIDEResolvedNonMSBuildProjectOutputs)"
-			Condition="'$(BuildingInsideVisualStudio)' == 'true' AND '@(ProjectReferenceWithConfiguration)'!=''">
+			Condition="'$(BuildingInsideVisualStudio)' == 'true' AND '@(ProjectReferenceWithConfiguration)' != ''">
 
 			<Output TaskParameter="ResolvedOutputPaths" ItemName="_ResolvedProjectReferencePaths"/>
 			<Output TaskParameter="UnresolvedProjectReferences" ItemName="_MSBuildProjectReference"/>
@@ -1511,7 +1511,7 @@
 		VSIP (3rd party) projects from the command line.
 	-->
 		<ItemGroup>
-			<_MSBuildProjectReference Include="@(ProjectReferenceWithConfiguration)" Condition="'$(BuildingInsideVisualStudio)'!='true' AND '@(ProjectReferenceWithConfiguration)'!=''"/>
+			<_MSBuildProjectReference Include="@(ProjectReferenceWithConfiguration)" Condition="'$(BuildingInsideVisualStudio)' != 'true' AND '@(ProjectReferenceWithConfiguration)' != ''"/>
 		</ItemGroup>
 
 		<!-- Break the project list into two lists: those that exist on disk and those that don't. -->
@@ -1927,7 +1927,7 @@
 		Returns="@(ComputedApplicationManifest)">
 
 		<ItemGroup>
-			<ComputedApplicationManifest Include="$(_DeploymentApplicationManifestIdentity)" Condition="'$(OutputType)'!='winexe' AND '$(OutputType)'!='exe' AND '$(OutputType)'!='appcontainerexe' AND Exists('%(_ApplicationManifestFinal.FullPath)')">
+			<ComputedApplicationManifest Include="$(_DeploymentApplicationManifestIdentity)" Condition="'$(OutputType)' != 'winexe' AND '$(OutputType)' != 'exe' AND '$(OutputType)' != 'appcontainerexe' AND Exists('%(_ApplicationManifestFinal.FullPath)')">
 				<HintPath>%(_ApplicationManifestFinal.FullPath)</HintPath>
 			</ComputedApplicationManifest>
 		</ItemGroup>
@@ -1954,7 +1954,7 @@
 	-->
 	<Target
 		Name="ResolveNativeReferences"
-		Condition="'@(NativeReference)'!=''"
+		Condition="'@(NativeReference)' != ''"
 		DependsOnTargets="ResolveProjectReferences">
 
 		<ResolveNativeReference
@@ -2059,6 +2059,8 @@
 		</PropertyGroup>
 
 		<ResolveAssemblyReference
+			Condition="'@(Reference)' != '' OR '@(_ResolvedProjectReferencePaths)' != '' OR '@(_ExplicitReference)' != ''"
+			ContinueOnError="$(ContinueOnError)"
 			Assemblies="@(Reference)"
 			AssemblyFiles="@(_ResolvedProjectReferencePaths);@(_ExplicitReference)"
 			TargetFrameworkDirectories="@(_ReferenceInstalledAssemblyDirectory)"
@@ -2095,10 +2097,8 @@
 			DoNotCopyLocalIfInGac="$(DoNotCopyLocalIfInGac)"
 			ResolvedSDKReferences="@(ResolvedSDKReference)"
 			WarnOrErrorOnTargetArchitectureMismatch="$(ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch)"
-			IgnoreTargetFrameworkAttributeVersionMismatch ="$(ResolveAssemblyReferenceIgnoreTargetFrameworkAttributeVersionMismatch)"
-			FindDependenciesOfExternallyResolvedReferences="$(FindDependenciesOfExternallyResolvedReferences)"
-			ContinueOnError="$(ContinueOnError)"
-			Condition="'@(Reference)'!='' OR '@(_ResolvedProjectReferencePaths)'!='' OR '@(_ExplicitReference)' != ''">
+			IgnoreTargetFrameworkAttributeVersionMismatch="$(ResolveAssemblyReferenceIgnoreTargetFrameworkAttributeVersionMismatch)"
+			FindDependenciesOfExternallyResolvedReferences="$(FindDependenciesOfExternallyResolvedReferences)"><!-- 15.6+  -->
 
 			<Output TaskParameter="ResolvedFiles" ItemName="ReferencePath"/>
 			<Output TaskParameter="ResolvedFiles" ItemName="_ResolveAssemblyReferenceResolvedFiles"/>
@@ -2306,7 +2306,7 @@
 	<ItemGroup Condition="'$(ShouldMarkCertainSDKReferencesAsRuntimeOnly)' == 'true'">
 		<!-- Dependencies that are specified as runtime-only dependencies. Therefore the associated files are not used to build Appx package.  -->
 		<!-- TODO: Do we need to do anything like this for the new SDK? -->
-		<RuntimeReferenceOnlySDKDependencies Condition = "'$(TargetPlatformVersion)' == '8.1'" Include="Microsoft.VCLibs, Version=11.0"/>
+		<RuntimeReferenceOnlySDKDependencies Condition="'$(TargetPlatformVersion)' == '8.1'" Include="Microsoft.VCLibs, Version=11.0"/>
 	</ItemGroup>
 
 	<Target
@@ -2324,11 +2324,11 @@
 			ProjectName="$(MSBuildProjectName)"
 			TargetedSDKConfiguration="$(TargetedSDKConfiguration)"
 			TargetedSDKArchitecture="$(TargetedSDKArchitecture)"
-			InstalledSDKs ="@(InstalledSDKLocations)"
-			LogResolutionErrorsAsWarnings ="$(LogSDKReferenceResolutionErrorsAsWarnings)"
-			Prefer32Bit ="$(Prefer32Bit)"
+			InstalledSDKs="@(InstalledSDKLocations)"
+			LogResolutionErrorsAsWarnings="$(LogSDKReferenceResolutionErrorsAsWarnings)"
+			Prefer32Bit="$(Prefer32Bit)"
 			ContinueOnError="$(ContinueOnError)"
-			Condition="'@(SDKReference)'!=''">
+			Condition="'@(SDKReference)' != ''">
 			<Output TaskParameter="ResolvedSDKReferences" ItemName="ResolvedSDKReference"/>
 		</ResolveSDKReference>
 	</Target>
@@ -2365,7 +2365,7 @@
 
 	<Target
 		Name="FindInvalidProjectReferences"
-		Condition ="'$(FindInvalidProjectReferences)' == 'true'"
+		Condition="'$(FindInvalidProjectReferences)' == 'true'"
 		DependsOnTargets="$(FindInvalidProjectReferencesDependsOn)">
 
 		<FindInvalidProjectReferences
@@ -2424,14 +2424,14 @@
 			TargetPlatformIdentifier="$(TargetPlatformIdentifier)"
 			TargetPlatformVersion="$(TargetPlatformVersion)"
 			LogRedistFilesList="$(GetSDKReferenceFilesLogRedistFilesList)"
-			LogRedistConflictWithinSDKAsWarning ="$(GetSDKReferenceFilesLogRedistConflictsWithinSDKAsWarning)"
-			LogRedistConflictBetweenSDKsAsWarning ="$(GetSDKReferenceFilesLogRedistConflictsBetweenSDKsAsWarning)"
+			LogRedistConflictWithinSDKAsWarning="$(GetSDKReferenceFilesLogRedistConflictsWithinSDKAsWarning)"
+			LogRedistConflictBetweenSDKsAsWarning="$(GetSDKReferenceFilesLogRedistConflictsBetweenSDKsAsWarning)"
 			LogReferencesList="$(GetSDKReferenceFilesLogReferencesList)"
-			LogReferenceConflictWithinSDKAsWarning ="$(GetSDKReferenceFilesLogReferenceConflictsWithinSDKAsWarning)"
-			LogReferenceConflictBetweenSDKsAsWarning ="$(GetSDKReferenceFilesLogReferenceConflictsBetweenSDKsAsWarning)"
-			CacheFileFolderPath ="$(GetSDKReferenceFilesCacheFolder)"
+			LogReferenceConflictWithinSDKAsWarning="$(GetSDKReferenceFilesLogReferenceConflictsWithinSDKAsWarning)"
+			LogReferenceConflictBetweenSDKsAsWarning="$(GetSDKReferenceFilesLogReferenceConflictsBetweenSDKsAsWarning)"
+			CacheFileFolderPath="$(GetSDKReferenceFilesCacheFolder)"
 			LogCacheFileExceptions="$(GetSDKReferenceFilesLogCacheFileExceptions)"
-			Condition="'@(ResolvedSDKReference)'!=''">
+			Condition="'@(ResolvedSDKReference)' != ''">
 
 			<Output TaskParameter="References" ItemName="ReferencePath"/>
 			<Output TaskParameter="References" ItemName="ReferencesFromSDK"/>
@@ -2542,7 +2542,7 @@
 
 	<Target
 		Name="DesignTimeResolveAssemblyReferences"
-		Condition="'$(DesignTimeReference)'!=''"
+		Condition="'$(DesignTimeReference)' != ''"
 		DependsOnTargets="$(DesignTimeResolveAssemblyReferencesDependsOn)">
 
 		<ItemGroup>
@@ -2550,7 +2550,7 @@
 		</ItemGroup>
 
 		<PropertyGroup>
-		<DesignTimeResolveAssemblyReferencesStateFile Condition="'$(DisableRarCache)'!='true'">$(IntermediateOutputPath)$(MSBuildProjectFile)DesignTimeResolveAssemblyReferences.cache</DesignTimeResolveAssemblyReferencesStateFile>
+		<DesignTimeResolveAssemblyReferencesStateFile Condition="'$(DisableRarCache)' != 'true'">$(IntermediateOutputPath)$(MSBuildProjectFile)DesignTimeResolveAssemblyReferences.cache</DesignTimeResolveAssemblyReferencesStateFile>
 		</PropertyGroup>
 
 		<PropertyGroup>
@@ -2576,7 +2576,7 @@
 		</PropertyGroup>
 
 		<ItemGroup>
-			<_DesignTimeReferenceAssemblies Include ="$(DesignTimeReference)"/>
+			<_DesignTimeReferenceAssemblies Include="$(DesignTimeReference)"/>
 		</ItemGroup>
 
 		<ItemGroup>
@@ -2611,7 +2611,7 @@
 			FullFrameworkAssemblyTables="@(FullFrameworkAssemblyTables)"
 			ProfileName="$(TargetFrameworkProfile)"
 			ResolvedSDKReferences="@(ResolvedSDKReference)"
-			IgnoreTargetFrameworkAttributeVersionMismatch ="$(DesignTimeIgnoreTargetFrameworkAttributeVersionMismatch)">
+			IgnoreTargetFrameworkAttributeVersionMismatch="$(DesignTimeIgnoreTargetFrameworkAttributeVersionMismatch)">
 
 			<Output TaskParameter="ResolvedFiles" ItemName="DesignTimeReferencePath"/>
 			<Output TaskParameter="FilesWritten" ItemName="FileWrites"/>
@@ -2640,7 +2640,7 @@
 
 	<Target
 		Name="ResolveComReferences"
-		Condition="'@(COMReference)'!='' OR '@(COMFileReference)'!=''"
+		Condition="'@(COMReference)' != '' OR '@(COMFileReference)' != ''"
 		Returns="@(ReferencePath)"
 		DependsOnTargets="PrepareForBuild;ResolveKeySource;ResolveAssemblyReferences">
 
@@ -2690,7 +2690,7 @@
 
 		<ItemGroup>
 			<FileWrites Include="@(_ResolveComReferenceCache)"/>
-			<ReferenceComWrappersToCopyLocal Include="@(ComReferenceWrappers)" Condition="'%(ComReferenceWrappers.CopyLocal)'!='false'"/>
+			<ReferenceComWrappersToCopyLocal Include="@(ComReferenceWrappers)" Condition="'%(ComReferenceWrappers.CopyLocal)' != 'false'"/>
 		</ItemGroup>
 
 	</Target>
@@ -2830,10 +2830,10 @@
 		Name="SplitResourcesByCulture"
 		DependsOnTargets="AssignTargetPaths">
 
-		<Warning Condition="'@(ResxWithNoCulture)'!=''" Code="MSB9000" Text="ResxWithNoCulture item type is deprecated. Use EmbeddedResource items instead."/>
-		<Warning Condition="'@(ResxWithCulture)'!=''" Code="MSB9001" Text="ResxWithCulture item type is deprecated. Use EmbeddedResource items instead."/>
-		<Warning Condition="'@(NonResxWithCulture)'!=''" Code="MSB9002" Text="NonResxWithCulture item type is deprecated. Use EmbeddedResource items instead."/>
-		<Warning Condition="'@(NonResxWithNoCulture)'!=''" Code="MSB9003" Text="NonResxWithNoCulture item type is deprecated. Use EmbeddedResource items instead."/>
+		<Warning Condition="'@(ResxWithNoCulture)' != ''" Code="MSB9000" Text="ResxWithNoCulture item type is deprecated. Use EmbeddedResource items instead."/>
+		<Warning Condition="'@(ResxWithCulture)' != ''" Code="MSB9001" Text="ResxWithCulture item type is deprecated. Use EmbeddedResource items instead."/>
+		<Warning Condition="'@(NonResxWithCulture)' != ''" Code="MSB9002" Text="NonResxWithCulture item type is deprecated. Use EmbeddedResource items instead."/>
+		<Warning Condition="'@(NonResxWithNoCulture)' != ''" Code="MSB9003" Text="NonResxWithNoCulture item type is deprecated. Use EmbeddedResource items instead."/>
 
 		<ItemGroup>
 			<_LicxFile Include="@(EmbeddedResource)" Condition="'%(Extension)' == '.licx'"/>
@@ -2847,7 +2847,7 @@
 			</EmbeddedResource>
 		</ItemGroup>
 
-		<AssignCulture Files="@(EmbeddedResource)" Condition="'%(Extension)'!='.licx'">
+		<AssignCulture Files="@(EmbeddedResource)" Condition="'%(Extension)' != '.licx'">
 			<!-- Create the list of culture resx and embedded resource files -->
 			<Output TaskParameter="AssignedFilesWithCulture" ItemName="_MixedResourceWithCulture"/>
 			<!-- Create the list of non-culture resx and embedded resource files -->
@@ -2866,7 +2866,7 @@
 			<EmbeddedResource Include="@(_MixedResourceWithNoCulture);@(_MixedResourceWithCulture)" Condition="'%(Extension)' == '.resx' OR '%(Extension)' == '.restext'">
 				<Type Condition="'%(_MixedResourceWithNoCulture.Type)' == '' AND '%(_MixedResourceWithCulture.Type)' == ''">Resx</Type>
 			</EmbeddedResource>
-			<EmbeddedResource Include="@(_MixedResourceWithNoCulture);@(_MixedResourceWithCulture)" Condition="'%(Extension)'!='.resx' AND '%(Extension)'!='.restext'">
+			<EmbeddedResource Include="@(_MixedResourceWithNoCulture);@(_MixedResourceWithCulture)" Condition="'%(Extension)' != '.resx' AND '%(Extension)' != '.restext'">
 				<Type Condition="'%(_MixedResourceWithNoCulture.Type)' == '' AND '%(_MixedResourceWithCulture.Type)' == ''">Non-Resx</Type>
 			</EmbeddedResource>
 
@@ -2876,9 +2876,9 @@
 			<ResxWithCulture Remove="@(ResxWithCulture)"/>
 			<NonResxWithCulture Remove="@(NonResxWithCulture)"/>
 			<ResxWithNoCulture Include="@(_MixedResourceWithNoCulture)" Condition="'%(WithCulture)' == 'false' AND ('%(Extension)' == '.resx' OR '%(Extension)' == '.restext')"/>
-			<NonResxWithNoCulture Include="@(_MixedResourceWithNoCulture)" Condition="'%(WithCulture)' == 'false' AND ('%(Extension)'!='.resx' AND '%(Extension)'!='.restext')"/>
+			<NonResxWithNoCulture Include="@(_MixedResourceWithNoCulture)" Condition="'%(WithCulture)' == 'false' AND ('%(Extension)' != '.resx' AND '%(Extension)' != '.restext')"/>
 			<ResxWithCulture Include="@(_MixedResourceWithCulture)" Condition="'%(WithCulture)' == 'true' AND ('%(Extension)' == '.resx' OR '%(Extension)' == '.restext')"/>
-			<NonResxWithCulture Include="@(_MixedResourceWithCulture)" Condition="'%(WithCulture)' == 'true' AND ('%(Extension)'!='.resx' AND '%(Extension)'!='.restext')"/>
+			<NonResxWithCulture Include="@(_MixedResourceWithCulture)" Condition="'%(WithCulture)' == 'true' AND ('%(Extension)' != '.resx' AND '%(Extension)' != '.restext')"/>
 
 			<!-- Clean up temporary lists -->
 			<_MixedResourceWithNoCulture Remove="@(_MixedResourceWithNoCulture)"/>
@@ -3077,7 +3077,7 @@
 	</PropertyGroup>
 	<Target
 		Name="CompileLicxFiles"
-		Condition="'@(_LicxFile)'!=''"
+		Condition="'@(_LicxFile)' != ''"
 		DependsOnTargets="$(CompileLicxFilesDependsOn)"
 		Inputs="$(MSBuildAllProjects);@(_LicxFile);@(ReferencePathWithRefAssemblies);@(ReferenceDependencyPaths)"
 		Outputs="$(IntermediateOutputPath)$(TargetFileName).licenses">
@@ -3197,8 +3197,8 @@
 	-->
 	<Target Name="_GenerateCompileInputs">
 
-		<Warning Condition="'@(ManifestResourceWithNoCulture)'!='' AND '%(ManifestResourceWithNoCulture.EmittedForCompatibilityOnly)' == ''" Code="MSB9004" Text="ManifestResourceWithNoCulture item type is deprecated. Emit EmbeddedResource items instead, with metadata WithCulture='false', Type='Resx', and optional LogicalName."/>
-		<Warning Condition="'@(ManifestNonResxWithNoCultureOnDisk)'!='' AND '%(ManifestNonResxWithNoCultureOnDisk.EmittedForCompatibilityOnly)' == ''" Code="MSB9005" Text="ManifestNonResxWithNoCultureOnDisk item type is deprecated. Emit EmbeddedResource items instead, with metadata WithCulture='false', Type='Non-Resx', and optional LogicalName."/>
+		<Warning Condition="'@(ManifestResourceWithNoCulture)' != '' AND '%(ManifestResourceWithNoCulture.EmittedForCompatibilityOnly)' == ''" Code="MSB9004" Text="ManifestResourceWithNoCulture item type is deprecated. Emit EmbeddedResource items instead, with metadata WithCulture='false', Type='Resx', and optional LogicalName."/>
+		<Warning Condition="'@(ManifestNonResxWithNoCultureOnDisk)' != '' AND '%(ManifestNonResxWithNoCultureOnDisk.EmittedForCompatibilityOnly)' == ''" Code="MSB9005" Text="ManifestNonResxWithNoCultureOnDisk item type is deprecated. Emit EmbeddedResource items instead, with metadata WithCulture='false', Type='Non-Resx', and optional LogicalName."/>
 
 		<ItemGroup>
 
@@ -3448,7 +3448,7 @@
 	-->
 	<Target
 		Name="GenerateSerializationAssemblies"
-		Condition="'$(_SGenGenerateSerializationAssembliesConfig)' == 'On' OR ('@(WebReferenceUrl)'!='' AND '$(_SGenGenerateSerializationAssembliesConfig)' == 'Auto')"
+		Condition="'$(_SGenGenerateSerializationAssembliesConfig)' == 'On' OR ('@(WebReferenceUrl)' != '' AND '$(_SGenGenerateSerializationAssembliesConfig)' == 'Auto')"
 		DependsOnTargets="AssignTargetPaths;Compile;ResolveKeySource"
 		Inputs="$(MSBuildAllProjects);@(IntermediateAssembly)"
 		Outputs="$(IntermediateOutputPath)$(_SGenDllName)">
@@ -3516,8 +3516,8 @@
 	-->
 	<Target Name="_GenerateSatelliteAssemblyInputs">
 
-		<Warning Condition="'@(ManifestResourceWithCulture)'!='' AND '%(ManifestResourceWithCulture.EmittedForCompatibilityOnly)' == ''" Code="MSB9006" Text="ManifestResourceWithCulture item type is deprecated. Emit EmbeddedResource items instead, with metadata WithCulture='true', Type='Resx', and optional LogicalName."/>
-		<Warning Condition="'@(ManifestNonResxWithCultureOnDisk)'!='' AND '%(ManifestNonResxWithCultureOnDisk.EmittedForCompatibilityOnly)' == ''" Code="MSB9007" Text="ManifestNonResxWithCultureOnDisk item type is deprecated. Emit EmbeddedResource items instead, with metadata WithCulture='true', Type='Non-Resx', and optional LogicalName."/>
+		<Warning Condition="'@(ManifestResourceWithCulture)' != '' AND '%(ManifestResourceWithCulture.EmittedForCompatibilityOnly)' == ''" Code="MSB9006" Text="ManifestResourceWithCulture item type is deprecated. Emit EmbeddedResource items instead, with metadata WithCulture='true', Type='Resx', and optional LogicalName."/>
+		<Warning Condition="'@(ManifestNonResxWithCultureOnDisk)' != '' AND '%(ManifestNonResxWithCultureOnDisk.EmittedForCompatibilityOnly)' == ''" Code="MSB9007" Text="ManifestNonResxWithCultureOnDisk item type is deprecated. Emit EmbeddedResource items instead, with metadata WithCulture='true', Type='Non-Resx', and optional LogicalName."/>
 
 		<ItemGroup>
 			<!-- _SatelliteAssemblyResourceInputs is the list of TLDA inputs that should trigger CreateSatelliteAssemblies, so listed as inputs to that target -->
@@ -3580,7 +3580,7 @@
 			TemplateFile="$(IntermediateOutputPath)$(TargetName)$(TargetExt)"
 			Title="$(Satellite_Title)"
 			ToolPath="$(AlToolPath)"
-			ToolExe ="$(AlToolExe)"
+			ToolExe="$(AlToolExe)"
 			SdkToolsPath="$(TargetFrameworkSDKToolsDirectory)"
 			Trademark="$(Satellite_Trademark)"
 			Version="$(Satellite_Version)"
@@ -3645,7 +3645,7 @@
 
 	<Target
 		Name="_SetExternalWin32ManifestProperties"
-		Condition="'$(GenerateClickOnceManifests)' == 'true' OR '@(NativeReference)'!='' OR '@(ResolvedIsolatedComModules)'!=''">
+		Condition="'$(GenerateClickOnceManifests)' == 'true' OR '@(NativeReference)' != '' OR '@(ResolvedIsolatedComModules)' != ''">
 
 		<PropertyGroup>
 			<!-- set _DeploymentBaseManifest property to the value of $(ApplicationManifest) if the property is set,
@@ -3666,19 +3666,19 @@
 
 	<Target
 		Name="_SetEmbeddedWin32ManifestProperties"
-		Condition="'$(GenerateClickOnceManifests)'!='true' AND '@(NativeReference)' == '' AND '@(ResolvedIsolatedComModules)' == ''">
+		Condition="'$(GenerateClickOnceManifests)' != 'true' AND '@(NativeReference)' == '' AND '@(ResolvedIsolatedComModules)' == ''">
 
 		<PropertyGroup>
 			<EmbeddedWin32Manifest>$(ApplicationManifest)</EmbeddedWin32Manifest>
 			<Win32Manifest>$(ApplicationManifest)</Win32Manifest>
 		</PropertyGroup>
 
-		<GetFrameworkPath Condition="'$(ApplicationManifest)' == '' AND '$(NoWin32Manifest)'!='true'">
+		<GetFrameworkPath Condition="'$(ApplicationManifest)' == '' AND '$(NoWin32Manifest)' != 'true'">
 			<Output TaskParameter="FrameworkVersion40Path"  PropertyName="_FrameworkVersion40Path"/>
 		</GetFrameworkPath>
 
 		<PropertyGroup>
-			<EmbeddedWin32Manifest  Condition="'$(ApplicationManifest)' == '' AND '$(NoWin32Manifest)'!='true' AND Exists('$(_FrameworkVersion40Path)\default.win32manifest')">$(_FrameworkVersion40Path)\default.win32manifest</EmbeddedWin32Manifest>
+			<EmbeddedWin32Manifest  Condition="'$(ApplicationManifest)' == '' AND '$(NoWin32Manifest)' != 'true' AND Exists('$(_FrameworkVersion40Path)\default.win32manifest')">$(_FrameworkVersion40Path)\default.win32manifest</EmbeddedWin32Manifest>
 		</PropertyGroup>
 
 	</Target>
@@ -3736,7 +3736,7 @@
 
 	<Target
 		Name="GenerateManifests"
-		Condition="'$(GenerateClickOnceManifests)' == 'true' OR '@(NativeReference)'!='' OR '@(ResolvedIsolatedComModules)'!='' OR '$(GenerateAppxManifest)' == 'true'"
+		Condition="'$(GenerateClickOnceManifests)' == 'true' OR '@(NativeReference)' != '' OR '@(ResolvedIsolatedComModules)' != '' OR '$(GenerateAppxManifest)' == 'true'"
 		DependsOnTargets="$(GenerateManifestsDependsOn)"/>
 
 	<!--
@@ -3842,7 +3842,7 @@
 	-->
 	<Target
 		Name="_DeploymentComputeNativeManifestInfo"
-		Condition="'$(GenerateClickOnceManifests)'!='true'">
+		Condition="'$(GenerateClickOnceManifests)' != 'true'">
 
 		<!-- Create list of items for manifest generation -->
 		<ResolveManifestFiles NativeAssemblies="@(NativeReferenceFile);@(_DeploymentNativePrerequisite)">
@@ -3902,7 +3902,7 @@
 			CertificateThumbprint="$(_DeploymentResolvedManifestCertificateThumbprint)"
 			TimestampUrl="$(ManifestTimestampUrl)"
 			SigningTarget="@(_DeploymentClickOnceApplicationExecutable)"
-			Condition="'$(_DeploymentResolvedManifestCertificateThumbprint)'!='' AND '$(_DeploymentSignClickOnceManifests)' == 'true' AND '$(TargetExt)' == '.exe'"/>
+			Condition="'$(_DeploymentResolvedManifestCertificateThumbprint)' != '' AND '$(_DeploymentSignClickOnceManifests)' == 'true' AND '$(TargetExt)' == '.exe'"/>
 
 		<!-- Create list of items for manifest generation -->
 		<ResolveManifestFiles
@@ -3955,7 +3955,7 @@
 	-->
 	<Target
 		Name="_DeploymentGenerateTrustInfo"
-		Condition="'$(TargetZone)'!=''"
+		Condition="'$(TargetZone)' != ''"
 		Inputs="
 				$(MSBuildAllProjects);
 				$(_DeploymentBaseManifest);
@@ -4120,7 +4120,7 @@
 
 		</CopyRefAssembly>
 
-		<Message Importance="High" Text="$(MSBuildProjectName) -&gt; @(MainAssembly->'%(FullPath)')" Condition="'$(CopyBuildOutputToOutputDirectory)' == 'true' AND '$(SkipCopyBuildProduct)'!='true'"/>
+		<Message Importance="High" Text="$(MSBuildProjectName) -&gt; @(MainAssembly->'%(FullPath)')" Condition="'$(CopyBuildOutputToOutputDirectory)' == 'true' AND '$(SkipCopyBuildProduct)' != 'true'"/>
 
 		<!-- Copy the additional modules. -->
 		<Copy
@@ -4443,8 +4443,8 @@
 			one of these files and not have an incremental build replace it.
 		-->
 		<Copy
-			SourceFiles = "@(_SourceItemsToCopyToOutputDirectory)"
-			DestinationFiles = "@(_SourceItemsToCopyToOutputDirectory->'$(OutDir)%(TargetPath)')"
+			SourceFiles="@(_SourceItemsToCopyToOutputDirectory)"
+			DestinationFiles="@(_SourceItemsToCopyToOutputDirectory->'$(OutDir)%(TargetPath)')"
 			OverwriteReadOnlyFiles="$(OverwriteReadOnlyFiles)"
 			Retries="$(CopyRetryCount)"
 			RetryDelayMilliseconds="$(CopyRetryDelayMilliseconds)"
@@ -4473,8 +4473,8 @@
 			one of these files and not have an incremental build replace it.
 		-->
 		<Copy
-			SourceFiles = "@(_SourceItemsToCopyToOutputDirectoryAlways)"
-			DestinationFiles = "@(_SourceItemsToCopyToOutputDirectoryAlways->'$(OutDir)%(TargetPath)')"
+			SourceFiles="@(_SourceItemsToCopyToOutputDirectoryAlways)"
+			DestinationFiles="@(_SourceItemsToCopyToOutputDirectoryAlways->'$(OutDir)%(TargetPath)')"
 			OverwriteReadOnlyFiles="$(OverwriteReadOnlyFiles)"
 			Retries="$(CopyRetryCount)"
 			RetryDelayMilliseconds="$(CopyRetryDelayMilliseconds)"
@@ -4616,7 +4616,7 @@
 	-->
 	<Target
 		Name="_SGenCheckForOutputs"
-		Condition="'$(_SGenGenerateSerializationAssembliesConfig)' == 'On' OR ('@(WebReferenceUrl)'!='' AND '$(_SGenGenerateSerializationAssembliesConfig)' == 'Auto')">
+		Condition="'$(_SGenGenerateSerializationAssembliesConfig)' == 'On' OR ('@(WebReferenceUrl)' != '' AND '$(_SGenGenerateSerializationAssembliesConfig)' == 'Auto')">
 
 		<!-- Record the serializer .dll if one was produced.-->
 		<PropertyGroup>
@@ -4751,7 +4751,7 @@
 		<WriteLinesToFile
 			File="$(IntermediateOutputPath)$(CleanFile)"
 			Lines="@(_CleanUniqueRemainingFileWritesAfterIncrementalClean)"
-			Condition="'@(_CleanUnfilteredPriorFileWrites)'!='@(_CleanUniqueRemainingFileWritesAfterIncrementalClean)'"
+			Condition="'@(_CleanUnfilteredPriorFileWrites)' != '@(_CleanUniqueRemainingFileWritesAfterIncrementalClean)'"
 			Overwrite="true"/>
 
 	</Target>
@@ -5078,7 +5078,7 @@
 			Build;
 			PublishOnly
 		</PublishDependsOn>
-		<PublishDependsOn Condition="'$(PublishableProject)'!='true'">
+		<PublishDependsOn Condition="'$(PublishableProject)' != 'true'">
 			_DeploymentUnpublishable
 		</PublishDependsOn>
 	</PropertyGroup>
@@ -5110,7 +5110,7 @@
 	<Target
 		Name="SetGenerateManifests">
 
-		<Error Condition="'$(OutputType)'!='winexe' AND '$(OutputType)'!='exe' AND '$(OutputType)'!='appcontainerexe'" Text="Publish is only valid for 'Windows Application' OR 'Console Application' project types."/>
+		<Error Condition="'$(OutputType)' != 'winexe' AND '$(OutputType)' != 'exe' AND '$(OutputType)' != 'appcontainerexe'" Text="Publish is only valid for 'Windows Application' OR 'Console Application' project types."/>
 		<Error Condition="'$(_DeploymentSignClickOnceManifests)' == 'true' AND '$(ManifestCertificateThumbprint)' == '' AND '$(ManifestKeyFile)' == ''" Text="A signing key is required in order to publish this project. Please specify a ManifestKeyFile or ManifestCertificateThumbprint value. Publishing from Visual Studio will automatically configure a signing key for this project."/>
 
 		<PropertyGroup>
@@ -5402,7 +5402,7 @@
 	-->
 	<PropertyGroup>
 		<BuiltProjectOutputGroupDependsOn>PrepareForBuild</BuiltProjectOutputGroupDependsOn>
-		<AddAppConfigToBuildOutputs Condition="('$(AddAppConfigToBuildOutputs)' == '') AND ('$(OutputType)'!='library' AND '$(OutputType)'!='winmdobj')">true</AddAppConfigToBuildOutputs>
+		<AddAppConfigToBuildOutputs Condition="('$(AddAppConfigToBuildOutputs)' == '') AND ('$(OutputType)' != 'library' AND '$(OutputType)' != 'winmdobj')">true</AddAppConfigToBuildOutputs>
 	</PropertyGroup>
 	<Target
 		Name="BuiltProjectOutputGroup"
@@ -5430,7 +5430,7 @@
 
 		<!-- This item represents the native manifest, example: WindowsApplication1.exe.manifest or Native.ClassLibrary1.manifest -->
 		<ItemGroup>
-			<_BuiltProjectOutputGroupOutputIntermediate Include="$(OutDir)$(_DeploymentTargetApplicationManifestFileName)" Condition="'@(NativeReference)'!='' OR '@(_IsolatedComReference)'!=''">
+			<_BuiltProjectOutputGroupOutputIntermediate Include="$(OutDir)$(_DeploymentTargetApplicationManifestFileName)" Condition="'@(NativeReference)' != '' OR '@(_IsolatedComReference)' != ''">
 				<TargetPath>$(_DeploymentTargetApplicationManifestFileName)</TargetPath>
 				<!-- For compatibility with 2.0 -->
 				<OriginalItemSpec>$(OutDir)$(_DeploymentTargetApplicationManifestFileName)</OriginalItemSpec>
@@ -5486,7 +5486,7 @@
 	<PropertyGroup>
 		<DocumentationProjectOutputGroupDependsOn></DocumentationProjectOutputGroupDependsOn>
 	</PropertyGroup>
-	<ItemGroup Condition="'$(DocumentationFile)'!='' AND '$(OutputType)' != 'winmdobj'">
+	<ItemGroup Condition="'$(DocumentationFile)' != '' AND '$(OutputType)' != 'winmdobj'">
 		<DocumentationProjectOutputGroupOutput Include="@(DocFileItem->'%(FullPath)')">
 		<FinalOutputPath>@(FinalDocFile->'%(FullPath)')</FinalOutputPath>
 			<IsKeyOutput>true</IsKeyOutput>
@@ -5612,7 +5612,7 @@
 		<SGenFilesOutputGroupDependsOn></SGenFilesOutputGroupDependsOn>
 	</PropertyGroup>
 	<ItemGroup
-		Condition="'$(_SGenGenerateSerializationAssembliesConfig)' == 'On' OR ('@(WebReferenceUrl)'!='' AND '$(_SGenGenerateSerializationAssembliesConfig)' == 'Auto')">
+		Condition="'$(_SGenGenerateSerializationAssembliesConfig)' == 'On' OR ('@(WebReferenceUrl)' != '' AND '$(_SGenGenerateSerializationAssembliesConfig)' == 'Auto')">
 		<SGenFilesOutputGroupOutput Include="@(_OutputPathItem->'%(FullPath)$(_SGenDllName)')">
 			<FinalOutputPath>@(_OutputPathItem->'%(FullPath)$(_SGenDllName)')</FinalOutputPath>
 			<TargetPath>$(_SGenDllName)</TargetPath>
@@ -5732,7 +5732,7 @@
 	-->
 	<Target
 		Name="DebugSymbolsProjectOutputGroupDependencies"
-		Condition="'$(DebugSymbols)'!='false'"
+		Condition="'$(DebugSymbols)' != 'false'"
 		DependsOnTargets="BuildOnlySettings;PrepareForBuild;AssignTargetPaths;ResolveReferences"
 		Returns="@(DebugSymbolsProjectOutputGroupDependency)">
 
@@ -5771,7 +5771,7 @@
 	-->
 	<Target
 		Name="DocumentationProjectOutputGroupDependencies"
-		Condition="'$(DocumentationFile)'!=''"
+		Condition="'$(DocumentationFile)' != ''"
 		DependsOnTargets="BuildOnlySettings;PrepareForBuild;AssignTargetPaths;ResolveReferences"
 		Returns="@(DocumentationProjectOutputGroupDependency)">
 
