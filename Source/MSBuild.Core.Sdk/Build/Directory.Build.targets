@@ -2,21 +2,21 @@
 
 	<!--
 		Determine the path to the directory build targets file if the user did not disable $(ImportDirectoryBuildTargets) and
-		they did not already specify an absolute path to use via $(DirectoryBuildTargetsPath)
+		they did not already specify an absolute path to use via $(DirectoryBuildTargets)
 	-->
-	<PropertyGroup Condition="'$(DirectoryBuildTargetsPath)' == ''">
+	<PropertyGroup Condition="'$(DirectoryBuildTargets)' == ''">
 		<DirectoryBuildTargetsFile Condition="'$(DirectoryBuildTargetsFile)' == ''">Directory.Build.targets</DirectoryBuildTargetsFile>
-		<DirectoryBuildTargetsBasePath Condition="'$(DirectoryBuildTargetsBasePath)' == ''">$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildProjectDirectory), '$(DirectoryBuildTargetsFile)'))</DirectoryBuildTargetsBasePath>
-		<DirectoryBuildTargetsPath Condition="'$(DirectoryBuildTargetsBasePath)' != '' AND '$(DirectoryBuildTargetsFile)' != ''">$([System.IO.Path]::Combine('$(DirectoryBuildTargetsBasePath)', '$(DirectoryBuildTargetsFile)'))</DirectoryBuildTargetsPath>
+		<DirectoryBuildTargetsPath Condition="'$(DirectoryBuildTargetsPath)' == ''">$([MSBuild]::GetDirectoryNameOfFileAbove('$(MSBuildProjectDirectory)', '$(DirectoryBuildTargetsFile)'))</DirectoryBuildTargetsPath>
+		<DirectoryBuildTargets Condition="'$(DirectoryBuildTargetsPath)' != ''">$([System.IO.Path]::Combine('$(DirectoryBuildTargetsPath)', '$(DirectoryBuildTargetsFile)'))</DirectoryBuildTargets>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="Exists('$(DirectoryBuildTargetsPath)')">
-		<MSBuildAllProjects>$(MSBuildAllProjects);$(DirectoryBuildTargetsPath)</MSBuildAllProjects>
+	<Import Project="$(DirectoryBuildTargets)" Condition="Exists('$(DirectoryBuildTargets)')"/>
+
+	<PropertyGroup Condition="Exists('$(DirectoryBuildTargets)')">
+		<MSBuildAllProjects>$(MSBuildAllProjects);$(DirectoryBuildTargets)</MSBuildAllProjects>
 	</PropertyGroup>
 
-	<Import Project="$(DirectoryBuildTargetsPath)" Condition="Exists('$(DirectoryBuildTargetsPath)')"/>
-
-	<PropertyGroup>
+	<PropertyGroup Condition="!Exists('$(DirectoryBuildTargets)')">
 		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
 	</PropertyGroup>
 

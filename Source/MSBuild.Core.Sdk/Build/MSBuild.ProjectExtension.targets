@@ -1,12 +1,22 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
-	<Import Project="$(CustomProjectExtensionTargets)" Condition="Exists('$(CustomProjectExtensionTargets)')"/>
-
 	<!-- Check if we already imported them as props. -->
 	<Import Project="$(MSBuildThisFileDirectory)MSBuild.ProjectExtension.Core.props" Condition="'$(ImportedMSBuildProjectExtensionCoreProps)' != 'true'"/>
-	<Import Project="$(MSBuildProjectExtensionsPath)$(MSBuildProjectFile).*.targets" Condition="Exists('$(MSBuildProjectExtensionsPath)')"/>
+
+	<PropertyGroup Condition="'$(MSBuildProjectExtensionTargets)' == ''">
+		<MSBuildProjectExtensionTargetsFile Condition="'$(MSBuildProjectExtensionTargetsFile)' == ''">$(MSBuildProjectFile).*.targets</MSBuildProjectExtensionTargetsFile>
+		<MSBuildProjectExtensionTargets Condition="'$(MSBuildProjectExtensionsPath)' != ''">$(MSBuildProjectExtensionsPath)$(MSBuildProjectExtensionTargetsFile)</MSBuildProjectExtensionTargets>
+	</PropertyGroup>
+
+	<Import Project="$(CustomProjectExtensionTargets)" Condition="Exists('$(CustomProjectExtensionTargets)')"/>
+	<Import Project="$(MSBuildProjectExtensionTargets)" Condition="Exists('$(MSBuildProjectExtensionTargets)')"/>
 
 	<PropertyGroup>
+		<MSBuildAllProjects Condition="Exists('$(MSBuildProjectExtensionTargets)')">$(MSBuildAllProjects);$(MSBuildProjectExtensionTargets)</MSBuildAllProjects>
+		<MSBuildAllProjects Condition="Exists('$(CustomProjectExtensionTargets)')">$(MSBuildAllProjects);$(CustomProjectExtensionTargets)</MSBuildAllProjects>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="!(Exists('$(MSBuildProjectExtensionTargets)') AND Exists('$(CustomProjectExtensionTargets)'))">
 		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
 	</PropertyGroup>
 

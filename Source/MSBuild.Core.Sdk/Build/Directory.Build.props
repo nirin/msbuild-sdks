@@ -2,21 +2,21 @@
 
 	<!--
 		Determine the path to the directory build props file if the user did not disable $(ImportDirectoryBuildProps) and
-		they did not already specify an absolute path to use via $(DirectoryBuildPropsPath)
+		they did not already specify an absolute path to use via $(DirectoryBuildProps)
 	-->
-	<PropertyGroup Condition="'$(DirectoryBuildPropsPath)' == ''">
+	<PropertyGroup Condition="'$(DirectoryBuildProps)' == ''">
 		<DirectoryBuildPropsFile Condition="'$(DirectoryBuildPropsFile)' == ''">Directory.Build.props</DirectoryBuildPropsFile>
-		<DirectoryBuildPropsBasePath Condition="'$(DirectoryBuildPropsBasePath)' == ''">$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildProjectDirectory), '$(DirectoryBuildPropsFile)'))</DirectoryBuildPropsBasePath>
-		<DirectoryBuildPropsPath Condition="'$(DirectoryBuildPropsBasePath)' != '' AND '$(DirectoryBuildPropsFile)' != ''">$([System.IO.Path]::Combine('$(DirectoryBuildPropsBasePath)', '$(DirectoryBuildPropsFile)'))</DirectoryBuildPropsPath>
+		<DirectoryBuildPropsPath Condition="'$(DirectoryBuildPropsPath)' == ''">$([MSBuild]::GetDirectoryNameOfFileAbove('$(MSBuildProjectDirectory)', '$(DirectoryBuildPropsFile)'))</DirectoryBuildPropsPath>
+		<DirectoryBuildProps Condition="'$(DirectoryBuildPropsPath)' != ''">$([System.IO.Path]::Combine('$(DirectoryBuildPropsPath)', '$(DirectoryBuildPropsFile)'))</DirectoryBuildProps>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="Exists('$(DirectoryBuildPropsPath)')">
-		<MSBuildAllProjects>$(MSBuildAllProjects);$(DirectoryBuildPropsPath)</MSBuildAllProjects>
+	<Import Project="$(DirectoryBuildProps)" Condition="Exists('$(DirectoryBuildProps)')"/>
+
+	<PropertyGroup Condition="Exists('$(DirectoryBuildProps)')">
+		<MSBuildAllProjects>$(MSBuildAllProjects);$(DirectoryBuildProps)</MSBuildAllProjects>
 	</PropertyGroup>
 
-	<Import Project="$(DirectoryBuildPropsPath)" Condition="Exists('$(DirectoryBuildPropsPath)')"/>
-
-	<PropertyGroup>
+	<PropertyGroup Condition="!Exists('$(DirectoryBuildProps)')">
 		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
 	</PropertyGroup>
 

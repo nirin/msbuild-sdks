@@ -2,11 +2,21 @@
 
 	<!-- We need to initialize `MSBuildProjectExtensionsPath` property. -->
 	<Import Project="$(MSBuildThisFileDirectory)MSBuild.ProjectExtension.Core.props" Condition="'$(ImportedMSBuildProjectExtensionCoreProps)' != 'true'"/>
-	<Import Project="$(MSBuildProjectExtensionsPath)$(MSBuildProjectFile).*.props" Condition="Exists('$(MSBuildProjectExtensionsPath)')"/>
 
+	<PropertyGroup Condition="'$(MSBuildProjectExtensionProps)' == ''">
+		<MSBuildProjectExtensionPropsFile Condition="'$(MSBuildProjectExtensionPropsFile)' == ''">$(MSBuildProjectFile).*.props</MSBuildProjectExtensionPropsFile>
+		<MSBuildProjectExtensionProps Condition="'$(MSBuildProjectExtensionsPath)' != ''">$(MSBuildProjectExtensionsPath)$(MSBuildProjectExtensionPropsFile)</MSBuildProjectExtensionProps>
+	</PropertyGroup>
+
+	<Import Project="$(MSBuildProjectExtensionProps)" Condition="Exists('$(MSBuildProjectExtensionProps)')"/>
 	<Import Project="$(CustomProjectExtensionProps)" Condition="Exists('$(CustomProjectExtensionProps)')"/>
 
 	<PropertyGroup>
+		<MSBuildAllProjects Condition="Exists('$(MSBuildProjectExtensionProps)')">$(MSBuildAllProjects);$(MSBuildProjectExtensionProps)</MSBuildAllProjects>
+		<MSBuildAllProjects Condition="Exists('$(CustomProjectExtensionProps)')">$(MSBuildAllProjects);$(CustomProjectExtensionProps)</MSBuildAllProjects>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="!(Exists('$(MSBuildProjectExtensionProps)') AND Exists('$(CustomProjectExtensionProps)'))">
 		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
 	</PropertyGroup>
 
