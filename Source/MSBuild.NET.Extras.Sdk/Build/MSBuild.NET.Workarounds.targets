@@ -7,6 +7,7 @@
 	<PropertyGroup>
 		<!-- Don't generate assembly info for generated projects -->
 		<GenerateAssemblyInfo Condition="'$(IsGeneratedProject)' == 'true'">false</GenerateAssemblyInfo>
+		<ImportProjectExtensionTargets Condition="'$(ImportProjectExtensionTargets)' == ''">true</ImportProjectExtensionTargets>
 	</PropertyGroup>
 
 	<!--
@@ -28,7 +29,7 @@
 		In order to properly import Project Extensions, we need the user to set '_OriginalProjectFile' and use it to import Project Extensions.
 	-->
 	<ImportGroup Condition="'$(_OriginalProjectFile)' != '' AND '$(ImportProjectExtensionTargets)' == 'true'">
-		<Import Project="$(_OriginalProjectExtensionsPath)$(_OriginalProjectFile).*.targets" Condition="'Exists('$(_OriginalProjectExtensionsPath)')"/>
+		<Import Project="$(_OriginalProjectExtensionsPath)$(_OriginalProjectFile).*.targets" Condition="Exists('$(_OriginalProjectExtensionsPath)')"/>
 	</ImportGroup>
 
 	<!--

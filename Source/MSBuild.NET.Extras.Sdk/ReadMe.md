@@ -63,7 +63,7 @@ More information on how SDK's are resolved can be found [here](https://docs.micr
 
 ### The old way (VS pre-15.6)
 
-For those who are using in a `PackageReference` style, you can't do that with v2.0+ of this package. So update VS to 15.6+ and manually upgrade your projects as shown below:
+For those who are using in a `PackageReference` style, you can't do that with v1.1+ of this package. So update VS to 15.6+ and manually upgrade your projects as shown below:
 
 1. The same as above, replace the Sdk attribute's value.
 2. Remove the workaround import specified with the old way. The import property should be `MSBuildSdkExtrasDotNet`.

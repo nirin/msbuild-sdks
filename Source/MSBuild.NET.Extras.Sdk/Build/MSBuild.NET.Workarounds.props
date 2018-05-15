@@ -4,6 +4,10 @@
 		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
 	</PropertyGroup>
 
+	<PropertyGroup>
+		<ImportProjectExtensionProps Condition="'$(ImportProjectExtensionProps)' == ''">true</ImportProjectExtensionProps>
+	</PropertyGroup>
+
 	<!-- Check for _*_wpftmp.*proj files -->
 	<PropertyGroup>
 		<GeneratedProjectSuffixPattern>_[a-z0-9]{8}_wpftmp</GeneratedProjectSuffixPattern>

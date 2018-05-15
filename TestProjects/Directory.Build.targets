@@ -17,6 +17,8 @@
 		<RootNamespace Condition="$(RootNamespace.Contains('-'))">$(RootNamespace.Replace('-', '_'))</RootNamespace>
 	</PropertyGroup>
 
+	<Import Project="$(BuildToolsPath)MSBuild.OutputPathChecks.targets"/>
+
 	<Import Project="$(BuildToolsPath)MSBuild.TestOutput.targets" Condition="'$(IsLegacyProject)' != 'true'"/>
 
 	<Import Project="$(MSBuildThisFileDirectory)..\$(MSBuildThisFile)"/>

@@ -29,6 +29,4 @@
 		<ProjectTypeGuids Condition="$(ProjectTypeGuids.EndsWith(';'))">$(ProjectTypeGuids.TrimEnd(';'))</ProjectTypeGuids>
 	</PropertyGroup>
 
-	<Import Project="$(MSBuildThisFileDirectory)MSBuild.NET.Workarounds.targets"/>
-
 </Project>

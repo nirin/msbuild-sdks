@@ -4,8 +4,6 @@
 		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
 	</PropertyGroup>
 
-	<Import Project="$(MSBuildThisFileDirectory)MSBuild.NET.Workarounds.props"/>
-
 	<Choose>
 		<When Condition="'$(MSBuildProjectExtension)' == '.csproj'">
 			<PropertyGroup>

@@ -14,10 +14,4 @@
 		<OutputFolder>Binaries</OutputFolder>
 	</PropertyGroup>
 
-	<!--<Import Project="$(BuildToolsPath)MSBuild.Sdks.Build.props"/>-->
-
-	<PropertyGroup>
-		<DefaultItemExcludes>**\~*\**\*;**\*~\**\*;**\*~.*;**\~*.*</DefaultItemExcludes>
-	</PropertyGroup>
-
 </Project>

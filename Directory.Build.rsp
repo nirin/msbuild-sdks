@@ -1,7 +1,6 @@
-/Restore
 /MaxCPUCount
 /BinaryLogger
 /DetailedSummary
-/Verbosity:normal
+/Verbosity:minimal
 /NodeReuse:false
-/Target:Build
+/Restore

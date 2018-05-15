@@ -21,4 +21,8 @@
 		<CustomBeforeMicrosoftCommonTargets>$(CustomBeforeSdkTargets)</CustomBeforeMicrosoftCommonTargets>
 	</PropertyGroup>
 
+	<ItemGroup Condition="'$(IsLegacyProject)' != 'true'">
+		<PackageReference Include="MSBuild.NET.DefaultItems" Version="0.1.0"/>
+	</ItemGroup>
+
 </Project>
