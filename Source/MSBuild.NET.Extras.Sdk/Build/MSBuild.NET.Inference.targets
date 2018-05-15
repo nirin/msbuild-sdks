@@ -106,6 +106,8 @@
 		<TargetFrameworkVersion>$(_TargetFrameworkVersionWithV)</TargetFrameworkVersion>
 	</PropertyGroup>
 
+	<Import Condition="'$(TargetFrameworkIdentifier)' == '.NETFramework'" Project="$(MSBuildThisFileDirectory)FrameworkResolvers\MSBuild.NETFramework.targets"/>
+
 	<!-- Support for resolving portable framework profiles -->
 	<ImportGroup Condition="'$(TargetFrameworkIdentifier)' == '.NETPortable'">
 		<Import Condition="'$(TargetFrameworkVersion)' == ''" Project="$(MSBuildThisFileDirectory)FrameworkResolvers\MSBuild.NETPortable.v*.targets"/>

@@ -19,9 +19,10 @@
 
 	<Import Project="$(_SdkPlatformTargets)" Condition="Exists('$(_SdkPlatformTargets)')"/>
 
-	<PropertyGroup Condition="'$(ImplicitFrameworkDefine)' == ''">
+	<PropertyGroup>
 		<!-- Add conditional compilation symbols for the target framework (for example NET471, NETSTANDARD2_0, NETCOREAPP2_1) -->
 		<ImplicitFrameworkDefine Condition="'$(DisableImplicitFrameworkDefines)' != 'true'">$(TargetFramework.Replace('.','_').ToUpperInvariant())</ImplicitFrameworkDefine>
+		<DisableImplicitFrameworkDefines Condition="'$(DisableImplicitFrameworkDefines)' != 'true'">true</DisableImplicitFrameworkDefines>
 	</PropertyGroup>
 
 	<!-- Update '_TargetFrameworkVersionWithoutV'. Since, we could have updated 'TargetFrameworkVersion' within platform targets -->
