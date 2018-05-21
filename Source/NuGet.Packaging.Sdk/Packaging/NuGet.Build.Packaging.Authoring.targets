@@ -1,7 +1,10 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
-	<!-- The main output in this case will be the package itself. -->
 	<PropertyGroup>
+		<!-- Inside Visual Studio, TF must be empty to bypass the CPS-based restore mechanism -->
+		<TargetFramework/>
+
+		<!-- The main output in this case will be the package itself. -->
 		<TargetName>$(PackageId)</TargetName>
 
 		<!-- Speed-up build since we don't do assembly resolution -->
@@ -21,34 +24,6 @@
 			<AdditionalProperties>FromPackagingProject=true</AdditionalProperties>
 		</ProjectReference>
 	</ItemDefinitionGroup>
-
-	<!-- ProjectCapabilities in dev15 should be supported via NuGet packages -->
-	<ItemGroup>
-		<ProjectCapability Include="PackagingProject"/>
-
-		<!-- Allows configurations inferred from Condition="CONFIG|PLATFORM" usage -->
-		<ProjectCapability Include="ProjectConfigurationsInferredFromUsage"/>
-
-		<!-- DependenciesTree capability lights up a Dependencies tree node and it's sub node providers-->
-		<ProjectCapability Include="DependenciesTree"/>
-
-		<ProjectCapability Include="
-			AssemblyReferences;
-			ProjectReferences;
-			PackageReferences;
-			OutputGroups;
-			AllTargetOutputGroups;
-			VisualStudioWellKnownOutputGroups;
-			SingleFileGenerators;
-			DeclaredSourceItems;
-			UserSourceItems"/>
-
-		<!-- Reference Manager capabilities -->
-		<ProjectCapability Include="ReferenceManagerAssemblies"/>
-		<ProjectCapability Include="ReferenceManagerBrowse"/>
-		<ProjectCapability Include="ReferenceManagerProjects"/>
-
-	</ItemGroup>
 
 	<!-- Just to make it easy for consumers to request the TargetPath as usual but get the
 		 actual package file, which contains the PackageVersion and will be dynamic therefore. -->

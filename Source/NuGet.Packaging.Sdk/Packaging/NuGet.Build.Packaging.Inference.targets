@@ -89,6 +89,7 @@
 				Condition="'$(IncludeOutputsInPackage)' == 'true'">
 				<FinalOutputPath Condition="$([System.IO.Path]::IsPathRooted('%(FinalOutputPath)')) == 'false'">$(MSBuildProjectDirectory)\%(FinalOutputPath)</FinalOutputPath>
 			</_DocumentationProjectOutputGroupOutput>
+
 			<_InferredPackageFile Include="@(_DocumentationProjectOutputGroupOutput -> '%(FinalOutputPath)')"
 				Condition="'$(IncludeOutputsInPackage)' == 'true' AND '$(IsPackagingProject)' != 'true'">
 				<!-- Packaging projects don't contribute primary docs -->
@@ -118,6 +119,7 @@
 				Condition="'%(_ContentToInfer.CopyToOutputDirectory)' != '' AND '%(_ContentToInfer.CopyToOutputDirectory)' != 'Never'">
 				<Kind Condition="'%(_ContentToInfer.Kind)' == ''">$(PrimaryOutputKind)</Kind>
 			</_InferredPackageFile>
+
 			<!-- Otherwise, include from source location and default to content -->
 			<_InferredPackageFile Include="@(_ContentToInfer->'%(FullPath)')"
 				Condition="'%(_ContentToInfer.CopyToOutputDirectory)' == '' OR '%(_ContentToInfer.CopyToOutputDirectory)' == 'Never'">
@@ -183,12 +185,15 @@
 		<ItemGroup>
 			<_NuGetPackageId Include="@(_PrimaryOutputRelatedFile -> '%(NuGetPackageId)')" Condition="'%(NuGetPackageId)' != 'NETStandard.Library'"/>
 		</ItemGroup>
+
 		<PropertyGroup>
 			<_NuGetPackageId>@(_NuGetPackageId -> Distinct())</_NuGetPackageId>
 		</PropertyGroup>
+
 		<ItemGroup>
 			<_PrimaryPackageReference Include="@(PackageReference)" Condition="'$(_NuGetPackageId)' != '' AND '%(Identity)' == '$(_NuGetPackageId)'"/>
 		</ItemGroup>
+
 		<PropertyGroup>
 			<_PrivateAssets>@(_PrimaryPackageReference -> '%(PrivateAssets)')</_PrivateAssets>
 			<_ShouldIncludeAssetsRegex>$(_NuGetPackageId)\\.+\\$(_PrivateAssets)\\.*</_ShouldIncludeAssetsRegex>

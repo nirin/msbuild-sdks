@@ -2,25 +2,25 @@
 
 	<PropertyGroup>
 		<ProjectSystemRulesDir Condition="'$(ProjectSystemRulesDir)' == ''">$(MSBuildThisFileDirectory)Rules\</ProjectSystemRulesDir>
-		<RestoreProjectStyle>PackageReference</RestoreProjectStyle>
-		<!-- Inside Visual Studio, TF must be empty to bypass the CPS-based restore mechanism -->
-		<TargetFramework/>
-		<PackageTargetFallback>net11;net20;net35;net40;net403;net45;net451;net452;net46;net461;net462;netcore;netcore45;netcore451;netcore50;win8;win81;win10;sl4;sl5;wp;wp7;wp75;wp8;wp81;wpa81;uap;uap10;netstandard1.0;netstandard1.1;netstandard1.2;netstandard1.3;netstandard1.4;netstandard1.5;netstandard1.6;netstandard2.0;netcoreapp1.0;netcoreapp2.0;monoandroid;monotouch;monomac;xamarinios;xamarinmac;xamarinpsthree;xamarinpsfour;xamarinpsvita;xamarinwatchos;xamarintvos;xamarinxboxthreesixty;xamarinxboxone</PackageTargetFallback>
 	</PropertyGroup>
 
 	<ItemGroup>
 		<PropertyPageSchema Include="$(ProjectSystemRulesDir)ProjectItemsSchema.xaml">
 			<Context>Project</Context>
 		</PropertyPageSchema>
+
 		<PropertyPageSchema Include="$(ProjectSystemRulesDir)SourceControl.xaml;">
 			<Context>Invisible</Context>
 		</PropertyPageSchema>
+
 		<PropertyPageSchema Include="$(ProjectSystemRulesDir)General.xaml">
 			<Context>Project;File</Context>
 		</PropertyPageSchema>
+
 		<PropertyPageSchema Include="$(ProjectSystemRulesDir)General.BrowseObject.xaml">
 			<Context>BrowseObject</Context>
 		</PropertyPageSchema>
+
 		<PropertyPageSchema Include="
 			$(ProjectSystemRulesDir)PackageFile.xaml;
 			$(ProjectSystemRulesDir)Folder.xaml;
@@ -28,7 +28,6 @@
 			$(ProjectSystemRulesDir)Content.xaml">
 			<Context>File;BrowseObject</Context>
 		</PropertyPageSchema>
-
 
 		<!-- Project references -->
 		<PropertyPageSchema Include="$(ProjectSystemRulesDir)ProjectReference.xaml">
@@ -52,7 +51,6 @@
 		<PropertyPageSchema Include="$(ProjectSystemRulesDir)PackageReference.xaml">
 			<Context>ProjectSubscriptionService;BrowseObject</Context>
 		</PropertyPageSchema>
-
 	</ItemGroup>
 
 	<!-- ProjectCapabilities in dev15 should be supported via NuGet packages -->
@@ -80,7 +78,6 @@
 		<ProjectCapability Include="ReferenceManagerAssemblies"/>
 		<ProjectCapability Include="ReferenceManagerBrowse"/>
 		<ProjectCapability Include="ReferenceManagerProjects"/>
-
 	</ItemGroup>
 
 </Project>

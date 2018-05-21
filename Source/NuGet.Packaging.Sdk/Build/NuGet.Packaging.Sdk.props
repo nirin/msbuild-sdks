@@ -1,5 +1,6 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
+	<Import Project="$(MSBuildThisFileDirectory)..\ProjectSystem\NuGet.Packaging.ProjectSystem.props"/>
 	<Import Project="$(MSBuildThisFileDirectory)..\Packaging\NuGet.Build.Packaging.props"/>
 
 	<PropertyGroup Label="Globals">
