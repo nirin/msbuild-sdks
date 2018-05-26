@@ -3,21 +3,21 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27428.2037
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Console-Application", "Console-Application\Console-Application.vbproj", "{170B7CE1-695C-49F4-A8F7-378B7803212E}"
+Project("{778DAE3C-4631-46EA-AA77-85C1314464D9}") = "Console-Application", "Console-Application\Console-Application.vbproj", "{170B7CE1-695C-49F4-A8F7-378B7803212E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Framework-Library", "Framework-Library\Framework-Library.vbproj", "{F62FDFD5-C6AA-4C0C-85E4-779CD30FF88C}"
+Project("{778DAE3C-4631-46EA-AA77-85C1314464D9}") = "Framework-Library", "Framework-Library\Framework-Library.vbproj", "{F62FDFD5-C6AA-4C0C-85E4-779CD30FF88C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Service-Application", "Service-Application\Service-Application.vbproj", "{F93B809B-BC8B-4366-B4FA-466E1E2B4059}"
+Project("{778DAE3C-4631-46EA-AA77-85C1314464D9}") = "Service-Application", "Service-Application\Service-Application.vbproj", "{F93B809B-BC8B-4366-B4FA-466E1E2B4059}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WinForms-Application", "WinForms-Application\WinForms-Application.vbproj", "{BE0F5979-8F85-4A20-B46C-4096BCBD5324}"
+Project("{778DAE3C-4631-46EA-AA77-85C1314464D9}") = "WinForms-Application", "WinForms-Application\WinForms-Application.vbproj", "{BE0F5979-8F85-4A20-B46C-4096BCBD5324}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WinForms-Library", "WinForms-Library\WinForms-Library.vbproj", "{FF55A1DF-39A3-447C-8461-FA360CA293DC}"
+Project("{778DAE3C-4631-46EA-AA77-85C1314464D9}") = "WinForms-Library", "WinForms-Library\WinForms-Library.vbproj", "{FF55A1DF-39A3-447C-8461-FA360CA293DC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WPF-Application", "WPF-Application\WPF-Application.vbproj", "{5A1DCB97-FBE7-43DF-B037-041938723283}"
+Project("{778DAE3C-4631-46EA-AA77-85C1314464D9}") = "WPF-Application", "WPF-Application\WPF-Application.vbproj", "{5A1DCB97-FBE7-43DF-B037-041938723283}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WPF-Browser-Application", "WPF-Browser-Application\WPF-Browser-Application.vbproj", "{CEE5576C-A4D3-45E7-91AB-DE22AC6039C8}"
+Project("{778DAE3C-4631-46EA-AA77-85C1314464D9}") = "WPF-Browser-Application", "WPF-Browser-Application\WPF-Browser-Application.vbproj", "{CEE5576C-A4D3-45E7-91AB-DE22AC6039C8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WPF-Library", "WPF-Library\WPF-Library.vbproj", "{4BACD354-EAD1-42C7-A3B9-8D2F72503635}"
+Project("{778DAE3C-4631-46EA-AA77-85C1314464D9}") = "WPF-Library", "WPF-Library\WPF-Library.vbproj", "{4BACD354-EAD1-42C7-A3B9-8D2F72503635}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

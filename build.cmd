@@ -18,12 +18,11 @@ if "%Configuration%" == "" (
 	set Configuration=Release
 )
 
-REM Remove Leading Zeros from BuildCounter
-for /F "tokens=* delims=0" %%A in ("%BuildCounter%") do set BuildCounter=%%A
-if "%BuildCounter%"=="" set BuildCounter=0
-
 set BuildVersion=
 if not "%BuildCounter%" == "" (
+	REM Remove Leading Zeros from BuildCounter
+	for /F "tokens=* delims=0" %%A in ("%BuildCounter%") do set BuildCounter=%%A
+	REM Set Version
 	set BuildVersion=;VersionMeta=dev.%BuildCounter%
 )
 

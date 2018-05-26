@@ -3,15 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27004.2008
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MSBuild.Core.Sdk", "Source\MSBuild.Core.Sdk\MSBuild.Core.Sdk.nuproj", "{783A4558-BD83-4557-A6BC-A9C5636E82AD}"
+Project("{5DD5E4FA-CB73-4610-85AB-557B54E96AA9}") = "MSBuild.Core.Sdk", "Source\MSBuild.Core.Sdk\MSBuild.Core.Sdk.nuproj", "{783A4558-BD83-4557-A6BC-A9C5636E82AD}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MSBuild.NET.DefaultItems", "Source\MSBuild.NET.DefaultItems\MSBuild.NET.DefaultItems.nuproj", "{D954D633-9922-4AFF-83F2-BF157E2ED850}"
+Project("{5DD5E4FA-CB73-4610-85AB-557B54E96AA9}") = "MSBuild.NET.DefaultItems", "Source\MSBuild.NET.DefaultItems\MSBuild.NET.DefaultItems.nuproj", "{D954D633-9922-4AFF-83F2-BF157E2ED850}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MSBuild.NET.Extras.Sdk", "Source\MSBuild.NET.Extras.Sdk\MSBuild.NET.Extras.Sdk.nuproj", "{FBA79394-3A96-4BBE-B046-7302181AF10D}"
+Project("{5DD5E4FA-CB73-4610-85AB-557B54E96AA9}") = "MSBuild.NET.Extras.Sdk", "Source\MSBuild.NET.Extras.Sdk\MSBuild.NET.Extras.Sdk.nuproj", "{FBA79394-3A96-4BBE-B046-7302181AF10D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MSBuild.NET.Legacy.Sdk", "Source\MSBuild.NET.Legacy.Sdk\MSBuild.NET.Legacy.Sdk.nuproj", "{9E0252B6-8815-4E25-8C6E-5838963C8233}"
+Project("{5DD5E4FA-CB73-4610-85AB-557B54E96AA9}") = "MSBuild.NET.Legacy.Sdk", "Source\MSBuild.NET.Legacy.Sdk\MSBuild.NET.Legacy.Sdk.nuproj", "{9E0252B6-8815-4E25-8C6E-5838963C8233}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NuGet.Packaging.Sdk", "Source\NuGet.Packaging.Sdk\NuGet.Packaging.Sdk.nuproj", "{208EC1B3-8458-4382-9C82-E20BDC7A0CAC}"
+Project("{5DD5E4FA-CB73-4610-85AB-557B54E96AA9}") = "NuGet.Packaging.Sdk", "Source\NuGet.Packaging.Sdk\NuGet.Packaging.Sdk.nuproj", "{208EC1B3-8458-4382-9C82-E20BDC7A0CAC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
