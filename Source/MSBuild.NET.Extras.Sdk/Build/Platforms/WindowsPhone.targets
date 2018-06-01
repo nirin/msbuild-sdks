@@ -12,13 +12,6 @@
 		<ProjectTypeGuids>$(ProjectTypeGuids);{C089C8C0-30E0-4E22-80C0-CE093F111A43}</ProjectTypeGuids>
 	</PropertyGroup>
 
-	<PropertyGroup Label="Globals">
-		<ExpressionBlendVersion Condition="'$(ExpressionBlendVersion)' == ''">5.0.40218.0</ExpressionBlendVersion>
-		<MinimumVisualStudioVersion Condition="'$(MinimumVisualStudioVersion)' == ''">12.0</MinimumVisualStudioVersion>
-		<ProductVersion Condition="'$(ProductVersion)' == ''">10.0.20506</ProductVersion>
-		<SchemaVersion Condition="'$(SchemaVersion)' == ''">2.0</SchemaVersion>
-	</PropertyGroup>
-
 	<PropertyGroup Condition="$(TargetFramework.StartsWith('wp8'))">
 		<TargetFrameworkProfile/>
 		<SilverlightVersion Condition="'$(SilverlightVersion)' == ''">$(TargetFrameworkVersion)</SilverlightVersion>
