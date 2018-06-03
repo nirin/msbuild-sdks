@@ -14,6 +14,13 @@ Supports projects that do not compile to an assembly. This is usually the base S
 
 Supports only .NET Framework (Windows). Contains the original .NET Framework Build files that were included with MSBuild. Use them to slowly migrate your legacy projects to SDK-style.
 
+### [MSBuild.NET.DefaultItems](Source/MSBuild.NET.DefaultItems)
+
+An MSBuild Extension package for including various platfroms' (Android, Apple, Tizen, Web, Windows) default build items etc... in .NET projects. You can use this package in any SDK-style projects that extends `Microsoft.NET.Sdk` like `MSBuild.NET.Extras.Sdk`, etc...
+
+[![MSBuild.NET.DefaultItems](https://img.shields.io/nuget/v/MSBuild.NET.DefaultItems.svg)](https://nuget.org/packages/MSBuild.NET.DefaultItems)
+[![MSBuild.NET.DefaultItems](https://img.shields.io/myget/msbuild-sdks/v/MSBuild.NET.DefaultItems.svg)](https://myget.org/feed/msbuild-sdks/package/nuget/MSBuild.NET.DefaultItems)
+
 ### [MSBuild.NET.Extras.Sdk](Source/MSBuild.NET.Extras.Sdk)
 
 Adds a few extra extensions to the SDK-style projects that are currently not available in `Microsoft.NET.Sdk` SDK. This feature is being tracked in [dotnet/sdk#491](https://github.com/dotnet/sdk/issues/491)

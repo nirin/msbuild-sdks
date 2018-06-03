@@ -3,8 +3,9 @@
 	<Import Project="$(MSBuildThisFileDirectory)..\$(MSBuildThisFile)"/>
 
 	<PropertyGroup Label="PackageInfo">
+		<Company>NIRIN</Company>
 		<Authors>Nirmal Guru</Authors>
-		<Owners>NIRIN</Owners>
+		<Owners>NIRIN;Nirmal Guru</Owners>
 		<Copyright>© NIRIN Foundation.</Copyright>
 		<Serviceable>true</Serviceable>
 		<PackageTags>msbuild;project;sdk</PackageTags>
@@ -16,7 +17,7 @@
 		<RepositoryType>git</RepositoryType>
 		<DevelopmentDependency>true</DevelopmentDependency>
 		<NeutralLanguage>en</NeutralLanguage>
-		<PackageReleaseNotes></PackageReleaseNotes>
+		<PackageReleaseNotes>https://github.com/nirin/msbuild-sdks/blob/master/ReadMe.md</PackageReleaseNotes>
 	</PropertyGroup>
 
 	<PropertyGroup Label="Build">

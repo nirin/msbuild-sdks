@@ -791,7 +791,7 @@
 		</PropertyGroup>
 
 		<!-- Write out target framework information -->
-		<ItemGroup Condition="  '$(PackageReferenceCompatibleProjectStyle)' == 'true' AND '$(_CombinedFallbacks)' != ''">
+		<ItemGroup Condition="'$(PackageReferenceCompatibleProjectStyle)' == 'true' AND '$(_CombinedFallbacks)' != ''">
 			<_RestoreGraphEntry Include="$([System.Guid]::NewGuid())">
 				<Type>TargetFrameworkInformation</Type>
 				<ProjectUniqueName>$(MSBuildProjectFullPath)</ProjectUniqueName>

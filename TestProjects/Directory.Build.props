@@ -22,7 +22,7 @@
 	</PropertyGroup>
 
 	<ItemGroup Condition="'$(IsLegacyProject)' != 'true'">
-		<PackageReference Include="MSBuild.NET.DefaultItems" Version="0.3.0"/>
+		<PackageReference Include="MSBuild.NET.DefaultItems" Version="0.4.0"/>
 	</ItemGroup>
 
 </Project>

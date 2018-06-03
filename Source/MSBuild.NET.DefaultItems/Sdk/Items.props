@@ -5,5 +5,6 @@
 	</PropertyGroup>
 
 	<Import Project="$(MSBuildThisFileDirectory)..\Build\MSBuild.NET.DefaultItems.props"/>
+	<Import Project="$(MSBuildThisFileDirectory)..\Build\MSBuild.NET.ImplicitPackages.props"/>
 
 </Project>

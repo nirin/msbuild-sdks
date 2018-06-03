@@ -21,7 +21,6 @@
 		<IncludeContentInPack Condition="'$(IncludeContentInPack)'==''">true</IncludeContentInPack>
 		<GenerateNuspecDependsOn>_LoadPackInputItems;_GetTargetFrameworksOutput;_WalkEachTargetPerFramework;_GetPackageFiles;$(GenerateNuspecDependsOn)</GenerateNuspecDependsOn>
 		<PackageDescription Condition="'$(PackageDescription)'==''">$(Description)</PackageDescription>
-		<PackageDescription Condition="'$(PackageDescription)'==''">Package Description</PackageDescription>
 		<IsPackable Condition="'$(IsPackable)'=='' AND '$(IsTestProject)'=='true'">false</IsPackable>
 		<IsPackable Condition="'$(IsPackable)'==''">true</IsPackable>
 		<IncludeBuildOutput Condition="'$(IncludeBuildOutput)'==''">true</IncludeBuildOutput>
@@ -35,11 +34,6 @@
 		<WarnOnPackingNonPackableProject Condition="'$(WarnOnPackingNonPackableProject)' == ''">false</WarnOnPackingNonPackableProject>
 		<AllowedOutputExtensionsInPackageBuildOutputFolder>.dll;.exe;.winmd;.json;.pri;.xml;$(AllowedOutputExtensionsInPackageBuildOutputFolder)</AllowedOutputExtensionsInPackageBuildOutputFolder>
 		<AllowedOutputExtensionsInSymbolsPackageBuildOutputFolder>.pdb;.mdb;$(AllowedOutputExtensionsInPackageBuildOutputFolder);$(AllowedOutputExtensionsInSymbolsPackageBuildOutputFolder)</AllowedOutputExtensionsInSymbolsPackageBuildOutputFolder>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(PackAsTool)' == 'true'">
-		<PackageType>DotNetTool</PackageType>
-		<IncludeBuildOutput>false</IncludeBuildOutput>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(NoBuild)' == 'true'">
@@ -195,7 +189,7 @@
 		</PropertyGroup>
 	</Target>
 
-	<Target Name="GenerateNuspec" DependsOnTargets="$(GenerateNuspecDependsOn);_CalculateInputsOutputsForPack;_GetProjectReferenceVersions" Condition="$(IsPackable) == 'true'"
+	<Target Name="GenerateNuspec" DependsOnTargets="$(GenerateNuspecDependsOn);_CalculateInputsOutputsForPack;_GetProjectReferenceVersions;_InitializeNuspecRepositoryInformationProperties" Condition="$(IsPackable) == 'true'"
 			Inputs="@(NuGetPackInput)" Outputs="@(NuGetPackOutput)">
 		<!-- Call Pack -->
 		<PackTask PackItem="$(PackProjectInputFile)"

@@ -58,6 +58,6 @@
 		<DefaultProjectTypeGuid Condition="'$(_LanguageSourceName)' == 'FSharp'">{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}</DefaultProjectTypeGuid>
 	</PropertyGroup>
 
-	<Import Project="$(MSBuildThisFileDirectory)MSBuild.NET.ProjectSystem.props"/>
+	<Import Project="$(MSBuildThisFileDirectory)..\ProjectSystem\MSBuild.NET.ProjectSystem.props"/>
 
 </Project>
