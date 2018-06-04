@@ -6,8 +6,7 @@
 
 	<!-- Load NuGet.Build.Tasks.Pack.dll, this can be overridden to use a different version with $(NuGetPackTaskAssemblyFile) -->
 	<PropertyGroup Condition="$(NuGetPackTaskAssemblyFile) == ''">
-		<NuGetPackTaskAssemblyFile Condition="'$(MSBuildRuntimeType)' == 'Core'">$(MSBuildThisFileDirectory)CoreCLR\NuGet.Build.Tasks.Pack.dll</NuGetPackTaskAssemblyFile>
-		<NuGetPackTaskAssemblyFile Condition="'$(MSBuildRuntimeType)' != 'Core'">$(MSBuildThisFileDirectory)Desktop\NuGet.Build.Tasks.Pack.dll</NuGetPackTaskAssemblyFile>
+		<NuGetPackTaskAssemblyFile>$(MSBuildThisFileDirectory)$(MSBuildRuntimeType)\NuGet.Build.Tasks.Pack.dll</NuGetPackTaskAssemblyFile>
 	</PropertyGroup>
 
 	<UsingTask TaskName="NuGet.Build.Tasks.Pack.PackTask" AssemblyFile="$(NuGetPackTaskAssemblyFile)"/>

@@ -30,8 +30,7 @@
 
 	<!-- Load NuGet.Build.Tasks.dll, this can be overridden to use a different version with $(RestoreTaskAssemblyFile) -->
 	<PropertyGroup Condition="$(RestoreTaskAssemblyFile) == ''">
-		<RestoreTaskAssemblyFile Condition="'$(MSBuildRuntimeType)' == 'Core'">$(MSBuildThisFileDirectory)CoreCLR\NuGet.Build.Tasks.dll</RestoreTaskAssemblyFile>
-		<RestoreTaskAssemblyFile Condition="'$(MSBuildRuntimeType)' != 'Core'">$(MSBuildThisFileDirectory)Desktop\NuGet.Build.Tasks.dll</RestoreTaskAssemblyFile>
+		<RestoreTaskAssemblyFile>$(MSBuildThisFileDirectory)$(MSBuildRuntimeType)\NuGet.Build.Tasks.dll</RestoreTaskAssemblyFile>
 	</PropertyGroup>
 
 	<!-- Tasks -->
