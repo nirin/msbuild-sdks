@@ -1,0 +1,78 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+	<!--
+		These are different than the defaults set by either `Microsoft.Common.targets` or the `Microsoft.NET.Sdk`.
+		These follow the following style, one within the Project and one common to all Projects within a Solution.
+
+		:Project
+		├───<Builds>
+		│	├───<Binaries>
+		│	│	├───Release
+		│	│	└───Debug-x64
+		│	└───<Objects>
+		|		|•••
+		└───<Publish>
+			|•••
+
+		:Solution
+		├───<Builds>
+		│	├───Project.1
+		│	│	├───<Binaries>
+		│	│	│	├───Release
+		│	│	│	└───Debug-x64
+		│	│	└───<Objects>
+		|	|		|•••
+		│	├───Project.2
+		│	└───Project.3
+		└───<Publish>
+			├───Project.2.pkg (file)
+			└───Project.3.pub (folder)
+				|•••
+	-->
+	<Import Project="$(MSBuildThisFileDirectory)MSBuild.OutputPaths.props" Condition="'$(ImportedMSBuildOutputPathsProps)' != 'true'"/>
+
+	<PropertyGroup Label="Build">
+		<IntermediateOutputFolder Condition="'$(IntermediateOutputFolder)' == ''">obj</IntermediateOutputFolder>
+		<BaseIntermediateOutputPath>$(BuildPath)$(IntermediateOutputFolder)\</BaseIntermediateOutputPath>
+
+		<IntermediateOutputPath Condition="'$(Platform)' == 'AnyCPU'">$(BaseIntermediateOutputPath)$(Configuration)\</IntermediateOutputPath>
+		<IntermediateOutputPath Condition="'$(Platform)' != 'AnyCPU'">$(BaseIntermediateOutputPath)$(Configuration)-$(Platform)\</IntermediateOutputPath>
+		<IntermediateOutputPath Condition="!HasTrailingSlash('$(IntermediateOutputPath)')">$(IntermediateOutputPath)\</IntermediateOutputPath>
+
+		<OutputFolder Condition="'$(OutputFolder)' == ''">bin</OutputFolder>
+		<BaseOutputPath>$(BuildPath)$(OutputFolder)\</BaseOutputPath>
+
+		<OutputPath Condition="'$(Platform)' == 'AnyCPU'">$(BaseOutputPath)$(Configuration)\</OutputPath>
+		<OutputPath Condition="'$(Platform)' != 'AnyCPU'">$(BaseOutputPath)$(Configuration)-$(Platform)\</OutputPath>
+		<OutputPath Condition="!HasTrailingSlash('$(OutputPath)')">$(OutputPath)\</OutputPath>
+	</PropertyGroup>
+
+	<PropertyGroup Label="Publish">
+		<PublishFolder Condition="'$(PublishFolder)' == ''">publish</PublishFolder>
+		<PublishPath Condition="'$(PublishPath)' == ''">$(PublishFolder)\</PublishPath>
+		<PublishPath Condition="!HasTrailingSlash('$(PublishPath)')">$(PublishPath)\</PublishPath>
+	</PropertyGroup>
+
+	<PropertyGroup Label="Publish" Condition="$([System.IO.Path]::IsPathRooted('$(PublishPath)')) AND !$(PublishPath.StartsWith('$(MSBuildProjectDirectory)'))">
+		<PublishPath>$(PublishPath)$(PublishFolder)\</PublishPath>
+		<PublishPath Condition="'$(AppendProjectNameToPublishPath)' == 'true'">$(PublishPath)$(MSBuildProjectName)\</PublishPath>
+	</PropertyGroup>
+
+	<!--
+		TODO: Remove if other Sdks no longer need it!
+		Set PublishDir here, before Microsoft.Common.targets, to avoid a competing default there.
+		Reset PublishDir here, Since we made OutDir -> BuildPath and PublishDir -> PublishPath as the new Output defaults
+	-->
+	<!--<PropertyGroup Label="Publish.Legacy">
+		<PublishDir>$(PublishPath)</PublishDir>
+	</PropertyGroup>-->
+
+	<PropertyGroup>
+		<ImportedMSBuildOutputPathsTargets>true</ImportedMSBuildOutputPathsTargets>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+	</PropertyGroup>
+
+</Project>

@@ -1,0 +1,17 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+	<Import Project="$(MSBuildThisFileDirectory)DisableExtensions\Microsoft.Common.props"/>
+
+	<PropertyGroup>
+		<MicrosoftCommonProps40Path>$(MSBuildExtensionsPath)\4.0\Microsoft.Common.props</MicrosoftCommonProps40Path>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(VisualStudioVersion)' != '' AND '$(VisualStudioVersion)' >= '12.0'">
+		<VisualStudioVersion Condition="Exists('$(MicrosoftCommonProps40Path)')">11.0</VisualStudioVersion>
+		<VisualStudioVersion Condition="!Exists('$(MicrosoftCommonProps40Path)')">10.0</VisualStudioVersion>
+	</PropertyGroup>
+
+	<Import Project="$(MicrosoftCommonProps40Path)" Condition="Exists('$(MicrosoftCommonProps40Path)')"/>
+	<Import Project="$(MSBuildLegacySdkPath)Current\Microsoft.Common.props"/>
+
+</Project>

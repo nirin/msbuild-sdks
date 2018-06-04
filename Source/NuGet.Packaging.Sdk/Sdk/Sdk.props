@@ -1,0 +1,11 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+	<!--<Import Project="Sdk.tasks" Sdk="MSBuild.NET.Legacy.Sdk"/>-->
+	<Import Project="Sdk.props" Sdk="MSBuild.NET.Legacy.Sdk"/>
+	<Import Project="$(MSBuildThisFileDirectory)..\Build\NuGet.Packaging.Sdk.props"/>
+
+	<PropertyGroup>
+		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+	</PropertyGroup>
+
+</Project>

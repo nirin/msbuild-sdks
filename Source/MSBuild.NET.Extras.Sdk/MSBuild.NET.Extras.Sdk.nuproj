@@ -1,0 +1,16 @@
+<Project Sdk="NuGet.Packaging.Sdk">
+
+	<PropertyGroup Label="Globals">
+		<ProjectGuid>fba79394-3a96-4bbe-b046-7302181af10d</ProjectGuid>
+	</PropertyGroup>
+
+	<PropertyGroup Label="PackageInfo">
+		<Title>MSBuild Sdk Extras for .NET</Title>
+		<PackageId>MSBuild.NET.Extras.Sdk</PackageId>
+		<PackageVersion>1.1.0</PackageVersion>
+		<PackageTags>$(PackageTags);dotnet;xamarin;macos;tvos;watchos;ios;android;tizen;windows;uwp;portable;sl;cf;netmf</PackageTags>
+		<Summary>An MSBuild SDK package for SDK-style .NET projects which extends `Microsoft.NET.Sdk`.</Summary>
+		<Description>An MSBuild SDK package for SDK-style .NET projects that has additional targets and properties which extends `Microsoft.NET.Sdk`.</Description>
+	</PropertyGroup>
+
+</Project>

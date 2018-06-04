@@ -1,0 +1,56 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+	<PropertyGroup>
+		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(FrameworkProjectType)' == 'Wpf'">
+		<EnableWpfProjectSetup>true</EnableWpfProjectSetup>
+		<EnableAspNetProjectSetup>false</EnableAspNetProjectSetup>
+		<EnableWinFormsProjectSetup>false</EnableWinFormsProjectSetup>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(FrameworkProjectType)' == 'AspNet'">
+		<EnableWpfProjectSetup>false</EnableWpfProjectSetup>
+		<EnableAspNetProjectSetup>true</EnableAspNetProjectSetup>
+		<EnableWinFormsProjectSetup>false</EnableWinFormsProjectSetup>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(FrameworkProjectType)' == 'WinForms'">
+		<EnableWpfProjectSetup>false</EnableWpfProjectSetup>
+		<EnableAspNetProjectSetup>false</EnableAspNetProjectSetup>
+		<EnableWinFormsProjectSetup>true</EnableWinFormsProjectSetup>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(UsingLegacyProjectSystem)' == 'true'">
+		<ProjectTypeGuids Condition="'$(EnableWpfProjectSetup)' == 'true'">$(ProjectTypeGuids);{60DC8134-EBA5-43B8-BCC9-BB4BC16C2548}</ProjectTypeGuids>
+		<ProjectTypeGuids Condition="'$(EnableAspNetProjectSetup)' == 'true'">$(ProjectTypeGuids);{349C5851-65DF-11DA-9384-00065B846F21}</ProjectTypeGuids>
+		<ProjectTypeGuids Condition="'$(EnableWinFormsProjectSetup)' == 'true'">$(ProjectTypeGuids);{}</ProjectTypeGuids>
+	</PropertyGroup>
+
+	<ItemGroup Condition="'$(DisableImplicitFrameworkReferences)' != 'true'">
+		<_SdkImplicitReference Include="System.Data.DataSetExtensions" Condition="'$(_TargetFrameworkVersionWithoutV)' >= '3.5'"/>
+		<_SdkImplicitReference Include="System.Net.Http"/>
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(DisableImplicitFrameworkReferences)' != 'true' AND '$(EnableImplicitWpfReferences)' == 'true'">
+		<_SdkImplicitReference Include="System.Xaml" Condition="'$(_TargetFrameworkVersionWithoutV)' >= '4.0'"/>
+		<_SdkImplicitReference Include="WindowsBase" Condition="'$(_TargetFrameworkVersionWithoutV)' >= '3.0'"/>
+		<_SdkImplicitReference Include="PresentationCore" Condition="'$(_TargetFrameworkVersionWithoutV)' >= '3.0'"/>
+		<_SdkImplicitReference Include="PresentationFramework" Condition="'$(_TargetFrameworkVersionWithoutV)' >= '3.0'"/>
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(DisableImplicitFrameworkReferences)' != 'true' AND '$(EnableImplicitAspNetReferences)' == 'true'">
+		<_SdkImplicitReference Include="System.Web"/>
+		<_SdkImplicitReference Include="System.Web.Http"/>
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(DisableImplicitFrameworkReferences)' != 'true' AND '$(EnableImplicitWinFormsReferences)' == 'true'">
+		<_SdkImplicitReference Include="System.Design"/>
+		<_SdkImplicitReference Include="System.Drawing"/>
+		<_SdkImplicitReference Include="System.Deployment"/>
+		<_SdkImplicitReference Include="System.Windows"/>
+		<_SdkImplicitReference Include="System.Windows.Forms"/>
+	</ItemGroup>
+
+</Project>

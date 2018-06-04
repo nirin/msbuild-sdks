@@ -1,0 +1,16 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+	<PropertyGroup>
+		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+	</PropertyGroup>
+
+	<Import Project="$(MSBuildThisFileDirectory)PlatformItems\Common.targets"/>
+
+	<ImportGroup Condition="'$(TargetFrameworkIdentifier)' == '.NETFramework'">
+		<Import Project="$(MSBuildThisFileDirectory)PlatformItems\Desktop.targets"/>
+		<Import Project="$(MSBuildThisFileDirectory)PlatformItems\Desktop.$(_LanguageSourceName).targets" Condition="Exists('$(MSBuildThisFileDirectory)PlatformItems\Desktop.$(_LanguageSourceName).targets')"/>
+	</ImportGroup>
+
+	<Import Project="$(MSBuildThisFileDirectory)PlatformItems\Xaml.targets" Condition="'$(EnableDefaultXamlItems)' == 'true'"/>
+
+</Project>

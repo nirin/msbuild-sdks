@@ -1,0 +1,25 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+	<PropertyGroup>
+		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<SilverlightVersion>$(TargetFrameworkVersion)</SilverlightVersion>
+		<DefineConstants Condition="'$(DisableImplicitFrameworkDefines)' != 'true'">$(DefineConstants);SILVERLIGHT</DefineConstants>
+		<ValidateXaml Condition="'$(ValidateXaml)' == ''">true</ValidateXaml>
+		<SilverlightApplication Condition="'$(SilverlightApplication)' == ''">false</SilverlightApplication>
+		<ThrowErrorsInValidation Condition="'$(ThrowErrorsInValidation)' == ''">true</ThrowErrorsInValidation>
+	</PropertyGroup>
+
+	<ItemGroup Condition="'$(DisableImplicitFrameworkReferences)' != 'true'">
+		<_SdkImplicitReference Include="mscorlib"/>
+		<_SdkImplicitReference Include="System"/>
+		<_SdkImplicitReference Include="System.Core"/>
+		<_SdkImplicitReference Include="System.Xml"/>
+		<_SdkImplicitReference Include="System.Net"/>
+		<_SdkImplicitReference Include="System.Windows"/>
+		<_SdkImplicitReference Include="System.Windows.Browser"/>
+	</ItemGroup>
+
+</Project>

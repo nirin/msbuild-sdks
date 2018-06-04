@@ -1,25 +1,36 @@
 @echo Off
 
-REM Set Root Path
-set WD=%~dp0
+REM Set Paths
+call build-env
 
 REM Check MyGet
 if not "%BuildRunner%" == "MyGet" (
-	set PackageVersion=%1
-	set nuget=nuget.exe
+	REM Enable VS DevEnv
+	call vsdev
+) else (
+	set MSBuildSDKsPath=%WD%Source
 )
 
-REM Set Version
-set version=
-if not "%PackageVersion%" == "" (
-	set version=-Version %PackageVersion%
+REM Set Vars
+set SolutionFile=%WD%MSBuild.Sdks.sln
+
+if "%Configuration%" == "" (
+	set Configuration=Release
 )
 
-REM Generate Package
-call %nuget% pack %WD%MSBuild.NET.Extras.Sdk\MSBuild.NET.Extras.Sdk.nuspec -OutputDirectory %WD%Packages %version%
+set BuildVersion=
+if not "%BuildCounter%" == "" (
+	REM Remove Leading Zeros from BuildCounter
+	for /F "tokens=* delims=0" %%A in ("%BuildCounter%") do set BuildCounter=%%A
+	REM Set Version
+	set BuildVersion=;VersionMeta=dev.%BuildCounter%
+)
+
+REM Build
+call msbuild %SolutionFile% /p:Configuration=%Configuration%%BuildVersion%
 
 REM Check MyGet
 if not "%BuildRunner%" == "MyGet" (
 	REM Push Package
-	call %nuget% push %WD%Packages\*.nupkg
+	call nuget push %PackageDir%\%Configuration%\*.nupkg -Source Local
 )

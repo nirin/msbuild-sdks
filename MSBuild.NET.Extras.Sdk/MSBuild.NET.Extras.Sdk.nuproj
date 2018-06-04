@@ -1,7 +1,0 @@
-<Project Sdk="NuGet.Packaging.Sdk">
-
-	<PropertyGroup>
-		<NuSpecFile Include="$(MSBuildProjectName).nuspec" />
-	</PropertyGroup>
-
-</Project>

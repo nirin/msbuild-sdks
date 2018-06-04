@@ -1,0 +1,12 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+	<PropertyGroup Condition="$(_ShortFrameworkProfileCount) == 1 AND $(_ShortFrameworkProfile.Contains('+client+'))">
+		<TargetFrameworkProfile>Client</TargetFrameworkProfile>
+		<IncludeProjectPriFile>false</IncludeProjectPriFile>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+	</PropertyGroup>
+
+</Project>
