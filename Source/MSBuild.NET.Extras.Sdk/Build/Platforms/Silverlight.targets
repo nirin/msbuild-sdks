@@ -6,10 +6,15 @@
 
 	<PropertyGroup>
 		<SilverlightVersion>$(TargetFrameworkVersion)</SilverlightVersion>
-		<DefineConstants Condition="'$(DisableImplicitFrameworkDefines)' != 'true'">$(DefineConstants);SILVERLIGHT</DefineConstants>
 		<ValidateXaml Condition="'$(ValidateXaml)' == ''">true</ValidateXaml>
 		<SilverlightApplication Condition="'$(SilverlightApplication)' == ''">false</SilverlightApplication>
 		<ThrowErrorsInValidation Condition="'$(ThrowErrorsInValidation)' == ''">true</ThrowErrorsInValidation>
+	</PropertyGroup>
+
+	<!-- This gets SILVERLIGHT and SL5 -->
+	<PropertyGroup Condition="'$(DisableImplicitFrameworkDefines)' != 'true'">
+		<ImplicitFrameworkDefine>$(TargetFrameworkIdentifier.ToUpperInvariant());$(TargetFramework.ToUpperInvariant())</ImplicitFrameworkDefine>
+		<DisableImplicitFrameworkDefines>true</DisableImplicitFrameworkDefines>
 	</PropertyGroup>
 
 	<ItemGroup Condition="'$(DisableImplicitFrameworkReferences)' != 'true'">
