@@ -35,22 +35,8 @@
 		<EnableUserControlDesigner Condition="'$(EnableUserControlDesigner)' == ''">false</EnableUserControlDesigner>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(EnableDefaultWpfItems)' == 'true' AND '$(ApplicationDefinitionFile)' != ''">
-		<ApplicationDefinitionFile Condition="$(ApplicationDefinitionFile.Contains(';'))"/>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(EnableDefaultWpfItems)' == 'true' AND '$(ApplicationDefinitionFile)' == ''">
-		<ApplicationDefinitionFile Condition="Exists('$(MSBuildProjectDirectory)\App.xaml')">App.xaml</ApplicationDefinitionFile>
-		<ApplicationDefinitionFile Condition="Exists('$(MSBuildProjectDirectory)\Application.xaml')">Application.xaml</ApplicationDefinitionFile>
-	</PropertyGroup>
-
 	<PropertyGroup Condition="'$(EnableDefaultWpfItems)' == 'true'">
-		<EnableDefaultPageItems Condition="'$(EnableDefaultPageItems)' == ''">true</EnableDefaultPageItems>
-		<EnableDefaultResourceItems Condition="'$(EnableDefaultResourceItems)' == ''">true</EnableDefaultResourceItems>
-
-		<DefaultResourceIncludes Condition="'$(DefaultResourceIncludes)' == ''">Themes\*.xaml;Resources\*.xaml</DefaultResourceIncludes>
-		<DefaultPageExcludes Condition="'$(DefaultPageExcludes)' != ''">$(DefaultPageExcludes);</DefaultPageExcludes>
-		<DefaultPageExcludes>$(DefaultPageExcludes)$(ApplicationDefinitionFile);$(DefaultResourceIncludes)</DefaultPageExcludes>
+		<EnableDefaultXamlItems Condition="'$(EnableDefaultXamlItems)' == ''">true</EnableDefaultXamlItems>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(EnableDefaultAspNetItems)' == 'true'">

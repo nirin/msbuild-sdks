@@ -5,8 +5,12 @@
 	</PropertyGroup>
 
 	<Import Project="$(MSBuildThisFileDirectory)PlatformItems\Common.targets"/>
-	<Import Project="$(MSBuildThisFileDirectory)PlatformItems\Desktop.targets"/>
-	<Import Project="$(MSBuildThisFileDirectory)PlatformItems\Desktop.$(_LanguageSourceName).targets" Condition="Exists('$(MSBuildThisFileDirectory)PlatformItems\Desktop.$(_LanguageSourceName).targets')"/>
-	<Import Project="$(MSBuildThisFileDirectory)PlatformItems\Xaml.targets"/>
+
+	<ImportGroup Condition="'$(TargetFrameworkIdentifier)' == '.NETFramework'">
+		<Import Project="$(MSBuildThisFileDirectory)PlatformItems\Desktop.targets"/>
+		<Import Project="$(MSBuildThisFileDirectory)PlatformItems\Desktop.$(_LanguageSourceName).targets" Condition="Exists('$(MSBuildThisFileDirectory)PlatformItems\Desktop.$(_LanguageSourceName).targets')"/>
+	</ImportGroup>
+
+	<Import Project="$(MSBuildThisFileDirectory)PlatformItems\Xaml.targets" Condition="'$(EnableDefaultXamlItems)' == 'true'"/>
 
 </Project>
