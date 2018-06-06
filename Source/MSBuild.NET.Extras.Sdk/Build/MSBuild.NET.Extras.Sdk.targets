@@ -16,7 +16,6 @@
 	<PropertyGroup>
 		<_SdkVisualStudioVersion>$(VisualStudioVersion)</_SdkVisualStudioVersion>
 		<_SdkVisualStudioVersion Condition="'$(_SdkVisualStudioVersion)' == '' OR '$(_SdkVisualStudioVersion)' &lt; '14.0'">15.0</_SdkVisualStudioVersion>
-		<UsingLegacyProjectSystem Condition="'$(ProjectGuid)' != ''">true</UsingLegacyProjectSystem>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(IsMultiTargetingBuild)' != 'true'">
@@ -32,12 +31,6 @@
 
 	<PropertyGroup Condition="'$(AppendTargetFrameworkToOutputPath)' == ''">
 		<AppendTargetFrameworkToOutputPath Condition="'$(TargetFrameworks)' == ''">false</AppendTargetFrameworkToOutputPath>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(UsingLegacyProjectSystem)' == 'true'">
-		<ProjectTypeGuids>$(DefaultProjectTypeGuid);$(ProjectTypeGuids)</ProjectTypeGuids>
-		<ProjectTypeGuids Condition="$(ProjectTypeGuids.StartsWith(';'))">$(ProjectTypeGuids.TrimStart(';'))</ProjectTypeGuids>
-		<ProjectTypeGuids Condition="$(ProjectTypeGuids.EndsWith(';'))">$(ProjectTypeGuids.TrimEnd(';'))</ProjectTypeGuids>
 	</PropertyGroup>
 
 </Project>

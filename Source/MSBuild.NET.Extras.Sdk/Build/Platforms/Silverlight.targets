@@ -11,12 +11,6 @@
 		<ThrowErrorsInValidation Condition="'$(ThrowErrorsInValidation)' == ''">true</ThrowErrorsInValidation>
 	</PropertyGroup>
 
-	<!-- This gets SILVERLIGHT and SL5 -->
-	<PropertyGroup Condition="'$(DisableImplicitFrameworkDefines)' != 'true'">
-		<ImplicitFrameworkDefine>$(TargetFrameworkIdentifier.ToUpperInvariant());$(TargetFramework.ToUpperInvariant())</ImplicitFrameworkDefine>
-		<DisableImplicitFrameworkDefines>true</DisableImplicitFrameworkDefines>
-	</PropertyGroup>
-
 	<ItemGroup Condition="'$(DisableImplicitFrameworkReferences)' != 'true'">
 		<_SdkImplicitReference Include="mscorlib"/>
 		<_SdkImplicitReference Include="System"/>

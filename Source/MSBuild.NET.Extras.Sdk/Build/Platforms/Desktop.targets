@@ -5,34 +5,8 @@
 	</PropertyGroup>
 
 	<!-- Add conditional compilation symbols for the target framework (for example NET, CLIENT40, NET40_CLIENT) -->
-	<PropertyGroup Condition="'$(DisableImplicitFrameworkDefines)' != 'true'">
-		<ImplicitFrameworkDefine>$(_ShortFrameworkIdentifier.ToUpperInvariant());$(TargetFramework.Replace('-','_').ToUpperInvariant())</ImplicitFrameworkDefine>
-		<ImplicitFrameworkDefine Condition="'$(TargetFrameworkProfile)' != '' AND '$(_ShortFrameworkVersion)' != ''">$(ImplicitFrameworkDefine);$(TargetFrameworkProfile.ToUpperInvariant())$(_ShortFrameworkVersion)</ImplicitFrameworkDefine>
-		<DisableImplicitFrameworkDefines>true</DisableImplicitFrameworkDefines>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(FrameworkProjectType)' == 'Wpf'">
-		<EnableWpfProjectSetup>true</EnableWpfProjectSetup>
-		<EnableAspNetProjectSetup>false</EnableAspNetProjectSetup>
-		<EnableWinFormsProjectSetup>false</EnableWinFormsProjectSetup>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(FrameworkProjectType)' == 'AspNet'">
-		<EnableWpfProjectSetup>false</EnableWpfProjectSetup>
-		<EnableAspNetProjectSetup>true</EnableAspNetProjectSetup>
-		<EnableWinFormsProjectSetup>false</EnableWinFormsProjectSetup>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(FrameworkProjectType)' == 'WinForms'">
-		<EnableWpfProjectSetup>false</EnableWpfProjectSetup>
-		<EnableAspNetProjectSetup>false</EnableAspNetProjectSetup>
-		<EnableWinFormsProjectSetup>true</EnableWinFormsProjectSetup>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(UsingLegacyProjectSystem)' == 'true'">
-		<ProjectTypeGuids Condition="'$(EnableWpfProjectSetup)' == 'true'">$(ProjectTypeGuids);{60DC8134-EBA5-43B8-BCC9-BB4BC16C2548}</ProjectTypeGuids>
-		<ProjectTypeGuids Condition="'$(EnableAspNetProjectSetup)' == 'true'">$(ProjectTypeGuids);{349C5851-65DF-11DA-9384-00065B846F21}</ProjectTypeGuids>
-		<ProjectTypeGuids Condition="'$(EnableWinFormsProjectSetup)' == 'true'">$(ProjectTypeGuids);{}</ProjectTypeGuids>
+	<PropertyGroup Condition="'$(DisableImplicitFrameworkDefines)' != 'true' AND '$(TargetFrameworkProfile)' != ''">
+		<ImplicitFrameworkProfileDefine>$(TargetFrameworkProfile.ToUpperInvariant())$(_ShortFrameworkVersion)</ImplicitFrameworkProfileDefine>
 	</PropertyGroup>
 
 	<ItemGroup Condition="'$(DisableImplicitFrameworkReferences)' != 'true'">

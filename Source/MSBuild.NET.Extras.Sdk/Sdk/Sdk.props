@@ -10,5 +10,6 @@
 
 	<Import Project="Sdk.props" Sdk="Microsoft.NET.Sdk"/>
 	<Import Project="$(MSBuildThisFileDirectory)..\Build\MSBuild.NET.Extras.Sdk.props"/>
+	<Import Project="$(MSBuildThisFileDirectory)..\ProjectSystem\MSBuild.NET.ProjectSystem.props"/>
 
 </Project>

@@ -26,7 +26,12 @@
 			</PropertyGroup>
 		</When>
 
-		<Otherwise/>
+		<Otherwise>
+			<PropertyGroup>
+				<_LanguageSourceName>Common</_LanguageSourceName>
+				<!--<DefaultLanguageSourceExtension>.msil</DefaultLanguageSourceExtension>-->
+			</PropertyGroup>
+		</Otherwise>
 	</Choose>
 
 	<PropertyGroup>
@@ -50,14 +55,5 @@
 		<!--  Default: '-vbruntime:+', None: '-vbruntime:-', Embed: '-vbruntime:*' -->
 		<VBRuntime Condition="'$(VBRuntime)' == 'Embed'">Default</VBRuntime>
 	</PropertyGroup>
-
-	<PropertyGroup>
-		<DefaultProjectTypeGuid Condition="'$(_LanguageSourceName)' == 'CSharp'">{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</DefaultProjectTypeGuid>
-		<DefaultProjectTypeGuid Condition="'$(_LanguageSourceName)' == 'VisualBasic'">{F184B08F-C81C-45F6-A57F-5ABD9991F28F}</DefaultProjectTypeGuid>
-		<!-- F# Legacy ProjectTypeGuid: {F2A71F9B-5D33-465A-A702-920D77279786} -->
-		<DefaultProjectTypeGuid Condition="'$(_LanguageSourceName)' == 'FSharp'">{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}</DefaultProjectTypeGuid>
-	</PropertyGroup>
-
-	<Import Project="$(MSBuildThisFileDirectory)..\ProjectSystem\MSBuild.NET.ProjectSystem.props"/>
 
 </Project>

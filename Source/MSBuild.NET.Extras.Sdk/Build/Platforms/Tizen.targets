@@ -11,10 +11,4 @@
 		<AutoUnifyAssemblyReferences>true</AutoUnifyAssemblyReferences>
 	</PropertyGroup>
 
-	<!-- This gets TIZEN and TIZEN40 -->
-	<PropertyGroup Condition="'$(DisableImplicitFrameworkDefines)' != 'true'">
-		<ImplicitFrameworkDefine>$(TargetFrameworkIdentifier.ToUpperInvariant());$(TargetFramework.ToUpperInvariant())</ImplicitFrameworkDefine>
-		<DisableImplicitFrameworkDefines>true</DisableImplicitFrameworkDefines>
-	</PropertyGroup>
-
 </Project>
