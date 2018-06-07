@@ -33,4 +33,6 @@
 		<AppendTargetFrameworkToOutputPath Condition="'$(TargetFrameworks)' == ''">false</AppendTargetFrameworkToOutputPath>
 	</PropertyGroup>
 
+	<Import Project="$(MSBuildThisFileDirectory)..\DefaultItems\MSBuild.NET.DefaultItems.targets"/>
+
 </Project>

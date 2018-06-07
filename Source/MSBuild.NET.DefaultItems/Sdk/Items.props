@@ -4,7 +4,13 @@
 		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
 	</PropertyGroup>
 
-	<Import Project="$(MSBuildThisFileDirectory)..\Build\MSBuild.NET.DefaultItems.props"/>
-	<Import Project="$(MSBuildThisFileDirectory)..\Build\MSBuild.NET.ImplicitPackages.props"/>
+	<Import Project="Inference.props" Condition="'$(_LanguageSourceName)' == ''"/>
+
+	<Import Project="$(MSBuildThisFileDirectory)..\Core\MSBuild.NET.DefaultItems.props"/>
+	<Import Project="$(MSBuildThisFileDirectory)..\Core\MSBuild.NET.ImplicitPackages.props"/>
+
+	<PropertyGroup>
+		<ImportedDefaultItemsProps>true</ImportedDefaultItemsProps>
+	</PropertyGroup>
 
 </Project>

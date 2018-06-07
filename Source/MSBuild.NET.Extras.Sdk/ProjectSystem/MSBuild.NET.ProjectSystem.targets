@@ -34,8 +34,7 @@
 
 	<PropertyGroup Condition="'$(UsingLegacyProjectSystem)' == 'true'">
 		<ProjectTypeGuids>$(DefaultProjectTypeGuid);$(ProjectTypeGuids)</ProjectTypeGuids>
-		<ProjectTypeGuids Condition="$(ProjectTypeGuids.StartsWith(';'))">$(ProjectTypeGuids.TrimStart(';'))</ProjectTypeGuids>
-		<ProjectTypeGuids Condition="$(ProjectTypeGuids.EndsWith(';'))">$(ProjectTypeGuids.TrimEnd(';'))</ProjectTypeGuids>
+		<ProjectTypeGuids>$(ProjectTypeGuids.Trim(';'))</ProjectTypeGuids>
 	</PropertyGroup>
 
 </Project>

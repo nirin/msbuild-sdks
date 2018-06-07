@@ -10,6 +10,8 @@
 
 	<Import Project="$(MSBuildThisFileDirectory)..\Build\MSBuild.NET.Extras.Sdk.targets"/>
 	<Import Project="$(MSBuildThisFileDirectory)..\ProjectSystem\MSBuild.NET.ProjectSystem.targets"/>
+	<Import Project="$(MSBuildThisFileDirectory)..\DefaultItems\MSBuild.NET.ImplicitPackages.targets"/>
+
 	<Import Project="$(CustomBeforeSdkTargets)" Condition="'$(CustomBeforeSdkTargets)' != ''"/>
 	<Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk"/>
 

@@ -56,4 +56,6 @@
 		<VBRuntime Condition="'$(VBRuntime)' == 'Embed'">Default</VBRuntime>
 	</PropertyGroup>
 
+	<Import Project="$(MSBuildThisFileDirectory)..\DefaultItems\MSBuild.NET.DefaultItems.props"/>
+
 </Project>

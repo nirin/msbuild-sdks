@@ -4,35 +4,34 @@
 		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
 	</PropertyGroup>
 
-	<!--
-		HACK: When used as PackageReference, '_LanguageSourceName' is not yet initialized.
-		Since the wildcard import through 'MSBuildProjectExtensionsPath' is before any custom SDKs.
-	-->
 	<Choose>
 		<When Condition="'$(MSBuildProjectExtension)' == '.csproj'">
 			<PropertyGroup>
 				<_LanguageSourceName>CSharp</_LanguageSourceName>
+				<!--<DefaultLanguageSourceExtension>.cs</DefaultLanguageSourceExtension>-->
 			</PropertyGroup>
 		</When>
 
 		<When Condition="'$(MSBuildProjectExtension)' == '.vbproj'">
 			<PropertyGroup>
 				<_LanguageSourceName>VisualBasic</_LanguageSourceName>
+				<!--<DefaultLanguageSourceExtension>.vb</DefaultLanguageSourceExtension>-->
 			</PropertyGroup>
 		</When>
 
 		<When Condition="'$(MSBuildProjectExtension)' == '.fsproj'">
 			<PropertyGroup>
 				<_LanguageSourceName>FSharp</_LanguageSourceName>
+				<!--<DefaultLanguageSourceExtension>.fs</DefaultLanguageSourceExtension>-->
 			</PropertyGroup>
 		</When>
 
-		<Otherwise/>
+		<Otherwise>
+			<PropertyGroup>
+				<_LanguageSourceName>Common</_LanguageSourceName>
+				<!--<DefaultLanguageSourceExtension>.msil</DefaultLanguageSourceExtension>-->
+			</PropertyGroup>
+		</Otherwise>
 	</Choose>
-
-	<Import Project="$(MSBuildThisFileDirectory)PlatformItems\Common.props"/>
-	<Import Project="$(MSBuildThisFileDirectory)PlatformItems\Desktop.props"/>
-	<Import Project="$(MSBuildThisFileDirectory)PlatformItems\Desktop.$(_LanguageSourceName).props" Condition="Exists('$(MSBuildThisFileDirectory)PlatformItems\Desktop.$(_LanguageSourceName).props')"/>
-	<Import Project="$(MSBuildThisFileDirectory)PlatformItems\Xaml.props"/>
 
 </Project>
