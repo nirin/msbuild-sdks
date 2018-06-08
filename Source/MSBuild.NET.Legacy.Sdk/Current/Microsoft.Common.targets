@@ -2000,6 +2000,8 @@
 	-->
 	<PropertyGroup>
 		<ResolveAssemblyReferencesDependsOn>
+			ResolveProjectReferences;
+			FindInvalidProjectReferences;
 			GetFrameworkPaths;
 			GetReferenceAssemblyPaths;
 			PrepareForBuild;
