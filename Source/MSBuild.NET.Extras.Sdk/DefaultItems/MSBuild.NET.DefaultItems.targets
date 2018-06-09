@@ -4,6 +4,11 @@
 		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
 	</PropertyGroup>
 
+	<PropertyGroup Condition="'$(UsingXamarinFormsPlatform)' == ''">
+		<UsingXamarinFormsPlatform Condition="$(TargetFrameworkIdentifier.StartsWith('Xamarin'))">true</UsingXamarinFormsPlatform>
+		<UsingXamarinFormsPlatform Condition="'$(TargetFrameworkIdentifier)' == 'MonoAndroid' OR '$(TargetFrameworkIdentifier)' == 'MonoTouch' OR '$(TargetFrameworkIdentifier)' == 'MonoMac'">true</UsingXamarinFormsPlatform>
+	</PropertyGroup>
+
 	<Import Project="$(MSBuildThisFileDirectory)Platforms\Common.targets"/>
 
 	<ImportGroup Condition="'$(TargetFrameworkIdentifier)' == '.NETFramework'">
@@ -11,6 +16,6 @@
 		<Import Project="$(MSBuildThisFileDirectory)Platforms\Desktop.$(_LanguageSourceName).targets" Condition="Exists('$(MSBuildThisFileDirectory)Platforms\Desktop.$(_LanguageSourceName).targets')"/>
 	</ImportGroup>
 
-	<Import Project="$(MSBuildThisFileDirectory)Platforms\Xaml.targets" Condition="'$(EnableDefaultXamlItems)' == 'true'"/>
+	<Import Project="$(MSBuildThisFileDirectory)Platforms\Xaml.targets" Condition="'$(UsingXamarinFormsPlatform)' != 'true' AND '$(EnableDefaultXamlItems)' == 'true'"/>
 
 </Project>
