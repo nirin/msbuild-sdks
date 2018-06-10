@@ -1,4 +1,5 @@
-﻿<Project Sdk="MSBuild.NET.Extras.Sdk">
+﻿<Project>
+	<Import Project="$(MSBuildThisFileDirectory)..\..\..\Source\MSBuild.NET.Extras.Sdk\Sdk\Sdk.props" />
 
 	<PropertyGroup>
 		<OutputType>WinExe</OutputType>
@@ -29,4 +30,5 @@
 		<ManifestCertificateThumbprint>00C1E7F6B7BD82D452547A71F4E96FA20224A6EF</ManifestCertificateThumbprint>
 	</PropertyGroup>
 
+	<Import Project="$(MSBuildThisFileDirectory)..\..\..\Source\MSBuild.NET.Extras.Sdk\Sdk\Sdk.targets" />
 </Project>
