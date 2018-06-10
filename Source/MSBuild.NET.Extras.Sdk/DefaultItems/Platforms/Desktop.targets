@@ -4,6 +4,24 @@
 		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
 	</PropertyGroup>
 
+	<PropertyGroup Condition="'$(FrameworkProjectType)' == 'Wpf'">
+		<EnableWpfProjectSetup>true</EnableWpfProjectSetup>
+		<EnableAspNetProjectSetup>false</EnableAspNetProjectSetup>
+		<EnableWinFormsProjectSetup>false</EnableWinFormsProjectSetup>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(FrameworkProjectType)' == 'AspNet'">
+		<EnableWpfProjectSetup>false</EnableWpfProjectSetup>
+		<EnableAspNetProjectSetup>true</EnableAspNetProjectSetup>
+		<EnableWinFormsProjectSetup>false</EnableWinFormsProjectSetup>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(FrameworkProjectType)' == 'WinForms'">
+		<EnableWpfProjectSetup>false</EnableWpfProjectSetup>
+		<EnableAspNetProjectSetup>false</EnableAspNetProjectSetup>
+		<EnableWinFormsProjectSetup>true</EnableWinFormsProjectSetup>
+	</PropertyGroup>
+
 	<PropertyGroup Condition="'$(ApplicationManifest)' == ''">
 		<ApplicationManifest Condition="Exists('$(MSBuildProjectDirectory)\$(AppDesignerFolder)\app.manifest')">$(AppDesignerFolder)\app.manifest</ApplicationManifest>
 		<ApplicationManifest Condition="Exists('$(MSBuildProjectDirectory)\app.manifest')">app.manifest</ApplicationManifest>

@@ -8,24 +8,6 @@
 		<UsingLegacyProjectSystem Condition="'$(ProjectGuid)' != ''">true</UsingLegacyProjectSystem>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(FrameworkProjectType)' == 'Wpf' AND '$(TargetFrameworkIdentifier)' == '.NETFramework'">
-		<EnableWpfProjectSetup>true</EnableWpfProjectSetup>
-		<EnableAspNetProjectSetup>false</EnableAspNetProjectSetup>
-		<EnableWinFormsProjectSetup>false</EnableWinFormsProjectSetup>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(FrameworkProjectType)' == 'AspNet' AND '$(TargetFrameworkIdentifier)' == '.NETFramework'">
-		<EnableWpfProjectSetup>false</EnableWpfProjectSetup>
-		<EnableAspNetProjectSetup>true</EnableAspNetProjectSetup>
-		<EnableWinFormsProjectSetup>false</EnableWinFormsProjectSetup>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(FrameworkProjectType)' == 'WinForms' AND '$(TargetFrameworkIdentifier)' == '.NETFramework'">
-		<EnableWpfProjectSetup>false</EnableWpfProjectSetup>
-		<EnableAspNetProjectSetup>false</EnableAspNetProjectSetup>
-		<EnableWinFormsProjectSetup>true</EnableWinFormsProjectSetup>
-	</PropertyGroup>
-
 	<PropertyGroup Condition="'$(UsingLegacyProjectSystem)' == 'true' AND '$(TargetFrameworkIdentifier)' == '.NETFramework'">
 		<ProjectTypeGuids Condition="'$(EnableWpfProjectSetup)' == 'true'">$(ProjectTypeGuids);{60DC8134-EBA5-43B8-BCC9-BB4BC16C2548}</ProjectTypeGuids>
 		<ProjectTypeGuids Condition="'$(EnableAspNetProjectSetup)' == 'true'">$(ProjectTypeGuids);{349C5851-65DF-11DA-9384-00065B846F21}</ProjectTypeGuids>
