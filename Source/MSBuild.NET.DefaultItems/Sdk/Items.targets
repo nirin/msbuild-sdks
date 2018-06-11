@@ -4,7 +4,9 @@
 		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
 	</PropertyGroup>
 
-	<Import Project="$(MSBuildThisFileDirectory)..\Build\MSBuild.NET.DefaultItems.targets"/>
-	<Import Project="$(MSBuildThisFileDirectory)..\Build\MSBuild.NET.ImplicitPackages.targets"/>
+	<Import Project="Items.props" Condition="'$(ImportedDefaultItemsProps)' != 'true'"/>
+
+	<Import Project="$(MSBuildThisFileDirectory)..\Core\MSBuild.NET.DefaultItems.targets"/>
+	<Import Project="$(MSBuildThisFileDirectory)..\Core\MSBuild.NET.ImplicitPackages.targets"/>
 
 </Project>

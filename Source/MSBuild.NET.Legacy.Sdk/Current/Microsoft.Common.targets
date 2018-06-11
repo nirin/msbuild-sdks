@@ -1611,6 +1611,7 @@
 		<GetReferenceNearestTargetFrameworkTask AnnotatedProjectReferences="@(_ProjectReferenceTargetFrameworkPossibilities)"
 												CurrentProjectTargetFramework="$(ReferringTargetFrameworkForProjectReferences)"
 												CurrentProjectName="$(MSBuildProjectName)"
+												FallbackTargetFrameworks="$(AssetTargetFallback)"
 												Condition="'@(_ProjectReferenceTargetFrameworkPossibilities->Count())' != '0' AND '$(ReferringTargetFrameworkForProjectReferences)' != ''">
 			<Output ItemName="AnnotatedProjects" TaskParameter="AssignedProjects"/>
 		</GetReferenceNearestTargetFrameworkTask>
@@ -2000,6 +2001,8 @@
 	-->
 	<PropertyGroup>
 		<ResolveAssemblyReferencesDependsOn>
+			ResolveProjectReferences;
+			FindInvalidProjectReferences;
 			GetFrameworkPaths;
 			GetReferenceAssemblyPaths;
 			PrepareForBuild;

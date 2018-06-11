@@ -17,12 +17,28 @@
 		<LanguageTargets Condition="Exists('$(_SdkLanguageTargets)')">$(_SdkLanguageTargets)</LanguageTargets>
 	</PropertyGroup>
 
+	<!-- Add conditional compilation symbols for the target framework and one with version -->
+	<PropertyGroup Condition="'$(DisableImplicitFrameworkDefines)' != 'true'">
+		<ImplicitFrameworkIdentifierDefine>$(TargetFrameworkIdentifier.TrimStart('.').Replace('.','_').ToUpperInvariant())</ImplicitFrameworkIdentifierDefine>
+		<ImplicitFrameworkDefine>$(TargetFramework.Replace('.','_').Replace('-','_').ToUpperInvariant())</ImplicitFrameworkDefine>
+	</PropertyGroup>
+
 	<Import Project="$(_SdkPlatformTargets)" Condition="Exists('$(_SdkPlatformTargets)')"/>
 
-	<PropertyGroup>
-		<!-- Add conditional compilation symbols for the target framework (for example NET471, NETSTANDARD2_0, NETCOREAPP2_1) -->
-		<ImplicitFrameworkDefine Condition="'$(DisableImplicitFrameworkDefines)' != 'true'">$(TargetFramework.Replace('.','_').ToUpperInvariant())</ImplicitFrameworkDefine>
-		<DisableImplicitFrameworkDefines Condition="'$(DisableImplicitFrameworkDefines)' != 'true'">true</DisableImplicitFrameworkDefines>
+	<!-- The conditional compilation symbols defined in the above import and the property-group flows to the Main SDK -->
+	<PropertyGroup Condition="'$(DisableImplicitFrameworkDefines)' != 'true'">
+		<DisableImplicitFrameworkDefines>true</DisableImplicitFrameworkDefines>
+		<VersionlessImplicitFrameworkDefine>$(ImplicitFrameworkIdentifierDefine)</VersionlessImplicitFrameworkDefine>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(DisableImplicitFrameworkDefines)' != 'true' AND '$(_LanguageSourceName)' != 'VisualBasic'">
+		<DefineConstants Condition="'$(DefineConstants)' != '' AND !$(DefineConstants.EndsWith(';'))">$(DefineConstants);</DefineConstants>
+		<DefineConstants>$(DefineConstants)$(ImplicitFrameworkProfileDefine)</DefineConstants>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(DisableImplicitFrameworkDefines)' != 'true' AND '$(_LanguageSourceName)' == 'VisualBasic'">
+		<FinalDefineConstants Condition="'$(FinalDefineConstants)' != '' AND !$(DefineConstants.EndsWith(','))">$(FinalDefineConstants),</FinalDefineConstants>
+		<FinalDefineConstants Condition="'$(ImplicitFrameworkProfileDefine)' != ''">$(FinalDefineConstants)$(ImplicitFrameworkProfileDefine)=-1</FinalDefineConstants>
 	</PropertyGroup>
 
 	<ItemGroup Condition="'$(DisableImplicitFrameworkReferences)' != 'true'">
@@ -40,10 +56,11 @@
 		<Reference Include="@(_SdkImplicitReference)"/>
 	</ItemGroup>
 
-	<!-- Update '_TargetFrameworkVersionWithoutV'. Since, we could have updated 'TargetFrameworkVersion' within platform targets -->
+	<!-- Update '*TargetFrameworkVersion*' properties. Since, we could have updated 'TargetFrameworkVersion' within platform targets -->
 	<PropertyGroup Condition="'$(TargetFrameworkVersion)' != ''">
 		<_TargetFrameworkVersionWithoutV>$(TargetFrameworkVersion.TrimStart('vV'))</_TargetFrameworkVersionWithoutV>
-		<TargetFrameworkVersion>v$(_TargetFrameworkVersionWithoutV)</TargetFrameworkVersion>
+		<_TargetFrameworkVersionWithV>v$(_TargetFrameworkVersionWithoutV)</_TargetFrameworkVersionWithV>
+		<TargetFrameworkVersion>$(_TargetFrameworkVersionWithV)</TargetFrameworkVersion>
 	</PropertyGroup>
 
 </Project>

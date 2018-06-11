@@ -21,8 +21,9 @@
 		<CustomBeforeMicrosoftCommonTargets>$(CustomBeforeSdkTargets)</CustomBeforeMicrosoftCommonTargets>
 	</PropertyGroup>
 
-	<ItemGroup Condition="'$(IsLegacyProject)' != 'true'">
-		<PackageReference Include="MSBuild.NET.DefaultItems" Version="0.5.0"/>
-	</ItemGroup>
+	<PropertyGroup Condition="$(MSBuildProjectName.Contains('-'))">
+		<AssemblyName Condition="'$(AssemblyName)' == ''">$(MSBuildProjectName.Replace('-', '_'))</AssemblyName>
+		<RootNamespace Condition="'$(RootNamespace)' == ''">$(MSBuildProjectName.Replace('-', '_'))</RootNamespace>
+	</PropertyGroup>
 
 </Project>

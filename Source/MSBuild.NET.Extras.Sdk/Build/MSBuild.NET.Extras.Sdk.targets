@@ -4,6 +4,11 @@
 		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
 	</PropertyGroup>
 
+	<!--<PropertyGroup Condition="'$(TargetFrameworks)' != '' AND !$(TargetFrameworks.Contains(';'))">
+		<TargetFramework>$(TargetFrameworks)</TargetFramework>
+		<TargetFrameworks/>
+	</PropertyGroup>-->
+
 	<PropertyGroup Condition="'$(TargetFrameworks)' != '' AND '$(TargetFramework)' == ''">
 		<IsMultiTargetingBuild>true</IsMultiTargetingBuild>
 	</PropertyGroup>
@@ -11,11 +16,16 @@
 	<PropertyGroup>
 		<_SdkVisualStudioVersion>$(VisualStudioVersion)</_SdkVisualStudioVersion>
 		<_SdkVisualStudioVersion Condition="'$(_SdkVisualStudioVersion)' == '' OR '$(_SdkVisualStudioVersion)' &lt; '14.0'">15.0</_SdkVisualStudioVersion>
-		<UsingLegacyProjectSystem Condition="'$(ProjectGuid)' != ''">true</UsingLegacyProjectSystem>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(IsMultiTargetingBuild)' != 'true'">
+		<_IsInvalidTargetFramework>false</_IsInvalidTargetFramework>
+		<_IsInvalidTargetFramework Condition="$(TargetFramework.Contains(','))">true</_IsInvalidTargetFramework>
+		<_IsInvalidTargetFramework Condition="$(TargetFramework.Contains(';'))">true</_IsInvalidTargetFramework>
 	</PropertyGroup>
 
 	<ImportGroup Condition="'$(IsMultiTargetingBuild)' != 'true'">
-		<Import Project="$(MSBuildThisFileDirectory)MSBuild.NET.Inference.targets" Condition="'$(TargetFramework)' != ''"/>
+		<Import Project="$(MSBuildThisFileDirectory)MSBuild.NET.Inference.targets" Condition="'$(_IsInvalidTargetFramework)' != 'true'"/>
 		<Import Project="$(MSBuildThisFileDirectory)MSBuild.NET.Platforms.targets" Condition="'$(TargetFrameworkIdentifier)' != ''"/>
 	</ImportGroup>
 
@@ -23,10 +33,6 @@
 		<AppendTargetFrameworkToOutputPath Condition="'$(TargetFrameworks)' == ''">false</AppendTargetFrameworkToOutputPath>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(UsingLegacyProjectSystem)' == 'true'">
-		<ProjectTypeGuids>$(DefaultProjectTypeGuid);$(ProjectTypeGuids)</ProjectTypeGuids>
-		<ProjectTypeGuids Condition="$(ProjectTypeGuids.StartsWith(';'))">$(ProjectTypeGuids.TrimStart(';'))</ProjectTypeGuids>
-		<ProjectTypeGuids Condition="$(ProjectTypeGuids.EndsWith(';'))">$(ProjectTypeGuids.TrimEnd(';'))</ProjectTypeGuids>
-	</PropertyGroup>
+	<Import Project="$(MSBuildThisFileDirectory)..\DefaultItems\MSBuild.NET.DefaultItems.targets"/>
 
 </Project>

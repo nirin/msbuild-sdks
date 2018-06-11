@@ -1,0 +1,22 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+	<PropertyGroup>
+		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<UsingLegacyProjectSystem Condition="'$(ProjectGuid)' != ''">true</UsingLegacyProjectSystem>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(UsingLegacyProjectSystem)' == 'true' AND '$(TargetFrameworkIdentifier)' == '.NETFramework'">
+		<ProjectTypeGuids Condition="'$(EnableWpfProjectSetup)' == 'true'">$(ProjectTypeGuids);{60DC8134-EBA5-43B8-BCC9-BB4BC16C2548}</ProjectTypeGuids>
+		<ProjectTypeGuids Condition="'$(EnableAspNetProjectSetup)' == 'true'">$(ProjectTypeGuids);{349C5851-65DF-11DA-9384-00065B846F21}</ProjectTypeGuids>
+		<ProjectTypeGuids Condition="'$(EnableWinFormsProjectSetup)' == 'true'">$(ProjectTypeGuids);{}</ProjectTypeGuids>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(UsingLegacyProjectSystem)' == 'true'">
+		<ProjectTypeGuids>$(DefaultProjectTypeGuid);$(ProjectTypeGuids)</ProjectTypeGuids>
+		<ProjectTypeGuids>$(ProjectTypeGuids.Trim(';'))</ProjectTypeGuids>
+	</PropertyGroup>
+
+</Project>
