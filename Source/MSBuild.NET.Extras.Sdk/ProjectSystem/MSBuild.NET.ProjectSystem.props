@@ -4,10 +4,6 @@
 		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
 	</PropertyGroup>
 
-	<PropertyGroup>
-		<DefaultDesignerFileSuffix Condition="'$(DefaultDesignerFileSuffix)' == ''">.Designer</DefaultDesignerFileSuffix>
-	</PropertyGroup>
-
 	<ItemGroup Condition="'$(EnableWpfProjectSetup)' == 'true' AND '$(TargetFrameworkIdentifier)' == '.NETFramework'">
 		<PropertyPageSchema Include="$(MSBuildThisFileDirectory)Rules\Wpf.ProjectItemsSchema.xml">
 			<Context>Project</Context>
