@@ -6,9 +6,10 @@
 
 	<PropertyGroup>
 		<_SdkPlatformLibraryName>$(TargetFrameworkIdentifier)</_SdkPlatformLibraryName>
-		<_SdkPlatformLibraryName Condition="$(_SdkPlatformLibraryName.StartsWith('Mono'))">$(_SdkPlatformLibraryName.Replace('Mono', 'Mono.'))</_SdkPlatformLibraryName>
+		<_SdkPlatformLibraryName Condition="$(_SdkPlatformLibraryName.EndsWith('Android'))">Mono.Android</_SdkPlatformLibraryName>
 
 		<_SdkPlatformFrameworName>$(TargetFrameworkIdentifier)</_SdkPlatformFrameworName>
+		<_SdkPlatformFrameworkName Condition="'$(_SdkPlatformFrameworName)' == 'MonoTouch'">Xamarin.iOS</_SdkPlatformFrameworkName>
 		<_SdkPlatformFrameworkName Condition="$(_SdkPlatformFrameworName.StartsWith('Mono'))">$(_SdkPlatformFrameworName.Replace('Mono', 'Xamarin.'))</_SdkPlatformFrameworkName>
 	</PropertyGroup>
 
