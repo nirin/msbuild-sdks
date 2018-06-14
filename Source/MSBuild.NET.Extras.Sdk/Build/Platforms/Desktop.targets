@@ -9,9 +9,23 @@
 		<ImplicitFrameworkProfileDefine>$(TargetFrameworkProfile.ToUpperInvariant())$(_ShortFrameworkVersion)</ImplicitFrameworkProfileDefine>
 	</PropertyGroup>
 
-	<ItemGroup Condition="'$(DisableImplicitFrameworkReferences)' != 'true'">
+	<PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+		<DebugType Condition="'$(DebugType)' == ''">Full</DebugType>
+		<DebugSymbols Condition="'$(DebugSymbols)' == ''">true</DebugSymbols>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(EnableWebProjectSetup)' == 'true'">
+		<IsPackable Condition="'$(IsPackable)' == ''">false</IsPackable>
+		<MvcBuildViews Condition="'$(MvcBuildViews)' == ''">true</MvcBuildViews>
+		<GenerateDependencyFile Condition="'$(GenerateDependencyFile)' == ''">true</GenerateDependencyFile>
+	</PropertyGroup>
+
+	<ItemGroup Condition="'$(DisableImplicitFrameworkReferences)' != 'true' AND ('$(EnableImplicitWpfReferences)' == 'true' OR '$(EnableImplicitWinFormsReferences)' == 'true' OR '$(EnableImplicitWebReferences)' == 'true')">
+		<_SdkImplicitReference Include="System.Configuration"/>
+		<_SdkImplicitReference Include="System.ComponentModel.DataAnnotations"/>
 		<_SdkImplicitReference Include="System.Data.DataSetExtensions" Condition="'$(_TargetFrameworkVersionWithoutV)' >= '3.5'"/>
 		<_SdkImplicitReference Include="System.Net.Http" Condition="'$(TargetFrameworkProfile)' != 'Client'"/>
+		<_SdkImplicitReference Include="System.Net.Http.WebRequest" Condition="'$(TargetFrameworkProfile)' != 'Client'"/>
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(DisableImplicitFrameworkReferences)' != 'true' AND '$(EnableImplicitWpfReferences)' == 'true'">
@@ -21,17 +35,24 @@
 		<_SdkImplicitReference Include="PresentationFramework" Condition="'$(_TargetFrameworkVersionWithoutV)' >= '3.0'"/>
 	</ItemGroup>
 
-	<ItemGroup Condition="'$(DisableImplicitFrameworkReferences)' != 'true' AND '$(EnableImplicitAspNetReferences)' == 'true'">
-		<_SdkImplicitReference Include="System.Web"/>
-		<_SdkImplicitReference Include="System.Web.Http"/>
-	</ItemGroup>
-
 	<ItemGroup Condition="'$(DisableImplicitFrameworkReferences)' != 'true' AND '$(EnableImplicitWinFormsReferences)' == 'true'">
 		<_SdkImplicitReference Include="System.Design"/>
 		<_SdkImplicitReference Include="System.Drawing"/>
 		<_SdkImplicitReference Include="System.Deployment"/>
 		<_SdkImplicitReference Include="System.Windows"/>
 		<_SdkImplicitReference Include="System.Windows.Forms"/>
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(DisableImplicitFrameworkReferences)' != 'true' AND '$(EnableImplicitWebReferences)' == 'true'">
+		<_SdkImplicitReference Include="System.Web"/>
+		<_SdkImplicitReference Include="System.Web.Abstractions"/>
+		<_SdkImplicitReference Include="System.Web.ApplicationServices"/>
+		<_SdkImplicitReference Include="System.Web.DynamicData"/>
+		<_SdkImplicitReference Include="System.Web.Entity"/>
+		<_SdkImplicitReference Include="System.Web.Extensions"/>
+		<_SdkImplicitReference Include="System.Web.Http"/>
+		<_SdkImplicitReference Include="System.Web.Routing"/>
+		<_SdkImplicitReference Include="System.Web.Services"/>
 	</ItemGroup>
 
 </Project>

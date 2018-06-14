@@ -28,10 +28,6 @@
 		</Compile>
 	</ItemGroup>
 
-	<ItemGroup Condition="'$(EnableDefaultAspNetItems)' == 'true'">
-		<!-- TODO: Add Support ASP.NET Projects -->
-	</ItemGroup>
-
 	<ItemGroup>
 		<Compile Update="**\*$(DefaultDesignerFileSuffix)$(DefaultLanguageSourceExtension)">
 			<DependentUpon Condition="'%(DependentUpon)' == ''">$([MSBuild]::ValueOrDefault('%(Filename)', '').Replace('$(DefaultDesignerFileSuffix)', '$(DefaultLanguageSourceExtension)'))</DependentUpon>
@@ -47,6 +43,41 @@
 			ISSUE: SubType(s) for Windows Forms Project doesn't work in CPS anyway!
 		-->
 		<Service Include="$(UserControlDesignerService)" Condition="'$(EnableUserControlDesigner)' == 'true'"/>
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(EnableDefaultWebItems)' == 'true'">
+		<Service Include="$(WebDesignerService)" Condition="'$(EnableWebDesigner)' == 'true'"/>
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(EnableDefaultWebItems)' == 'true' AND '$(EnableDefaultContentItems)' == 'true'">
+		<Content Include="$(DefaultWebStyleIncludes)" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)"/>
+		<Content Include="$(DefaultWebScriptIncludes)" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)"/>
+
+		<Content Include="$(DefaultWebPageItemIncludes)" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder);$(DefaultWebStyleIncludes);$(DefaultWebScriptIncludes)"/>
+
+		<Content Include="**\*.config" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder);$(DefaultWebStyleIncludes);$(DefaultWebScriptIncludes)">
+			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+		</Content>
+		<Content Update="**\Web.*.config" DependentUpon="Web.config"/>
+
+		<Content Include="**\*.json" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder);$(DefaultWebPageIncludes);$(DefaultWebStyleIncludes);$(DefaultWebScriptIncludes)">
+			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+		</Content>
+
+		<!-- Set CopyToPublishDirectory to Never for items under AppDesignerFolder -->
+		<Content Update="$(AppDesignerFolder)\**" Condition="'$(AppDesignerFolder)' != ''">
+			<CopyToPublishDirectory>Never</CopyToPublishDirectory>
+		</Content>
+
+		<Content Include="favicon.ico"/>
+
+		<!-- Remove Content items from other item types -->
+		<None Remove="@(Content)"/>
+		<Compile Remove="@(Content)"/>
+		<EmbeddedResource Remove="@(Content)"/>
+
+		<!-- Keep track of the default content items for later to distinguish them from newly generated content items -->
+		<_ContentIncludedByDefault Include="@(Content)"/>
 	</ItemGroup>
 
 </Project>

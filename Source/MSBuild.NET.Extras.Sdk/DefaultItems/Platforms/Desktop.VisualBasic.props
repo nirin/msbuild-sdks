@@ -65,9 +65,14 @@
 		<_SdkImplicitImport Include="System.Windows.Navigation"/>
 	</ItemGroup>
 
-	<ItemGroup Condition="'$(DisableImplicitNamespaceImports)' != 'true' AND '$(EnableImplicitAspNetReferences)' == 'true'">
+	<ItemGroup Condition="'$(DisableImplicitNamespaceImports)' != 'true' AND '$(EnableImplicitWebReferences)' == 'true'">
 		<_SdkImplicitImport Include="System.Web"/>
 		<_SdkImplicitImport Include="System.Web.Http"/>
+		<_SdkImplicitImport Include="System.Web.Helpers"/>
+		<_SdkImplicitImport Include="System.Web.Mvc"/>
+		<_SdkImplicitImport Include="System.Web.Mvc.Ajax"/>
+		<_SdkImplicitImport Include="System.Web.Mvc.Html"/>
+		<_SdkImplicitImport Include="System.Web.WebPages"/>
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(DisableImplicitNamespaceImports)' != 'true' AND '$(EnableImplicitWinFormsReferences)' == 'true'">
