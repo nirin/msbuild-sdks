@@ -1,0 +1,29 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+	<!-- This targets is used to adjust renamed properties, items and metadata -->
+
+	<Target Name="_RenameIncludeInPackageToPack"
+			BeforeTargets="InferPackageContents"
+			DependsOnTargets="$(InferPackageContentsDependsOn)">
+		<ItemGroup>
+			<!-- For InferPackageContents -->
+			<Content Condition="'%(Content.IncludeInPackage)' != ''">
+				<Pack>%(Content.IncludeInPackage)</Pack>
+			</Content>
+			<None Condition="'%(None.IncludeInPackage)' != ''">
+				<Pack>%(None.IncludeInPackage)</Pack>
+			</None>
+		</ItemGroup>
+	</Target>
+
+	<Target Name="_RenameIncludeInPackageToPackReferences"
+			BeforeTargets="AssignProjectConfiguration">
+		<ItemGroup>
+			<!-- From _GetReferencedPackageContents and _GetReferenceAssemblyTargetPaths -->
+			<ProjectReference Condition="'%(ProjectReference.IncludeInPackage)' != ''">
+				<Pack>%(ProjectReference.IncludeInPackage)</Pack>
+			</ProjectReference>
+		</ItemGroup>
+	</Target>
+
+</Project>

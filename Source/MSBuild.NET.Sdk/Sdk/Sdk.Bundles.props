@@ -1,0 +1,29 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+	<PropertyGroup Condition="'$(NETCoreSdkBundledVersionsProps)' == ''">
+		<NETCoreSdkBundledVersionsProps>$(MSBuildToolsPath)\Microsoft.NETCoreSdk.BundledVersions.props</NETCoreSdkBundledVersionsProps>
+	</PropertyGroup>
+
+	<Import Project="$(NETCoreSdkBundledVersionsProps)" Condition="Exists('$(NETCoreSdkBundledVersionsProps)')"/>
+
+	<PropertyGroup Condition="!Exists('$(NETCoreSdkBundledVersionsProps)')">
+		<BundledNETCoreAppTargetFrameworkVersion>2.1</BundledNETCoreAppTargetFrameworkVersion>
+		<BundledNETCoreAppPackageVersion>2.1.0</BundledNETCoreAppPackageVersion>
+		<BundledNETStandardTargetFrameworkVersion>2.0</BundledNETStandardTargetFrameworkVersion>
+		<BundledNETStandardPackageVersion>2.0.1</BundledNETStandardPackageVersion>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(NETCoreSdkBundledCliToolsProps)' == ''">
+		<NETCoreSdkBundledCliToolsProps>$(MSBuildToolsPath)\Microsoft.NETCoreSdk.BundledCliTools.props</NETCoreSdkBundledCliToolsProps>
+	</PropertyGroup>
+
+	<Import Project="$(NETCoreSdkBundledCliToolsProps)" Condition="Exists('$(NETCoreSdkBundledCliToolsProps)')"/>
+
+	<ItemGroup Condition="!Exists('$(NETCoreSdkBundledCliToolsProps)')">
+		<BundledDotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet"/>
+		<BundledDotNetCliToolReference Include="Microsoft.Extensions.Caching.SqlConfig.Tools"/>
+		<BundledDotNetCliToolReference Include="Microsoft.Extensions.SecretManager.Tools"/>
+		<BundledDotNetCliToolReference Include="Microsoft.DotNet.Watcher.Tools"/>
+	</ItemGroup>
+
+</Project>

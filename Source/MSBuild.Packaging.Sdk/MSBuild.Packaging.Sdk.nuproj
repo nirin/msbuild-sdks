@@ -1,0 +1,13 @@
+<Project Sdk="NuGet.Packaging.Sdk">
+
+	<PropertyGroup Label="Globals">
+		<ProjectGuid>{5E1B574A-7C25-4C51-B25B-6D78F847252F}</ProjectGuid>
+	</PropertyGroup>
+
+	<PropertyGroup Label="PackageInfo">
+		<Title>MSBuild Packaging Sdk</Title>
+		<PackageId>MSBuild.Packaging.Sdk</PackageId>
+		<PackageVersion Condition="'$(PackageVersion)' == ''">1.0.0</PackageVersion>
+	</PropertyGroup>
+
+</Project>

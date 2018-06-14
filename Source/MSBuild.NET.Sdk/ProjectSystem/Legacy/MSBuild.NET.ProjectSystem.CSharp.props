@@ -1,0 +1,49 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+	<PropertyGroup>
+		<DefaultLanguageSourceExtension>.cs</DefaultLanguageSourceExtension>
+		<Language>C#</Language>
+		<TargetRuntime>Managed</TargetRuntime>
+		<AlwaysUseNumericalSuffixInItemNames>true</AlwaysUseNumericalSuffixInItemNames>
+		<DefineCommonItemSchemas Condition="'$(DefineCommonItemSchemas)' == ''">true</DefineCommonItemSchemas>
+		<DefineCommonReferenceSchemas Condition="'$(DefineCommonReferenceSchemas)' == ''">true</DefineCommonReferenceSchemas>
+		<DefineCommonCapabilities Condition="'$(DefineCommonCapabilities)' == ''">true</DefineCommonCapabilities>
+		<SynthesizeLinkMetadata Condition="'$(SynthesizeLinkMetadata)' == '' AND '$(HasSharedItems)' == 'true'">true</SynthesizeLinkMetadata>
+		<DefaultProjectTypeGuid Condition="'$(DefaultProjectTypeGuid)' == ''">{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</DefaultProjectTypeGuid>
+		<AppDesignerFolder Condition="'$(AppDesignerFolder)' == ''">Properties</AppDesignerFolder>
+	</PropertyGroup>
+
+	<ItemGroup Condition="'$(DefineCSharpItemSchemas)' != 'false'">
+		<PropertyPageSchema Include="$(CommonXamlResourcesDirectory)CSharp.ProjectItemsSchema.xaml;"/>
+
+		<PropertyPageSchema Include="$(CommonXamlResourcesDirectory)CSharp.xaml;">
+			<Context>File</Context>
+		</PropertyPageSchema>
+
+		<PropertyPageSchema Include="$(CommonXamlResourcesDirectory)CSharp.BrowseObject.xaml;">
+			<Context>BrowseObject</Context>
+		</PropertyPageSchema>
+
+		<ProjectCapability Include="CSharp;Managed"/>
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(DefineCommonCapabilities)' == 'true'">
+		<ProjectCapability Include="ReferencesFolder;LanguageService"/>
+	</ItemGroup>
+
+	<ItemGroup>
+		<!-- Activate CPS projects to track folder names in namespace. -->
+		<ProjectCapability Include="RelativePathDerivedDefaultNamespace"/>
+	</ItemGroup>
+
+	<!-- When building inside VS, by default, use the same language for compiler messages as VS itself does. -->
+	<PropertyGroup Condition="'$(BuildingInsideVisualStudio)' == 'true'">
+		<ErrorEndLocation Condition="'$(ErrorEndLocation)' == ''">true</ErrorEndLocation>
+		<PreferredUILang Condition="'$(PreferredUILang)' == ''">$([System.Globalization.CultureInfo]::CurrentUICulture.Name)</PreferredUILang>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+	</PropertyGroup>
+
+</Project>

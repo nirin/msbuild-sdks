@@ -1,0 +1,25 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+	<PropertyGroup>
+		<ImportDirectoryBuildProps Condition="'$(ImportDirectoryBuildProps)' == ''">true</ImportDirectoryBuildProps>
+		<ImportProjectExtensionProps Condition="'$(ImportProjectExtensionProps)' == ''">true</ImportProjectExtensionProps>
+		<ImportProjectCoreProps Condition="'$(ImportProjectCoreProps)' == ''">true</ImportProjectCoreProps>
+	</PropertyGroup>
+
+	<ImportGroup>
+		<Import Project="$(MSBuildThisFileDirectory)Directory.Build.props" Condition="'$(ImportDirectoryBuildProps)' == 'true'"/>
+		<Import Project="$(MSBuildThisFileDirectory)MSBuild.ProjectExtension.props" Condition="'$(ImportProjectExtensionProps)' == 'true'"/>
+		<Import Project="$(MSBuildThisFileDirectory)MSBuild.ProjectCore.props" Condition="'$(ImportProjectCoreProps)' == 'true'"/>
+	</ImportGroup>
+
+	<PropertyGroup>
+		<ImportedMSBuildCoreSdkProps>true</ImportedMSBuildCoreSdkProps>
+		<!-- TODO: Remove once Microsoft.Common.targets import is no longer needed. -->
+		<MicrosoftCommonPropsHasBeenImported>true</MicrosoftCommonPropsHasBeenImported>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+	</PropertyGroup>
+
+</Project>

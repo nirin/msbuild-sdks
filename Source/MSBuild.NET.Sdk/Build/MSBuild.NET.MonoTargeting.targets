@@ -1,0 +1,72 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+	<Import Project="$(MSBuildThisFileDirectory)MSBuild.NET.MonoTargeting.BeforeLegacy.targets"/>
+
+	<!--
+		TODO: Remove once you made it independent of TargetFramework!
+		Sets RestoreAdditionalProjectSources or RestoreAdditionalProjectFallbackFolders
+		to the SDK Offline Cache based on the TargetFramework.
+	-->
+	<Import Project="$(MSBuildThisFileDirectory)..\Extensions\NuGet.OfflineCache.targets"/>
+
+	<!--
+		NOTE: The `LanguageTargets` still Imports `Microsoft.Common.targets` which in-turn imports `ProjectExtension` and `DirectoryBuild` targets
+		So we need to disable it and re-enable it after the Legacy Imports to continue with the `MSBuild.Core.Sdk` flow.
+		TODO: Remove once the migration is complete and we no longer need/support the legacy targets.
+	-->
+	<PropertyGroup Condition="'$(LanguageTargets)' == ''">
+		<_SdkBackupImportProjectExtensionTargets>$(ImportProjectExtensionTargets)</_SdkBackupImportProjectExtensionTargets>
+		<_SdkBackupImportDirectoryBuildTargets>$(ImportDirectoryBuildTargets)</_SdkBackupImportDirectoryBuildTargets>
+		<ImportProjectExtensionTargets>false</ImportProjectExtensionTargets>
+		<ImportDirectoryBuildTargets>false</ImportDirectoryBuildTargets>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(LanguageTargets)' != ''">
+		<_SdkBackupNuGetRestoreTargets>$(NuGetRestoreTargets)</_SdkBackupNuGetRestoreTargets>
+		<NuGetRestoreTargets>DISABLED-FROM-SDK</NuGetRestoreTargets>
+	</PropertyGroup>
+
+	<!--
+		If LanguageTargets isn't otherwise set, then we'll just import the legacy targets.
+		This should allow the restore target to run, which could bring in NuGet packages that sets the LanguageTargets.
+		This means support for different languages could either be supplied via an SDK or a NuGet package.
+	-->
+	<PropertyGroup Condition="'$(LanguageTargets)' == ''">
+		<LanguageTargets>$(MSBuildLegacySdkPath)Microsoft.$(SourceLanguageName).targets</LanguageTargets>
+		<ImportLegacyExtensionTargets Condition="'$(ImportLegacyExtensionTargets)' == ''">false</ImportLegacyExtensionTargets>
+	</PropertyGroup>
+
+	<Import Project="$(LanguageTargets)" Condition="Exists('$(LanguageTargets)')"/>
+
+	<PropertyGroup Condition="'$(LanguageTargets)' != ''">
+		<NuGetRestoreTargets>$(_SdkBackupNuGetRestoreTargets)</NuGetRestoreTargets>
+		<_SdkBackupNuGetRestoreTargets/>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(LanguageTargets)' == ''">
+		<ImportProjectExtensionTargets>$(_SdkBackupImportProjectExtensionTargets)</ImportProjectExtensionTargets>
+		<ImportDirectoryBuildTargets>$(_SdkBackupImportDirectoryBuildTargets)</ImportDirectoryBuildTargets>
+		<_SdkBackupImportProjectExtensionTargets/>
+		<_SdkBackupImportDirectoryBuildTargets/>
+	</PropertyGroup>
+
+	<Import Project="$(MSBuildThisFileDirectory)MSBuild.NET.MonoTargeting.AfterLegacy.targets"/>
+
+	<PropertyGroup>
+		<DisableStandardFrameworkResolution Condition="'$(DisableStandardFrameworkResolution)' == ''">$(_IsNETCoreOrNETStandard)</DisableStandardFrameworkResolution>
+	</PropertyGroup>
+
+	<Import Project="$(MicrosoftNETSdkBuildPath)Microsoft.NET.DisableStandardFrameworkResolution.targets" Condition="'$(DisableStandardFrameworkResolution)' == 'true'"/>
+	<Import Project="$(MicrosoftNETSdkBuildPath)Microsoft.NET.GenerateAssemblyInfo.targets"/>
+	<Import Project="$(MicrosoftNETSdkBuildPath)Microsoft.NET.ComposeStore.targets"/>
+	<Import Project="$(MicrosoftNETSdkBuildPath)Microsoft.NET.CrossGen.targets"/>
+	<Import Project="$(MicrosoftNETSdkBuildPath)Microsoft.NET.Publish.targets"/>
+	<Import Project="$(MicrosoftNETSdkBuildPath)Microsoft.NET.PackTool.targets"/>
+	<Import Project="$(MicrosoftNETSdkBuildPath)Microsoft.NET.PreserveCompilationContext.targets"/>
+	<Import Project="$(MicrosoftNETSdkBuildPath)Microsoft.NET.ConflictResolution.targets"/>
+
+	<PropertyGroup>
+		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+	</PropertyGroup>
+
+</Project>

@@ -1,0 +1,18 @@
+<Project Sdk="NuGet.Packaging.Sdk">
+
+	<PropertyGroup Label="Globals">
+		<ProjectGuid>{9E0252B6-8815-4E25-8C6E-5838963C8233}</ProjectGuid>
+	</PropertyGroup>
+
+	<PropertyGroup Label="PackageInfo">
+		<Title>MSBuild .NET Legacy Sdk</Title>
+		<PackageId>MSBuild.NET.Legacy.Sdk</PackageId>
+		<PackageVersion Condition="'$(PackageVersion)' == ''">1.0.0</PackageVersion>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<None Remove="*.props;*.targets;*.items;*.tasks"/>
+		<PackageFile Include="*.props;*.targets;*.items;*.tasks" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)"/>
+	</ItemGroup>
+
+</Project>

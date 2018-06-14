@@ -1,0 +1,41 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+	<PropertyGroup>
+		<DefaultLanguageSourceExtension>.vb</DefaultLanguageSourceExtension>
+		<Language>VB</Language>
+		<TargetRuntime>Managed</TargetRuntime>
+		<AlwaysUseNumericalSuffixInItemNames>true</AlwaysUseNumericalSuffixInItemNames>
+		<DefineCommonItemSchemas Condition="'$(DefineCommonItemSchemas)' == ''">true</DefineCommonItemSchemas>
+		<DefineCommonReferenceSchemas Condition="'$(DefineCommonReferenceSchemas)' == ''">true</DefineCommonReferenceSchemas>
+		<DefineCommonCapabilities Condition="'$(DefineCommonCapabilities)' == ''">true</DefineCommonCapabilities>
+		<SynthesizeLinkMetadata Condition="'$(SynthesizeLinkMetadata)' == '' AND '$(HasSharedItems)' == 'true'">true</SynthesizeLinkMetadata>
+		<DefaultProjectTypeGuid Condition="'$(DefaultProjectTypeGuid)' == ''">{F184B08F-C81C-45F6-A57F-5ABD9991F28F}</DefaultProjectTypeGuid>
+		<AppDesignerFolder Condition="'$(AppDesignerFolder)' == ''">My Project</AppDesignerFolder>
+	</PropertyGroup>
+
+	<ItemGroup Condition="'$(DefineVisualBasicItemSchemas)' != 'false'">
+		<PropertyPageSchema Include="$(CommonXamlResourcesDirectory)VisualBasic.ProjectItemsSchema.xaml;"/>
+		<PropertyPageSchema Include="$(CommonXamlResourcesDirectory)VisualBasic.xaml;">
+			<Context>File</Context>
+		</PropertyPageSchema>
+		<PropertyPageSchema Include="$(CommonXamlResourcesDirectory)VisualBasic.BrowseObject.xaml;">
+			<Context>BrowseObject</Context>
+		</PropertyPageSchema>
+
+		<ProjectCapability Include="VB;Managed"/>
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(DefineCommonCapabilities)' == 'true'">
+		<ProjectCapability Include="ReferencesFolder;LanguageService"/>
+	</ItemGroup>
+
+	<!-- When building inside VS, by default, use the same language for compiler messages as VS itself does. -->
+	<PropertyGroup Condition="'$(BuildingInsideVisualStudio)' == 'true'">
+		<PreferredUILang Condition="'$(PreferredUILang)' == ''">$([System.Globalization.CultureInfo]::CurrentUICulture.Name)</PreferredUILang>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+	</PropertyGroup>
+
+</Project>

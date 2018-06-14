@@ -1,0 +1,48 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+	<PropertyGroup>
+		<DefineConstants Condition="'$(GenerateAssemblyInfo)' != 'false'">$(DefineConstants);GENERATE_ASSEMBLY_INFO</DefineConstants>
+	</PropertyGroup>
+
+	<Choose>
+		<When Condition="'$(ProjectType)' == 'Test'">
+			<PropertyGroup Label="Info">
+				<Description>Unit-Tests for testing $(AssemblyTitle)</Description>
+				<AssemblyName>$(AssemblyName).Tests</AssemblyName>
+				<BaseAssemblyTitle>$(AssemblyTitle)</BaseAssemblyTitle>
+				<AssemblyTitle>$(AssemblyTitle) Tests</AssemblyTitle>
+				<Product>$(Product) Tests</Product>
+			</PropertyGroup>
+
+			<PropertyGroup Label="Package">
+				<PackageTags>$(PackageTags);Test;Tests</PackageTags>
+			</PropertyGroup>
+		</When>
+		<Otherwise>
+			<PropertyGroup Label="Info">
+				<Description>High-performance and robust $(ProductVariant)-$(ProjectName)</Description>
+			</PropertyGroup>
+		</Otherwise>
+	</Choose>
+
+	<PropertyGroup Label="Info">
+		<Product Condition="'$(Product)' != '' and '$(ProductVariant)' != ''">$(Product) ($(ProductVariant))</Product>
+	</PropertyGroup>
+
+	<PropertyGroup Label="Package">
+		<RepositoryRoot Condition="'$(RepositoryRoot)' == ''">$(ProjectName)</RepositoryRoot>
+		<RepositoryName Condition="'$(RepositoryName)' == ''">$(AssemblyName)</RepositoryName>
+		<PackageBaseUrl Condition="!HasTrailingSlash('$(PackageBaseUrl)')">$(PackageBaseUrl)/</PackageBaseUrl>
+
+		<PackageLicenseUrl Condition="'$(PackageLicenseUrl)' == ''">$(PackageBaseUrl)$(RepositoryRoot)/license</PackageLicenseUrl>
+		<PackageReleaseNotes Condition="'$(PackageReleaseNotes)' == ''">$(PackageBaseUrl)$(RepositoryRoot)/releases</PackageReleaseNotes>
+		<PackageProjectUrl Condition="'$(PackageProjectUrl)' == ''">$(PackageBaseUrl)$(RepositoryRoot)/$(RepositoryName)</PackageProjectUrl>
+		<PackageIconUrl Condition="'$(PackageIconUrl)' == ''">$(PackageBaseUrl)$(RepositoryRoot)/$(RepositoryName).png</PackageIconUrl>
+	</PropertyGroup>
+
+	<PropertyGroup Label="Package" Condition="'$(RepositoryUrl)' == ''">
+		<RepositoryUrl Condition="!HasTrailingSlash('$(RepositoryBaseUrl)')">$(RepositoryBaseUrl)/</RepositoryUrl>
+		<RepositoryUrl>$(RepositoryBaseUrl)$(RepositoryRoot)/$(RepositoryName)</RepositoryUrl>
+	</PropertyGroup>
+
+</Project>

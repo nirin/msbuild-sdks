@@ -1,0 +1,18 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+	<!-- HACK: Import the core default output paths from the 'MSBuild.Core.Sdk' only if it's not imported with the 'ProjectCore.targets' -->
+	<Import Project="$(MSBuildCoreSdkPath)Core\MSBuild.OutputPaths.targets" Condition="'$(ImportedMSBuildOutputPathsTargets)' != 'true'"/>
+
+	<!--
+		Set PublishDir here, before Microsoft.Common.targets, to avoid a competing default there.
+		Reset PublishDir here, Since we made OutDir -> BuildPath and PublishDir -> PublishPath as the new Output defaults
+	-->
+	<PropertyGroup>
+		<PublishDir Condition="'$(PublishPath)' != ''">$(PublishPath)</PublishDir>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+	</PropertyGroup>
+
+</Project>

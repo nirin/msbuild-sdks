@@ -1,0 +1,19 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+	<Choose>
+		<When Condition="'$(MSBuildAssemblyVersion)' == ''">
+			<PropertyGroup>
+				<MicrosoftNETFrameworkTargetsPath>$(MSBuildLegacySdkPath)Inbox\$(MSBuildThisFile)</MicrosoftNETFrameworkTargetsPath>
+			</PropertyGroup>
+		</When>
+		<Otherwise>
+			<PropertyGroup>
+				<MicrosoftNETFrameworkTargetsPath>$(MSBuildLegacySdkPath)Current\$(MSBuildThisFile)</MicrosoftNETFrameworkTargetsPath>
+			</PropertyGroup>
+		</Otherwise>
+	</Choose>
+
+	<Import Project="$(MSBuildLegacySdkPath)Extensions\$(MSBuildThisFile)" Condition="'$(ImportLegacyExtensionTargets)' == 'true'"/>
+	<Import Project="$(MicrosoftNETFrameworkTargetsPath)" Condition="'$(ImportLegacyExtensionTargets)' != 'true'"/>
+
+</Project>

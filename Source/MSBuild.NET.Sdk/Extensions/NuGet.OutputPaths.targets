@@ -1,0 +1,16 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+	<!--
+		These properties depend on `MSBuild.Core.Sdk`. For more information on how it's constructed, see the `MSBuild.OutputPaths` files.
+	-->
+	<PropertyGroup Label="NuGet">
+		<RestoreOutputPath Condition="'$(RestoreOutputPath)' == ''">$(MSBuildProjectExtensionsPath)</RestoreOutputPath>
+		<NuspecOutputPath Condition="'$(NuspecOutputPath)' == ''">$(BaseOutputPath)$(Configuration)\</NuspecOutputPath>
+		<PackageOutputPath Condition="'$(PackageOutputPath)' == ''">$(PublishPath)$(Configuration)\</PackageOutputPath>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+	</PropertyGroup>
+
+</Project>

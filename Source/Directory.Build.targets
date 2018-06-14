@@ -1,0 +1,17 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+	<PropertyGroup Condition="!$(PackageVersion.Contains('-'))">
+		<PackageVersion Condition="'$(VersionMeta)' != ''">$(PackageVersion)-$(VersionMeta)</PackageVersion>
+	</PropertyGroup>
+
+	<Import Project="$(MSBuildThisFileDirectory)..\$(MSBuildThisFile)"/>
+
+	<PropertyGroup Condition="'$(IsCloudBuild)' == ''">
+		<IsCloudBuild Condition="'$(BuildRunner)' == 'MyGet'">true</IsCloudBuild>
+		<IsCloudBuild Condition="'$(APPVEYOR)' != '' OR '$(TF_BUILD)' == 'true'">true</IsCloudBuild>
+		<IsCloudBuild Condition="'$(IsCloudBuild)' == ''">false</IsCloudBuild>
+	</PropertyGroup>
+
+	<Import Project="$(BuildToolsPath)MSBuild.DevLocal.targets" Condition="'$(IsCloudBuild)' != 'true'"/>
+
+</Project>

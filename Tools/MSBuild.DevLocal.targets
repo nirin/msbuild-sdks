@@ -1,0 +1,33 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+	<!-- Tools to make local dev easier -->
+	<Target Name="_EnsureTestPackageSource" BeforeTargets="Restore;_LocalPublish">
+		<PropertyGroup>
+			<TestPackagePath Condition="'$(TestPackagePath)' == ''">$(TEMP)\Packages</TestPackagePath>
+		</PropertyGroup>
+		<MakeDir Directories="$(TestPackagePath)" Condition="!Exists('$(TestPackagePath)')" />
+	</Target>
+
+	<Target Name="_CleanTestPackageSource" AfterTargets="_EnsureTestPackageSource;Clean">
+		<ItemGroup>
+			<ToDelete Include="$(TestPackagePath)\$(PackageId).*.nupkg"/>
+		</ItemGroup>
+		<Delete Files="@(ToDelete)"/>
+		<Exec Command='rd "$(NuGetPackageRoot)$(PackageId.ToLowerInvariant())" /q /s' Condition="Exists('$(NuGetPackageRoot)$(PackageId.ToLowerInvariant())')"/>
+	</Target>
+
+	<Target Name="_SetFixedVersion"
+			BeforeTargets="GetPackageVersion;GenerateNuspec">
+		<PropertyGroup>
+			<PackageVersion>10.0.0</PackageVersion>
+		</PropertyGroup>
+	</Target>
+
+	<Target Name="_LocalPublish" AfterTargets="Pack">
+		<PropertyGroup>
+			<PackageOutputPath Condition="!HasTrailingSlash('$(PackageOutputPath)')">$(PackageOutputPath)\</PackageOutputPath>
+		</PropertyGroup>
+		<Copy SourceFiles="$(PackageOutputPath)$(PackageId).$(PackageVersion).nupkg" DestinationFolder="$(TestPackagePath)"/>
+	</Target>
+
+</Project>

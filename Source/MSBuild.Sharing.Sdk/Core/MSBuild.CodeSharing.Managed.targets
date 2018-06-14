@@ -1,0 +1,44 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+	<PropertyGroup>
+		<DefineCommonCapabilities>false</DefineCommonCapabilities>
+		<DefineCommonReferenceSchemas>false</DefineCommonReferenceSchemas>
+		<DefineCommonManagedCapabilities>false</DefineCommonManagedCapabilities>
+		<DefineCommonManagedReferenceSchemas>false</DefineCommonManagedReferenceSchemas>
+	</PropertyGroup>
+
+	<Import Project="$(MSBuildExtensionsPath32)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.$(LanguageName).targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.$(LanguageName).targets')"/>
+	<Import Project="$(MSBuildBinPath)\Microsoft.$(LanguageName).Targets" Condition="!Exists('$(MSBuildExtensionsPath32)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.$(LanguageName).targets')" />
+	<Import Project="$(MSBuildThisFileDirectory)MSBuild.CodeSharing.Common.targets"/>
+
+	<PropertyGroup>
+		<SharedProjectAppliesTo>$(LanguageName)</SharedProjectAppliesTo>
+		<SharedProjectAppliesTo Condition="'$(LanguageName)' == 'VisualBasic'">VB</SharedProjectAppliesTo>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(VisualStudioVersion)' == '12.0'">
+		<!-- {DDDDC6BE-451D-46DD-A712-A5D07027E072} is also used for VS2013 -->
+		<AddItemTemplatesGuid>{72C8CC65-A019-4582-9859-D22C29245638}</AddItemTemplatesGuid>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(VisualStudioVersion)' >= '12.0'">
+		<!--
+			Reset the 'WindowsAppContainer' property to false.
+			Shared projects support Xaml files but only as an item container so there is no need to prompt for a developer license.
+		-->
+		<WindowsAppContainer>false</WindowsAppContainer>
+		<AddItemTemplatesGuid Condition="'$(LanguageName)' == 'CSharp'">{DDDDC6BE-451D-46DD-A712-A5D07027E072}</AddItemTemplatesGuid>
+		<AddItemTemplatesGuid Condition="'$(LanguageName)' == 'VisualBasic'">{2F4D68AA-6DA4-465E-88DE-2B0F67AFC98D}</AddItemTemplatesGuid>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PropertyPageSchema Include="$(MSBuildThisFileDirectory)$(LangName)\$(LanguageName).General.xaml">
+			<Context>Project</Context>
+		</PropertyPageSchema>
+
+		<PropertyPageSchema Include="$(MSBuildThisFileDirectory)$(LangName)\$(LanguageName).General.BrowseObject.xaml">
+			<Context>BrowseObject</Context>
+		</PropertyPageSchema>
+	</ItemGroup>
+
+</Project>

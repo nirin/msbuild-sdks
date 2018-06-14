@@ -1,0 +1,15 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+	<PropertyGroup Label="Info">
+		<Product>MSBuild Sdks</Product>
+		<ProjectBaseName>MSBuild</ProjectBaseName>
+		<ProductBaseVariant>Sdk</ProductBaseVariant>
+	</PropertyGroup>
+
+	<PropertyGroup Label="Package">
+		<PackageTags>$(PackageTags);MSBuild;Sdk</PackageTags>
+		<RepositoryRoot>msbuild</RepositoryRoot>
+		<RepositoryName>sdks</RepositoryName>
+	</PropertyGroup>
+
+</Project>

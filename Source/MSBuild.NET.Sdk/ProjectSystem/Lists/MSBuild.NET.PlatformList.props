@@ -1,0 +1,35 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<!--
+	This file contains a list of the TPMs that are supported by this .NET SDK.
+	This is used by VS to show the list of platforms to which projects can be retargeted.
+-->
+
+	<!-- .NET Platforms -->
+	<ItemGroup Label=".NET Platforms">
+		<KnownTargetPlatform Include="Windows">
+			<DisplayName>Windows</DisplayName>
+			<Versions>7.0|8.0|8.1|10.0</Versions>
+		</KnownTargetPlatform>
+		<KnownTargetPlatform Include="Linux">
+			<DisplayName>Linux</DisplayName>
+			<Versions>4.0</Versions>
+		</KnownTargetPlatform>
+		<KnownTargetPlatform Include="Mac">
+			<DisplayName>Mac</DisplayName>
+			<Versions>10.10|10.11|10.12|10.13|10.14</Versions>
+		</KnownTargetPlatform>
+		<KnownTargetPlatform Include="iOS">
+			<DisplayName>iOS</DisplayName>
+			<Versions>7.0|8.0|9.0|10.0|11.0</Versions>
+		</KnownTargetPlatform>
+		<KnownTargetPlatform Include="Android">
+			<DisplayName>Android</DisplayName>
+			<Versions>15|16|17|18|19|20|21|22|23|24|25</Versions>
+		</KnownTargetPlatform>
+	</ItemGroup>
+
+	<PropertyGroup>
+		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+	</PropertyGroup>
+
+</Project>

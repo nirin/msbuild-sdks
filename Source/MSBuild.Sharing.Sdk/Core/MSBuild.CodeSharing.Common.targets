@@ -1,0 +1,38 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+	<ItemGroup>
+		<PropertyPageSchema Include="$(MSBuildToolsPath)\$(LangName)\SubProject.xaml" />
+		<ProjectCapability Include="SourceItemsFromImports;SharedImports;SharedAssetsProject"/>
+		<ProjectCapability Include="PerPlatformCompilation;MultiTarget" />
+		<ProjectCapability Include="ProjectConfigurationsDeclaredAsItems" />
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(VisualStudioVersion)' >= '12.0'">
+		<ProjectCapability Include="ManagedLang"/> <!-- Temporary: See https://github.com/dotnet/roslyn-project-system/issues/47 -->
+		<ProjectCapability Include="HandlesOwnReload"/>
+		<ProjectCapability Include="UseFileGlobs"/>
+	</ItemGroup>
+
+	<Target Name="Compile">
+	</Target>
+
+	<Target Name="Build">
+		<ErrorFromResources Resource="CodeSharing.CannotBuildSharedProject"/>
+	</Target>
+
+	<Target Name="Clean">
+		<ErrorFromResources Resource="CodeSharing.CannotBuildSharedProject"/>
+	</Target>
+
+	<Target Name="_CheckForInvalidConfigurationAndPlatform">
+	</Target>
+
+	<!--
+		HACK: Visual Studio 2013 and below needs this, since their common targets weren't updated for CodeSharing!
+		TargetPath is set to nothing for shared projects because they dont have any output
+	-->
+	<PropertyGroup Condition="'$(VisualStudioVersion)' == '12.0'">
+		<TargetPath/>
+	</PropertyGroup>
+
+</Project>

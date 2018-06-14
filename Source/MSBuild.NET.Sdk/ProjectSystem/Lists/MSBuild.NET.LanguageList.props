@@ -1,0 +1,43 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<!--
+	This file contains a list of the languages that are supported by this .NET SDK.
+	This is used by VS to show the list of languages to which projects can be retargeted.
+-->
+
+	<!-- .NET Languages -->
+	<ItemGroup Label=".NET Languages">
+		<KnownSourceLanguage Include="CSharp">
+			<DisplayName>Visual C#</DisplayName>
+			<Versions>1.0|1.2|2.0|3.0|4.0|5.0|6.0|7.0|7.1|7.2</Versions>
+		</KnownSourceLanguage>
+		<KnownSourceLanguage Include="VisualBasic">
+			<DisplayName>Visual Basic (VB)</DisplayName>
+			<Versions>7.0|7.1|8.0|9.0|10.0|11.0|14.0|15.0</Versions>
+		</KnownSourceLanguage>
+		<KnownSourceLanguage Include="FSharp">
+			<DisplayName>Visual F#</DisplayName>
+			<Versions>1.0|2.0|3.0|3.1|4.0|4.1</Versions>
+		</KnownSourceLanguage>
+		<KnownSourceLanguage Include="XAML">
+			<DisplayName>XAML (eXentensible Application Markup Language)</DisplayName>
+			<Versions>2009|2010|2012|2017</Versions>
+		</KnownSourceLanguage>
+		<KnownSourceLanguage Include="PHP">
+			<DisplayName>PHP (Peachpie)</DisplayName>
+			<Versions>7.0|7.1|7.2</Versions>
+		</KnownSourceLanguage>
+		<KnownSourceLanguage Include="CPlusPlus">
+			<DisplayName>Visual C++ (C++/CLR)</DisplayName>
+			<Versions>2.0|4.0</Versions>
+		</KnownSourceLanguage>
+		<KnownSourceLanguage Include="CIL">
+			<DisplayName>CIL (Common Intermediate Language)</DisplayName>
+			<Versions>2.0|4.0</Versions>
+		</KnownSourceLanguage>
+	</ItemGroup>
+
+	<PropertyGroup>
+		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+	</PropertyGroup>
+
+</Project>
