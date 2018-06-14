@@ -1,4 +1,5 @@
-<Project Sdk="MSBuild.NET.Extras.Sdk">
+<Project>
+	<Import Project="$(MSBuildThisFileDirectory)..\..\..\Source\MSBuild.NET.Extras.Sdk\Sdk\Sdk.props" />
 
 	<PropertyGroup>
 		<TargetFramework>net45</TargetFramework>
@@ -10,4 +11,5 @@
 		<AssemblyTitle>Windows Class Library</AssemblyTitle>
 	</PropertyGroup>
 
+	<Import Project="$(MSBuildThisFileDirectory)..\..\..\Source\MSBuild.NET.Extras.Sdk\Sdk\Sdk.targets" />
 </Project>
