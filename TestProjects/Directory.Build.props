@@ -3,9 +3,7 @@
 	<Import Project="$(MSBuildThisFileDirectory)..\$(MSBuildThisFile)"/>
 
 	<PropertyGroup>
-		<BuildFolder>~Builds</BuildFolder>
 		<BuildPath>$(SolutionDir)</BuildPath>
-		<PublishFolder>~Publish</PublishFolder>
 		<PublishPath>$(SolutionDir)</PublishPath>
 	</PropertyGroup>
 
@@ -21,8 +19,8 @@
 	</PropertyGroup>
 
 	<PropertyGroup Condition="$(MSBuildProjectName.Contains('-'))">
-		<AssemblyName Condition="'$(AssemblyName)' == ''">$(MSBuildProjectName.Replace('-', '_'))</AssemblyName>
-		<RootNamespace Condition="'$(RootNamespace)' == ''">$(MSBuildProjectName.Replace('-', '_'))</RootNamespace>
+		<AssemblyName>$(MSBuildProjectName.Replace('-', '_'))</AssemblyName>
+		<RootNamespace>$(MSBuildProjectName.Replace('-', '_'))</RootNamespace>
 	</PropertyGroup>
 
 </Project>

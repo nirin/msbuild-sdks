@@ -17,6 +17,4 @@
 
 	<Import Project="$(BuildToolsPath)MSBuild.OutputPathChecks.targets"/>
 
-	<Import Project="$(BuildToolsPath)MSBuild.TestOutput.targets" Condition="'$(IsLegacyProject)' != 'true'"/>
-
 </Project>

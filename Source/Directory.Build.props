@@ -2,6 +2,10 @@
 
 	<Import Project="$(MSBuildThisFileDirectory)..\$(MSBuildThisFile)"/>
 
+	<PropertyGroup Label="Output">
+		<PublishFolder>~Packages</PublishFolder>
+	</PropertyGroup>
+
 	<PropertyGroup Label="PackageInfo">
 		<Company>NIRIN</Company>
 		<Authors>Nirmal Guru</Authors>
