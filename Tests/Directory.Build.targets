@@ -1,0 +1,12 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+	<PropertyGroup Condition="'$(IsTestProject)' == 'true' AND '$(TargetFrameworkIdentifier)' == '.NETCoreApp'">
+		<GenerateProgramFile>false</GenerateProgramFile>
+		<GeneratedProgramFile>Program$(DefaultLanguageSourceExtension)</GeneratedProgramFile>
+	</PropertyGroup>
+
+	<Import Project="$(MSBuildThisFileDirectory)..\$(MSBuildThisFile)"/>
+
+	<Import Project="$(BuildToolsPath)MSBuild.OutputPathChecks.targets"/>
+
+</Project>

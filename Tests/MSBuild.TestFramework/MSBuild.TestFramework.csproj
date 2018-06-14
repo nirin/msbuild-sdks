@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>netstandard2.0</TargetFramework>
+		<IsPackable>false</IsPackable>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.Build" Version="15.7.*"/>
+		<PackageReference Include="Microsoft.Build.Tasks.Core" Version="15.7.*"/>
+		<PackageReference Include="Microsoft.Build.Utilities.Core" Version="15.7.*"/>
+	</ItemGroup>
+
+	<Import Project="$(CustomBeforeSdkTargets)"/>
+
+</Project>
