@@ -7,7 +7,6 @@
 		<Authors>Nirmal Guru</Authors>
 		<Owners>NIRIN;Nirmal Guru</Owners>
 		<Copyright>© NIRIN Foundation.</Copyright>
-		<Serviceable>true</Serviceable>
 		<PackageTags>msbuild;project;sdk</PackageTags>
 		<Summary>MSBuild targets and properties for SDK-style projects.</Summary>
 		<Description>MSBuild targets and properties for SDK-style projects.</Description>
@@ -15,8 +14,9 @@
 		<PackageProjectUrl>https://github.com/nirin/msbuild-sdks</PackageProjectUrl>
 		<RepositoryUrl>git://github.com/nirin/msbuild-sdks</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>
-		<DevelopmentDependency>true</DevelopmentDependency>
+		<Serviceable>true</Serviceable>
 		<NeutralLanguage>en</NeutralLanguage>
+		<DevelopmentDependency>true</DevelopmentDependency>
 		<PackageReleaseNotes>https://github.com/nirin/msbuild-sdks/blob/master/ReadMe.md</PackageReleaseNotes>
 	</PropertyGroup>
 

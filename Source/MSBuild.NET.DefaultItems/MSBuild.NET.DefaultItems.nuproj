@@ -1,7 +1,7 @@
 <Project Sdk="NuGet.Packaging.Sdk">
 
 	<PropertyGroup Label="Globals">
-		<ProjectGuid>d954d633-9922-4aff-83f2-bf157e2ed850</ProjectGuid>
+		<ProjectGuid>{D954D633-9922-4AFF-83F2-BF157E2ED850}</ProjectGuid>
 	</PropertyGroup>
 
 	<PropertyGroup Label="PackageInfo">

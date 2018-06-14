@@ -12,7 +12,6 @@
 	<Import Project="$(BuildToolsPath)MSBuild.OutputPaths.props"/>
 
 	<PropertyGroup>
-		<RestoreOutputPath>$(MSBuildProjectExtensionsPath)</RestoreOutputPath>
 		<CustomBeforeSdkTargets>$(BuildToolsPath)MSBuild.OutputPaths.targets</CustomBeforeSdkTargets>
 		<IsLegacyProject Condition="$(MSBuildProjectName.EndsWith('LPS')) OR $(SolutionName.EndsWith('LPS'))">true</IsLegacyProject>
 	</PropertyGroup>

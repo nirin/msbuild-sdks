@@ -1,0 +1,6 @@
+{
+	"msbuild-sdks": {
+		"MSBuild.NET.DefaultItems": "10.0.0",
+		"MSBuild.NET.Extras.Sdk": "10.0.0"
+	}
+}

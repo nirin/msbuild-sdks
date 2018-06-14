@@ -12,7 +12,7 @@ if not "%BuildRunner%" == "MyGet" (
 )
 
 REM Set Vars
-set SolutionFile=%WD%MSBuild.Sdks.sln
+set SolutionFile=%WD%MSBuild-Sdks.sln
 
 if "%Configuration%" == "" (
 	set Configuration=Release
@@ -32,5 +32,5 @@ call msbuild %SolutionFile% /p:Configuration=%Configuration%%BuildVersion%
 REM Check MyGet
 if not "%BuildRunner%" == "MyGet" (
 	REM Push Package
-	call nuget push %PackageDir%\%Configuration%\*.nupkg -Source Local
+	if "%BuildCounter%" == "" call nuget push %PackageDir%\%Configuration%\*.nupkg -Source Local
 )

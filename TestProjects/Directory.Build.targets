@@ -13,10 +13,10 @@
 		<InformationalVersion>1.0 Test Project</InformationalVersion>
 	</PropertyGroup>
 
+	<Import Project="$(MSBuildThisFileDirectory)..\$(MSBuildThisFile)"/>
+
 	<Import Project="$(BuildToolsPath)MSBuild.OutputPathChecks.targets"/>
 
 	<Import Project="$(BuildToolsPath)MSBuild.TestOutput.targets" Condition="'$(IsLegacyProject)' != 'true'"/>
-
-	<Import Project="$(MSBuildThisFileDirectory)..\$(MSBuildThisFile)"/>
 
 </Project>

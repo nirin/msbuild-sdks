@@ -15,7 +15,7 @@
 		<DefaultItemExcludes>$(DefaultItemExcludes);$(BuildPath)/**</DefaultItemExcludes>
 	</PropertyGroup>
 
-	<PropertyGroup>
+	<PropertyGroup Label="ProjectExtensions">
 		<MSBuildProjectExtensionsPath Condition="'$(MSBuildProjectExtensionsPath)' == ''">$(BuildPath)</MSBuildProjectExtensionsPath>
 		<MSBuildProjectExtensionsPath Condition="!HasTrailingSlash('$(MSBuildProjectExtensionsPath)')">$(MSBuildProjectExtensionsPath)\</MSBuildProjectExtensionsPath>
 		<MSBuildProjectExtensionsPath Condition="'$([System.IO.Path]::IsPathRooted($(MSBuildProjectExtensionsPath)))' == 'false'">$([System.IO.Path]::Combine('$(MSBuildProjectDirectory)', '$(MSBuildProjectExtensionsPath)'))</MSBuildProjectExtensionsPath>
