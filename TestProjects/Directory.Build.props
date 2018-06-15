@@ -3,21 +3,8 @@
 	<Import Project="$(MSBuildThisFileDirectory)..\$(MSBuildThisFile)"/>
 
 	<PropertyGroup>
-		<BuildFolder>~Builds</BuildFolder>
 		<BuildPath>$(SolutionDir)</BuildPath>
-		<PublishFolder>~Publish</PublishFolder>
 		<PublishPath>$(SolutionDir)</PublishPath>
-	</PropertyGroup>
-
-	<Import Project="$(BuildToolsPath)MSBuild.OutputPaths.props"/>
-
-	<PropertyGroup>
-		<CustomBeforeSdkTargets>$(BuildToolsPath)MSBuild.OutputPaths.targets</CustomBeforeSdkTargets>
-		<IsLegacyProject Condition="$(MSBuildProjectName.EndsWith('LPS')) OR $(SolutionName.EndsWith('LPS'))">true</IsLegacyProject>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(IsLegacyProject)' == 'true'">
-		<CustomBeforeMicrosoftCommonTargets>$(CustomBeforeSdkTargets)</CustomBeforeMicrosoftCommonTargets>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="$(MSBuildProjectName.Contains('-'))">

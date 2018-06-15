@@ -1,0 +1,112 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<!--
+	This file contains a list of the TFMs that are supported by this .NET SDK.
+	This is used by VS to show the list of frameworks to which projects can be retargeted.
+-->
+
+	<!-- .NET Flavors -->
+	<ItemGroup Label=".NET Flavors">
+		<KnownTargetFramework Include=".NETStandard">
+			<DisplayName>.NET Standard</DisplayName>
+			<Versions>1.0|1.2|1.3|1.4|1.5|1.6|2.0|2.1</Versions>
+		</KnownTargetFramework>
+		<KnownTargetFramework Include=".NETCore">
+			<DisplayName>.NET Core (Windows Universal)</DisplayName>
+			<Versions>4.5.1|4.5.2|5.0|6.0</Versions>
+		</KnownTargetFramework>
+		<KnownTargetFramework Include=".NETCoreApp">
+			<DisplayName>.NET Core</DisplayName>
+			<Versions>1.0|1.1|2.0|2.1</Versions>
+		</KnownTargetFramework>
+		<KnownTargetFramework Include=".NETFramework">
+			<DisplayName>.NET Framework (Windows Desktop)</DisplayName>
+			<Versions>1.1|2.0|3.5|4.0|4.0.3|4.5|4.5.1|4.5.2|4.6|4.6.1|4.6.2|4.6.3|4.7|4.7.1</Versions>
+		</KnownTargetFramework>
+		<KnownTargetFramework Include=".NETPortable">
+			<DisplayName>.NET Portable</DisplayName>
+			<Versions>4.0|4.5|4.6|5.0</Versions>
+			<Profiles>44|289|321</Profiles>
+		</KnownTargetFramework>
+		<KnownTargetFramework Include=".NETMicro">
+			<DisplayName>.NET Micro (Micro Controllers)</DisplayName>
+			<Versions>1.0|1.1|2.0</Versions>
+		</KnownTargetFramework>
+		<KnownTargetFramework Include=".NETMicroFramework">
+			<DisplayName>.NET Micro (Legacy) (Micro Controllers)</DisplayName>
+			<Versions>2.0|2.5|3.0|4.0|4.1|4.2|4.3|4.4</Versions>
+		</KnownTargetFramework>
+	</ItemGroup>
+
+	<!-- .NET Profiles -->
+	<ItemGroup Label=".NET Profiles">
+		<KnownTargetFrameworkProfile Include="Client">
+			<Versions>3.5|4.0</Versions>
+			<DependUpon>.NETFramework</DependUpon>
+		</KnownTargetFrameworkProfile>
+		<KnownTargetFrameworkProfile Include="CompactFramework">
+			<Versions>1.1|2.0|3.5</Versions>
+			<DependUpon>.NETFramework</DependUpon>
+		</KnownTargetFrameworkProfile>
+		<KnownTargetFrameworkProfile Include="WindowsPhone">
+			<Versions>3.0</Versions>
+			<DependUpon>Silverlight</DependUpon>
+		</KnownTargetFrameworkProfile>
+		<KnownTargetFrameworkProfile Include="WindowsPhone71">
+			<Versions>4.0</Versions>
+			<DependUpon>Silverlight</DependUpon>
+		</KnownTargetFrameworkProfile>
+	</ItemGroup>
+
+	<!-- .NET Platforms -->
+	<ItemGroup Label=".NET Platforms">
+		<KnownTargetFramework Include="Silverlight">
+			<DisplayName>Silverlight (WPF)</DisplayName>
+			<Versions>1.0|2.0|3.0|4.0|5.0</Versions>
+		</KnownTargetFramework>
+		<KnownTargetFramework Include="WindowsPhone">
+			<DisplayName>Windows Phone (Silverlight)</DisplayName>
+			<Versions>7.0|7.1|8.0|8.1</Versions>
+		</KnownTargetFramework>
+		<KnownTargetFramework Include="WindowsPhoneApp">
+			<DisplayName>Windows Phone (.NETCore)</DisplayName>
+			<Versions>8.1</Versions>
+		</KnownTargetFramework>
+		<KnownTargetFramework Include="Windows">
+			<DisplayName>Windows (.NETCore)</DisplayName>
+			<Versions>8.0|8.1|10.0</Versions>
+		</KnownTargetFramework>
+		<KnownTargetFramework Include="Tizen">
+			<DisplayName>Tizen (.NETCore)</DisplayName>
+			<Versions>3|4|5</Versions>
+		</KnownTargetFramework>
+	</ItemGroup>
+
+	<!-- Xamarin.NET Platforms -->
+	<ItemGroup Label="Xamarin.NET Platforms">
+		<KnownTargetFramework Include="Xamarin.Android">
+			<DisplayName>Android (Xamarin)</DisplayName>
+			<Versions></Versions>
+		</KnownTargetFramework>
+		<KnownTargetFramework Include="Xamarin.iOS">
+			<DisplayName>Apple iOS [iPhone+iPad] (Xamarin)</DisplayName>
+			<Versions></Versions>
+		</KnownTargetFramework>
+		<KnownTargetFramework Include="Xamarin.Mac">
+			<DisplayName>Apple Mac (Xamarin)</DisplayName>
+			<Versions></Versions>
+		</KnownTargetFramework>
+		<KnownTargetFramework Include="Xamarin.TVOS">
+			<DisplayName>Apple TV (Xamarin)</DisplayName>
+			<Versions></Versions>
+		</KnownTargetFramework>
+		<KnownTargetFramework Include="Xamarin.WatchOS">
+			<DisplayName>Apple Watch (Xamarin)</DisplayName>
+			<Versions></Versions>
+		</KnownTargetFramework>
+	</ItemGroup>
+
+	<PropertyGroup>
+		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+	</PropertyGroup>
+
+</Project>

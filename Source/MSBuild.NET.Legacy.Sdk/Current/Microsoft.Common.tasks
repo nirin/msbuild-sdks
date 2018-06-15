@@ -1,4 +1,4 @@
-﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
 	<!-- This file lists all the tasks that ship by default with MSBuild -->
 
@@ -28,6 +28,7 @@
 	<UsingTask TaskName="Microsoft.Build.Tasks.CreateProperty"                        AssemblyFile="$(MSBuildLegacyTasksAssembly)"/>
 	<UsingTask TaskName="Microsoft.Build.Tasks.CreateVisualBasicManifestResourceName" AssemblyFile="$(MSBuildLegacyTasksAssembly)"/>
 	<UsingTask TaskName="Microsoft.Build.Tasks.Delete"                                AssemblyFile="$(MSBuildLegacyTasksAssembly)"/>
+	<UsingTask TaskName="Microsoft.Build.Tasks.DownloadFile"                          AssemblyFile="$(MSBuildLegacyTasksAssembly)"/>
 	<UsingTask TaskName="Microsoft.Build.Tasks.Error"                                 AssemblyFile="$(MSBuildLegacyTasksAssembly)"/>
 	<UsingTask TaskName="Microsoft.Build.Tasks.ErrorFromResources"                    AssemblyFile="$(MSBuildLegacyTasksAssembly)"/>
 	<UsingTask TaskName="Microsoft.Build.Tasks.Exec"                                  AssemblyFile="$(MSBuildLegacyTasksAssembly)"/>
@@ -46,6 +47,7 @@
 	<UsingTask TaskName="Microsoft.Build.Tasks.GenerateResource"                      AssemblyFile="$(MSBuildLegacyTasksAssembly)"/>
 
 	<UsingTask TaskName="Microsoft.Build.Tasks.GenerateTrustInfo"                     AssemblyFile="$(MSBuildLegacyTasksAssembly)"/>
+	<UsingTask TaskName="Microsoft.Build.Tasks.GetFileHash"                           AssemblyFile="$(MSBuildLegacyTasksAssembly)"/>
 	<UsingTask TaskName="Microsoft.Build.Tasks.GetAssemblyIdentity"                   AssemblyFile="$(MSBuildLegacyTasksAssembly)"/>
 	<UsingTask TaskName="Microsoft.Build.Tasks.GetFrameworkPath"                      AssemblyFile="$(MSBuildLegacyTasksAssembly)"/>
 	<UsingTask TaskName="Microsoft.Build.Tasks.GetFrameworkSdkPath"                   AssemblyFile="$(MSBuildLegacyTasksAssembly)"/>
@@ -81,6 +83,8 @@
 	<UsingTask TaskName="Microsoft.Build.Tasks.UnregisterAssembly"                    AssemblyFile="$(MSBuildLegacyTasksAssembly)"/>
 
 	<UsingTask TaskName="Microsoft.Build.Tasks.UpdateManifest"                        AssemblyFile="$(MSBuildLegacyTasksAssembly)"/>
+	<UsingTask TaskName="Microsoft.Build.Tasks.Unzip"                                 AssemblyFile="$(MSBuildLegacyTasksAssembly)"/>
+	<UsingTask TaskName="Microsoft.Build.Tasks.VerifyFileHash"                        AssemblyFile="$(MSBuildLegacyTasksAssembly)"/>
 	<UsingTask TaskName="Microsoft.Build.Tasks.Warning"                               AssemblyFile="$(MSBuildLegacyTasksAssembly)"/>
 	<UsingTask TaskName="Microsoft.Build.Tasks.WriteCodeFragment"                     AssemblyFile="$(MSBuildLegacyTasksAssembly)"/>
 	<UsingTask TaskName="Microsoft.Build.Tasks.WriteLinesToFile"                      AssemblyFile="$(MSBuildLegacyTasksAssembly)"/>
@@ -88,6 +92,7 @@
 	<UsingTask TaskName="Microsoft.Build.Tasks.XmlPoke"                               AssemblyFile="$(MSBuildLegacyTasksAssembly)"/>
 	<UsingTask TaskName="Microsoft.Build.Tasks.XslTransformation"                     AssemblyFile="$(MSBuildLegacyTasksAssembly)"/>
 	<UsingTask TaskName="Microsoft.Build.Tasks.WinMDExp"                              AssemblyFile="$(MSBuildLegacyTasksAssembly)"/>
+	<UsingTask TaskName="Microsoft.Build.Tasks.ZipDirectory"                          AssemblyFile="$(MSBuildLegacyTasksAssembly)"/>
 
 	<!-- Managed Compiler tasks -->
 	<UsingTask TaskName="Microsoft.Build.Tasks.Csc"                                   AssemblyFile="$(MSBuildLegacyTasksAssembly)"/>

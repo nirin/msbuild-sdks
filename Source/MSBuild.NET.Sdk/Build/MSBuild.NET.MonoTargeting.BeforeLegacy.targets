@@ -1,0 +1,133 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+	<!--
+		Expand TargetFramework to TargetFrameworkIdentifier and TargetFrameworkVersion,
+		and adjust intermediate and output paths to include it.
+	-->
+	<Import Project="$(MSBuildThisFileDirectory)Resolvers\MSBuild.NET.FrameworkInference.targets"/>
+
+	<PropertyGroup>
+		<_IsExecutable Condition="'$(OutputType)' == 'Exe' OR '$(OutputType)'=='WinExe'">true</_IsExecutable>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(HasRuntimeOutput)' == ''">
+		<HasRuntimeOutput>$(_IsExecutable)</HasRuntimeOutput>
+		<_UsingDefaultForHasRuntimeOutput>true</_UsingDefaultForHasRuntimeOutput>
+	</PropertyGroup>
+
+	<!--
+		Use RuntimeIdentifier to determine PlatformTarget.
+		Also, enforce that RuntimeIdentifier is always specified for .NETFramework executables.
+	-->
+	<Import Project="$(MSBuildThisFileDirectory)Resolvers\MSBuild.NET.RuntimeInference.targets"/>
+
+	<PropertyGroup Condition="'$(_IsNETCoreOrNETStandard)' == ''">
+		<_IsNETCoreOrNETStandard Condition="'$(TargetFrameworkIdentifier)' == '.NETStandard' OR '$(TargetFrameworkIdentifier)' == '.NETCoreApp'">true</_IsNETCoreOrNETStandard>
+	</PropertyGroup>
+
+	<!-- Unification / automatic binding redirect logic -->
+	<PropertyGroup>
+		<DesignTimeAutoUnify Condition="'$(DesignTimeAutoUnify)' == ''">true</DesignTimeAutoUnify>
+		<AutoUnifyAssemblyReferences Condition="'$(AutoUnifyAssemblyReferences)' == '' AND '$(OutputType)' == 'Library'">true</AutoUnifyAssemblyReferences>
+		<AutoUnifyAssemblyReferences Condition="'$(AutoUnifyAssemblyReferences)' == '' AND '$(_IsNETCoreOrNETStandard)' == 'true'">true</AutoUnifyAssemblyReferences>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(TargetFrameworkIdentifier)' == '.NETFramework' AND '$(HasRuntimeOutput)' == 'true'">
+		<AutoGenerateBindingRedirects Condition="'$(AutoGenerateBindingRedirects)' == ''">true</AutoGenerateBindingRedirects>
+	</PropertyGroup>
+
+	<!-- Default settings for .NET Core and .NET Standard build logic -->
+	<PropertyGroup Condition="'$(_IsNETCoreOrNETStandard)' == 'true'">
+		<GenerateDependencyFile Condition="'$(GenerateDependencyFile)' == ''">true</GenerateDependencyFile>
+
+		<!-- Force .dll extension for .NETCoreApp and .NETStandard projects even if output type is exe. -->
+		<TargetExt Condition="'$(TargetExt)' == ''">.dll</TargetExt>
+
+		<!-- dependencies coming from the package manager lock file should not be copied locally for .NET Core and .NETStandard projects -->
+		<CopyLocalLockFileAssemblies Condition="'$(CopyLocalLockFileAssemblies)' == ''">false</CopyLocalLockFileAssemblies>
+
+		<!--
+			Disable the use of FrameworkPathOverride in 'Microsoft.Common.targets' which can slow down evaluation.
+			FrameworkPathOverride is not needed for NETStandard or NETCore since references come from NuGet packages
+		-->
+		<EnableFrameworkPathOverride Condition="'$(EnableFrameworkPathOverride)' == ''">false</EnableFrameworkPathOverride>
+	</PropertyGroup>
+
+	<!-- Regardless of platform, enable dependency file generation if PreserveCompilatioContext is set. -->
+	<PropertyGroup>
+		<GenerateDependencyFile Condition="'$(GenerateDependencyFile)' == ''">$(PreserveCompilationContext)</GenerateDependencyFile>
+	</PropertyGroup>
+
+	<!-- Set the PublishDirName to name your output folder containing the assemblies, by default it's AssemblyName -->
+	<PropertyGroup>
+		<PublishDirName Condition="'$(PublishDirName)' == ''">$(AssemblyName)</PublishDirName>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<!-- ensure the PublishDir is RID specific-->
+		<PublishDirName Condition="'$(IsRuntimeIdentifierAppendable)' == 'true'">$(PublishDirName)_$(RuntimeIdentifier)</PublishDirName>
+		<PublishDirName Condition="'$(IsRuntimeIdentifierAppendable)' != 'true' AND '$(Platform)' != 'AnyCPU'">$(PublishDirName)_$(Platform)</PublishDirName>
+		<PublishDirName Condition="'$(Configuration)' != 'Release'">$(PublishDirName)_$(Configuration)</PublishDirName>
+	</PropertyGroup>
+
+	<!-- Set PublishDir here, before Microsoft.Common.targets, to avoid a competing default there. -->
+	<PropertyGroup>
+		<PublishDir>$(PublishDir)$(PublishDirName)\</PublishDir>
+	</PropertyGroup>
+
+	<!-- For .NET Framework, reference core assemblies -->
+
+	<PropertyGroup>
+		<!-- Prevent System.Core reference from being added separately (see Microsoft.NETFramework.CurrentVersion.props) -->
+		<AddAdditionalExplicitAssemblyReferences>false</AddAdditionalExplicitAssemblyReferences>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(DisableImplicitAssetTargetFallback)' != 'true' AND '$(_IsNETCoreOrNETStandard)' == 'true' AND '$(_TargetFrameworkVersionWithoutV)' >= '2.0'">
+		<AssetTargetFallback>$(AssetTargetFallback);net461</AssetTargetFallback>
+	</PropertyGroup>
+
+	<!-- Add conditional compilation symbols for the target framework (for example NET461, NETSTANDARD2_0, NETCOREAPP1_0) -->
+	<PropertyGroup Condition="'$(DisableImplicitFrameworkDefines)' != 'true' AND '$(TargetFrameworkIdentifier)' != '.NETPortable' AND '$(TargetFrameworkIdentifier)' != ''">
+		<_FrameworkIdentifierForImplicitDefine>$(TargetFrameworkIdentifier.Replace('.', '').ToUpperInvariant())</_FrameworkIdentifierForImplicitDefine>
+		<_FrameworkIdentifierForImplicitDefine Condition="'$(TargetFrameworkIdentifier)' == '.NETFramework'">NET</_FrameworkIdentifierForImplicitDefine>
+
+		<_FrameworkVersionForImplicitDefine>$(_TargetFrameworkVersionWithoutV)</_FrameworkVersionForImplicitDefine>
+		<_FrameworkVersionForImplicitDefine>$(_FrameworkVersionForImplicitDefine.Replace('.', '_'))</_FrameworkVersionForImplicitDefine>
+		<_FrameworkVersionForImplicitDefine Condition="'$(TargetFrameworkIdentifier)' == '.NETFramework'">$(_FrameworkVersionForImplicitDefine.Replace('_', ''))</_FrameworkVersionForImplicitDefine>
+
+		<ImplicitFrameworkDefine>$(_FrameworkIdentifierForImplicitDefine)$(_FrameworkVersionForImplicitDefine)</ImplicitFrameworkDefine>
+	</PropertyGroup>
+
+	<!-- Handle XML documentation file settings -->
+	<PropertyGroup Condition="'$(GenerateDocumentationFile)' == ''">
+		<GenerateDocumentationFile Condition="'$(DocumentationFile)' == ''">false</GenerateDocumentationFile>
+		<GenerateDocumentationFile Condition="'$(DocumentationFile)' != ''">true</GenerateDocumentationFile>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(GenerateDocumentationFile)' == 'true' AND '$(DocumentationFile)' == ''">
+		<DocumentationFile>$(IntermediateOutputPath)$(AssemblyName).xml</DocumentationFile>
+		<!-- TODO: Verify and remove this workaround if VB side is fixed! -->
+		<!--<DocumentationFile Condition="'$(MSBuildProjectExtension)' == '.vbproj'">$(AssemblyName).xml</DocumentationFile>
+		<DocumentationFile Condition="'$(MSBuildProjectExtension)' != '.vbproj'">$(IntermediateOutputPath)$(AssemblyName).xml</DocumentationFile>-->
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(GenerateDocumentationFile)' != 'true'">
+		<DocumentationFile/>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<PublishDocumentationFiles Condition="'$(PublishDocumentationFiles)' == ''">true</PublishDocumentationFiles>
+		<PublishDocumentationFile Condition="'$(PublishDocumentationFile)' == '' AND '$(PublishDocumentationFiles)' == 'true'">true</PublishDocumentationFile>
+		<PublishReferencesDocumentationFiles Condition="'$(PublishReferencesDocumentationFiles)' == '' AND '$(PublishDocumentationFiles)' == 'true'">true</PublishReferencesDocumentationFiles>
+	</PropertyGroup>
+
+	<!-- Add a project capability so that the project properties in the IDE can show the option to generate an XML documentation file without specifying the filename -->
+	<ItemGroup>
+		<ProjectCapability Include="GenerateDocumentationFile"/>
+	</ItemGroup>
+
+	<PropertyGroup>
+		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+	</PropertyGroup>
+
+</Project>

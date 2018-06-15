@@ -1,4 +1,4 @@
-﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
 	<PropertyGroup Label="Microsoft.NETFramework.props">
 		<ImportUserLocationsByWildcardBeforeMicrosoftNETFrameworkProps>false</ImportUserLocationsByWildcardBeforeMicrosoftNETFrameworkProps>
@@ -6,8 +6,8 @@
 		<ImportByWildcardAfterMicrosoftNETFrameworkProps>false</ImportByWildcardAfterMicrosoftNETFrameworkProps>
 		<ImportUserLocationsByWildcardAfterMicrosoftNETFrameworkProps>false</ImportUserLocationsByWildcardAfterMicrosoftNETFrameworkProps>
 
-		<CustomBeforeMicrosoftNETFrameworkProps>DISABLED-FROM-SDK</CustomBeforeMicrosoftNETFrameworkProps>
-		<CustomAfterMicrosoftNETFrameworkProps>DISABLED-FROM-SDK</CustomAfterMicrosoftNETFrameworkProps>
+		<CustomBeforeMicrosoftNETFrameworkProps Condition="'$(CustomBeforeMicrosoftNETFrameworkProps)' == ''">DISABLED-FROM-SDK</CustomBeforeMicrosoftNETFrameworkProps>
+		<CustomAfterMicrosoftNETFrameworkProps Condition="'$(CustomAfterMicrosoftNETFrameworkProps)' == ''">DISABLED-FROM-SDK</CustomAfterMicrosoftNETFrameworkProps>
 	</PropertyGroup>
 
 </Project>

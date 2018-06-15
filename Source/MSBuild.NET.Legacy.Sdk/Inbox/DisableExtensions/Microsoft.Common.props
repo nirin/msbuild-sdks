@@ -6,8 +6,8 @@
 		<ImportByWildcardAfterMicrosoftCommonProps>false</ImportByWildcardAfterMicrosoftCommonProps>
 		<ImportUserLocationsByWildcardAfterMicrosoftCommonProps>false</ImportUserLocationsByWildcardAfterMicrosoftCommonProps>
 
-		<CustomBeforeMicrosoftCommonProps>DISABLED-FROM-SDK</CustomBeforeMicrosoftCommonProps>
-		<CustomAfterMicrosoftCommonProps>DISABLED-FROM-SDK</CustomAfterMicrosoftCommonProps>
+		<CustomBeforeMicrosoftCommonProps Condition="'$(CustomBeforeMicrosoftCommonProps)' == ''">DISABLED-FROM-SDK</CustomBeforeMicrosoftCommonProps>
+		<CustomAfterMicrosoftCommonProps Condition="'$(CustomAfterMicrosoftCommonProps)' == ''">DISABLED-FROM-SDK</CustomAfterMicrosoftCommonProps>
 	</PropertyGroup>
 
 </Project>

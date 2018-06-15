@@ -1,4 +1,4 @@
-﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
 	<PropertyGroup>
 		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
@@ -283,7 +283,7 @@
 	<Import Project="$(CSharpCoreTargetsPath)"/>
 
 	<!-- Import design time targets for Roslyn Project System. These are only available if Visual Studio is installed. -->
-	<!-- Import design time targets before the common targets, which import targets from Nuget. -->
+	<!-- Import design time targets before 'Microsoft.Common.targets', which import targets from NuGet packages. -->
 	<PropertyGroup>
 		<CSharpDesignTimeTargetsPath Condition="'$(CSharpDesignTimeTargetsPath)'==''">$(MSBuildExtensionsPath)\Microsoft\VisualStudio\Managed\Microsoft.CSharp.DesignTime.targets</CSharpDesignTimeTargetsPath>
 	</PropertyGroup>

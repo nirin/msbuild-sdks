@@ -1,6 +1,6 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
-	<PropertyGroup Condition="'$(IsLegacyProject)' != 'true'">
+	<PropertyGroup>
 		<Company>NIRIN</Company>
 		<Authors>Nirmal Guru</Authors>
 		<Copyright>© NIRIN Foundation</Copyright>
@@ -14,9 +14,5 @@
 	</PropertyGroup>
 
 	<Import Project="$(MSBuildThisFileDirectory)..\$(MSBuildThisFile)"/>
-
-	<Import Project="$(BuildToolsPath)MSBuild.OutputPathChecks.targets"/>
-
-	<Import Project="$(BuildToolsPath)MSBuild.TestOutput.targets" Condition="'$(IsLegacyProject)' != 'true'"/>
 
 </Project>

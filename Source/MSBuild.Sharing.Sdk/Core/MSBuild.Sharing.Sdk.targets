@@ -1,0 +1,14 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+	<PropertyGroup>
+		<ParentProjectType Condition="'$(ParentProjectType)' == ''">Common</ParentProjectType>
+		<TargetPlatformVersion Condition="'$(TargetPlatformVersion)' == ''">8.0</TargetPlatformVersion>
+	</PropertyGroup>
+
+	<Import Project="$(MSBuildThisFileDirectory)MSBuild.CodeSharing.$(ParentProjectType).targets"/>
+
+	<PropertyGroup>
+		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+	</PropertyGroup>
+
+</Project>

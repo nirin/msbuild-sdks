@@ -1,0 +1,37 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+	<!-- Set default assembly info properties -->
+	<Import Project="$(MSBuildThisFileDirectory)..\Core\MSBuild.NET.Defaults.AssemblyInfo.targets"/>
+
+	<!-- Set default intermediate and output paths -->
+	<Import Project="$(MSBuildThisFileDirectory)..\Core\MSBuild.NET.Defaults.OutputPaths.targets"/>
+
+	<!--
+		TODO: Make it independent of TargetFramework or TargetPlatform!
+		Sets RestoreAdditionalProjectSources or RestoreAdditionalProjectFallbackFolders
+		to the SDK Offline Cache independent of TargetFramework or TargetPlatform.
+	-->
+	<!--<Import Project="$(MSBuildThisFileDirectory)..\Extensions\NuGet.OfflineCache.targets"/>-->
+
+	<PropertyGroup Label="Globals">
+		<IsMultiTargetingBuild Condition="'$(TargetFrameworks)' != '' AND '$(TargetFramework)' == ''">true</IsMultiTargetingBuild>
+	</PropertyGroup>
+
+	<Import Project="$(MSBuildThisFileDirectory)MSBuild.NET.MultiTargeting.targets" Condition="'$(IsMultiTargetingBuild)' == 'true'"/>
+
+	<!-- Check if we already imported them as props -->
+	<Import Project="$(MSBuildThisFileDirectory)Resolvers\MSBuild.NET.LanguageInference.props" Condition="'$(SourceLanguageName)' == ''"/>
+
+	<Import Project="$(MSBuildThisFileDirectory)MSBuild.NET.MonoTargeting.targets" Condition="'$(IsMultiTargetingBuild)' != 'true'"/>
+
+	<Import Project="$(MSBuildThisFileDirectory)..\Core\Languages\MSBuild.$(SourceLanguageName).targets"/>
+
+	<PropertyGroup>
+		<ImportedMSBuildNETSdkTargets>true</ImportedMSBuildNETSdkTargets>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+	</PropertyGroup>
+
+</Project>

@@ -10,23 +10,33 @@ MSBuild SDKs are used to configure and extend your build. MSBuild 15.0 introduce
 
 Supports projects that do not compile to an assembly. This is usually the base SDK for other SDKs listed here.
 
+### [MSBuild.Dependencies.Sdk](Source/MSBuild.Dependencies.Sdk)
+
+**Coming Soon**! Supports centrally managing Native and Managed references directly and via packages. Also allows adding global references via the Solution SDK.
+
+### [MSBuild.Native.Sdk](Source/MSBuild.Native.Sdk)
+
+Supports [Native](Docs/Support.md#native-platform-support) projects that include C/C++ (CLang, GCC, VisualC), ASM, FORTRAN, etc.
+
 ### [MSBuild.NET.Legacy.Sdk](Source/MSBuild.NET.Legacy.Sdk)
 
 Supports only .NET Framework (Windows). Contains the original .NET Framework Build files that were included with MSBuild. Use them to slowly migrate your legacy projects to SDK-style.
 
-### [MSBuild.NET.DefaultItems](Source/MSBuild.NET.DefaultItems)
+### [MSBuild.NET.Sdk](Source/MSBuild.NET.Sdk)
 
-An MSBuild Extension package for including various platfroms' (Android, Apple, Tizen, Web, Windows) default build items etc... in .NET projects. You can use this package in any SDK-style projects that extends `Microsoft.NET.Sdk` like `MSBuild.NET.Extras.Sdk`, etc...
+Supports [.NET Platform](Docs/Support.md#net-platform-support) projects that include building for .NET Framework (Windows), .NET Core (Windows, Linux, MacOS), Mono (Windows, Linux, MacOS), Xamarin (based on Mono) runtimes.
 
-[![MSBuild.NET.DefaultItems](https://img.shields.io/nuget/v/MSBuild.NET.DefaultItems.svg)](https://nuget.org/packages/MSBuild.NET.DefaultItems)
-[![MSBuild.NET.DefaultItems](https://img.shields.io/myget/msbuild-sdks/v/MSBuild.NET.DefaultItems.svg)](https://myget.org/feed/msbuild-sdks/package/nuget/MSBuild.NET.DefaultItems)
+### [MSBuild.Packaging.Sdk](Source/MSBuild.Packaging.Sdk)
 
-### [MSBuild.NET.Extras.Sdk](Source/MSBuild.NET.Extras.Sdk)
+**Coming Soon**! Create any type of package for any type of project!
 
-Adds a few extra extensions to the SDK-style projects that are currently not available in `Microsoft.NET.Sdk` SDK. This feature is being tracked in [dotnet/sdk#491](https://github.com/dotnet/sdk/issues/491)
+### [MSBuild.Sharing.Sdk](Source/MSBuild.Sharing.Sdk)
 
-[![MSBuild.NET.Extras.Sdk](https://img.shields.io/nuget/v/MSBuild.NET.Extras.Sdk.svg)](https://nuget.org/packages/MSBuild.NET.Extras.Sdk)
-[![MSBuild.NET.Extras.Sdk](https://img.shields.io/myget/msbuild-sdks/v/MSBuild.NET.Extras.Sdk.svg)](https://myget.org/feed/msbuild-sdks/package/nuget/MSBuild.NET.Extras.Sdk)
+**Coming Soon**! Shared project in SDK-style and more!
+
+### [MSBuild.Solution.Sdk](Source/MSBuild.Solution.Sdk)
+
+**Coming Soon**! Supports creating MSBuild solutions which are MSBuild projects that indicate what projects to include when building your tree. They are an evolution of Visual Studio solution files.
 
 ### [NuGet.Packaging.Sdk](Source/NuGet.Packaging.Sdk)
 
