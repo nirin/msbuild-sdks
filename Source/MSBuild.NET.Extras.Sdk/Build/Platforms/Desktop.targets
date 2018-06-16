@@ -9,11 +9,6 @@
 		<ImplicitFrameworkProfileDefine>$(TargetFrameworkProfile.ToUpperInvariant())$(_ShortFrameworkVersion)</ImplicitFrameworkProfileDefine>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)' == 'Debug'">
-		<DebugType Condition="'$(DebugType)' == ''">Full</DebugType>
-		<DebugSymbols Condition="'$(DebugSymbols)' == ''">true</DebugSymbols>
-	</PropertyGroup>
-
 	<PropertyGroup Condition="'$(EnableWebProjectSetup)' == 'true'">
 		<IsPackable Condition="'$(IsPackable)' == ''">false</IsPackable>
 		<MvcBuildViews Condition="'$(MvcBuildViews)' == ''">true</MvcBuildViews>

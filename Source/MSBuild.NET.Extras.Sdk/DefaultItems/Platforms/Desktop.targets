@@ -20,6 +20,8 @@
 		<EnableWebProjectSetup>false</EnableWebProjectSetup>
 	</PropertyGroup>
 
+	<!-- Desktop Support -->
+
 	<PropertyGroup Condition="'$(ApplicationManifest)' == ''">
 		<ApplicationManifest Condition="Exists('$(MSBuildProjectDirectory)\$(AppDesignerFolder)\App.manifest')">$(AppDesignerFolder)\App.manifest</ApplicationManifest>
 		<ApplicationManifest Condition="Exists('$(MSBuildProjectDirectory)\App.manifest')">App.manifest</ApplicationManifest>
@@ -35,14 +37,15 @@
 		<SettingsCodeGeneratorTool Condition="'$(SettingsGeneratedCodeIsPublic)' == 'true'">PublicSettingsSingleFileGenerator</SettingsCodeGeneratorTool>
 	</PropertyGroup>
 
+	<!-- WPF Support -->
+
 	<PropertyGroup Condition="'$(EnableWpfProjectSetup)' == 'true'">
 		<EnableDefaultWpfItems Condition="'$(EnableDefaultWpfItems)' == ''">true</EnableDefaultWpfItems>
+		<EnableDefaultXamlItems>$(EnableDefaultWpfItems)</EnableDefaultXamlItems>
 		<EnableImplicitWpfReferences Condition="'$(EnableImplicitWpfReferences)' == ''">true</EnableImplicitWpfReferences>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(EnableDefaultWpfItems)' == 'true'">
-		<EnableDefaultXamlItems Condition="'$(EnableDefaultXamlItems)' == ''">true</EnableDefaultXamlItems>
-	</PropertyGroup>
+	<!-- Windows Forms Support -->
 
 	<PropertyGroup Condition="'$(EnableWinFormsProjectSetup)' == 'true'">
 		<EnableDefaultWinFormsItems Condition="'$(EnableDefaultWinFormsItems)' == ''">true</EnableDefaultWinFormsItems>
@@ -52,6 +55,13 @@
 
 	<PropertyGroup Condition="'$(EnableDefaultWinFormsItems)' == 'true'">
 		<UserControlDesignerService Condition="'$(UserControlDesignerService)' == ''">{94E38DFF-614B-4CBD-B67C-F211BB35CE8B}</UserControlDesignerService>
+	</PropertyGroup>
+
+	<!-- WEB Support -->
+
+	<PropertyGroup Condition="'$(EnableWebProjectSetup)' == 'true'">
+		<EnableDefaultWebItems Condition="'$(EnableDefaultWebItems)' == ''">true</EnableDefaultWebItems>
+		<EnableImplicitWebReferences Condition="'$(EnableImplicitWebReferences)' == ''">true</EnableImplicitWebReferences>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(EnableDefaultWebItems)' == 'true'">

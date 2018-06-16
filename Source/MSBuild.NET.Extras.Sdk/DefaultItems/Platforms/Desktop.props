@@ -4,6 +4,8 @@
 		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
 	</PropertyGroup>
 
+	<!-- Desktop Support -->
+
 	<ItemGroup Condition="'$(EnableDefaultSettingsItems)' == 'true'">
 		<None Update="**\*.settings" SubType="Designer">
 			<Generator Condition="'$(EnableSettingsCodeGenerator)' == 'false'">MSBuild:Compile</Generator>
@@ -28,6 +30,8 @@
 		</Compile>
 	</ItemGroup>
 
+	<!-- Windows Forms Support -->
+
 	<ItemGroup>
 		<Compile Update="**\*$(DefaultDesignerFileSuffix)$(DefaultLanguageSourceExtension)">
 			<DependentUpon Condition="'%(DependentUpon)' == ''">$([MSBuild]::ValueOrDefault('%(Filename)', '').Replace('$(DefaultDesignerFileSuffix)', '$(DefaultLanguageSourceExtension)'))</DependentUpon>
@@ -44,6 +48,8 @@
 		-->
 		<Service Include="$(UserControlDesignerService)" Condition="'$(EnableUserControlDesigner)' == 'true'"/>
 	</ItemGroup>
+
+	<!-- WEB Support -->
 
 	<ItemGroup Condition="'$(EnableDefaultWebItems)' == 'true'">
 		<Service Include="$(WebDesignerService)" Condition="'$(EnableWebDesigner)' == 'true'"/>
