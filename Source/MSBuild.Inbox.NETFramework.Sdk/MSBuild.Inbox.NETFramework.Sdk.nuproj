@@ -1,0 +1,13 @@
+<Project Sdk="NuGet.Packaging.Sdk">
+
+	<PropertyGroup Label="Globals">
+		<ProjectGuid>{4E58D45C-5E52-4301-A661-C49594094319}</ProjectGuid>
+	</PropertyGroup>
+
+	<PropertyGroup Label="PackageInfo">
+		<Title>MSBuild .NET Framework Inbox Sdk</Title>
+		<PackageId>MSBuild.Inbox.NETFramework.Sdk</PackageId>
+		<PackageVersion Condition="'$(PackageVersion)' == ''">1.0.0</PackageVersion>
+	</PropertyGroup>
+
+</Project>

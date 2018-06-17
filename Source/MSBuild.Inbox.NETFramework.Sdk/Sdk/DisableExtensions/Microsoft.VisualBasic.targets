@@ -1,0 +1,13 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+	<PropertyGroup Label="Microsoft.VisualBasic.targets">
+		<ImportUserLocationsByWildcardBeforeMicrosoftVisualBasicTargets>false</ImportUserLocationsByWildcardBeforeMicrosoftVisualBasicTargets>
+		<ImportByWildcardBeforeMicrosoftVisualBasicTargets>false</ImportByWildcardBeforeMicrosoftVisualBasicTargets>
+		<ImportByWildcardAfterMicrosoftVisualBasicTargets>false</ImportByWildcardAfterMicrosoftVisualBasicTargets>
+		<ImportUserLocationsByWildcardAfterMicrosoftVisualBasicTargets>false</ImportUserLocationsByWildcardAfterMicrosoftVisualBasicTargets>
+
+		<CustomBeforeMicrosoftVisualBasicTargets Condition="'$(CustomBeforeMicrosoftVisualBasicTargets)' == ''">DISABLED-FROM-SDK</CustomBeforeMicrosoftVisualBasicTargets>
+		<CustomAfterMicrosoftVisualBasicTargets Condition="'$(CustomAfterMicrosoftVisualBasicTargets)' == ''">DISABLED-FROM-SDK</CustomAfterMicrosoftVisualBasicTargets>
+	</PropertyGroup>
+
+</Project>

@@ -1,0 +1,21 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+	<Import Project="Sdk.tasks"/>
+
+	<PropertyGroup>
+		<MicrosoftLegacyPropsFileName>Microsoft.Common.props</MicrosoftLegacyPropsFileName>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<CustomProjectCoreProps>$(MSBuildThisFileDirectory)$(MicrosoftLegacyPropsFileName)</CustomProjectCoreProps>
+	</PropertyGroup>
+
+	<Import Project="Sdk.props" Sdk="MSBuild.Core.Sdk"/>
+
+	<!--<Import Project="$(MicrosoftLegacyPropsFileName)"/>-->
+
+	<PropertyGroup>
+		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+	</PropertyGroup>
+
+</Project>
