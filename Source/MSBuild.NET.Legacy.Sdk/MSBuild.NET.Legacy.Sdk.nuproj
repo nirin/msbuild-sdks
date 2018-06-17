@@ -10,9 +10,4 @@
 		<PackageVersion Condition="'$(PackageVersion)' == ''">1.0.0</PackageVersion>
 	</PropertyGroup>
 
-	<ItemGroup>
-		<None Remove="*.props;*.targets;*.items;*.tasks"/>
-		<PackageFile Include="*.props;*.targets;*.items;*.tasks" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)"/>
-	</ItemGroup>
-
 </Project>
