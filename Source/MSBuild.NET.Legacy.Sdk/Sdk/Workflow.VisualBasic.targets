@@ -1,0 +1,19 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+	<Choose>
+		<When Condition="'$(MSBuildAssemblyVersion)' == ''">
+			<PropertyGroup>
+				<WorkflowVisualBasicTargetsPath>$(MSBuildThisFileDirectory)Inbox\$(MSBuildThisFile)</WorkflowVisualBasicTargetsPath>
+			</PropertyGroup>
+		</When>
+		<Otherwise>
+			<PropertyGroup>
+				<WorkflowVisualBasicTargetsPath>$(MSBuildThisFileDirectory)Current\$(MSBuildThisFile)</WorkflowVisualBasicTargetsPath>
+			</PropertyGroup>
+		</Otherwise>
+	</Choose>
+
+	<Import Project="$(MSBuildThisFileDirectory)Extensions\$(MSBuildThisFile)" Condition="'$(ImportLegacyExtensionTargets)' == 'true'"/>
+	<Import Project="$(WorkflowVisualBasicTargetsPath)" Condition="'$(ImportLegacyExtensionTargets)' != 'true'"/>
+
+</Project>

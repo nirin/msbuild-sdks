@@ -1,0 +1,103 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+	<PropertyGroup>
+		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+	</PropertyGroup>
+
+	<Import Project="$(CustomBeforeMicrosoftNETFrameworkTargets)" Condition="Exists('$(CustomBeforeMicrosoftNETFrameworkTargets)')"/>
+
+	<Target Name="GetFrameworkPaths" DependsOnTargets="$(GetFrameworkPathsDependsOn)">
+
+		<!-- For backwards compatibility of targets who replaced this target we cannot move these values outside the target even though they
+			 now only depend on statically availiable values-->
+		<ItemGroup>
+			<_TargetFramework40DirectoryItem Include="$(MSBuildFrameworkToolsRoot)v4.0.30319"/>
+			<_TargetFramework35DirectoryItem Include="$(MSBuildFrameworkToolsRoot)v3.5"/>
+			<_TargetFramework30DirectoryItem Include="$(MSBuildFrameworkToolsRoot)v3.0"/>
+			<_TargetFramework20DirectoryItem Include="$(MSBuildFrameworkToolsRoot)v2.0.50727"/>
+
+			<_TargetedFrameworkDirectoryItem Condition="'$(TargetFrameworkVersion)' == 'v2.0'" Include="@(_TargetFramework20DirectoryItem)"/>
+			<_TargetedFrameworkDirectoryItem Condition="'$(TargetFrameworkVersion)' == 'v3.0' OR '$(TargetFrameworkVersion)' == 'v3.5'" Include="$(MSBuildFrameworkToolsRoot)\$(TargetFrameworkVersion)"/>
+			<_TargetedFrameworkDirectoryItem Condition="'@(_TargetedFrameworkDirectoryItem)' == ''" Include="@(_TargetFramework40DirectoryItem)"/>
+		</ItemGroup>
+
+		<ItemGroup>
+			<_CombinedTargetFrameworkDirectoriesItem Condition="'$(TargetFrameworkVersion)' == 'v4.0'" Include="@(_TargetFramework40DirectoryItem)"/>
+			<_CombinedTargetFrameworkDirectoriesItem Condition="'$(TargetFrameworkVersion)' == 'v3.5'" Include="@(_TargetFramework35DirectoryItem)"/>
+			<_CombinedTargetFrameworkDirectoriesItem Condition="'$(TargetFrameworkVersion)' == 'v3.0' OR '$(TargetFrameworkVersion)' == 'v3.5'" Include="@(_TargetFramework30DirectoryItem)"/>
+			<_CombinedTargetFrameworkDirectoriesItem Condition="'$(TargetFrameworkVersion)' == 'v2.0' OR '$(TargetFrameworkVersion)' == 'v3.0' OR '$(TargetFrameworkVersion)' == 'v3.5'" Include="@(_TargetFramework20DirectoryItem)"/>
+			<_CombinedTargetFrameworkDirectoriesItem Condition="'@(_CombinedTargetFrameworkDirectoriesItem)' == ''" Include="@(_TargetedFrameworkDirectoryItem)"/>
+		</ItemGroup>
+
+		<PropertyGroup>
+			<TargetFrameworkDirectory>@(_CombinedTargetFrameworkDirectoriesItem)</TargetFrameworkDirectory>
+			<TargetFrameworkSDKDirectory>$(FrameworkSDKRoot)</TargetFrameworkSDKDirectory>
+		</PropertyGroup>
+
+		<ItemGroup>
+			<_TargetFrameworkSDKDirectoryItem Include="$(TargetFrameworkSDKDirectory)"/>
+		</ItemGroup>
+	</Target>
+
+	<PropertyGroup>
+		<ResolveReferencesDependsOn>
+			$(ResolveReferencesDependsOn);
+			ImplicitlyExpandDesignTimeFacades
+		</ResolveReferencesDependsOn>
+
+		<ImplicitlyExpandDesignTimeFacadesDependsOn>
+			$(ImplicitlyExpandDesignTimeFacadesDependsOn);
+			GetReferenceAssemblyPaths
+		</ImplicitlyExpandDesignTimeFacadesDependsOn>
+	</PropertyGroup>
+
+	<!-- Implicitly references all portable design-time facades if the user is referencing a System.Runtime-based portable library -->
+	<Target Name="ImplicitlyExpandDesignTimeFacades" Condition="'$(ImplicitlyExpandDesignTimeFacades)' == 'true'" DependsOnTargets="$(ImplicitlyExpandDesignTimeFacadesDependsOn)">
+
+		<PropertyGroup>
+			<!-- Does one of our dependencies reference a System.Runtime-based portable library? -->
+			<_HasReferenceToSystemRuntime Condition="'$(DependsOnSystemRuntime)' == 'true'">true</_HasReferenceToSystemRuntime>
+			<_HasReferenceToSystemRuntime Condition="'%(_ResolvedProjectReferencePaths.TargetPlatformIdentifier)' == 'Portable'">true</_HasReferenceToSystemRuntime>
+			<_HasReferenceToSystemRuntime Condition="'%(_ResolvedProjectReferencePaths.TargetFrameworkIdentifier)' == '.NETStandard' AND '%(_ResolvedProjectReferencePaths.TargetFrameworkVersion)' &lt; '2.0'">true</_HasReferenceToSystemRuntime>
+			<_HasReferenceToNETStandard Condition="'$(_DependsOnNETStandard)' == 'true'">true</_HasReferenceToNETStandard>
+			<_HasReferenceToNETStandard Condition="'%(_ResolvedProjectReferencePaths.TargetFrameworkIdentifier)' == '.NETStandard' AND '%(_ResolvedProjectReferencePaths.TargetFrameworkVersion)' &gt;= '2.0'">true</_HasReferenceToNETStandard>
+		</PropertyGroup>
+
+		<ItemGroup Condition="'$(_HasReferenceToSystemRuntime)' == 'true'">
+			<_DesignTimeFacadeAssemblies Include="%(DesignTimeFacadeDirectories.Identity)*.dll"/>
+		</ItemGroup>
+
+		<ItemGroup Condition="'$(_HasReferenceToSystemRuntime)' != 'true' AND '$(_HasReferenceToNETStandard)' == 'true'">
+			<_DesignTimeFacadeAssemblies Include="%(DesignTimeFacadeDirectories.Identity)netstandard.dll"
+				Condition="Exists('%(DesignTimeFacadeDirectories.Identity)netstandard.dll')"/>
+		</ItemGroup>
+
+		<ItemGroup Condition="'$(_HasReferenceToSystemRuntime)' == 'true' OR '$(_HasReferenceToNETStandard)' == 'true'">
+			<_DesignTimeFacadeAssemblies_Names Include="@(_DesignTimeFacadeAssemblies->'%(FileName)')">
+				<OriginalIdentity>%(_DesignTimeFacadeAssemblies.Identity)</OriginalIdentity>
+			</_DesignTimeFacadeAssemblies_Names>
+
+			<_ReferencePath_Names Include="@(ReferencePath->'%(FileName)')">
+				<OriginalIdentity>%(ReferencePath.Identity)</OriginalIdentity>
+			</_ReferencePath_Names>
+
+			<_DesignTimeFacadeAssemblies_Names Remove="@(_ReferencePath_Names)"/>
+
+			<ReferencePath Include="@(_DesignTimeFacadeAssemblies_Names->'%(OriginalIdentity)')">
+				<WinMDFile>false</WinMDFile>
+				<CopyLocal>false</CopyLocal>
+				<ResolvedFrom>ImplicitlyExpandDesignTimeFacades</ResolvedFrom>
+			</ReferencePath>
+			<_ResolveAssemblyReferenceResolvedFiles Include="@(ReferencePath)" Condition="'%(ReferencePath.ResolvedFrom)' == 'ImplicitlyExpandDesignTimeFacades'"/>
+		</ItemGroup>
+
+		<Message Importance="Low" Text="Including @(ReferencePath)" Condition="'%(ReferencePath.ResolvedFrom)' == 'ImplicitlyExpandDesignTimeFacades'"/>
+
+	</Target>
+
+	<Import Project="$(MSBuildThisFileDirectory)Microsoft.WinFX.targets" Condition="'$(TargetFrameworkVersion.TrimStart(vV))' >=  '3.0' AND '$(TargetCompactFramework)' != 'true' AND Exists('$(MSBuildThisFileDirectory)Microsoft.WinFX.targets')"/>
+	<Import Project="$(MSBuildThisFileDirectory)Microsoft.Data.Entity.targets" Condition="'$(TargetFrameworkVersion.TrimStart(vV))' >=  '3.5' AND Exists('$(MSBuildThisFileDirectory)Microsoft.Data.Entity.targets')"/>
+
+	<Import Project="$(CustomAfterMicrosoftNETFrameworkTargets)" Condition="Exists('$(CustomAfterMicrosoftNETFrameworkTargets)')"/>
+
+</Project>

@@ -1,0 +1,13 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+	<!-- Import design time targets for Roslyn Project System. These are only available if Visual Studio is installed. -->
+	<!-- Import design time targets before 'Microsoft.Common.CrossTargeting.targets', which import targets from NuGet packages. -->
+	<PropertyGroup>
+		<CSharpDesignTimeTargetsPath Condition="'$(CSharpDesignTimeTargetsPath)'==''">$(MSBuildExtensionsPath)\Microsoft\VisualStudio\Managed\Microsoft.CSharp.DesignTime.targets</CSharpDesignTimeTargetsPath>
+	</PropertyGroup>
+
+	<Import Project="$(CSharpDesignTimeTargetsPath)" Condition="'$(CSharpDesignTimeTargetsPath)' != '' AND Exists('$(CSharpDesignTimeTargetsPath)')"/>
+
+	<Import Project="$(MSBuildThisFileDirectory)Microsoft.Common.CrossTargeting.targets"/>
+
+</Project>
