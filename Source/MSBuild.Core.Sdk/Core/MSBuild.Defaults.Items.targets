@@ -25,10 +25,10 @@
 		<DefaultItemExcludes>$(DefaultItemExcludes);$(PublishPath)\**</DefaultItemExcludes>
 
 		<!-- Various files that should generally always be ignored -->
-		<DefaultItemExcludes>$(DefaultItemExcludes);*.sln</DefaultItemExcludes>
-		<DefaultItemExcludes>$(DefaultItemExcludes);*.user</DefaultItemExcludes>
-		<DefaultItemExcludes>$(DefaultItemExcludes);*.*proj</DefaultItemExcludes>
-		<DefaultItemExcludes>$(DefaultItemExcludes);*.projitems</DefaultItemExcludes>
+		<DefaultItemExcludes>$(DefaultItemExcludes);**\*.sln</DefaultItemExcludes>
+		<DefaultItemExcludes>$(DefaultItemExcludes);**\*.user</DefaultItemExcludes>
+		<DefaultItemExcludes>$(DefaultItemExcludes);**\*.*proj</DefaultItemExcludes>
+		<DefaultItemExcludes>$(DefaultItemExcludes);**\*.projitems</DefaultItemExcludes>
 		<DefaultItemExcludes>$(DefaultItemExcludes);**\*.vssscc</DefaultItemExcludes>
 	</PropertyGroup>
 

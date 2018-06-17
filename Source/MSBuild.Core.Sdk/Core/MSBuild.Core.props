@@ -4,8 +4,6 @@
 
 	<Import Project="$(MSBuildThisFileDirectory)MSBuild.Defaults.Items.props"/>
 
-	<Import Project="$(MSBuildThisFileDirectory)..\VisualStudio\Microsoft.VisualStudio.props"/>
-
 	<Import Project="$(MSBuildThisFileDirectory)MSBuild.OutputPaths.props" Condition="'$(ImportedMSBuildOutputPathsProps)' != 'true'"/>
 
 </Project>

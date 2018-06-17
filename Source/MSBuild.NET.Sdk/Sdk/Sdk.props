@@ -30,11 +30,14 @@
 		<MSBuildLegacySdkPath>$(MSBuildSdksPath)\$(MSBuildLegacySdk)</MSBuildLegacySdkPath>
 	</PropertyGroup>
 
-	<Import Project="Sdk.props" Sdk="MSBuild.Core.Sdk"/>
+	<PropertyGroup>
+		<CustomProjectCoreProps>$(MSBuildThisFileDirectory)..\Build\MSBuild.NET.Sdk.props</CustomProjectCoreProps>
+		<!--<CustomProjectExtensionProps>$(MSBuildThisFileDirectory)Sdk.Bundles.props</CustomProjectExtensionProps>-->
+	</PropertyGroup>
 
 	<Import Project="Sdk.Bundles.props"/>
 
-	<Import Project="$(MSBuildThisFileDirectory)..\Build\MSBuild.NET.Sdk.props"/>
+	<Import Project="Sdk.props" Sdk="MSBuild.Core.Sdk"/>
 
 	<PropertyGroup>
 		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>

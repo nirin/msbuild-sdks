@@ -1,7 +1,14 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
-	<Import Project="$(CustomProjectCoreTargetsPath)" Condition="Exists('$(CustomProjectCoreTargetsPath)')"/>
-	<Import Project="$(MSBuildThisFileDirectory)..\Core\MSBuild.Core.targets" Condition="!Exists('$(CustomProjectCoreTargetsPath)')"/>
+	<Import Project="$(MSBuildProjectFullPath).user" Condition="Exists('$(MSBuildProjectFullPath).user')"/>
+
+	<Import Project="$(MSBuildThisFileDirectory)..\Core\MSBuild.Core.targets"/>
+
+	<PropertyGroup>
+		<MSBuildAllProjects Condition="Exists('$(CustomProjectCoreTargets)')">$(MSBuildAllProjects);$(CustomProjectCoreTargets)</MSBuildAllProjects>
+	</PropertyGroup>
+
+	<Import Project="$(CustomProjectCoreTargets)" Condition="Exists('$(CustomProjectCoreTargets)')"/>
 
 	<PropertyGroup>
 		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>

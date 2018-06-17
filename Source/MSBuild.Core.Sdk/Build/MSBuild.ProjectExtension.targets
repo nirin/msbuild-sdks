@@ -11,11 +11,6 @@
 	<Import Project="$(MSBuildProjectExtensionTargets)" Condition="Exists('$(MSBuildProjectExtensionTargets)')"/>
 	<Import Project="$(CustomProjectExtensionTargets)" Condition="Exists('$(CustomProjectExtensionTargets)')"/>
 
-	<PropertyGroup>
-		<MSBuildAllProjects Condition="Exists('$(MSBuildProjectExtensionTargets)')">$(MSBuildAllProjects);$(MSBuildProjectExtensionTargets)</MSBuildAllProjects>
-		<MSBuildAllProjects Condition="Exists('$(CustomProjectExtensionTargets)')">$(MSBuildAllProjects);$(CustomProjectExtensionTargets)</MSBuildAllProjects>
-	</PropertyGroup>
-
 	<PropertyGroup Condition="!(Exists('$(MSBuildProjectExtensionTargets)') AND Exists('$(CustomProjectExtensionTargets)'))">
 		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
 	</PropertyGroup>

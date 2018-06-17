@@ -1,0 +1,12 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+	<PropertyGroup>
+		<ImportNuGetBuildTargets Condition="'$(ImportNuGetBuildTargets)' == ''">true</ImportNuGetBuildTargets>
+	</PropertyGroup>
+
+	<ImportGroup Condition="'$(ImportNuGetBuildTargets)' == 'true'">
+		<Import Project="Sdk.Restore.targets" Sdk="NuGet.Packaging.Sdk"/>
+		<Import Project="Sdk.Pack.targets" Sdk="NuGet.Packaging.Sdk"/>
+	</ImportGroup>
+
+</Project>

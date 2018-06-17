@@ -1,12 +1,21 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
-	<Import Project="$(MSBuildThisFileDirectory)..\Microsoft.Legacy.props" Condition="'$(ImportedMicrosoftLegacyProps)' != 'true'"/>
+	<Import Project="Sdk.tasks"/>
 
-	<!--<Import Project="Sdk.tasks" Condition="'$(ImportedMicrosoftLegacyTasks)' != 'true' AND '$(ImportMicrosoftLegacyTasks)' != 'false'"/>-->
+	<PropertyGroup>
+		<MicrosoftLegacyPropsFileName>Microsoft.Common.props</MicrosoftLegacyPropsFileName>
+		<!-- TODO: After adding props, remove the comment -->
+		<!--<MicrosoftLegacyPropsFileName Condition="'$(MSBuildProjectExtension)' == '.csproj'">Microsoft.CSharp.props</MicrosoftLegacyPropsFileName>
+		<MicrosoftLegacyPropsFileName Condition="'$(MSBuildProjectExtension)' == '.vbproj'">Microsoft.VisualBasic.props</MicrosoftLegacyPropsFileName>-->
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<CustomProjectCoreProps>$(MSBuildThisFileDirectory)$(MicrosoftLegacyPropsFileName)</CustomProjectCoreProps>
+	</PropertyGroup>
 
 	<Import Project="Sdk.props" Sdk="MSBuild.Core.Sdk"/>
 
-	<Import Project="$(MSBuildLegacySdkPath)Microsoft.Common.props"/>
+	<!--<Import Project="$(MicrosoftLegacyPropsFileName)"/>-->
 
 	<PropertyGroup>
 		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>

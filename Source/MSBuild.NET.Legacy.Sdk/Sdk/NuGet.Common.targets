@@ -2,8 +2,8 @@
 
 	<!-- Import NuGet.targets (required for GetReferenceNearestTargetFrameworkTask and used for Restore functionality) -->
 	<PropertyGroup Condition="'$(ImportNuGetRestoreTargetsFromSdk)' == 'false'">
-		<DevEnvDir Condition="'$(DevEnvDir)' == '' AND '$([MSBuild]::IsRunningFromVisualStudio())' == 'true'">$(MSBuildToolsPath32)\..\..\..\Common7\IDE\</DevEnvDir>
-		<NuGetRestoreTargets Condition="'$(NuGetRestoreTargets)' == '' AND '$([MSBuild]::IsRunningFromVisualStudio())' == 'true'">$(DevEnvDir)CommonExtensions\Microsoft\NuGet\NuGet.targets</NuGetRestoreTargets>
+		<DevEnvDir Condition="'$(DevEnvDir)' == '' AND $([MSBuild]::IsRunningFromVisualStudio())">$(MSBuildToolsPath32)\..\..\..\Common7\IDE\</DevEnvDir>
+		<NuGetRestoreTargets Condition="'$(NuGetRestoreTargets)' == '' AND $([MSBuild]::IsRunningFromVisualStudio())">$(DevEnvDir)CommonExtensions\Microsoft\NuGet\NuGet.targets</NuGetRestoreTargets>
 		<NuGetRestoreTargets Condition="'$(NuGetRestoreTargets)' == ''">$(MSBuildToolsPath)\NuGet.targets</NuGetRestoreTargets>
 	</PropertyGroup>
 

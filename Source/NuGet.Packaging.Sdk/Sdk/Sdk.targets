@@ -1,14 +1,12 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
-	<!-- ISSUE: We need to import 'NuGet.Packaging.Sdk.targets' after the 'ProjectCore.targets' in the 'MSBuild.Core.Sdk' since it depends on it's core defaults -->
 	<PropertyGroup>
-		<ImportLegacyExtensions>false</ImportLegacyExtensions>
-		<ImportNuGetRestoreTargetsFromSdk>false</ImportNuGetRestoreTargetsFromSdk>
+		<CustomProjectCoreTargets>$(MSBuildThisFileDirectory)..\Build\NuGet.Packaging.Sdk.targets</CustomProjectCoreTargets>
+		<!--<CustomProjectExtensionTargets>$(MSBuildThisFileDirectory)Sdk.Restore.targets</CustomProjectExtensionTargets>-->
+		<ImportNuGetRestoreTargetsFromSdk>true</ImportNuGetRestoreTargetsFromSdk>
 	</PropertyGroup>
 
 	<Import Project="Sdk.targets" Sdk="MSBuild.NET.Legacy.Sdk"/>
-	<Import Project="$(MSBuildThisFileDirectory)..\Build\NuGet.Packaging.Sdk.targets"/>
-	<Import Project="Sdk.Restore.targets"/>
 
 	<PropertyGroup>
 		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
