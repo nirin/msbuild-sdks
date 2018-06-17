@@ -1,4 +1,4 @@
-﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
 	<Import Project="$(MSBuildLegacySdkPath)$(MSBuildThisFileName).props" Condition="'$(MicrosoftCommonPropsHasBeenImported)' != 'true' AND Exists('$(MSBuildLegacySdkPath)$(MSBuildThisFileName).props')"/>
 
@@ -8,7 +8,7 @@
 		redirected to $(MSBuildThisFileName).CrossTargeting.targets.
 	-->
 	<PropertyGroup Condition="'$(TargetFrameworks)' != '' AND '$(TargetFramework)' == ''">
-		<IsCrossTargetingBuild>true</IsCrossTargetingBuild>
+		<IsMultiTargetingBuild>true</IsMultiTargetingBuild>
 	</PropertyGroup>
 
 	<Choose>
@@ -17,9 +17,9 @@
 				<MicrosoftCommonTargetsPath>$(MSBuildLegacySdkPath)Inbox\$(MSBuildThisFile)</MicrosoftCommonTargetsPath>
 			</PropertyGroup>
 		</When>
-		<When Condition="'$(IsCrossTargetingBuild)' == 'true'">
+		<When Condition="'$(IsMultiTargetingBuild)' == 'true'">
 			<PropertyGroup>
-				<MicrosoftCSharpTargetsPath>$(MSBuildLegacySdkPath)$(MSBuildThisFileName).CrossTargeting.targets</MicrosoftCSharpTargetsPath>
+				<MicrosoftCommonTargetsPath>$(MSBuildLegacySdkPath)$(MSBuildThisFileName).CrossTargeting.targets</MicrosoftCommonTargetsPath>
 			</PropertyGroup>
 		</When>
 		<Otherwise>

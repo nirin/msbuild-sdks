@@ -1,9 +1,7 @@
-<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="MSBuild.NET.Sdk">
 
 	<PropertyGroup>
 		<TargetFrameworks>net471;netcoreapp2.1</TargetFrameworks>
 	</PropertyGroup>
-
-	<Import Project="$(CustomBeforeSdkTargets)"/>
 
 </Project>

@@ -6,7 +6,7 @@
 		redirected to $(MSBuildThisFileName).CrossTargeting.targets.
 	-->
 	<PropertyGroup Condition="'$(TargetFrameworks)' != '' AND '$(TargetFramework)' == ''">
-		<IsCrossTargetingBuild>true</IsCrossTargetingBuild>
+		<IsMultiTargetingBuild>true</IsMultiTargetingBuild>
 	</PropertyGroup>
 
 	<Choose>
@@ -15,7 +15,7 @@
 				<MicrosoftVisualBasicTargetsPath>$(MSBuildLegacySdkPath)Inbox\$(MSBuildThisFile)</MicrosoftVisualBasicTargetsPath>
 			</PropertyGroup>
 		</When>
-		<When Condition="'$(IsCrossTargetingBuild)' == 'true'">
+		<When Condition="'$(IsMultiTargetingBuild)' == 'true'">
 			<PropertyGroup>
 				<MicrosoftVisualBasicTargetsPath>$(MSBuildLegacySdkPath)$(MSBuildThisFileName).CrossTargeting.targets</MicrosoftVisualBasicTargetsPath>
 			</PropertyGroup>

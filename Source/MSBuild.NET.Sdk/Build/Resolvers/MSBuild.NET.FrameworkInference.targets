@@ -72,7 +72,7 @@
 	</Choose>
 
 	<!-- Map short name to long name. See earlier comment for example of how to work with identifiers that are not recognized here -->
-	<PropertyGroup Condition="'$(TargetFrameworkIdentifier)' == ''">
+	<PropertyGroup Condition="'$(TargetFrameworkIdentifier)' == '' AND '$(_ShortFrameworkIdentifier)' != ''">
 		<TargetFrameworkIdentifier Condition="'$(_ShortFrameworkIdentifier)' == 'net'">.NETFramework</TargetFrameworkIdentifier>
 		<TargetFrameworkIdentifier Condition="'$(_ShortFrameworkIdentifier)' == 'netstandard'">.NETStandard</TargetFrameworkIdentifier>
 		<TargetFrameworkIdentifier Condition="'$(_ShortFrameworkIdentifier)' == 'netcoreapp'">.NETCoreApp</TargetFrameworkIdentifier>
@@ -117,12 +117,15 @@
 		</When>
 
 		<Otherwise>
-			<!-- Any Version in these Sdks should not lead with 'v' -->
+			<!-- Any Version in here should not lead with 'v' -->
 			<PropertyGroup Condition="'$(TargetFrameworkVersion)' != ''">
 				<TargetFrameworkVersion>$(TargetFrameworkVersion.TrimStart('vV'))</TargetFrameworkVersion>
 			</PropertyGroup>
 		</Otherwise>
 	</Choose>
+
+	<!-- Support for resolving full framework profiles -->
+	<Import Condition="'$(TargetFrameworkIdentifier)' == '.NETFramework'" Project="$(MSBuildThisFileDirectory)FrameworkResolvers\MSBuild.NETFramework.targets"/>
 
 	<!-- Support for resolving portable framework profiles -->
 	<ImportGroup Condition="'$(TargetFrameworkIdentifier)' == '.NETPortable'">
@@ -151,12 +154,12 @@
 	<PropertyGroup>
 		<TargetFrameworkIdentifier Condition="'$(TargetFrameworkIdentifier)' == ''">_</TargetFrameworkIdentifier>
 		<TargetFrameworkVersion Condition="'$(TargetFrameworkVersion)' == ''">0.0</TargetFrameworkVersion>
-		<_TargetFrameworkVersionWithV>v$(TargetFrameworkVersion)</_TargetFrameworkVersionWithV>
 	</PropertyGroup>
 
-	<!-- TODO: Temporary shim to be compatible with the older targets, remove once we change the behavioral value of TargetFrameworkVersion -->
+	<!-- HACK: Temporary shim to be compatible with the older targets, remove once we change the behavioral value of TargetFrameworkVersion -->
 	<PropertyGroup>
 		<_TargetFrameworkVersionWithoutV>$(TargetFrameworkVersion)</_TargetFrameworkVersionWithoutV>
+		<_TargetFrameworkVersionWithV>v$(TargetFrameworkVersion)</_TargetFrameworkVersionWithV>
 		<TargetFrameworkVersion>$(_TargetFrameworkVersionWithV)</TargetFrameworkVersion>
 	</PropertyGroup>
 
@@ -208,7 +211,7 @@
 				<TargetFrameworkMaxVersion Condition="'$(TargetFrameworkMaxVersion)' == ''">$(BundledNETFrameworkTargetFrameworkVersion)</TargetFrameworkMaxVersion>
 			</PropertyGroup>
 		</When>
-		<When Condition="'$(TargetFrameworkIdentifier)' == '.NETFramework'">
+		<When Condition="'$(TargetFrameworkIdentifier)' == '.NETPortable'">
 			<PropertyGroup>
 				<TargetFrameworkDisplayName Condition="'$(TargetFrameworkDisplayName)' == ''">.NET Portable</TargetFrameworkDisplayName>
 				<TargetFrameworkMaxVersion Condition="'$(TargetFrameworkMaxVersion)' == ''">$(BundledNETPortableTargetFrameworkVersion)</TargetFrameworkMaxVersion>

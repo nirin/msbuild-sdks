@@ -15,8 +15,6 @@
 
 	<PropertyGroup Label="Globals">
 		<IsMultiTargetingBuild Condition="'$(TargetFrameworks)' != '' AND '$(TargetFramework)' == ''">true</IsMultiTargetingBuild>
-		<!-- TODO: Remove once the migration is done. Microsoft.CSharp.targets and Microsoft.VisualBasic.targets use this property. -->
-		<IsCrossTargetingBuild>$(IsMultiTargetingBuild)</IsCrossTargetingBuild>
 	</PropertyGroup>
 
 	<Import Project="$(MSBuildThisFileDirectory)MSBuild.NET.MultiTargeting.targets" Condition="'$(IsMultiTargetingBuild)' == 'true'"/>

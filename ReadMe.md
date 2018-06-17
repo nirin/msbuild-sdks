@@ -10,33 +10,33 @@ MSBuild SDKs are used to configure and extend your build. MSBuild 15.0 introduce
 
 Supports projects that do not compile to an assembly. This is usually the base SDK for other SDKs listed here.
 
+### [MSBuild.Dependencies.Sdk](Source/MSBuild.Dependencies.Sdk)
+
+**Coming Soon**! Supports centrally managing Native and Managed references directly and via packages. Also allows adding global references via the Solution SDK.
+
 ### [MSBuild.Native.Sdk](Source/MSBuild.Native.Sdk)
 
 Supports [Native](Docs/Support.md#native-platform-support) projects that include C/C++ (CLang, GCC, VisualC), ASM, FORTRAN, etc.
-
-### [MSBuild.NET.Sdk](Source/MSBuild.NET.Sdk)
-
-Supports [.NET Platform](Docs/Support.md#net-platform-support) projects that include building for .NET Framework (Windows), .NET Core (Windows, Linux, MacOS), Mono (Windows, Linux, MacOS), Xamarin (based on Mono) runtimes.
 
 ### [MSBuild.NET.Legacy.Sdk](Source/MSBuild.NET.Legacy.Sdk)
 
 Supports only .NET Framework (Windows). Contains the original .NET Framework Build files that were included with MSBuild. Use them to slowly migrate your legacy projects to SDK-style.
 
-### [MSBuild.CodeSharing.Sdk](Source/MSBuild.CodeSharing.Sdk)
+### [MSBuild.NET.Sdk](Source/MSBuild.NET.Sdk)
 
-Coming Soon. Shared project in SDK-style and more!
-
-### [MSBuild.Dependencies.Sdk](Source/MSBuild.Dependencies.Sdk)
-
-Supports centrally managing NuGet packagea and it's versions in a code base. Also allows adding global package references to all projects.
+Supports [.NET Platform](Docs/Support.md#net-platform-support) projects that include building for .NET Framework (Windows), .NET Core (Windows, Linux, MacOS), Mono (Windows, Linux, MacOS), Xamarin (based on Mono) runtimes.
 
 ### [MSBuild.Packaging.Sdk](Source/MSBuild.Packaging.Sdk)
 
-Coming Soon. Create any type of package for any type of project!
+**Coming Soon**! Create any type of package for any type of project!
+
+### [MSBuild.Sharing.Sdk](Source/MSBuild.Sharing.Sdk)
+
+**Coming Soon**! Shared project in SDK-style and more!
 
 ### [MSBuild.Solution.Sdk](Source/MSBuild.Solution.Sdk)
 
-Supports creating MSBuild solutions which are MSBuild projects that indicate what projects to include when building your tree. They are an evolution of Visual Studio solution files.
+**Coming Soon**! Supports creating MSBuild solutions which are MSBuild projects that indicate what projects to include when building your tree. They are an evolution of Visual Studio solution files.
 
 ### [NuGet.Packaging.Sdk](Source/NuGet.Packaging.Sdk)
 

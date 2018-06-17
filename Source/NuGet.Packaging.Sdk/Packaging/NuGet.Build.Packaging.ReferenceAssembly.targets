@@ -85,8 +85,8 @@
 			Properties="
 				AssemblyName=$(_ReferenceAssemblyName);
 				SrcDir=%(_ReferenceAssemblyBuildInfo.FullPath);
-				OutputPath=%(_ReferenceAssemblyBuildInfo.FullPath)bin\;
-				IntermediateOutputPath=%(_ReferenceAssemblyBuildInfo.FullPath)obj\;
+				OutputPath=%(_ReferenceAssemblyBuildInfo.FullPath)$(OutputFolder)\;
+				IntermediateOutputPath=%(_ReferenceAssemblyBuildInfo.FullPath)$(IntermediateOutputFolder)\;
 				TargetFrameworkVersion=%(_ReferenceAssemblyBuildInfo.TargetFrameworkVersion);
 				TargetFrameworkProfile=%(_ReferenceAssemblyBuildInfo.TargetFrameworkProfile)"/>
 	</Target>

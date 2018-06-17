@@ -48,7 +48,7 @@
 		The referring project's $(TargetFrameworkMoniker) is passed
 		in as $(ReferringTargetFramework).
 
-		This is in the common targets so that it will apply to both
+		This is in 'Microsoft.Common.targets' so that it will apply to both
 		multi-targeted and single-targeted projects.  It is run
 		for single-targeted projects so that an error will be
 		generated if the referenced project is not compatible

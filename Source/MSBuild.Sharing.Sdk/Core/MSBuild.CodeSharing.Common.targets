@@ -1,14 +1,15 @@
-﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
 	<ItemGroup>
-		<PropertyPageSchema Include="$(MSBuildToolsPath)\$(LangName)\SubProject.xaml" />
+		<PropertyPageSchema Include="$(MSBuildToolsPath)\$(LangName)\SubProject.xaml"/>
 		<ProjectCapability Include="SourceItemsFromImports;SharedImports;SharedAssetsProject"/>
-		<ProjectCapability Include="PerPlatformCompilation;MultiTarget" />
-		<ProjectCapability Include="ProjectConfigurationsDeclaredAsItems" />
+		<ProjectCapability Include="PerPlatformCompilation;MultiTarget"/>
+		<ProjectCapability Include="ProjectConfigurationsDeclaredAsItems"/>
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(VisualStudioVersion)' >= '12.0'">
-		<ProjectCapability Include="ManagedLang"/> <!-- Temporary: See https://github.com/dotnet/roslyn-project-system/issues/47 -->
+		 <!-- ISSUE: https://github.com/dotnet/roslyn-project-system/issues/47 -->
+		<ProjectCapability Include="ManagedLang" Condition="'$(VisualStudioVersion)' &lt;= '15.0'"/>
 		<ProjectCapability Include="HandlesOwnReload"/>
 		<ProjectCapability Include="UseFileGlobs"/>
 	</ItemGroup>

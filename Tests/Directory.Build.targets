@@ -7,6 +7,4 @@
 
 	<Import Project="$(MSBuildThisFileDirectory)..\$(MSBuildThisFile)"/>
 
-	<Import Project="$(BuildToolsPath)MSBuild.OutputPathChecks.targets"/>
-
 </Project>

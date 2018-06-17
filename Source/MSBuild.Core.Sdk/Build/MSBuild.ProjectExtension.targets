@@ -8,8 +8,8 @@
 		<MSBuildProjectExtensionTargets Condition="'$(MSBuildProjectExtensionsPath)' != ''">$(MSBuildProjectExtensionsPath)$(MSBuildProjectExtensionTargetsFile)</MSBuildProjectExtensionTargets>
 	</PropertyGroup>
 
-	<Import Project="$(CustomProjectExtensionTargets)" Condition="Exists('$(CustomProjectExtensionTargets)')"/>
 	<Import Project="$(MSBuildProjectExtensionTargets)" Condition="Exists('$(MSBuildProjectExtensionTargets)')"/>
+	<Import Project="$(CustomProjectExtensionTargets)" Condition="Exists('$(CustomProjectExtensionTargets)')"/>
 
 	<PropertyGroup>
 		<MSBuildAllProjects Condition="Exists('$(MSBuildProjectExtensionTargets)')">$(MSBuildAllProjects);$(MSBuildProjectExtensionTargets)</MSBuildAllProjects>

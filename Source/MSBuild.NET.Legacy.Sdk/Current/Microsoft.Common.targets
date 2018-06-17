@@ -1,4 +1,4 @@
-﻿<Project DefaultTargets="Build" TreatAsLocalProperty="OutDir" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" TreatAsLocalProperty="OutDir" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
 	<Import Project="$(MSBuildProjectFullPath).user" Condition="Exists('$(MSBuildProjectFullPath).user')"/>
 
@@ -51,7 +51,7 @@
 
 		<!-- When working off a packaged reference assemblies, do not go to machine-global locations. This property is target-framework-specific, so it cannot be overridden in msbuild.exe.config once and for all. -->
 		<FrameworkPathOverride Condition="'$(EnableFrameworkPathOverride)' != 'false' AND '$(FrameworkPathOverride)' == '' AND Exists('$(TargetFrameworkRootPath)$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)')">$(TargetFrameworkRootPath)$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)</FrameworkPathOverride>
-		<FrameworkPathOverride Condition="'$(EnableFrameworkPathOverride)' != 'false' AND '$(FrameworkPathOverride)' == ''">$([Microsoft.Build.Utilities.ToolLocationHelper]::GetPathToStandardLibraries($(TargetFrameworkIdentifier), $(TargetFrameworkVersion), $(TargetFrameworkProfile), $(PlatformTarget), $(TargetFrameworkRootPath)))</FrameworkPathOverride>
+		<FrameworkPathOverride Condition="'$(EnableFrameworkPathOverride)' != 'false' AND '$(FrameworkPathOverride)' == ''">$([Microsoft.Build.Utilities.ToolLocationHelper]::GetPathToStandardLibraries($(TargetFrameworkIdentifier), $(TargetFrameworkVersion), $(TargetFrameworkProfile), $(PlatformTarget), $(TargetFrameworkRootPath), $(TargetFrameworkFallbackSearchPaths)))</FrameworkPathOverride>
 		<FrameworkPathOverride Condition="'$(EnableFrameworkPathOverride)' != 'false' AND !Exists('$(FrameworkPathOverride)\mscorlib.dll')">$(MSBuildFrameworkToolsPath)</FrameworkPathOverride>
 	</PropertyGroup>
 
@@ -1138,7 +1138,9 @@
 			Condition="'$(TargetFrameworkMoniker)' != '' AND ('$(_TargetFrameworkDirectories)' == '' OR '$(_FullFrameworkReferenceAssemblyPaths)' == '')"
 			TargetFrameworkMoniker="$(TargetFrameworkMoniker)"
 			RootPath="$(TargetFrameworkRootPath)"
+			TargetFrameworkFallbackSearchPaths="$(TargetFrameworkFallbackSearchPaths)"
 			BypassFrameworkInstallChecks="$(BypassFrameworkInstallChecks)">
+
 			<Output TaskParameter="ReferenceAssemblyPaths" PropertyName="_TargetFrameworkDirectories"/>
 			<Output TaskParameter="FullFrameworkReferenceAssemblyPaths" PropertyName="_FullFrameworkReferenceAssemblyPaths"/>
 			<Output TaskParameter="TargetFrameworkMonikerDisplayName" PropertyName="TargetFrameworkMonikerDisplayName" Condition="'$(TargetFrameworkMonikerDisplayName)' == ''"/>
@@ -1658,7 +1660,7 @@
 				<TargetFrameworks Condition="'$(TargetFrameworks)' != ''">$(TargetFrameworks)</TargetFrameworks>
 				<TargetFrameworks Condition="'$(TargetFrameworks)' == ''">$(TargetFramework)</TargetFrameworks>
 				<HasSingleTargetFramework>true</HasSingleTargetFramework>
-				<HasSingleTargetFramework Condition="'$(IsCrossTargetingBuild)' == 'true'">false</HasSingleTargetFramework>
+				<HasSingleTargetFramework Condition="'$(IsMultiTargetingBuild)' == 'true'">false</HasSingleTargetFramework>
 				<!-- indicate to caller that project is RID agnostic so that a global property RuntimeIdentifier value can be removed -->
 				<IsRidAgnostic>false</IsRidAgnostic>
 				<IsRidAgnostic Condition="'$(RuntimeIdentifier)' == '' AND '$(RuntimeIdentifiers)' == ''">true</IsRidAgnostic>
@@ -3887,7 +3889,7 @@
 
 		<!-- Flag primary dependencies-certain warnings emitted during application manifest generation apply only to them. -->
 		<ItemGroup>
-			<_DeploymentReferencePaths Include="@(ReferencePath)">
+			<_DeploymentReferencePaths Include="@(ReferencePathCopyLocalPaths)" Condition="'%(Extension)' == '.dll' OR '%(Extension)' == '.exe'">
 				<IsPrimary>true</IsPrimary>
 			</_DeploymentReferencePaths>
 		</ItemGroup>
@@ -5692,7 +5694,24 @@
 
 	<!--
 		============================================================
-											AllProjectOutputGroupsDependencies
+						CommonOutputGroupsDependsOn
+
+		Dependencies common to many of the *OutputGroupDependencies targets.
+		============================================================
+	-->
+	<PropertyGroup>
+		<CommonOutputGroupsDependsOn>
+			$(CommonOutputGroupsDependsOn);
+			BuildOnlySettings;
+			PrepareForBuild;
+			AssignTargetPaths;
+			ResolveReferences
+		</CommonOutputGroupsDependsOn>
+	</PropertyGroup>
+
+	<!--
+		============================================================
+					AllProjectOutputGroupsDependencies
 		============================================================
 	-->
 	<Target
@@ -5706,14 +5725,22 @@
 
 	<!--
 		============================================================
-											BuiltProjectOutputGroupDependencies
+					BuiltProjectOutputGroupDependencies
 
 		This target performs population of the Built project output group dependencies.
 		============================================================
 	-->
+
+	<PropertyGroup>
+		<BuiltProjectOutputGroupDependenciesDependsOn>
+			$(BuiltProjectOutputGroupDependenciesDependsOn);
+			$(CommonOutputGroupsDependsOn)
+		</BuiltProjectOutputGroupDependenciesDependsOn>
+	</PropertyGroup>
+
 	<Target
 		Name="BuiltProjectOutputGroupDependencies"
-		DependsOnTargets="BuildOnlySettings;PrepareForBuild;AssignTargetPaths;ResolveReferences"
+		DependsOnTargets="$(BuiltProjectOutputGroupDependenciesDependsOn)"
 		Returns="@(BuiltProjectOutputGroupDependency)">
 
 		<ItemGroup>
@@ -5728,15 +5755,23 @@
 
 	<!--
 		============================================================
-											DebugSymbolsProjectOutputGroupDependencies
+				DebugSymbolsProjectOutputGroupDependencies
 
 		This target performs population of the dependencies for the debug symbols project output group.
 		============================================================
 	-->
+
+	<PropertyGroup>
+		<DebugSymbolsProjectOutputGroupDependenciesDependsOn>
+			$(DebugSymbolsProjectOutputGroupDependenciesDependsOn);
+			$(CommonOutputGroupsDependsOn)
+		</DebugSymbolsProjectOutputGroupDependenciesDependsOn>
+	</PropertyGroup>
+
 	<Target
 		Name="DebugSymbolsProjectOutputGroupDependencies"
 		Condition="'$(DebugSymbols)' != 'false'"
-		DependsOnTargets="BuildOnlySettings;PrepareForBuild;AssignTargetPaths;ResolveReferences"
+		DependsOnTargets="$(DebugSymbolsProjectOutputGroupDependenciesDependsOn)"
 		Returns="@(DebugSymbolsProjectOutputGroupDependency)">
 
 		<!-- This item represents dependent PDB's -->
@@ -5748,14 +5783,22 @@
 
 	<!--
 		============================================================
-											SatelliteDllsProjectOutputGroupDependencies
+				SatelliteDllsProjectOutputGroupDependencies
 
 		This target performs population of the dependencies for the satellite files project output group.
 		============================================================
 	-->
+
+	<PropertyGroup>
+		<SatelliteDllsProjectOutputGroupDependenciesDependsOn>
+			$(SatelliteDllsProjectOutputGroupDependenciesDependsOn);
+			$(CommonOutputGroupsDependsOn)
+		</SatelliteDllsProjectOutputGroupDependenciesDependsOn>
+	</PropertyGroup>
+
 	<Target
 		Name="SatelliteDllsProjectOutputGroupDependencies"
-		DependsOnTargets="BuildOnlySettings;PrepareForBuild;AssignTargetPaths;ResolveReferences"
+		DependsOnTargets="$(SatelliteDllsProjectOutputGroupDependenciesDependsOn)"
 		Returns="@(SatelliteDllsProjectOutputGroupDependency)">
 
 		<!-- This item represents dependent satellites -->
@@ -5767,15 +5810,23 @@
 
 	<!--
 		============================================================
-											DocumentationProjectOutputGroupDependencies
+				DocumentationProjectOutputGroupDependencies
 
 		This target performs population of the dependencies for the documentation project output group.
 		============================================================
 	-->
+
+	<PropertyGroup>
+		<DocumentationProjectOutputGroupDependenciesDependsOn>
+			$(DocumentationProjectOutputGroupDependenciesDependsOn);
+			$(CommonOutputGroupsDependsOn)
+		</DocumentationProjectOutputGroupDependenciesDependsOn>
+	</PropertyGroup>
+
 	<Target
 		Name="DocumentationProjectOutputGroupDependencies"
 		Condition="'$(DocumentationFile)' != ''"
-		DependsOnTargets="BuildOnlySettings;PrepareForBuild;AssignTargetPaths;ResolveReferences"
+		DependsOnTargets="$(DocumentationProjectOutputGroupDependenciesDependsOn)"
 		Returns="@(DocumentationProjectOutputGroupDependency)">
 
 		<!-- This item represents dependent XMLs -->
@@ -5787,19 +5838,54 @@
 
 	<!--
 		============================================================
-											SGenFilesOutputGroupDependencies
+					SGenFilesOutputGroupDependencies
 
 		This target performs population of the dependencies for the GenerateSerializationAssemblies project output group.
 		============================================================
 	-->
+
+	<PropertyGroup>
+		<SGenFilesOutputGroupDependenciesDependsOn>
+			$(SGenFilesOutputGroupDependenciesDependsOn);
+			$(CommonOutputGroupsDependsOn)
+		</SGenFilesOutputGroupDependenciesDependsOn>
+	</PropertyGroup>
+
 	<Target
 		Name="SGenFilesOutputGroupDependencies"
-		DependsOnTargets="BuildOnlySettings;PrepareForBuild;AssignTargetPaths;ResolveReferences"
+		DependsOnTargets="$(SGenFilesOutputGroupDependenciesDependsOn)"
 		Returns="@(SGenFilesOutputGroupDependency)">
 
 		<!-- This item represents sgen xml serializer dll's -->
 		<ItemGroup>
 			<SGenFilesOutputGroupDependency Include="@(_ReferenceSerializationAssemblyPaths->'%(FullPath)')" Condition="'%(Extension)' == '.dll'"/>
+		</ItemGroup>
+
+	</Target>
+
+	<!--
+		============================================================
+					ReferenceCopyLocalPathsOutputGroup
+
+		Exposes the set of items that should be copied locally based on the project's references.
+		============================================================
+	-->
+	<PropertyGroup>
+		<ReferenceCopyLocalPathsOutputGroupDependsOn>
+			$(ReferenceCopyLocalPathsOutputGroupDependsOn);
+			$(CommonOutputGroupsDependsOn)
+		</ReferenceCopyLocalPathsOutputGroupDependsOn>
+	</PropertyGroup>
+
+	<Target
+		Name="ReferenceCopyLocalPathsOutputGroup"
+		DependsOnTargets="$(ReferenceCopyLocalPathsOutputGroupDependsOn)"
+		Returns="@(ReferenceCopyLocalPathsOutputGroupOutput)">
+
+		<ItemGroup>
+			<ReferenceCopyLocalPathsOutputGroupOutput Include="@(ReferenceCopyLocalPaths)">
+				<TargetPath>%(ReferenceCopyLocalPaths.DestinationSubDirectory)%(ReferenceCopyLocalPaths.Filename)%(ReferenceCopyLocalPaths.Extension)</TargetPath>
+			</ReferenceCopyLocalPathsOutputGroupOutput>
 		</ItemGroup>
 
 	</Target>

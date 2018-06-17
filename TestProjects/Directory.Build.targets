@@ -15,6 +15,4 @@
 
 	<Import Project="$(MSBuildThisFileDirectory)..\$(MSBuildThisFile)"/>
 
-	<Import Project="$(BuildToolsPath)MSBuild.TestOutput.targets" Condition="'$(_RunInsideTestRunner)' != 'true'"/>
-
 </Project>

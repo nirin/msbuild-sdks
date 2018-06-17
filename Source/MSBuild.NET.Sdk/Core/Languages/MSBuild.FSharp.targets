@@ -27,7 +27,7 @@
 	<!-- ***************************************************************************************************************
 		Loads the cross-targeting targets if we are doing a cross-targeting build
 		Import design time targets for Roslyn Project System. These are only available if Visual Studio is installed.
-		Import design time targets before the common crosstargeting targets, which import targets from Nuget.
+		Import design time targets before 'Microsoft.Common.CrossTargeting.targets', which import targets from NuGet packages.
 		*************************************************************************************************************** -->
 	<PropertyGroup>
 		<FSharpDesignTimeTargetsPath>$(MSBuildExtensionsPath)\Microsoft\VisualStudio\Managed\Microsoft.FSharp.DesignTime.targets</FSharpDesignTimeTargetsPath>

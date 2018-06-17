@@ -8,12 +8,12 @@
 		<MSBuildProjectExtensionProps Condition="'$(MSBuildProjectExtensionsPath)' != ''">$(MSBuildProjectExtensionsPath)$(MSBuildProjectExtensionPropsFile)</MSBuildProjectExtensionProps>
 	</PropertyGroup>
 
-	<Import Project="$(MSBuildProjectExtensionProps)" Condition="Exists('$(MSBuildProjectExtensionProps)')"/>
 	<Import Project="$(CustomProjectExtensionProps)" Condition="Exists('$(CustomProjectExtensionProps)')"/>
+	<Import Project="$(MSBuildProjectExtensionProps)" Condition="Exists('$(MSBuildProjectExtensionProps)')"/>
 
 	<PropertyGroup>
-		<MSBuildAllProjects Condition="Exists('$(MSBuildProjectExtensionProps)')">$(MSBuildAllProjects);$(MSBuildProjectExtensionProps)</MSBuildAllProjects>
 		<MSBuildAllProjects Condition="Exists('$(CustomProjectExtensionProps)')">$(MSBuildAllProjects);$(CustomProjectExtensionProps)</MSBuildAllProjects>
+		<MSBuildAllProjects Condition="Exists('$(MSBuildProjectExtensionProps)')">$(MSBuildAllProjects);$(MSBuildProjectExtensionProps)</MSBuildAllProjects>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="!(Exists('$(MSBuildProjectExtensionProps)') AND Exists('$(CustomProjectExtensionProps)'))">
