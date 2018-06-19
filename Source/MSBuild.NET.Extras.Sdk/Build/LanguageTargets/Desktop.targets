@@ -9,8 +9,8 @@
 		So to have Xaml Support, we need to use those targets instead of .NETCoreSdk targets
 	-->
 	<PropertyGroup Condition="$(_SdkDesktopTargets) == ''">
-		<_SdkDesktopTargets Condition="'$(_LanguageSourceName)' != 'FSharp'">$(MSBuildExtensionsPath)\$(_SdkVisualStudioVersion)\Bin\Microsoft.$(_LanguageSourceName).targets</_SdkDesktopTargets>
-		<_SdkDesktopTargets Condition="'$(_LanguageSourceName)' == 'FSharp'">$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(_SdkVisualStudioVersion)\FSharp\Microsoft.FSharp.Targets</_SdkDesktopTargets>
+		<_SdkDesktopTargets Condition="'$(_LanguageSourceName)' != 'FSharp'">$(MSBuildExtensionsPath)\$(VisualStudioVersion)\Bin\Microsoft.$(_LanguageSourceName).targets</_SdkDesktopTargets>
+		<_SdkDesktopTargets Condition="'$(_LanguageSourceName)' == 'FSharp'">$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\FSharp\Microsoft.FSharp.Targets</_SdkDesktopTargets>
 	</PropertyGroup>
 
 	<PropertyGroup>
