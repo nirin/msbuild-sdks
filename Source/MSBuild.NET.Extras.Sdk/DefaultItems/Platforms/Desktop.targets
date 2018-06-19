@@ -84,10 +84,15 @@
 		<DefaultWebPageItemIncludes>$(DefaultWebPageItemIncludes);Areas\**\*$(DefaultLanguageSourceExtension)html</DefaultWebPageItemIncludes>
 		<DefaultWebPageItemIncludes>$(DefaultWebPageItemIncludes);Pages\**\*$(DefaultLanguageSourceExtension)html</DefaultWebPageItemIncludes>
 
+		<DefaultWebPageItemIncludes>*.Master</DefaultWebPageItemIncludes>
 		<DefaultWebPageItemIncludes>$(DefaultWebPageItemIncludes);*.asax</DefaultWebPageItemIncludes>
-		<DefaultWebPageItemIncludes>$(DefaultWebPageItemIncludes);*.Master</DefaultWebPageItemIncludes>
 		<DefaultWebPageItemIncludes>$(DefaultWebPageItemIncludes);*.aspx;Pages\**\*.aspx</DefaultWebPageItemIncludes>
 		<DefaultWebPageItemIncludes>$(DefaultWebPageItemIncludes);*.ascx;Controls\**\*.ascx</DefaultWebPageItemIncludes>
+
+		<DefaultWebCompileItems>**\*.Master$(DefaultLanguageSourceExtension)</DefaultWebCompileItems>
+		<DefaultWebCompileItems>$(DefaultWebCompileItems);**\*.asax$(DefaultLanguageSourceExtension)</DefaultWebCompileItems>
+		<DefaultWebCompileItems>$(DefaultWebCompileItems);**\*.aspx$(DefaultLanguageSourceExtension)</DefaultWebCompileItems>
+		<DefaultWebCompileItems>$(DefaultWebCompileItems);**\*.ascx$(DefaultLanguageSourceExtension)</DefaultWebCompileItems>
 	</PropertyGroup>
 
 </Project>

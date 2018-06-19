@@ -5,10 +5,10 @@
 	</PropertyGroup>
 
 	<!--
-		Only MSBuild Framework build includes Microsoft.Xaml.targets which redirects to MSBuildFrameworkToolsPath.
+		Only MSBuild Framework build includes WCF, WFF, WPF and ADO.NET targets which redirects to MSBuildFrameworkToolsPath.
 		So to have Xaml Support, we need to use those targets instead of .NETCoreSdk targets
 	-->
-	<PropertyGroup Condition="$(_SdkDesktopTargets) == ''">
+	<PropertyGroup Condition="'$(_SdkDesktopTargets)' == ''">
 		<_SdkDesktopTargets Condition="'$(_LanguageSourceName)' != 'FSharp'">$(MSBuildExtensionsPath)\$(VisualStudioVersion)\Bin\Microsoft.$(_LanguageSourceName).targets</_SdkDesktopTargets>
 		<_SdkDesktopTargets Condition="'$(_LanguageSourceName)' == 'FSharp'">$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\FSharp\Microsoft.FSharp.Targets</_SdkDesktopTargets>
 	</PropertyGroup>
@@ -18,6 +18,19 @@
 	</PropertyGroup>
 
 	<Import Project="$(_SdkDesktopTargets)" Condition="Exists('$(_SdkDesktopTargets)')"/>
+
+	<PropertyGroup Condition="'$(_SdkWebTargets)' == ''">
+		<_SdkWebTargets>$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\WebApplications\Microsoft.WebApplication.targets</_SdkWebTargets>
+	</PropertyGroup>
+
+	<Import Project="$(_SdkWebTargets)" Condition="Exists('$(_SdkWebTargets)') AND '$(ImportWebApplicationTargets)' == 'true'"/>
+
+	<PropertyGroup Condition="'$(_SdkWcfTargets)' == ''">
+		<_SdkWcfTargets>$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\WCF\Microsoft.VisualStudio.ServiceModel.targets</_SdkWcfTargets>
+	</PropertyGroup>
+
+	<Import Project="$(_SdkWcfTargets)" Condition="Exists('$(_SdkWcfTargets)') AND '$(ImportServiceModelTargets)' == 'true'"/>
+
 	<Import Project="$(MSBuildThisFileDirectory)CheckMissing.targets" Condition="'$(_SdkLanguageTargetsMissing)' == 'true'"/>
 
 </Project>

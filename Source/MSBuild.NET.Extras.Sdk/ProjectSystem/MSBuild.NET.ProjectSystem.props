@@ -20,9 +20,9 @@
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(EnableWebProjectSetup)' == 'true' AND '$(TargetFrameworkIdentifier)' == '.NETFramework'">
-		<ProjectCapability Include="SupportHierarchyContextSvc" />
-		<ProjectCapability Include="DynamicDependentFile" />
-		<ProjectCapability Include="DynamicFileNesting" />
+		<ProjectCapability Include="SupportHierarchyContextSvc"/>
+		<ProjectCapability Include="DynamicDependentFile"/>
+		<ProjectCapability Include="DynamicFileNesting"/>
 		<!--
 			Enables UI for managing secret values when 'Microsoft.Extensions.Configuration.UserSecrets' is referenced.
 			Newer versions (i.e. 2.0+) of this package include a MSBuild file to set this ProjectCapability, but older (i.e. 1.x) versions did not include this.

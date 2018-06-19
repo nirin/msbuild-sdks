@@ -40,7 +40,7 @@
 
 	<ItemGroup Condition="'$(EnableDefaultWinFormsItems)' == 'true'">
 		<EmbeddedResource Update="**\*.resx" Condition="'$(EnableDefaultEmbeddedResourceItems)' == 'true' AND '$(EnableEmbeddedResourceCodeGenerator)' == 'true'">
-			<DependentUpon Condition="'$(DependentUpon)' != ''">$([System.Text.RegularExpressions.Regex]::Replace('%(FileName)', '$(LangIdRegEx)|\$(DefaultDesignerFileSuffix)', '%(DefaultLanguageSourceExtension)'))</DependentUpon>
+			<DependentUpon Condition="'$(DependentUpon)' != ''">$([System.Text.RegularExpressions.Regex]::Replace('%(FileName)', '$(LangIdRegEx)|\$(DefaultDesignerFileSuffix)', '%(Extension)'))</DependentUpon>
 		</EmbeddedResource>
 		<!--
 			TODO: Add SubType(s) for Windows Forms Project
@@ -84,6 +84,11 @@
 
 		<!-- Keep track of the default content items for later to distinguish them from newly generated content items -->
 		<_ContentIncludedByDefault Include="@(Content)"/>
+
+		<!-- Nest related Compile items -->
+		<Compile Update="$(DefaultWebCompileItems)">
+			<DependentUpon Condition="'%(DependentUpon)' == ''">%(Filename)</DependentUpon>
+		</Compile>
 	</ItemGroup>
 
 </Project>

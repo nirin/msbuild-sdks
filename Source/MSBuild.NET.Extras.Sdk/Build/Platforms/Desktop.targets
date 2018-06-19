@@ -13,6 +13,7 @@
 		<IsPackable Condition="'$(IsPackable)' == ''">false</IsPackable>
 		<MvcBuildViews Condition="'$(MvcBuildViews)' == ''">true</MvcBuildViews>
 		<GenerateDependencyFile Condition="'$(GenerateDependencyFile)' == ''">true</GenerateDependencyFile>
+		<ImportWebApplicationTargets Condition="'$(ImportWebApplicationTargets)' == ''">true</ImportWebApplicationTargets>
 	</PropertyGroup>
 
 	<ItemGroup Condition="'$(DisableImplicitFrameworkReferences)' != 'true' AND ('$(EnableImplicitWpfReferences)' == 'true' OR '$(EnableImplicitWinFormsReferences)' == 'true' OR '$(EnableImplicitWebReferences)' == 'true')">
