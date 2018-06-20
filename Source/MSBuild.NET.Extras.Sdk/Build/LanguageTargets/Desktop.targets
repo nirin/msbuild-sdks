@@ -5,8 +5,8 @@
 	</PropertyGroup>
 
 	<!--
-		Only MSBuild Framework build includes WCF, WFF, WPF and ADO.NET targets which redirects to MSBuildFrameworkToolsPath.
-		So to have Xaml Support, we need to use those targets instead of .NETCoreSdk targets
+		Only MSBuild Full Framework build includes WCF, WFF, WPF and ADO.NET targets which redirects to MSBuildFrameworkToolsPath.
+		So to have WCF, WFF, WPF and ADO.NET support, we need to use the targets in the MSBuild Full Framework build path.
 	-->
 	<PropertyGroup Condition="'$(_SdkDesktopTargets)' == ''">
 		<_SdkDesktopTargets Condition="'$(_LanguageSourceName)' != 'FSharp'">$(MSBuildExtensionsPath)\$(VisualStudioVersion)\Bin\Microsoft.$(_LanguageSourceName).targets</_SdkDesktopTargets>

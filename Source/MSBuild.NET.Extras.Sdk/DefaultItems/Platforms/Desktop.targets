@@ -51,9 +51,6 @@
 		<EnableDefaultWinFormsItems Condition="'$(EnableDefaultWinFormsItems)' == ''">true</EnableDefaultWinFormsItems>
 		<EnableImplicitWinFormsReferences Condition="'$(EnableImplicitWinFormsReferences)' == ''">true</EnableImplicitWinFormsReferences>
 		<EnableUserControlDesigner Condition="'$(EnableUserControlDesigner)' == ''">false</EnableUserControlDesigner>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(EnableDefaultWinFormsItems)' == 'true'">
 		<UserControlDesignerService Condition="'$(UserControlDesignerService)' == ''">{94E38DFF-614B-4CBD-B67C-F211BB35CE8B}</UserControlDesignerService>
 	</PropertyGroup>
 
@@ -62,6 +59,8 @@
 	<PropertyGroup Condition="'$(EnableWebProjectSetup)' == 'true'">
 		<EnableDefaultWebItems Condition="'$(EnableDefaultWebItems)' == ''">true</EnableDefaultWebItems>
 		<EnableImplicitWebReferences Condition="'$(EnableImplicitWebReferences)' == ''">true</EnableImplicitWebReferences>
+		<EnableWebDesigner Condition="'$(EnableWebDesigner)' == ''">false</EnableWebDesigner>
+		<WebDesignerService Condition="'$(WebDesignerService)' == ''">{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}</WebDesignerService>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(EnableDefaultWebItems)' == 'true'">
@@ -69,10 +68,12 @@
 		<DefaultItemExcludes>$(DefaultItemExcludes);**\jspm_packages\**;jspm_packages\**</DefaultItemExcludes>
 		<DefaultItemExcludes>$(DefaultItemExcludes);**\bower_components\**;bower_components\**</DefaultItemExcludes>
 
-		<EnableDefaultContentItems Condition="'$(EnableDefaultContentItems)' == ''">true</EnableDefaultContentItems>
+		<DefaultWebCompileItems>**\*.Master$(DefaultLanguageSourceExtension)</DefaultWebCompileItems>
+		<DefaultWebCompileItems>$(DefaultWebCompileItems);**\*.asax$(DefaultLanguageSourceExtension)</DefaultWebCompileItems>
+		<DefaultWebCompileItems>$(DefaultWebCompileItems);**\*.aspx$(DefaultLanguageSourceExtension)</DefaultWebCompileItems>
+		<DefaultWebCompileItems>$(DefaultWebCompileItems);**\*.ascx$(DefaultLanguageSourceExtension)</DefaultWebCompileItems>
 
-		<EnableWebDesigner Condition="'$(EnableWebDesigner)' == ''">true</EnableWebDesigner>
-		<WebDesignerService Condition="'$(WebDesignerService)' == ''">{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}</WebDesignerService>
+		<EnableDefaultContentItems Condition="'$(EnableDefaultContentItems)' == ''">true</EnableDefaultContentItems>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(EnableDefaultWebItems)' == 'true' AND '$(EnableDefaultContentItems)' == 'true'">
@@ -88,11 +89,6 @@
 		<DefaultWebPageItemIncludes>$(DefaultWebPageItemIncludes);*.asax</DefaultWebPageItemIncludes>
 		<DefaultWebPageItemIncludes>$(DefaultWebPageItemIncludes);*.aspx;Pages\**\*.aspx</DefaultWebPageItemIncludes>
 		<DefaultWebPageItemIncludes>$(DefaultWebPageItemIncludes);*.ascx;Controls\**\*.ascx</DefaultWebPageItemIncludes>
-
-		<DefaultWebCompileItems>**\*.Master$(DefaultLanguageSourceExtension)</DefaultWebCompileItems>
-		<DefaultWebCompileItems>$(DefaultWebCompileItems);**\*.asax$(DefaultLanguageSourceExtension)</DefaultWebCompileItems>
-		<DefaultWebCompileItems>$(DefaultWebCompileItems);**\*.aspx$(DefaultLanguageSourceExtension)</DefaultWebCompileItems>
-		<DefaultWebCompileItems>$(DefaultWebCompileItems);**\*.ascx$(DefaultLanguageSourceExtension)</DefaultWebCompileItems>
 	</PropertyGroup>
 
 </Project>
