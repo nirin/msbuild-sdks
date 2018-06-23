@@ -26,7 +26,7 @@
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(EnableXamlCodeGenerator)' == 'true'">
-		<XamlCodeGeneratorTool Condition="'$(XamlCodeGeneratorTool)' == ''">MSBuild:Compile</XamlCodeGeneratorTool>
+		<XamlCodeGeneratorTool Condition="'$(XamlCodeGeneratorTool)' == ''">$(DefaultGeneratorTool)</XamlCodeGeneratorTool>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(EnableXamlIntelliSenseGenerator)' == 'true'">
