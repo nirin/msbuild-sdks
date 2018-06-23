@@ -5,6 +5,10 @@
 	</PropertyGroup>
 
 	<PropertyGroup>
+		<_SdkProjectSystemRulesDirectory>$(MSBuildThisFileDirectory)Rules\</_SdkProjectSystemRulesDirectory>
+	</PropertyGroup>
+
+	<PropertyGroup>
 		<UsingLegacyProjectSystem Condition="'$(ProjectGuid)' != ''">true</UsingLegacyProjectSystem>
 	</PropertyGroup>
 

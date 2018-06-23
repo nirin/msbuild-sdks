@@ -17,7 +17,7 @@
 		<!-- Check for *.tmp_proj files -->
 		<When Condition="'$(MSBuildProjectExtension)' == '.tmp_proj'">
 			<PropertyGroup>
-				<IsGeneratedProject>true</IsGeneratedProject>
+				<_IsGeneratedProject>true</_IsGeneratedProject>
 				<_OriginalProjectName Condition="'$(_OriginalProjectName)' == ''">$(AssemblyName)</_OriginalProjectName>
 				<_LanguageSourceName Condition="Exists('$(MSBuildProjectDirectory)\$(_OriginalProjectName).csproj')">CSharp</_LanguageSourceName>
 				<_LanguageSourceName Condition="Exists('$(MSBuildProjectDirectory)\$(_OriginalProjectName).vbproj')">VisualBasic</_LanguageSourceName>
@@ -27,7 +27,7 @@
 		<!-- Check for _*_wpftmp.*proj files -->
 		<When Condition="$([System.Text.RegularExpressions.Regex]::IsMatch('$(MSBuildProjectName)', '$(_GeneratedProjectSuffixPattern)%24'))">
 			<PropertyGroup>
-				<IsGeneratedProject>true</IsGeneratedProject>
+				<_IsGeneratedProject>true</_IsGeneratedProject>
 				<_OriginalProjectName Condition="'$(_OriginalProjectName)' == ''">$(_TargetAssemblyProjectName)</_OriginalProjectName>
 				<_OriginalProjectName Condition="'$(_OriginalProjectName)' == ''">$([System.Text.RegularExpressions.Regex]::Replace('$(MSBuildProjectName)', '$(_GeneratedProjectSuffixPattern)', ''))</_OriginalProjectName>
 			</PropertyGroup>
@@ -36,7 +36,7 @@
 		<Otherwise/>
 	</Choose>
 
-	<PropertyGroup Condition="'$(IsGeneratedProject)' == 'true'">
+	<PropertyGroup Condition="'$(_OriginalProjectName)' != ''">
 		<_OriginalProjectFile>$(_OriginalProjectName)$(MSBuildProjectExtension)</_OriginalProjectFile>
 		<_OriginalProjectExtensionsPath Condition="$(MSBuildProjectExtensionsPath.Contains('$(MSBuildProjectName)'))">$(MSBuildProjectExtensionsPath.Replace('$(MSBuildProjectName)', '$(_OriginalProjectName)'))</_OriginalProjectExtensionsPath>
 		<RestoreOutputPath>$(_OriginalProjectExtensionsPath)</RestoreOutputPath>

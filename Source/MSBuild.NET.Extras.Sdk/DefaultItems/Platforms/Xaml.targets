@@ -30,7 +30,7 @@
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(EnableXamlIntelliSenseGenerator)' == 'true'">
-		<XamlIntelliSenseGeneratorTool Condition="'$(XamlIntelliSenseGeneratorTool)' == ''">MSBuild:XamlIntelliSenseFileGenerator</XamlIntelliSenseGeneratorTool>
+		<XamlIntelliSenseGeneratorTool Condition="'$(XamlIntelliSenseGeneratorTool)' == ''">XamlIntelliSenseFileGenerator</XamlIntelliSenseGeneratorTool>
 	</PropertyGroup>
 
 	<!--
