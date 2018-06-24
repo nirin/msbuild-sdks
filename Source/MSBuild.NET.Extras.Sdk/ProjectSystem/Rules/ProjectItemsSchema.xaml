@@ -4,20 +4,20 @@
 		Name="Page"
 		DisplayName="Page file"
 		ItemType="Page">
-			<NameValuePair Name="DependentExtensions" Value=".xaml.cs" />
-			<NameValuePair Name="DependentFileExtensions" Value=".cs" />
-			<NameValuePair Name="DefaultMetadata_SubType" Value="Designer" />
-			<NameValuePair Name="DefaultMetadata_Generator" Value="MSBuild:Compile" />
+			<NameValuePair Name="DependentExtensions" Value=".xaml.cs;.xaml.vb"/>
+			<NameValuePair Name="DependentFileExtensions" Value=".cs;.vb"/>
+			<NameValuePair Name="DefaultMetadata_SubType" Value="Designer"/>
+			<NameValuePair Name="DefaultMetadata_Generator" Value="MSBuild:Compile"/>
 	</ContentType>
 
 	<ContentType
 		Name="ApplicationDefinition"
 		DisplayName="Application Definition file"
 		ItemType="ApplicationDefinition">
-			<NameValuePair Name="DependentExtensions" Value=".xaml.cs" />
-			<NameValuePair Name="DependentFileExtensions" Value=".cs" />
-			<NameValuePair Name="DefaultMetadata_SubType" Value="Designer" />
-			<NameValuePair Name="DefaultMetadata_Generator" Value="MSBuild:Compile" />
+			<NameValuePair Name="DependentExtensions" Value=".xaml.cs;.xaml.vb"/>
+			<NameValuePair Name="DependentFileExtensions" Value=".cs;.vb"/>
+			<NameValuePair Name="DefaultMetadata_SubType" Value="Designer"/>
+			<NameValuePair Name="DefaultMetadata_Generator" Value="MSBuild:Compile"/>
 	</ContentType>
 
 	<ItemType Name="Page" DisplayName="Page"/>
