@@ -8,28 +8,28 @@
 		Only MSBuild Full Framework build includes WCF, WFF, WPF and ADO.NET targets which redirects to MSBuildFrameworkToolsPath.
 		So to have WCF, WFF, WPF and ADO.NET support, we need to use the targets in the MSBuild Full Framework build path.
 	-->
-	<PropertyGroup Condition="'$(_SdkDesktopTargets)' == ''">
-		<_SdkDesktopTargets Condition="'$(_LanguageSourceName)' != 'FSharp'">$(MSBuildExtensionsPath)\$(VisualStudioVersion)\Bin\Microsoft.$(_LanguageSourceName).targets</_SdkDesktopTargets>
-		<_SdkDesktopTargets Condition="'$(_LanguageSourceName)' == 'FSharp'">$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\FSharp\Microsoft.FSharp.Targets</_SdkDesktopTargets>
+	<PropertyGroup>
+		<_SdkLanguageTargets Condition="'$(_LanguageSourceName)' != 'FSharp'">$(MSBuildExtensionsPath)\$(VisualStudioVersion)\Bin\Microsoft.$(_LanguageSourceName).targets</_SdkLanguageTargets>
+		<_SdkLanguageTargets Condition="'$(_LanguageSourceName)' == 'FSharp'">$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\FSharp\Microsoft.FSharp.Targets</_SdkLanguageTargets>
 	</PropertyGroup>
 
 	<PropertyGroup>
-		<_SdkLanguageTargetsMissing Condition="!Exists('$(_SdkDesktopTargets)')">true</_SdkLanguageTargetsMissing>
+		<_SdkLanguageTargetsMissing Condition="!Exists('$(_SdkLanguageTargets)')">true</_SdkLanguageTargetsMissing>
 	</PropertyGroup>
 
-	<Import Project="$(_SdkDesktopTargets)" Condition="Exists('$(_SdkDesktopTargets)')"/>
+	<Import Project="$(_SdkLanguageTargets)" Condition="Exists('$(_SdkLanguageTargets)')"/>
 
-	<PropertyGroup Condition="'$(_SdkWebTargets)' == ''">
-		<_SdkWebTargets>$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\WebApplications\Microsoft.WebApplication.targets</_SdkWebTargets>
+	<PropertyGroup>
+		<_SdkWebApplicationTargets>$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\WebApplications\Microsoft.WebApplication.targets</_SdkWebApplicationTargets>
 	</PropertyGroup>
 
-	<Import Project="$(_SdkWebTargets)" Condition="Exists('$(_SdkWebTargets)') AND '$(ImportWebApplicationTargets)' == 'true'"/>
+	<Import Project="$(_SdkWebApplicationTargets)" Condition="Exists('$(_SdkWebApplicationTargets)') AND '$(ImportWebApplicationTargets)' == 'true'"/>
 
-	<PropertyGroup Condition="'$(_SdkWcfTargets)' == ''">
-		<_SdkWcfTargets>$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\WCF\Microsoft.VisualStudio.ServiceModel.targets</_SdkWcfTargets>
+	<PropertyGroup>
+		<_SdkServiceModelTargets>$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\WCF\Microsoft.VisualStudio.ServiceModel.targets</_SdkServiceModelTargets>
 	</PropertyGroup>
 
-	<Import Project="$(_SdkWcfTargets)" Condition="Exists('$(_SdkWcfTargets)') AND '$(ImportServiceModelTargets)' == 'true'"/>
+	<Import Project="$(_SdkServiceModelTargets)" Condition="Exists('$(_SdkServiceModelTargets)') AND '$(ImportServiceModelTargets)' == 'true'"/>
 
 	<Import Project="$(MSBuildThisFileDirectory)CheckMissing.targets" Condition="'$(_SdkLanguageTargetsMissing)' == 'true'"/>
 
