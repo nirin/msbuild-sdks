@@ -17,7 +17,7 @@
 		</When>
 		<Otherwise>
 			<PropertyGroup>
-				<MicrosoftCSharpTargetsPath>$(MSBuildThisFileDirectory)$(MSBuildThisFile)</MicrosoftCSharpTargetsPath>
+				<MicrosoftCSharpTargetsPath>$(MSBuildThisFileDirectory)$(MSBuildThisFileName).CurrentVersion.targets</MicrosoftCSharpTargetsPath>
 			</PropertyGroup>
 		</Otherwise>
 	</Choose>

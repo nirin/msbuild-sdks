@@ -1,0 +1,94 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+	<PropertyGroup>
+		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<Language>VB</Language>
+		<TargetRuntime>Managed</TargetRuntime>
+		<DefaultLanguageSourceExtension>.vb</DefaultLanguageSourceExtension>
+		<AlwaysUseNumericalSuffixInItemNames>true</AlwaysUseNumericalSuffixInItemNames>
+		<DefineCommonItemSchemas Condition="'$(DefineCommonItemSchemas)' == ''">true</DefineCommonItemSchemas>
+		<DefineCommonReferenceSchemas Condition="'$(DefineCommonReferenceSchemas)' == ''">true</DefineCommonReferenceSchemas>
+		<DefineCommonCapabilities Condition="'$(DefineCommonCapabilities)' == ''">true</DefineCommonCapabilities>
+		<SynthesizeLinkMetadata Condition="'$(SynthesizeLinkMetadata)' == '' AND '$(HasSharedItems)' == 'true'">true</SynthesizeLinkMetadata>
+		<DefaultProjectTypeGuid Condition="'$(DefaultProjectTypeGuid)' == ''">{F184B08F-C81C-45F6-A57F-5ABD9991F28F}</DefaultProjectTypeGuid>
+		<AppDesignerFolder Condition="'$(AppDesignerFolder)' == ''">My Project</AppDesignerFolder>
+	</PropertyGroup>
+
+	<ItemGroup Condition="'$(DefineVisualBasicItemSchemas)' != 'false'">
+		<PropertyPageSchema Include="$(CommonXamlResourcesDirectory)VisualBasic.ProjectItemsSchema.xaml;"/>
+		<PropertyPageSchema Include="$(CommonXamlResourcesDirectory)VisualBasic.xaml;">
+			<Context>File</Context>
+		</PropertyPageSchema>
+		<PropertyPageSchema Include="$(CommonXamlResourcesDirectory)VisualBasic.BrowseObject.xaml;">
+			<Context>BrowseObject</Context>
+		</PropertyPageSchema>
+
+		<ProjectCapability Include="VB;Managed"/>
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(DefineCommonCapabilities)' == 'true'">
+		<ProjectCapability Include="ReferencesFolder;LanguageService"/>
+	</ItemGroup>
+
+	<PropertyGroup>
+		<FinalDefineConstants>CONFIG=&quot;$(Configuration)&quot;</FinalDefineConstants>
+		<FinalDefineConstants Condition="'$(DefineDebug)' == 'true'">$(FinalDefineConstants),DEBUG=-1</FinalDefineConstants>
+		<FinalDefineConstants Condition="'$(DefineTrace)' == 'true'">$(FinalDefineConstants),TRACE=-1</FinalDefineConstants>
+		<FinalDefineConstants Condition="'$(MyType)' != ''">$(FinalDefineConstants),_MyType=&quot;$(MyType)&quot;</FinalDefineConstants>
+		<FinalDefineConstants Condition="'$(Platform)' != ''">$(FinalDefineConstants),PLATFORM=&quot;$(Platform)&quot;</FinalDefineConstants>
+		<FinalDefineConstants Condition="'$(Platform)' == ''">$(FinalDefineConstants),PLATFORM=&quot;AnyCPU&quot;</FinalDefineConstants>
+		<FinalDefineConstants Condition="'$(DefineConstants)' != ''">$(FinalDefineConstants),$(DefineConstants)</FinalDefineConstants>
+
+		<!-- Provide a facility to override UseHostCompilerIfAvailable-->
+		<UseHostCompilerIfAvailable Condition="'$(UseHostCompilerIfAvailable)' == ''">true</UseHostCompilerIfAvailable>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<DocFileItem Include="$(IntermediateOutputPath)$(DocumentationFile)" Condition="'$(DocumentationFile)' != ''"/>
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(_DebugSymbolsProduced)' == 'true' AND '$(PdbFile)' != ''">
+		<_DebugSymbolsIntermediatePathTemporary Include="$(PdbFile)"/>
+		<!-- Add any missing .pdb extension, as the compiler does -->
+		<_DebugSymbolsIntermediatePath Include="@(_DebugSymbolsIntermediatePathTemporary->'%(RootDir)%(Directory)%(Filename).pdb')"/>
+	</ItemGroup>
+
+	<!-- Import design time targets for Roslyn Project System. These are only available if Visual Studio is installed. -->
+	<PropertyGroup>
+		<VisualBasicDesignTimeTargetsPath Condition="'$(VisualBasicDesignTimeTargetsPath)'==''">$(MSBuildExtensionsPath)\Microsoft\VisualStudio\Managed\Microsoft.VisualBasic.DesignTime.targets</VisualBasicDesignTimeTargetsPath>
+	</PropertyGroup>
+	<Import Project="$(VisualBasicDesignTimeTargetsPath)" Condition="'$(VisualBasicDesignTimeTargetsPath)' != '' AND Exists('$(VisualBasicDesignTimeTargetsPath)')"/>
+
+	<PropertyGroup>
+		<Utf8Output Condition="'$(Utf8Output)' == ''">true</Utf8Output>
+
+		<!--
+			NoCompilerStandardLib maps to the compiler's /nostdlib option. By default we always
+			want that switch to be passed to the compiler so that either we or the user
+			provides the references
+			NoStdLib on the other hand indicates that the user doesn't want standard references
+			so only if NoStdLib isn't set to true, will we provide the standard references
+		-->
+		<NoCompilerStandardLib Condition="'$(NoCompilerStandardLib)' == ''">true</NoCompilerStandardLib>
+
+		<!-- When building inside VS, by default use the same language for compiler messages as VS itself does. -->
+		<PreferredUILang Condition="'$(BuildingInsideVisualStudio)' == 'true' AND '$(PreferredUILang)' == ''">$([System.Globalization.CultureInfo]::CurrentUICulture.Name)</PreferredUILang>
+	</PropertyGroup>
+
+	<!-- Add any "automatic" compiler references that need to be resolved when NoCompilerStandardLib is set
+		 but the user hasn't told us to not include standard references -->
+	<ItemGroup Condition="'$(NoCompilerStandardLib)' == 'true' AND '$(NoStdLib)' != 'true'">
+		<!--
+			Note that unlike C#, VB gets its mscorlib.dll path from the $(FrameworkPathOverride) property
+			via the /sdkpath parameter.
+			In addition to that, VB normally treats System.dll as a "standard library" however since we are
+			passing NoCompilerStandardLib=true we need an explicit reference to System in order to maintain the
+			correct behaviour.
+		-->
+		<_ExplicitReference Include="$(FrameworkPathOverride)\System.dll"/>
+	</ItemGroup>
+
+</Project>

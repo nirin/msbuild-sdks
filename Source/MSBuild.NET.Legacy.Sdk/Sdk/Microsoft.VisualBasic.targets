@@ -17,7 +17,7 @@
 		</When>
 		<Otherwise>
 			<PropertyGroup>
-				<MicrosoftVisualBasicTargetsPath>$(MSBuildThisFileDirectory)$(MSBuildThisFile)</MicrosoftVisualBasicTargetsPath>
+				<MicrosoftVisualBasicTargetsPath>$(MSBuildThisFileDirectory)$(MSBuildThisFileName).CurrentVersion.targets</MicrosoftVisualBasicTargetsPath>
 			</PropertyGroup>
 		</Otherwise>
 	</Choose>

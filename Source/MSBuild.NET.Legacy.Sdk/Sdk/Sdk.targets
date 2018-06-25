@@ -1,6 +1,6 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
-	<Import Project="Sdk.tasks"/>
+	<!--<Import Project="Sdk.tasks" Condition="'$(ImportedMicrosoftCommonTasks)' != 'true'"/>-->
 
 	<PropertyGroup>
 		<MicrosoftLegacyTargetsFileName>Microsoft.Common.targets</MicrosoftLegacyTargetsFileName>

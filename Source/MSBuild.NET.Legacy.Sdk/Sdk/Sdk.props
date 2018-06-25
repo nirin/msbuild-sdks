@@ -1,6 +1,6 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
-	<Import Project="Sdk.tasks"/>
+	<!--<Import Project="Sdk.tasks"/>-->
 
 	<PropertyGroup>
 		<MicrosoftLegacyPropsFileName>Microsoft.Common.props</MicrosoftLegacyPropsFileName>

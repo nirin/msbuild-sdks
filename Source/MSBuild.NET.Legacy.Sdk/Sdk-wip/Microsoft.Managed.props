@@ -1,0 +1,391 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+	<PropertyGroup>
+		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildProjectFullPath);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<!-- VS10 without SP1 and without VS11 will not have VisualStudioVersion set, so do that here -->
+		<VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+		<!-- By default, we are creating a managed app because .NET 2.0 projects did not have this property. -->
+		<TargetRuntime Condition="'$(TargetRuntime)' == ''">Managed</TargetRuntime>
+	</PropertyGroup>
+
+	<!-- AvailablePlatforms is the list of platform targets available. -->
+	<PropertyGroup>
+		<AvailablePlatforms Condition="'$(VisualStudioVersion)' == '10.0' OR '$(VisualStudioVersion)' == ''">Any CPU,x86,x64,Itanium</AvailablePlatforms>
+		<AvailablePlatforms Condition="'$(VisualStudioVersion)' != '' AND '$(VisualStudioVersion)' > '10.0'">Any CPU,x86,x64</AvailablePlatforms>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<!-- Yield optimization properties -->
+		<YieldDuringToolExecution Condition="'$(YieldDuringToolExecution)' == ''">true</YieldDuringToolExecution>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<TargetPlatformIdentifier Condition="'$(TargetPlatformIdentifier)' == ''">Windows</TargetPlatformIdentifier>
+		<TargetPlatformVersion Condition="'$(TargetPlatformVersion)' == ''">7.0</TargetPlatformVersion>
+		<TargetPlatformSdkPath Condition="'$(TargetPlatformSdkPath)' == '' AND '$(TargetPlatformSdkRootOverride)' != ''">$(TargetPlatformSdkRootOverride)\</TargetPlatformSdkPath>
+		<TargetPlatformSdkPath Condition="'$(TargetPlatformSdkPath)' == '' AND '$(TargetPlatformIdentifier)' == 'Windows' AND '$(OS)' == 'Windows_NT' AND '$(MSBuildRuntimeType)' != 'Core'">$([MSBuild]::GetRegistryValueFromView('HKEY_LOCAL_MACHINE\Software\Microsoft\Microsoft SDKs\Windows\v$(TargetPlatformVersion)', InstallationFolder, null, RegistryView.Registry32, RegistryView.Default))</TargetPlatformSdkPath>
+		<TargetPlatformSdkPath Condition="'$(TargetPlatformSdkPath)' == ''">$([Microsoft.Build.Utilities.ToolLocationHelper]::GetPlatformSDKLocation($(TargetPlatformIdentifier), $(TargetPlatformVersion)))</TargetPlatformSdkPath>
+		<TargetPlatformSdkMetadataLocation Condition="'$(TargetPlatformSdkMetadataLocation)' == '' AND Exists('$(TargetPlatformSdkPath)')">$(TargetPlatformSdkPath)Windows Metadata</TargetPlatformSdkMetadataLocation>
+		<TargetPlatformSdkMetadataLocation Condition="Exists('$(TargetPlatformSdkPath)') AND ('$(TargetPlatformSdkMetadataLocation)' == '' OR !Exists('$(TargetPlatformSdkMetadataLocation)'))">$(TargetPlatformSdkPath)References\CommonConfiguration\Neutral</TargetPlatformSdkMetadataLocation>
+		<TargetPlatformWinMDLocation Condition="'$(TargetPlatformWinMDLocation)' == '' AND Exists('$(TargetPlatformSdkMetadataLocation)')">$(TargetPlatformSdkMetadataLocation)</TargetPlatformWinMDLocation>
+		<UseOSWinMdReferences Condition="'$(UseOSWinMdReferences)' == '' AND ('$(TargetPlatformWinMDLocation)' == '' AND '$(TargetPlatformIdentifier)' == 'Windows' AND '$(TargetPlatformVersion)' > '7.0')">true</UseOSWinMdReferences>
+		<TargetPlatformWinMDLocation Condition="'$(UseOsWinMdReferences)' == 'true'">$(WinDir)\System32\WinMetadata</TargetPlatformWinMDLocation>
+		<TargetPlatformMoniker Condition="'$(TargetPlatformMoniker)' == ''">$(TargetPlatformIdentifier),Version=$(TargetPlatformVersion)</TargetPlatformMoniker>
+		<TargetPlatformDisplayName Condition="'$(TargetPlatformDisplayName)' == ''">$([Microsoft.Build.Utilities.ToolLocationHelper]::GetPlatformSDKDisplayName($(TargetPlatformIdentifier), $(TargetPlatformVersion)))</TargetPlatformDisplayName>
+	</PropertyGroup>
+
+	<!--
+		Several properties must be set in the main project file, before using this .props file.
+		However, if the properties are not set, we pick some defaults.
+	-->
+
+	<PropertyGroup>
+		<AssemblyName Condition="'$(AssemblyName)' == ''">$(MSBuildProjectName)</AssemblyName>
+
+		<_OriginalConfiguration>$(Configuration)</_OriginalConfiguration>
+		<_OriginalPlatform>$(Platform)</_OriginalPlatform>
+
+		<!-- Example, Debug -->
+		<Configuration Condition="'$(Configuration)' == ''">Debug</Configuration>
+		<ConfigurationName Condition="'$(ConfigurationName)' == ''">$(Configuration)</ConfigurationName>
+
+		<!-- Example, AnyCPU -->
+		<Platform Condition="'$(Platform)' == ''">AnyCPU</Platform>
+		<PlatformName Condition="'$(PlatformName)' == ''">$(Platform)</PlatformName>
+
+		<OutputType Condition="'$(TargetType)' != ''">$(TargetType)</OutputType>
+		<OutputType Condition="'$(TargetType)' == 'Container' OR '$(TargetType)' == 'DocumentContainer'">library</OutputType>
+		<OutputType Condition="'$(OutputType)' == ''">exe</OutputType>
+
+		<DebugSymbols Condition="'$(ConfigurationName)' == 'Debug' AND '$(DebugSymbols)' == '' AND '$(DebugType)' == ''">true</DebugSymbols>
+
+		<!-- Whether or not a .pdb file is produced. -->
+		<DebugType Condition="'$(DebugType)' == ''">portable</DebugType>
+
+		<!-- Whether or not a reference assembly is produced. -->
+		<ProduceReferenceAssembly Condition="'$(ProduceReferenceAssembly)' == ''">false</ProduceReferenceAssembly>
+	</PropertyGroup>
+
+	<!--
+		IDE Macros available from both integrated builds and from command line builds.
+		The following properties are 'macros' that are available via IDE for
+		pre and post build steps.
+	-->
+	<PropertyGroup>
+		<TargetExt Condition="'$(TargetExt)' == '' AND '$(OutputType)' == 'exe'">.exe</TargetExt>
+		<TargetExt Condition="'$(TargetExt)' == '' AND '$(OutputType)' == 'winexe'">.exe</TargetExt>
+		<TargetExt Condition="'$(TargetExt)' == '' AND '$(OutputType)' == 'appcontainerexe'">.exe</TargetExt>
+		<TargetExt Condition="'$(TargetExt)' == '' AND '$(OutputType)' == 'library'">.dll</TargetExt>
+		<TargetExt Condition="'$(TargetExt)' == '' AND '$(OutputType)' == 'module'">.netmodule</TargetExt>
+		<TargetExt Condition="'$(TargetExt)' == '' AND '$(OutputType)' == 'winmdobj'">.winmdobj</TargetExt>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<!-- Example, MyProject -->
+		<ProjectName Condition="'$(ProjectName)' == ''">$(MSBuildProjectName)</ProjectName>
+
+		<!-- Example, c:\MyProjects\MyProject\ -->
+		<ProjectDir Condition="'$(ProjectDir)' == ''">$(MSBuildProjectDirectory)\</ProjectDir>
+
+		<!-- Example, c:\MyProjects\MyProject\MyProject.csproj -->
+		<ProjectPath Condition="'$(ProjectPath)' == ''">$(ProjectDir)$(ProjectFileName)</ProjectPath>
+
+		<!-- Example, MyAssembly -->
+		<TargetName Condition="'$(TargetName)' == '' AND '$(OutputType)' == 'winmdobj' AND '$(RootNamespace)' != ''">$(RootNamespace)</TargetName>
+		<TargetName Condition="'$(TargetName)' == ''">$(AssemblyName)</TargetName>
+
+		<!-- Example, MyProject.csproj -->
+		<ProjectFileName Condition="'$(ProjectFileName)' == ''">$(MSBuildProjectFile)</ProjectFileName>
+
+		<!-- Example, .csproj -->
+		<ProjectExt Condition="'$(ProjectExt)' == ''">$(MSBuildProjectExtension)</ProjectExt>
+
+		<!-- Example, MyAssembly.winmd -->
+		<WinMDExpOutputWindowsMetadataFilename Condition="'$(WinMDExpOutputWindowsMetadataFilename)' == '' AND '$(OutputType)' == 'winmdobj'">$(TargetName).winmd</WinMDExpOutputWindowsMetadataFilename>
+		<TargetFileName Condition="'$(TargetFileName)' == '' AND '$(OutputType)' == 'winmdobj'">$(WinMDExpOutputWindowsMetadataFilename)</TargetFileName>
+
+		<!-- Example, MyAssembly.dll -->
+		<TargetFileName Condition="'$(TargetFileName)' == ''">$(TargetName)$(TargetExt)</TargetFileName>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<!--
+			By default, GenerateApplicationManifest puts all satellite assemblies to the manifest
+			record by default by setting TargetCulture to *.
+		-->
+		<TargetCulture Condition="'$(TargetCulture)' == ''">*</TargetCulture>
+		<FallbackCulture Condition="'$(UICulture)' != '' AND '$(FallbackCulture)' == ''">$(UICulture)</FallbackCulture>
+	</PropertyGroup>
+
+	<!--
+		IDE Macros available only from integrated builds.
+		The following properties are 'macros' that are available via IDE for
+		pre and post build steps. However, they are not defined when directly building
+		a project from the command line, only when building a solution.
+	-->
+	<PropertyGroup>
+		<DevEnvDir Condition="'$(DevEnvDir)' == ''">*Undefined*</DevEnvDir>
+		<SolutionName Condition="'$(SolutionName)' == ''">*Undefined*</SolutionName>
+		<!-- Example, MySolution -->
+		<SolutionFileName Condition="'$(SolutionFileName)' == ''">*Undefined*</SolutionFileName>
+		<!-- Example, MySolution.sln -->
+		<SolutionPath Condition="'$(SolutionPath)' == ''">*Undefined*</SolutionPath>
+		<!-- Example, f:\MySolutions\MySolution\MySolution.sln -->
+		<SolutionDir Condition="'$(SolutionDir)' == ''">*Undefined*</SolutionDir>
+		<!-- Example, f:\MySolutions\MySolution\ -->
+		<SolutionExt Condition="'$(SolutionExt)' == ''">*Undefined*</SolutionExt>
+		<!-- Example, .sln -->
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<GenerateBindingRedirectsOutputType Condition="'$(OutputType)' == 'exe' OR '$(OutputType)' == 'winexe'">true</GenerateBindingRedirectsOutputType>
+		<!-- It would be a breaking change to automatically turn on binding redirects for existing projects, so turn them on only when opting into a new framework. -->
+		<AutoGenerateBindingRedirects Condition="'$(AutoGenerateBindingRedirects)' == ''">true</AutoGenerateBindingRedirects>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(AutoUnifyAssemblyReferences)' == ''">
+		<AutoUnifyAssemblyReferences>true</AutoUnifyAssemblyReferences>
+		<AutoUnifyAssemblyReferences Condition="'$(GenerateBindingRedirectsOutputType)' == 'true' AND '$(AutoGenerateBindingRedirects)' != 'true'">false</AutoUnifyAssemblyReferences>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<CleanFile Condition="'$(CleanFile)' == ''">Project.FileListAbsolute.txt</CleanFile>
+		<!-- During DesignTime Builds, skip project reference build as Design time is only queueing information.-->
+		<BuildProjectReferences Condition="'$(BuildProjectReferences)' == '' AND '$(DesignTimeBuild)' == 'true'">false</BuildProjectReferences>
+		<!-- By default we will build (and if applicable, clean) all project references. But this can be used to disable that-->
+		<BuildProjectReferences Condition="'$(BuildProjectReferences)' == ''">true</BuildProjectReferences>
+		<BuildInParallel Condition="'$(BuildInParallel)' == ''">true</BuildInParallel>
+		<_ResolveReferenceDependencies Condition="'$(_ResolveReferenceDependencies)' == ''">false</_ResolveReferenceDependencies>
+		<_GetChildProjectCopyToOutputDirectoryItems Condition="'$(_GetChildProjectCopyToOutputDirectoryItems)' == ''">true</_GetChildProjectCopyToOutputDirectoryItems>
+		<OverwriteReadOnlyFiles Condition="'$(OverwriteReadOnlyFiles)' == ''">false</OverwriteReadOnlyFiles>
+		<ComReferenceNoClassMembers Condition="'$(ComReferenceNoClassMembers)' == ''">false</ComReferenceNoClassMembers>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<_GenerateBindingRedirectsIntermediateAppConfig>$(TargetFileName).config</_GenerateBindingRedirectsIntermediateAppConfig>
+	</PropertyGroup>
+
+	<!--
+		ProcessorArchitecture is the target processor architecture.
+	-->
+	<PropertyGroup Condition="'$(ProcessorArchitecture)' == ''">
+		<!--
+			If ProcessorArchitecture is not set, set it to PlatformTarget
+			Note: if $(PlatformTarget) is also blank resolve assembly reference defaults to msil which is the
+			desired behavior in this case
+		-->
+		<ProcessorArchitecture>$(PlatformTarget)</ProcessorArchitecture>
+
+		<!--
+			If Processor architecture is not set and PlatformTarget is a known target translate the
+			PlatformTarget into something ResolveAssemblyReference knows about
+		-->
+		<ProcessorArchitecture Condition="'$(PlatformTarget)' == 'AnyCpu'">msil</ProcessorArchitecture>
+		<ProcessorArchitecture Condition="'$(PlatformTarget)' == 'x64'">amd64</ProcessorArchitecture>
+		<ProcessorArchitecture Condition="'$(PlatformTarget)' == 'Itanium'">ia64</ProcessorArchitecture>
+		<ProcessorArchitecture Condition="'$(PlatformTarget)' == 'x86'">x86</ProcessorArchitecture>
+		<ProcessorArchitecture Condition="'$(PlatformTarget)' == 'ARM'">arm</ProcessorArchitecture>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<ConsiderPlatformAsProcessorArchitecture Condition="'$(ConsiderPlatformAsProcessorArchitecture)' == ''">true</ConsiderPlatformAsProcessorArchitecture>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(ProcessorArchitecture)' == '' AND '$(ConsiderPlatformAsProcessorArchitecture)' == 'true'">
+		<!-- We need to do this here because if we were to just compare against platform visual would parse them out as available platforms which may not be the case -->
+		<ProcessorArchitectureAsPlatform>$(Platform)</ProcessorArchitectureAsPlatform>
+		<ProcessorArchitecture Condition="'$(ProcessorArchitectureAsPlatform)' == 'AnyCpu' OR '$(ProcessorArchitectureAsPlatform)' == 'Any Cpu'">msil</ProcessorArchitecture>
+		<ProcessorArchitecture Condition="'$(ProcessorArchitectureAsPlatform)' == 'x64' OR '$(ProcessorArchitectureAsPlatform)' == 'amd64'">amd64</ProcessorArchitecture>
+		<ProcessorArchitecture Condition="'$(ProcessorArchitectureAsPlatform)' == 'Itanium'">ia64</ProcessorArchitecture>
+		<ProcessorArchitecture Condition="'$(ProcessorArchitectureAsPlatform)' == 'x86' OR '$(ProcessorArchitectureAsPlatform)' == 'win32'">x86</ProcessorArchitecture>
+		<ProcessorArchitecture Condition="'$(ProcessorArchitectureAsPlatform)' == 'ARM'">arm</ProcessorArchitecture>
+
+		<!--For compatibility with the 4.0 behavior, if not set above, default to the environment. To override this, set ProcessorArchitecture explicitly. We also need to disable the warning since we do not know if what the environment is set to is correct-->
+		<ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch Condition="'$(ProcessorArchitecture)' == ''">None</ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>
+		<ProcessorArchitecture Condition="'$(ProcessorArchitecture)' == ''">$(PROCESSOR_ARCHITECTURE)</ProcessorArchitecture>
+	</PropertyGroup>
+
+
+	<!-- Sensible defaults for the most-commonly-desired MSBuildRuntime and MSBuildArchitecture values -->
+	<PropertyGroup Condition="'$(DisableOutOfProcTaskHost)' == ''">
+		<TargetFrameworkAsMSBuildRuntime Condition="'$(TargetFrameworkVersion)' == 'v2.0' OR '$(TargetFrameworkVersion)' == 'v3.0' OR '$(TargetFrameworkVersion)' == 'v3.5'">CLR2</TargetFrameworkAsMSBuildRuntime>
+		<TargetFrameworkAsMSBuildRuntime Condition="'$(TargetFrameworkVersion)' == 'v4.0' OR '$(TargetFrameworkVersion)' == 'v4.5'">CLR4</TargetFrameworkAsMSBuildRuntime>
+		<TargetFrameworkAsMSBuildRuntime Condition="'$(TargetFrameworkAsMSBuildRuntime)' == ''">CurrentRuntime</TargetFrameworkAsMSBuildRuntime>
+
+		<PlatformTargetAsMSBuildArchitectureExplicitlySet Condition="'$(PlatformTargetAsMSBuildArchitecture)' != ''">true</PlatformTargetAsMSBuildArchitectureExplicitlySet>
+		<PlatformTargetAsMSBuildArchitectureExplicitlySet Condition="'$(PlatformTargetAsMSBuildArchitecture)' == ''">false</PlatformTargetAsMSBuildArchitectureExplicitlySet>
+
+		<PlatformTargetAsMSBuildArchitecture Condition="'$(PlatformTarget)' == 'x86' OR ('$(PlatformTarget)' == 'x64' AND '$(MSBuildExtensionsPath64)' != '')">$(PlatformTarget)</PlatformTargetAsMSBuildArchitecture>
+		<PlatformTargetAsMSBuildArchitecture Condition="'$(PlatformTarget)' == 'arm'">x86</PlatformTargetAsMSBuildArchitecture>
+		<PlatformTargetAsMSBuildArchitecture Condition="('$(PlatformTarget)' == 'ia64' AND '$(MSBuildExtensionsPath64)' != '')">x64</PlatformTargetAsMSBuildArchitecture>
+		<PlatformTargetAsMSBuildArchitecture Condition="'$(PlatformTargetAsMSBuildArchitecture)' == ''">CurrentArchitecture</PlatformTargetAsMSBuildArchitecture>
+	</PropertyGroup>
+
+	<!-- Flavor is the project flavor. For example, Client, Smart Devices, SQL Server, etc. -->
+	<PropertyGroup>
+		<ProjectFlavor Condition="'$(ProjectFlavor)' == ''">Client</ProjectFlavor>
+	</PropertyGroup>
+
+	<!--
+		The default for compilers is to not delay-sign. If $(DelaySign) is false, let the compiler
+		use its default rather than forcing a no-delay-sign flag to be passed in. This is so that
+		attributes in the source code can override this decision.
+	-->
+	<PropertyGroup>
+		<DelaySign Condition="'$(SignAssembly)' != 'true'">false</DelaySign>
+		<DelaySign Condition="'$(DelaySign)' != 'true'"></DelaySign>
+	</PropertyGroup>
+
+	<!-- These properties control web reference proxy generation. -->
+	<PropertyGroup>
+		<WebReference_EnableProperties Condition="'$(WebReference_EnableProperties)' == ''">true</WebReference_EnableProperties>
+		<WebReference_EnableSQLTypes Condition="'$(WebReference_EnableSQLTypes)' == ''">true</WebReference_EnableSQLTypes>
+		<WebReference_EnableLegacyEventingModel Condition="'$(WebReference_EnableLegacyEventingModel)' == ''">false</WebReference_EnableLegacyEventingModel>
+	</PropertyGroup>
+
+	<!--
+		These parameters control where to look in the registry for directories to search for
+		assemblies in the assembly resolution tasks.
+	-->
+	<PropertyGroup>
+		<!--
+			These are the extensions that assembly reference resolution will consider for resolution.
+			Add new extensions here if you want to add new file types to consider (for example, .metadata_dll).
+			Put the most likely extensions first for reference resolution speed.
+		-->
+		<AllowedReferenceAssemblyFileExtensions Condition="'$(AllowedReferenceAssemblyFileExtensions)' == ''">
+			.winmd;.dll;.exe
+		</AllowedReferenceAssemblyFileExtensions>
+
+		<!--
+			These are the extensions that reference resolution will consider when looking for files related
+			to resolved references.  Add new extensions here if you want to add new file types to consider.
+		-->
+		<AllowedReferenceRelatedFileExtensions Condition="'$(AllowedReferenceRelatedFileExtensions)' == ''">
+			.pdb;.xml;.pri;.dll.config;.exe.config
+		</AllowedReferenceRelatedFileExtensions>
+
+		<!--
+			These names are used when determining which TargetFramework subset to use. If the any of the FullReferenceAssemblyNames
+			are seen in the list of client subsets, RAR will assume that no client subset is being used. The list is semicolon seperated
+			For example :   Full;Complete;AllThere
+		-->
+		<FullReferenceAssemblyNames Condition="'$(FullReferenceAssemblyNames)' == ''">Full</FullReferenceAssemblyNames>
+	</PropertyGroup>
+
+	<!-- ContinueOnError takes 3 values:  WarnAndContinue (true), ErrorAndStop (false), and ErrorAndContinue.
+			Default to ErrorAndStop, since that matches the behaviour in previous versions, and what users
+			typically expect -->
+	<PropertyGroup>
+		<ContinueOnError Condition="'$(ContinueOnError)' == ''">false</ContinueOnError>
+	</PropertyGroup>
+
+	<!-- Common Project System support -->
+	<PropertyGroup>
+		<CommonXamlResourcesDirectory Condition="'$(CommonXamlResourcesDirectory)' == ''">$(MSBuildToolsPath)\$(LangName)\</CommonXamlResourcesDirectory>
+	</PropertyGroup>
+
+	<!-- We need to fallback to en-US in case the xaml rules are not localized (possibly happen on community languages).  -->
+	<PropertyGroup Condition="!Exists('$(CommonXamlResourcesDirectory)')">
+		<CommonXamlResourcesDirectory>$(MSBuildToolsPath)\en-US\</CommonXamlResourcesDirectory>
+	</PropertyGroup>
+
+	<ItemGroup Condition="'$(DefineCommonItemSchemas)' == 'true'">
+		<PropertyPageSchema Include="$(CommonXamlResourcesDirectory)ProjectItemsSchema.xaml"/>
+
+		<PropertyPageSchema Include="
+							$(CommonXamlResourcesDirectory)General.xaml;
+							$(CommonXamlResourcesDirectory)Debugger_General.xaml">
+			<Context>Project</Context>
+		</PropertyPageSchema>
+
+		<PropertyPageSchema Include="$(CommonXamlResourcesDirectory)General.BrowseObject.xaml">
+			<Context>BrowseObject</Context>
+		</PropertyPageSchema>
+
+		<PropertyPageSchema Include="$(CommonXamlResourcesDirectory)General_File.xaml">
+			<Context>File</Context>
+		</PropertyPageSchema>
+
+		<PropertyPageSchema Include="$(CommonXamlResourcesDirectory)SCC.xaml">
+			<Context>Invisible</Context>
+		</PropertyPageSchema>
+
+		<PropertyPageSchema Include="
+			$(CommonXamlResourcesDirectory)Folder.xaml;
+			$(CommonXamlResourcesDirectory)None.xaml;
+			$(CommonXamlResourcesDirectory)Content.xaml;
+			$(CommonXamlResourcesDirectory)EmbeddedResource.xaml;">
+			<Context>File;BrowseObject</Context>
+		</PropertyPageSchema>
+
+		<PropertyPageSchema Include="$(CommonXamlResourcesDirectory)SpecialFolder.xaml;">
+			<Context>File;ProjectSubscriptionService</Context>
+		</PropertyPageSchema>
+	</ItemGroup>
+
+	<PropertyGroup>
+		<DefineCommonReferenceSchemas Condition="'$(DefineCommonReferenceSchemas)' == ''">$(DefineCommonItemSchemas)</DefineCommonReferenceSchemas>
+	</PropertyGroup>
+
+	<ItemGroup Condition="'$(DefineCommonReferenceSchemas)' == 'true'">
+		<!-- Assembly references -->
+		<PropertyPageSchema Include="$(CommonXamlResourcesDirectory)assemblyreference.xaml">
+			<Context>;BrowseObject</Context>
+		</PropertyPageSchema>
+		<PropertyPageSchema Include="$(CommonXamlResourcesDirectory)ResolvedAssemblyReference.xaml">
+			<Context>ProjectSubscriptionService;BrowseObject</Context>
+		</PropertyPageSchema>
+
+		<!-- COM references -->
+		<PropertyPageSchema Include="$(CommonXamlResourcesDirectory)COMReference.xaml">
+			<Context>;BrowseObject</Context>
+		</PropertyPageSchema>
+		<PropertyPageSchema Include="$(CommonXamlResourcesDirectory)ResolvedCOMReference.xaml">
+			<Context>ProjectSubscriptionService;BrowseObject</Context>
+		</PropertyPageSchema>
+
+		<!-- Project references -->
+		<PropertyPageSchema Include="$(CommonXamlResourcesDirectory)ProjectReference.xaml">
+			<Context>;BrowseObject</Context>
+		</PropertyPageSchema>
+		<PropertyPageSchema Include="$(CommonXamlResourcesDirectory)ResolvedProjectReference.xaml">
+			<Context>ProjectSubscriptionService;BrowseObject</Context>
+		</PropertyPageSchema>
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(DefineCommonCapabilities)' == 'true'">
+		<ProjectCapability Include="
+			AssemblyReferences;
+			COMReferences;
+			ProjectReferences;
+			SharedProjectReferences;
+			OutputGroups;
+			AllTargetOutputGroups;
+			VisualStudioWellKnownOutputGroups;
+			SingleFileGenerators;
+			DeclaredSourceItems;
+			UserSourceItems;"/>
+		<ProjectCapability Include="BuildWindowsDesktopTarget"
+			Condition="'$(TargetPlatformIdentifier)' == 'Windows' AND '$(TargetPlatformVersion)' &lt; '8.0'"/>
+	</ItemGroup>
+
+	<ItemDefinitionGroup Condition="'$(DefineExplicitDefaults)' == 'true'">
+		<None>
+			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
+		</None>
+		<Content>
+			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
+		</Content>
+		<Compile>
+			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
+		</Compile>
+		<EmbeddedResource>
+			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
+		</EmbeddedResource>
+	</ItemDefinitionGroup>
+
+</Project>

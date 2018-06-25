@@ -19,7 +19,7 @@
 		</When>
 		<Otherwise>
 			<PropertyGroup>
-				<MicrosoftCommonTargetsPath>$(MSBuildThisFileDirectory)$(MSBuildThisFile)</MicrosoftCommonTargetsPath>
+				<MicrosoftCommonTargetsPath>$(MSBuildThisFileDirectory)$(MSBuildThisFileName).CurrentVersion.targets</MicrosoftCommonTargetsPath>
 			</PropertyGroup>
 		</Otherwise>
 	</Choose>
