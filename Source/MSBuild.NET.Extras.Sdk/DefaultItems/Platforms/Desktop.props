@@ -81,6 +81,42 @@
 		</Compile>
 	</ItemGroup>
 
+	<!-- WCF/WFF Support -->
+
+	<ItemGroup Condition="'$(EnableDefaultContentItems)' == 'true' AND '$(EnableDefaultServiceItems)' == 'true'">
+		<Content Include="$(DefaultServiceIncludes)" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)"/>
+		<Content Include="$(DefaultServiceItemIncludes)" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)"/>
+
+		<!-- Nest related Compile items -->
+		<Compile Update="$(DefaultServiceCompileItems)">
+			<DependentUpon>%(Filename)</DependentUpon>
+		</Compile>
+	</ItemGroup>
+
+	<ItemDefinitionGroup Condition="'$(EnableDefaultWorkflowItems)' == 'true'">
+		<XamlAppDef>
+			<SubType>Designer</SubType>
+			<Generator>$(DefaultGeneratorTool)</Generator>
+		</XamlAppDef>
+		<XamlSvcDef>
+			<SubType>Designer</SubType>
+			<Generator>$(DefaultGeneratorTool)</Generator>
+		</XamlSvcDef>
+	</ItemDefinitionGroup>
+
+	<ItemGroup Condition="'$(EnableDefaultWorkflowItems)' == 'true'">
+		<None Remove="**\*.xaml"/>
+		<XamlAppDef Include="**\*.xaml" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)"/>
+		<UpToDateCheckInput Include="@(XamlAppDef)"/>
+
+		<None Remove="**\*.xamlx"/>
+		<XamlSvcDef Include="**\*.xamlx" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)"/>
+		<UpToDateCheckInput Include="@(XamlSvcDef)"/>
+		<Content Include="@(XamlSvcDef)"/>
+	</ItemGroup>
+
+	<!-- Fix for Web/Service Content items -->
+
 	<ItemGroup Condition="'$(EnableDefaultContentItems)' == 'true'">
 		<!-- Remove Content items from other item types -->
 		<None Remove="@(Content)"/>

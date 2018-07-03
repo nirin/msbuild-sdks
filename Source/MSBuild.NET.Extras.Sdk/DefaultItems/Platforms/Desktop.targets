@@ -91,4 +91,24 @@
 		<DefaultWebPageItemIncludes>$(DefaultWebPageItemIncludes);*.ascx;Controls\**\*.ascx</DefaultWebPageItemIncludes>
 	</PropertyGroup>
 
+	<!-- WCF/WFF Support -->
+
+	<PropertyGroup Condition="'$(EnableWcfProjectSetup)' == 'true'">
+		<EnableDefaultServiceItems Condition="'$(EnableDefaultServiceItems)' == ''">true</EnableDefaultServiceItems>
+		<EnableImplicitWcfReferences Condition="'$(EnableImplicitWcfReferences)' == ''">true</EnableImplicitWcfReferences>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(EnableDefaultServiceItems)' == 'true'">
+		<DefaultServiceIncludes>Services\**;Api\**</DefaultServiceIncludes>
+		<DefaultServiceItemIncludes>**\*.svc</DefaultServiceItemIncludes>
+		<DefaultServiceCompileItems>**\*.svc$(DefaultLanguageSourceExtension)</DefaultServiceCompileItems>
+		<EnableDefaultContentItems Condition="'$(EnableDefaultContentItems)' == ''">true</EnableDefaultContentItems>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(EnableWffProjectSetup)' == 'true'">
+		<EnableDefaultWorkflowItems Condition="'$(EnableDefaultWorkflowItems)' == ''">true</EnableDefaultWorkflowItems>
+		<EnableDefaultXamlItems Condition="'$(EnableDefaultWorkflowItems)' == 'true'">false</EnableDefaultXamlItems>
+		<EnableImplicitWffReferences Condition="'$(EnableImplicitWffReferences)' == ''">true</EnableImplicitWffReferences>
+	</PropertyGroup>
+
 </Project>
