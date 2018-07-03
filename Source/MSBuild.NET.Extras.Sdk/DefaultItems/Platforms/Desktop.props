@@ -52,7 +52,7 @@
 
 	<!-- WEB Support -->
 
-	<ItemGroup Condition="'$(EnableDefaultWebItems)' == 'true' AND '$(EnableDefaultContentItems)' == 'true'">
+	<ItemGroup Condition="'$(EnableDefaultContentItems)' == 'true' AND '$(EnableDefaultWebItems)' == 'true'">
 		<Content Include="$(DefaultWebStyleIncludes)" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)"/>
 		<Content Include="$(DefaultWebScriptIncludes)" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)"/>
 
@@ -68,14 +68,6 @@
 		</Content>
 
 		<Content Include="favicon.ico"/>
-
-		<!-- Remove Content items from other item types -->
-		<None Remove="@(Content)"/>
-		<Compile Remove="@(Content)"/>
-		<EmbeddedResource Remove="@(Content)"/>
-
-		<!-- Keep track of the default content items for later to distinguish them from newly generated content items -->
-		<_ContentIncludedByDefault Include="@(Content)"/>
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(EnableDefaultWebItems)' == 'true'">
@@ -87,6 +79,16 @@
 		<Compile Update="$(DefaultWebCompileItems)">
 			<DependentUpon>%(Filename)</DependentUpon>
 		</Compile>
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(EnableDefaultContentItems)' == 'true'">
+		<!-- Remove Content items from other item types -->
+		<None Remove="@(Content)"/>
+		<Compile Remove="@(Content)"/>
+		<EmbeddedResource Remove="@(Content)"/>
+
+		<!-- Keep track of the default content items for later to distinguish them from newly generated content items -->
+		<_ContentIncludedByDefault Include="@(Content)"/>
 	</ItemGroup>
 
 </Project>

@@ -28,7 +28,7 @@
 		<PlatformTargets>$(MSBuildThisFileDirectory)Platforms\$(_SdkPlatformName).targets</PlatformTargets>
 	</PropertyGroup>
 
-	<Import Project="$(_SdkPlatformTargets)" Condition="Exists('$(_SdkPlatformTargets)')"/>
+	<Import Project="$(PlatformTargets)" Condition="Exists('$(PlatformTargets)')"/>
 
 	<!-- The conditional compilation symbols defined in the above import and the property-group flows to the Main SDK -->
 	<PropertyGroup Condition="'$(DisableImplicitFrameworkDefines)' != 'true'">
@@ -42,7 +42,7 @@
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(DisableImplicitFrameworkDefines)' != 'true' AND '$(_LanguageSourceName)' == 'VisualBasic'">
-		<FinalDefineConstants Condition="'$(FinalDefineConstants)' != '' AND !$(DefineConstants.EndsWith(','))">$(FinalDefineConstants),</FinalDefineConstants>
+		<FinalDefineConstants Condition="'$(FinalDefineConstants)' != '' AND !$(FinalDefineConstants.EndsWith(','))">$(FinalDefineConstants),</FinalDefineConstants>
 		<FinalDefineConstants Condition="'$(ImplicitFrameworkProfileDefine)' != ''">$(FinalDefineConstants)$(ImplicitFrameworkProfileDefine)=-1</FinalDefineConstants>
 	</PropertyGroup>
 
