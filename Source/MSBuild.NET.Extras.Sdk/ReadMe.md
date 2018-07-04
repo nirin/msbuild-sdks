@@ -22,7 +22,7 @@ Visual Studio 2017 Update 6 (aka _v15.6_) includes support for SDK's resolved fr
 
 1. Create a new project
     - .NET Core console app or .NET Standard class library.
-    - With your exisiting SDK-style project.
+    - With your existing SDK-style project.
     - With the templates in the repo's [TestProjects](../../TestProjects) folder.
 
 2. Replace `Microsoft.NET.Sdk` with `MSBuild.NET.Extras.Sdk` to the project's top-level `Sdk` attribute.
@@ -38,7 +38,7 @@ The final project should look like this:
 ```xml
 <Project Sdk="MSBuild.NET.Extras.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net46;uwp10.0;tizen40</TargetFrameworks>
+    <TargetFrameworks>net46;uap10.0;tizen40</TargetFrameworks>
   </PropertyGroup>
 </Project>
 ```
@@ -61,7 +61,7 @@ Then again, you might want to override the version for just one project _OR_ if 
 ```xml
 <Project Sdk="MSBuild.NET.Extras.Sdk/1.2.0">
   <PropertyGroup>
-    <TargetFrameworks>net46;uwp10.0;tizen40</TargetFrameworks>
+    <TargetFrameworks>net46;uap10.0;tizen40</TargetFrameworks>
   </PropertyGroup>
 </Project>
 ```
@@ -79,7 +79,7 @@ More information on how SDK's are resolved can be found [here](https://docs.micr
 
 ### Migrate from the old way (VS pre-15.6)
 
-For those who are using in a `PackageReference` style, you can't do that with v2.0+ of this package. So update VS to 15.6+ and manually upgrade your projects as shown below:
+For those who are using in a `PackageReference` style, you can't do that with v1.1+ of this package. So update VS to 15.6+ and manually upgrade your projects as shown below:
 
 1. The same as above, replace the Sdk attribute's value.
 2. Remove the workaround import specified with the old way. The import property should be `MSBuildSdkExtrasDotNet`.
@@ -93,7 +93,7 @@ Your project diff:
 + <Project Sdk="MSBuild.NET.Extras.Sdk">
   <!-- OTHER PROPERTIES -->
   <PropertyGroup>
-    <TargetFrameworks>net46;uwp10.0;tizen40</TargetFrameworks>
+    <TargetFrameworks>net46;uap10.0;tizen40</TargetFrameworks>
   </PropertyGroup>
 
   <ItemGroup>
