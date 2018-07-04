@@ -5,6 +5,6 @@
 		<GeneratedProgramFile>Program$(DefaultLanguageSourceExtension)</GeneratedProgramFile>
 	</PropertyGroup>
 
-	<Import Project="$(MSBuildThisFileDirectory)..\$(MSBuildThisFile)"/>
+	<Import Project="..\$(MSBuildThisFile)"/>
 
 </Project>

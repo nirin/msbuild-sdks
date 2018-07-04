@@ -13,6 +13,6 @@
 		<InformationalVersion>1.0 Test Project</InformationalVersion>
 	</PropertyGroup>
 
-	<Import Project="$(MSBuildThisFileDirectory)..\$(MSBuildThisFile)"/>
+	<Import Project="..\$(MSBuildThisFile)"/>
 
 </Project>
