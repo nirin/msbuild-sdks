@@ -1,16 +1,12 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
 	<!-- Import NuGet.Restore.targets (required for GetReferenceNearestTargetFrameworkTask and used for Restore functionality) -->
-	<PropertyGroup Condition="'$(NuGetRestoreTargets)' == '' AND '$(ImportNuGetRestoreTargetsFromSdk)' != 'false'">
+	<PropertyGroup>
+		<ImportNuGetRestoreTargets Condition="'$(ImportNuGetRestoreTargets)' == ''">true</ImportNuGetRestoreTargets>
 		<NuGetRestoreTargets>$(MSBuildThisFileDirectory)..\Tasks\NuGet.Restore.targets</NuGetRestoreTargets>
-		<ImportNuGetRestoreTargetsFromSdk>true</ImportNuGetRestoreTargetsFromSdk>
 	</PropertyGroup>
 
 	<!-- This will import NuGet restore targets. We need restore to work before any package assets are available. -->
-	<Import Project="$(NuGetRestoreTargets)" Condition="Exists('$(NuGetRestoreTargets)') AND '$(ImportNuGetRestoreTargetsFromSdk)' == 'true'"/>
-
-	<PropertyGroup>
-		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
-	</PropertyGroup>
+	<Import Project="$(NuGetRestoreTargets)" Condition="Exists('$(NuGetRestoreTargets)') AND '$(ImportNuGetRestoreTargets)' == 'true'"/>
 
 </Project>

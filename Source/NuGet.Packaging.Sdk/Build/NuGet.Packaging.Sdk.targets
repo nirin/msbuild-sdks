@@ -1,9 +1,5 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
-	<Import Project="$(MSBuildThisFileDirectory)..\Packaging\NuGet.Build.Packaging.targets"/>
-
-	<PropertyGroup>
-		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
-	</PropertyGroup>
+	<Import Project="..\Packaging\NuGet.Build.Packaging.targets"/>
 
 </Project>

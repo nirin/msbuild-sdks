@@ -74,8 +74,4 @@
 		<NuspecOutputPath>$(PublishPath)$(Configuration)\</NuspecOutputPath>
 	</PropertyGroup>
 
-	<PropertyGroup>
-		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
-	</PropertyGroup>
-
 </Project>

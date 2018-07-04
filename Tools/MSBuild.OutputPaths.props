@@ -22,8 +22,4 @@
 		<_InitialMSBuildProjectExtensionsPath>$(MSBuildProjectExtensionsPath)</_InitialMSBuildProjectExtensionsPath>
 	</PropertyGroup>
 
-	<PropertyGroup>
-		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
-	</PropertyGroup>
-
 </Project>

@@ -15,6 +15,6 @@
 
 	<Import Project="$(MSBuildThisFileDirectory)..\$(MSBuildThisFile)"/>
 
-	<Import Project="$(BuildToolsPath)MSBuild.OutputPathChecks.targets"/>
+	<Import Project="$(BuildToolsPath)MSBuild.OutputPaths.Check.targets"/>
 
 </Project>

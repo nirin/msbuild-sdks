@@ -1,0 +1,23 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+	<Import Project="$(CustomBeforeMicrosoftCommonProps)" Condition="Exists('$(CustomBeforeMicrosoftCommonProps)')"/>
+
+	<PropertyGroup>
+		<Configuration Condition="'$(Configuration)' == '' AND '$(DefaultProjectConfiguration)' != ''">$(DefaultProjectConfiguration)</Configuration>
+		<Platform Condition="'$(Platform)' == '' AND '$(DefaultProjectPlatform)' != ''">$(DefaultProjectPlatform)</Platform>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<WMSJSProject Condition="'$(WMSJSProject)' == ''">WJProject</WMSJSProject>
+		<WMSJSProjectDirectory Condition="'$(WMSJSProjectDirectory)' == ''">JavaScript</WMSJSProjectDirectory>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<MicrosoftCommonPropsHasBeenImported>true</MicrosoftCommonPropsHasBeenImported>
+	</PropertyGroup>
+
+	<Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.VisualStudioVersion.v*.Common.props" Condition="'$(VisualStudioVersion)' == ''"/>
+
+	<Import Project="$(CustomAfterMicrosoftCommonProps)" Condition="Exists('$(CustomAfterMicrosoftCommonProps)')"/>
+
+</Project>

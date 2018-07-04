@@ -16,8 +16,4 @@
 		<ImportedMSBuildOutputPathsProps>true</ImportedMSBuildOutputPathsProps>
 	</PropertyGroup>
 
-	<PropertyGroup>
-		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
-	</PropertyGroup>
-
 </Project>

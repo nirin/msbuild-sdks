@@ -1,15 +1,15 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
-	<Import Project="$(MSBuildThisFileDirectory)..\Microsoft.Legacy.props" Condition="'$(ImportedMicrosoftLegacyProps)' != 'true'"/>
-
-	<!--<Import Project="Sdk.tasks" Condition="'$(ImportedMicrosoftLegacyTasks)' != 'true' AND '$(ImportMicrosoftLegacyTasks)' != 'false'"/>-->
-
-	<Import Project="Sdk.props" Sdk="MSBuild.Core.Sdk"/>
-
-	<Import Project="$(MSBuildLegacySdkPath)Microsoft.Common.props"/>
+	<Import Project="Sdk.Extensions.props" Sdk="MSBuild.Core.Sdk"/>
 
 	<PropertyGroup>
-		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+		<MicrosoftLegacyProps>Microsoft.Common.props</MicrosoftLegacyProps>
+		<MicrosoftLegacyProps Condition="'$(MSBuildProjectExtension)' == '.csproj'">Microsoft.CSharp.props</MicrosoftLegacyProps>
+		<MicrosoftLegacyProps Condition="'$(MSBuildProjectExtension)' == '.vbproj'">Microsoft.VisualBasic.props</MicrosoftLegacyProps>
 	</PropertyGroup>
+
+	<Import Project="$(MicrosoftLegacyProps)"/>
+
+	<Import Project="Sdk.Core.props" Sdk="MSBuild.Core.Sdk"/>
 
 </Project>
