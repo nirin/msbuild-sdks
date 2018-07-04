@@ -5,7 +5,7 @@
 		<TargetPlatformVersion Condition="'$(TargetPlatformVersion)' == ''">8.0</TargetPlatformVersion>
 	</PropertyGroup>
 
-	<Import Project="$(MSBuildThisFileDirectory)MSBuild.CodeSharing.$(ParentProjectType).targets"/>
+	<Import Project="MSBuild.CodeSharing.$(ParentProjectType).targets"/>
 
 	<PropertyGroup>
 		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>

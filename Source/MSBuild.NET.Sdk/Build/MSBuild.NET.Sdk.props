@@ -1,6 +1,6 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
-	<Import Project="$(MSBuildThisFileDirectory)MSBuild.NET.ProjectCore.props"/>
+	<Import Project="MSBuild.NET.ProjectCore.props"/>
 
 	<Import Project="$(MicrosoftNETSdkBuildPath)Microsoft.NET.PackTool.props"/>
 

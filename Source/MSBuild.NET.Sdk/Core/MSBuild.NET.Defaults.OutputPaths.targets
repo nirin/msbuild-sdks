@@ -1,7 +1,7 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
-	<!-- HACK: Import the core default output paths from the 'MSBuild.Core.Sdk' only if it's not imported with the 'ProjectCore.targets' -->
-	<Import Project="$(MSBuildCoreSdkPath)Core\MSBuild.OutputPaths.targets" Condition="'$(ImportedMSBuildOutputPathsTargets)' != 'true'"/>
+	<!-- HACK: Import the core default output paths from the 'MSBuild.Core.Sdk' only if it is not imported with the 'Sdk.Core.targets' -->
+	<Import Project="..\Core\MSBuild.OutputPaths.targets" Sdk="MSBuild.Core.Sdk" Condition="'$(ImportedMSBuildOutputPathsTargets)' != 'true'"/>
 
 	<!--
 		Set PublishDir here, before Microsoft.Common.targets, to avoid a competing default there.

@@ -1,0 +1,23 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+	<!--
+		Determine the path to the solution build targets file if the user did not disable $(ImportSolutionBuildTargets) and
+		they did not already specify an absolute path to use via $(SolutionBuildTargets)
+	-->
+	<PropertyGroup Condition="'$(SolutionBuildTargets)' == ''">
+		<SolutionBuildTargetsFile Condition="'$(SolutionBuildTargetsFile)' == ''">Solution.Build.targets</SolutionBuildTargetsFile>
+		<SolutionBuildTargetsPath Condition="'$(SolutionBuildTargetsPath)' == ''">$(MSBuildSolutionDirectory)</SolutionBuildTargetsPath>
+		<SolutionBuildTargets Condition="'$(SolutionBuildTargetsPath)' != ''">$([System.IO.Path]::Combine('$(SolutionBuildTargetsPath)', '$(SolutionBuildTargetsFile)'))</SolutionBuildTargets>
+	</PropertyGroup>
+
+	<Import Project="$(SolutionBuildTargets)" Condition="Exists('$(SolutionBuildTargets)')"/>
+
+	<PropertyGroup Condition="Exists('$(SolutionBuildTargets)')">
+		<MSBuildAllProjects>$(MSBuildAllProjects);$(SolutionBuildTargets)</MSBuildAllProjects>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="!Exists('$(SolutionBuildTargets)')">
+		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+	</PropertyGroup>
+
+</Project>

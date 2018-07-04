@@ -1,0 +1,13 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+	<PropertyGroup>
+		<ImportSolutionExtensionTargets Condition="'$(ImportSolutionExtensionTargets)' == ''">true</ImportSolutionExtensionTargets>
+		<ImportSolutionBuildTargets Condition="'$(ImportSolutionBuildTargets)' == ''">true</ImportSolutionBuildTargets>
+	</PropertyGroup>
+
+	<ImportGroup>
+		<Import Project="..\Extensions\MSBuild.SolutionExtension.targets" Condition="'$(ImportSolutionExtensionTargets)' == 'true'"/>
+		<Import Project="..\Extensions\Solution.Build.targets" Condition="'$(ImportSolutionBuildTargets)' == 'true'"/>
+	</ImportGroup>
+
+</Project>

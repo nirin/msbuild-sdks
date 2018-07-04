@@ -8,23 +8,23 @@
 
 	<ImportGroup Condition="'$(ImportLanguageTargets)' == 'true'">
 		<!-- We need to init SourceLanguageName, etc. properties. -->
-		<Import Project="$(MSBuildThisFileDirectory)MSBuild.NET.LanguageInference.props"/>
-		<Import Project="$(MSBuildThisFileDirectory)..\Core\Languages\MSBuild.$(SourceLanguageName).props"/>
-		<Import Project="$(MSBuildThisFileDirectory)..\Core\Languages\MSBuild.$(SourceLanguageName).targets"/>
+		<Import Project="Resolvers\MSBuild.NET.LanguageInference.props"/>
+		<Import Project="..\Core\Languages\MSBuild.$(SourceLanguageName).props"/>
+		<Import Project="..\Core\Languages\MSBuild.$(SourceLanguageName).targets"/>
 	</ImportGroup>
 
 	<ImportGroup Condition="'$(ImportFrameworkTargets)' == 'true' AND '$(TargetFramework)' != ''">
 		<!-- We need to init _SdkFrameworkName, etc. properties. -->
-		<Import Project="$(MSBuildThisFileDirectory)MSBuild.NET.FrameworkInference.props"/>
-		<Import Project="$(MSBuildThisFileDirectory)..\Core\Frameworks\MSBuild.$(_SdkFrameworkName).props"/>
-		<Import Project="$(MSBuildThisFileDirectory)..\Core\Frameworks\MSBuild.$(_SdkFrameworkName).targets"/>
+		<Import Project="Resolvers\MSBuild.NET.FrameworkInference.props"/>
+		<Import Project="..\Core\Frameworks\MSBuild.$(_SdkFrameworkName).props"/>
+		<Import Project="..\Core\Frameworks\MSBuild.$(_SdkFrameworkName).targets"/>
 	</ImportGroup>
 
 	<ImportGroup Condition="'$(ImportPlatformTargets)' == 'true' AND '$(TargetPlatform)' != ''">
 		<!-- We need to init _SdkPlatformName, etc. properties. -->
-		<Import Project="$(MSBuildThisFileDirectory)MSBuild.NET.PlatformInference.props"/>
-		<Import Project="$(MSBuildThisFileDirectory)..\Core\Platforms\MSBuild.$(_SdkPlatformName).props"/>
-		<Import Project="$(MSBuildThisFileDirectory)..\Core\Platforms\MSBuild.$(_SdkPlatformName).targets"/>
+		<Import Project="Resolvers\MSBuild.NET.PlatformInference.props"/>
+		<Import Project="..\Core\Platforms\MSBuild.$(_SdkPlatformName).props"/>
+		<Import Project="..\Core\Platforms\MSBuild.$(_SdkPlatformName).targets"/>
 	</ImportGroup>
 
 	<PropertyGroup>

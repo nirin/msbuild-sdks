@@ -1,6 +1,6 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
-	<Import Project="$(MSBuildThisFileDirectory)$(MSBuildThisFileName).props" Condition="'$(MicrosoftCommonPropsHasBeenImported)' != 'true' AND Exists('$(MSBuildThisFileDirectory)$(MSBuildThisFileName).props')"/>
+	<Import Project="$(MSBuildThisFileName).props" Condition="'$(MicrosoftCommonPropsHasBeenImported)' != 'true' AND Exists('$(MSBuildThisFileName).props')"/>
 
 	<!--
 		We are doing a multi-targeting build if there is no list of target frameworks specified
@@ -14,16 +14,16 @@
 	<Choose>
 		<When Condition="'$(IsMultiTargetingBuild)' == 'true'">
 			<PropertyGroup>
-				<MicrosoftCommonTargetsPath>$(MSBuildThisFileDirectory)$(MSBuildThisFileName).CrossTargeting.targets</MicrosoftCommonTargetsPath>
+				<MicrosoftCommonTargets>$(MSBuildThisFileName).CrossTargeting.targets</MicrosoftCommonTargets>
 			</PropertyGroup>
 		</When>
 		<Otherwise>
 			<PropertyGroup>
-				<MicrosoftCommonTargetsPath>$(MSBuildThisFileDirectory)$(MSBuildThisFileName).CurrentVersion.targets</MicrosoftCommonTargetsPath>
+				<MicrosoftCommonTargets>$(MSBuildThisFileName).CurrentVersion.targets</MicrosoftCommonTargets>
 			</PropertyGroup>
 		</Otherwise>
 	</Choose>
 
-	<Import Project="$(MicrosoftCommonTargetsPath)"/>
+	<Import Project="$(MicrosoftCommonTargets)"/>
 
 </Project>

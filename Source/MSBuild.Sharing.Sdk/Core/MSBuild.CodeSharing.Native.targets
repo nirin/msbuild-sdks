@@ -5,7 +5,7 @@
 	</ItemGroup>
 
 	<Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets"/>
-	<Import Project="$(MSBuildThisFileDirectory)MSBuild.CodeSharing.Common.targets"/>
+	<Import Project="MSBuild.CodeSharing.Common.targets"/>
 
 	<ItemGroup>
 		<PropertyPageSchema Include="$(MSBuildToolsPath)\$(LangName)\General.xaml">

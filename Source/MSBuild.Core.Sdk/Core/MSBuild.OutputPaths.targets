@@ -29,7 +29,7 @@
 			└───Project.3.pub (folder)
 				|•••
 	-->
-	<Import Project="$(MSBuildThisFileDirectory)MSBuild.OutputPaths.props" Condition="'$(ImportedMSBuildOutputPathsProps)' != 'true'"/>
+	<Import Project="MSBuild.OutputPaths.props" Condition="'$(ImportedMSBuildOutputPathsProps)' != 'true'"/>
 
 	<PropertyGroup Label="Build">
 		<IntermediateOutputFolder Condition="'$(IntermediateOutputFolder)' == ''">obj</IntermediateOutputFolder>
@@ -69,10 +69,6 @@
 
 	<PropertyGroup>
 		<ImportedMSBuildOutputPathsTargets>true</ImportedMSBuildOutputPathsTargets>
-	</PropertyGroup>
-
-	<PropertyGroup>
-		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
 	</PropertyGroup>
 
 </Project>

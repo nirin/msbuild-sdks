@@ -1,14 +1,11 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
-	<PropertyGroup>
-		<CustomProjectCoreTargets>$(MSBuildThisFileDirectory)..\Build\MSBuild.NET.Sdk.targets</CustomProjectCoreTargets>
-		<CustomProjectExtensionTargets>$(MSBuildThisFileDirectory)Sdk.Extensions.targets</CustomProjectExtensionTargets>
-	</PropertyGroup>
+	<Import Project="Sdk.Core.targets" Sdk="MSBuild.Core.Sdk"/>
 
-	<Import Project="Sdk.targets" Sdk="MSBuild.Core.Sdk"/>
+	<Import Project="..\Build\MSBuild.NET.Sdk.targets"/>
 
-	<PropertyGroup>
-		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
-	</PropertyGroup>
+	<Import Project="Sdk.Extensions.targets"/>
+
+	<Import Project="Sdk.Extensions.targets" Sdk="MSBuild.Core.Sdk"/>
 
 </Project>

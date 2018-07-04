@@ -1,9 +1,9 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
 	<!-- We need to init SourceLanguage* properties! -->
-	<Import Project="$(MSBuildThisFileDirectory)..\Build\Resolvers\MSBuild.NET.LanguageInference.props"/>
+	<Import Project="..\Build\Resolvers\MSBuild.NET.LanguageInference.props"/>
 
-	<Import Project="$(MSBuildThisFileDirectory)..\Core\Languages\MSBuild.$(SourceLanguageName).props"/>
+	<Import Project="..\Core\Languages\MSBuild.$(SourceLanguageName).props"/>
 
 	<PropertyGroup>
 		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>

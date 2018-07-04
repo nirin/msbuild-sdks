@@ -14,8 +14,4 @@
 		<Platform Condition="'$(Platform)' == ''">AnyCPU</Platform>
 	</PropertyGroup>
 
-	<PropertyGroup>
-		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
-	</PropertyGroup>
-
 </Project>

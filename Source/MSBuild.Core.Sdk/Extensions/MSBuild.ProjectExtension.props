@@ -1,7 +1,7 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
 	<!-- We need to initialize `MSBuildProjectExtensionsPath` property. -->
-	<Import Project="$(MSBuildThisFileDirectory)MSBuild.ProjectExtension.Core.props" Condition="'$(ImportedMSBuildProjectExtensionCoreProps)' != 'true'"/>
+	<Import Project="MSBuild.ProjectExtension.Core.props" Condition="'$(ImportedMSBuildProjectExtensionCoreProps)' != 'true'"/>
 
 	<PropertyGroup Condition="'$(MSBuildProjectExtensionProps)' == ''">
 		<MSBuildProjectExtensionPropsFile Condition="'$(MSBuildProjectExtensionPropsFile)' == ''">$(MSBuildProjectFile).*.props</MSBuildProjectExtensionPropsFile>

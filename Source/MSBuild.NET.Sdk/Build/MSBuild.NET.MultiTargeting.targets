@@ -126,7 +126,7 @@
 
 	<!-- ============================== Microsoft.NET.Sdk.CrossTargeting.targets ============================== -->
 
-	<Import Project="$(MSBuildThisFileDirectory)MSBuild.NET.BuildTargeting.targets"/>
+	<Import Project="MSBuild.NET.BuildTargeting.targets"/>
 
 	<!--
 	============================================================

@@ -1,8 +1,8 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
-	<Import Project="$(MSBuildThisFileDirectory)DisableExtensions\Microsoft.Common.targets"/>
-	<Import Project="$(MSBuildThisFileDirectory)DisableExtensions\Microsoft.NETFramework.props"/>
-	<Import Project="$(MSBuildThisFileDirectory)DisableExtensions\Microsoft.NETFramework.targets"/>
+	<Import Project="DisableExtensions\Microsoft.Common.targets"/>
+	<Import Project="DisableExtensions\Microsoft.NETFramework.props"/>
+	<Import Project="DisableExtensions\Microsoft.NETFramework.targets"/>
 
 	<!--
 		With MSBuild 12, we've changed MSBuildToolsPath to for the first time point to a directory

@@ -15,13 +15,13 @@
 	</PropertyGroup>
 
 	<ImportGroup Condition="'$(_SdkFrameworkName)' != ''">
-		<Import Project="$(MSBuildThisFileDirectory)Frameworks\MSBuild.$(_SdkFrameworkName).props"/>
-		<Import Project="$(MSBuildThisFileDirectory)Frameworks\MSBuild.$(_SdkFrameworkName).targets"/>
+		<Import Project="Frameworks\MSBuild.$(_SdkFrameworkName).props"/>
+		<Import Project="Frameworks\MSBuild.$(_SdkFrameworkName).targets"/>
 	</ImportGroup>
 
 	<ImportGroup Condition="'$(_SdkPlatformName)' != ''">
-		<Import Project="$(MSBuildThisFileDirectory)Platforms\MSBuild.$(_SdkPlatformName).props"/>
-		<Import Project="$(MSBuildThisFileDirectory)Platforms\MSBuild.$(_SdkPlatformName).targets"/>
+		<Import Project="Platforms\MSBuild.$(_SdkPlatformName).props"/>
+		<Import Project="Platforms\MSBuild.$(_SdkPlatformName).targets"/>
 	</ImportGroup>
 
 	<PropertyGroup>

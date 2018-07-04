@@ -1,9 +1,5 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
-	<PropertyGroup>
-		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
-	</PropertyGroup>
-
 	<Import Project="$(CustomBeforeMicrosoftNETFrameworkTargets)" Condition="Exists('$(CustomBeforeMicrosoftNETFrameworkTargets)')"/>
 
 	<Target Name="GetFrameworkPaths" DependsOnTargets="$(GetFrameworkPathsDependsOn)">
@@ -95,8 +91,8 @@
 
 	</Target>
 
-	<Import Project="$(MSBuildThisFileDirectory)Microsoft.WinFX.targets" Condition="'$(TargetFrameworkVersion.TrimStart(vV))' >=  '3.0' AND '$(TargetCompactFramework)' != 'true' AND Exists('$(MSBuildThisFileDirectory)Microsoft.WinFX.targets')"/>
-	<Import Project="$(MSBuildThisFileDirectory)Microsoft.Data.Entity.targets" Condition="'$(TargetFrameworkVersion.TrimStart(vV))' >=  '3.5' AND Exists('$(MSBuildThisFileDirectory)Microsoft.Data.Entity.targets')"/>
+	<Import Project="Microsoft.WinFX.targets" Condition="'$(TargetFrameworkVersion.TrimStart(vV))' >=  '3.0' AND '$(TargetCompactFramework)' != 'true' AND Exists('Microsoft.WinFX.targets')"/>
+	<Import Project="Microsoft.Data.Entity.targets" Condition="'$(TargetFrameworkVersion.TrimStart(vV))' >=  '3.5' AND Exists('Microsoft.Data.Entity.targets')"/>
 
 	<Import Project="$(CustomAfterMicrosoftNETFrameworkTargets)" Condition="Exists('$(CustomAfterMicrosoftNETFrameworkTargets)')"/>
 

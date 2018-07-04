@@ -3,7 +3,7 @@
 	<Import Project="$(MSBuildProjectFullPath).user" Condition="Exists('$(MSBuildProjectFullPath).user')"/>
 
 	<PropertyGroup>
-		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildProjectFullPath);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildProjectFullPath)</MSBuildAllProjects>
 		<MSBuildAllProjects Condition="Exists('$(MSBuildProjectFullPath).user')">$(MSBuildAllProjects);$(MSBuildProjectFullPath).user</MSBuildAllProjects>
 	</PropertyGroup>
 
@@ -33,7 +33,7 @@
 	</PropertyGroup>
 
 	<!-- Import does NOT apply to .NETCore -->
-	<Import Project="$(MSBuildThisFileDirectory)Microsoft.NETFramework.props" Condition="'$(TargetFrameworkIdentifier)' == '.NETFramework' OR '$(TargetFrameworkIdentifier)' == 'Silverlight'"/>
+	<Import Project="Microsoft.NETFramework.props" Condition="'$(TargetFrameworkIdentifier)' == '.NETFramework' OR '$(TargetFrameworkIdentifier)' == 'Silverlight'"/>
 
 	<PropertyGroup>
 		<!-- Yield optimization properties -->
@@ -5907,23 +5907,23 @@
 
 	<Import Project="$(ReportingServicesTargets)" Condition="Exists('$(ReportingServicesTargets)')"/>
 
-	<Import Project="$(MSBuildThisFileDirectory)Microsoft.NETFramework.targets" Condition="('$(TargetFrameworkIdentifier)' == '' OR '$(TargetFrameworkIdentifier)' == '.NETFramework') AND '$(TargetRuntime)' == 'Managed'"/>
+	<Import Project="Microsoft.NETFramework.targets" Condition="('$(TargetFrameworkIdentifier)' == '' OR '$(TargetFrameworkIdentifier)' == '.NETFramework') AND '$(TargetRuntime)' == 'Managed'"/>
 
 	<!-- These imports are temporary and will be removed once it is moved into the silverlight targets -->
 	<ImportGroup Condition="'$(TargetFrameworkIdentifier)' == 'Silverlight'">
-		<Import Project="$(MSBuildThisFileDirectory)Microsoft.WinFX.targets" Condition="Exists('$(MSBuildThisFileDirectory)Microsoft.WinFX.targets')"/>
-		<Import Project="$(MSBuildThisFileDirectory)Microsoft.Data.Entity.targets" Condition="Exists('$(MSBuildThisFileDirectory)Microsoft.Data.Entity.targets')"/>
+		<Import Project="Microsoft.WinFX.targets" Condition="Exists('Microsoft.WinFX.targets')"/>
+		<Import Project="Microsoft.Data.Entity.targets" Condition="Exists('Microsoft.Data.Entity.targets')"/>
 	</ImportGroup>
 
 	<PropertyGroup>
 		<ImportXamlTargets Condition="'$(ImportXamlTargets)' == '' AND ('$(TargetFrameworkVersion.TrimStart(vV))' == '3.0' OR '$(TargetFrameworkVersion.TrimStart(vV))' >= '4.0')">true</ImportXamlTargets>
 	</PropertyGroup>
 
-	<Import Project="$(MSBuildThisFileDirectory)Microsoft.Xaml.targets" Condition="'$(ImportXamlTargets)' == 'true' AND Exists('$(MSBuildThisFileDirectory)Microsoft.Xaml.targets')"/>
+	<Import Project="Microsoft.Xaml.targets" Condition="'$(ImportXamlTargets)' == 'true' AND Exists('Microsoft.Xaml.targets')"/>
 
 	<!-- imports Microsoft.WorkflowBuildExtensions.targets only if TargetFrameworkVersion is v4.5 or above or TargetFrameworkfVersion specified does not conform to the format of vX.X[.X.X] -->
 	<!-- Underlying assumption is that there shouldn't be any other versions between v4.0.* and v4.5 -->
-	<Import Project="$(MSBuildThisFileDirectory)Microsoft.WorkflowBuildExtensions.targets" Condition="'$(TargetFrameworkVersion.TrimStart(vV))' >= '4.5' AND Exists('$(MSBuildThisFileDirectory)Microsoft.WorkflowBuildExtensions.targets')"/>
+	<Import Project="Microsoft.WorkflowBuildExtensions.targets" Condition="'$(TargetFrameworkVersion.TrimStart(vV))' >= '4.5' AND Exists('Microsoft.WorkflowBuildExtensions.targets')"/>
 
 	<PropertyGroup>
 		<MSTestToolsTargets Condition="'$(MSTestToolsTargets)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TeamTest\Microsoft.TeamTest.targets</MSTestToolsTargets>
@@ -5947,7 +5947,7 @@
 
 	<Import Project="$(MSAppxPackageTargets)" Condition="'$(WindowsAppContainer)' == 'true' AND Exists('$(MSAppxPackageTargets)')"/>
 
-	<Import Project="$(MSBuildThisFileDirectory)NuGet.Common.targets"/>
+	<Import Project="NuGet.Common.targets"/>
 
 	<Import Project="$(CustomAfterMicrosoftCommonTargets)" Condition="Exists('$(CustomAfterMicrosoftCommonTargets)')"/>
 

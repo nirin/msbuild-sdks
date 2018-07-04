@@ -8,12 +8,12 @@
 	</PropertyGroup>
 
 	<PropertyGroup>
-		<_ManagedLanguageTargets>$(MSBuildExtensionsPath32)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.$(LanguageSourceName).targets</_ManagedLanguageTargets>
-		<_ManagedLanguageTargets Condition="!Exists('$(_ManagedLanguageTargets)')">$(MSBuildBinPath)\Microsoft.$(LanguageSourceName).targets</_ManagedLanguageTargets>
+		<_ManagedLanguageTargets>$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.$(LanguageSourceName).targets</_ManagedLanguageTargets>
+		<_ManagedLanguageTargets Condition="!Exists('$(_ManagedLanguageTargets)')">$(MSBuildToolsPath)\Microsoft.$(LanguageSourceName).targets</_ManagedLanguageTargets>
 	</PropertyGroup>
 
 	<Import Project="$(_ManagedLanguageTargets)"/>
-	<Import Project="$(MSBuildThisFileDirectory)MSBuild.CodeSharing.Common.targets"/>
+	<Import Project="MSBuild.CodeSharing.Common.targets"/>
 
 	<PropertyGroup>
 		<SharedProjectAppliesTo>$(LanguageSourceName)</SharedProjectAppliesTo>
@@ -36,11 +36,11 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PropertyPageSchema Include="$(MSBuildThisFileDirectory)Rules\$(LanguageSourceName).General.xaml">
+		<PropertyPageSchema Include="Rules\$(LanguageSourceName).General.xaml">
 			<Context>Project</Context>
 		</PropertyPageSchema>
 
-		<PropertyPageSchema Include="$(MSBuildThisFileDirectory)Rules\$(LanguageSourceName).General.BrowseObject.xaml">
+		<PropertyPageSchema Include="Rules\$(LanguageSourceName).General.BrowseObject.xaml">
 			<Context>BrowseObject</Context>
 		</PropertyPageSchema>
 	</ItemGroup>

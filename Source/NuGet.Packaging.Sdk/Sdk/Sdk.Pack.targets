@@ -2,19 +2,16 @@
 
 	<PropertyGroup>
 		<!-- Shim for Renames! -->
-		<NuGetPackTargets>$(NuGetBuildTasksPackTargets)</NuGetPackTargets>
-		<ImportNuGetPackTargetsFromSdk>$(ImportNuGetBuildTasksPackTargetsFromSdk)</ImportNuGetPackTargetsFromSdk>
+		<ImportNuGetPackTargets>$(ImportNuGetBuildTasksPackTargetsFromSdk)</ImportNuGetPackTargets>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(NuGetPackTargets)' == '' AND '$(ImportNuGetPackTargetsFromSdk)' != 'false'">
-		<NuGetPackTargets>$(MSBuildThisFileDirectory)..\Tasks\NuGet.Pack.targets</NuGetPackTargets>
-		<ImportNuGetPackTargetsFromSdk>true</ImportNuGetPackTargetsFromSdk>
-	</PropertyGroup>
-
-	<Import Project="$(NuGetPackTargets)" Condition="Exists('$(NuGetPackTargets)') AND '$(ImportNuGetPackTargetsFromSdk)' == 'true'"/>
-
+	<!-- Import NuGet.Pack.targets (required for PackTask and used for Pack functionality) -->
 	<PropertyGroup>
-		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+		<ImportNuGetPackTargets Condition="'$(ImportNuGetPackTargets)' == ''">true</ImportNuGetPackTargets>
+		<NuGetPackTargets>$(MSBuildThisFileDirectory)..\Tasks\NuGet.Pack.targets</NuGetPackTargets>
 	</PropertyGroup>
+
+	<!-- This will import NuGet pack targets. We need pack to work after all the build artifacts are produced. -->
+	<Import Project="$(NuGetPackTargets)" Condition="Exists('$(NuGetPackTargets)') AND '$(ImportNuGetPackTargets)' == 'true'"/>
 
 </Project>

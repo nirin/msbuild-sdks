@@ -24,23 +24,16 @@
 		<MicrosoftNETSdkPath>$(MSBuildSdksPath)\$(MicrosoftNETSdk)\</MicrosoftNETSdkPath>
 		<MicrosoftNETSdkBuildPath>$(MicrosoftNETSdkPath)targets\</MicrosoftNETSdkBuildPath>
 
-		<MSBuildCoreSdk>MSBuild.Core.Sdk</MSBuildCoreSdk>
-		<MSBuildCoreSdkPath>$(MSBuildSdksPath)\$(MSBuildCoreSdk)\</MSBuildCoreSdkPath>
 		<MSBuildLegacySdk>MSBuild.NET.Legacy.Sdk</MSBuildLegacySdk>
 		<MSBuildLegacySdkPath>$(MSBuildSdksPath)\$(MSBuildLegacySdk)</MSBuildLegacySdkPath>
 	</PropertyGroup>
 
-	<PropertyGroup>
-		<CustomProjectCoreProps>$(MSBuildThisFileDirectory)..\Build\MSBuild.NET.Sdk.props</CustomProjectCoreProps>
-		<!--<CustomProjectExtensionProps>$(MSBuildThisFileDirectory)Sdk.Bundles.props</CustomProjectExtensionProps>-->
-	</PropertyGroup>
-
 	<Import Project="Sdk.Bundles.props"/>
 
-	<Import Project="Sdk.props" Sdk="MSBuild.Core.Sdk"/>
+	<Import Project="Sdk.Extensions.props" Sdk="MSBuild.Core.Sdk"/>
 
-	<PropertyGroup>
-		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
-	</PropertyGroup>
+	<Import Project="..\Build\MSBuild.NET.Sdk.props"/>
+
+	<Import Project="Sdk.Core.props" Sdk="MSBuild.Core.Sdk"/>
 
 </Project>

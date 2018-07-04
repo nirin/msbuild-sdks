@@ -12,16 +12,16 @@
 	<Choose>
 		<When Condition="'$(IsMultiTargetingBuild)' == 'true'">
 			<PropertyGroup>
-				<MicrosoftCSharpTargetsPath>$(MSBuildThisFileDirectory)$(MSBuildThisFileName).CrossTargeting.targets</MicrosoftCSharpTargetsPath>
+				<MicrosoftCSharpTargets>$(MSBuildThisFileName).CrossTargeting.targets</MicrosoftCSharpTargets>
 			</PropertyGroup>
 		</When>
 		<Otherwise>
 			<PropertyGroup>
-				<MicrosoftCSharpTargetsPath>$(MSBuildThisFileDirectory)$(MSBuildThisFileName).CurrentVersion.targets</MicrosoftCSharpTargetsPath>
+				<MicrosoftCSharpTargets>$(MSBuildThisFileName).CurrentVersion.targets</MicrosoftCSharpTargets>
 			</PropertyGroup>
 		</Otherwise>
 	</Choose>
 
-	<Import Project="$(MicrosoftCSharpTargetsPath)"/>
+	<Import Project="$(MicrosoftCSharpTargets)"/>
 
 </Project>

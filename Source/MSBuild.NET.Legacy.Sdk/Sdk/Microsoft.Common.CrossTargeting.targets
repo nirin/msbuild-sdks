@@ -1,9 +1,5 @@
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
-	<PropertyGroup>
-		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
-	</PropertyGroup>
-
 	<Import Project="$(CustomBeforeMicrosoftCommonCrossTargetingTargets)" Condition="Exists('$(CustomBeforeMicrosoftCommonCrossTargetingTargets)')"/>
 
 	<PropertyGroup>
@@ -120,7 +116,7 @@
 	-->
 	<Target Name="Rebuild" DependsOnTargets="Clean;Build"/>
 
-	<Import Project="$(MSBuildThisFileDirectory)NuGet.Common.targets"/>
+	<Import Project="NuGet.Common.targets"/>
 
 	<Import Project="$(CustomAfterMicrosoftCommonCrossTargetingTargets)" Condition="Exists('$(CustomAfterMicrosoftCommonCrossTargetingTargets)')"/>
 

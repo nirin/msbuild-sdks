@@ -7,18 +7,18 @@
 	</PropertyGroup>
 
 	<ImportGroup Condition="'$(ImportLanguageDefaults)' == 'true'">
-		<Import Project="$(MSBuildThisFileDirectory)..\Core\Languages\MSBuild.Defaults.props"/>
-		<Import Project="$(MSBuildThisFileDirectory)..\Core\Languages\MSBuild.Defaults.Items.props"/>
+		<Import Project="..\Core\Languages\MSBuild.Defaults.props"/>
+		<Import Project="..\Core\Languages\MSBuild.Defaults.Items.props"/>
 	</ImportGroup>
 
 	<ImportGroup Condition="'$(ImportFrameworkDefaults)' == 'true'">
-		<Import Project="$(MSBuildThisFileDirectory)..\Core\Frameworks\MSBuild.Defaults.props"/>
-		<Import Project="$(MSBuildThisFileDirectory)..\Core\Frameworks\MSBuild.Defaults.Items.props"/>
+		<Import Project="..\Core\Frameworks\MSBuild.Defaults.props"/>
+		<Import Project="..\Core\Frameworks\MSBuild.Defaults.Items.props"/>
 	</ImportGroup>
 
 	<ImportGroup Condition="'$(ImportPlatformDefaults)' == 'true'">
-		<Import Project="$(MSBuildThisFileDirectory)..\Core\Platforms\MSBuild.Defaults.props"/>
-		<Import Project="$(MSBuildThisFileDirectory)..\Core\Platforms\MSBuild.Defaults.Items.props"/>
+		<Import Project="..\Core\Platforms\MSBuild.Defaults.props"/>
+		<Import Project="..\Core\Platforms\MSBuild.Defaults.Items.props"/>
 	</ImportGroup>
 
 	<PropertyGroup>

@@ -5,9 +5,9 @@
 	</PropertyGroup>
 
 	<ImportGroup Condition="'$(ImportProjectDefaults)' == 'true'">
-		<Import Project="$(MSBuildThisFileDirectory)..\Core\MSBuild.NET.Defaults.props"/>
-		<Import Project="$(MSBuildThisFileDirectory)..\Core\MSBuild.NET.Specifics.props"/>
-		<Import Project="$(MSBuildThisFileDirectory)..\Core\MSBuild.NET.Defaults.Items.props"/>
+		<Import Project="..\Core\MSBuild.NET.Defaults.props"/>
+		<Import Project="..\Core\MSBuild.NET.Specifics.props"/>
+		<Import Project="..\Core\MSBuild.NET.Defaults.Items.props"/>
 	</ImportGroup>
 
 	<PropertyGroup>

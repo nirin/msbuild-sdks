@@ -1,9 +1,5 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
-	<PropertyGroup>
-		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
-	</PropertyGroup>
-
 	<Import Project="$(CustomBeforeMicrosoftVisualBasicTargets)" Condition="Exists('$(CustomBeforeMicrosoftVisualBasicTargets)')"/>
 
 	<PropertyGroup>
@@ -295,8 +291,8 @@
 	</PropertyGroup>
 	<Import Project="$(VisualBasicDesignTimeTargetsPath)" Condition="'$(VisualBasicDesignTimeTargetsPath)' != '' AND Exists('$(VisualBasicDesignTimeTargetsPath)')"/>
 
-	<Import Project="$(MSBuildThisFileDirectory)Microsoft.Common.targets"/>
-	<Import Project="$(MSBuildThisFileDirectory)Microsoft.ServiceModel.targets" Condition="'$(TargetFrameworkVersion.TrimStart(vV))' >= '4.0' AND Exists('$(MSBuildThisFileDirectory)Microsoft.ServiceModel.targets')"/>
+	<Import Project="Microsoft.Common.targets"/>
+	<Import Project="Microsoft.ServiceModel.targets" Condition="'$(TargetFrameworkVersion.TrimStart(vV))' >= '4.0' AND Exists('Microsoft.ServiceModel.targets')"/>
 
 	<Target Name="_SetTargetFrameworkMonikerAttribute" BeforeTargets="GenerateTargetFrameworkMonikerAttribute">
 		<PropertyGroup>

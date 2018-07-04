@@ -6,8 +6,4 @@
 
 	<Import Project="Sdk.props" Sdk="MSBuild.NET.Legacy.Sdk"/>
 
-	<PropertyGroup>
-		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
-	</PropertyGroup>
-
 </Project>

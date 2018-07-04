@@ -2,14 +2,9 @@
 
 	<PropertyGroup>
 		<CustomProjectCoreTargets>$(MSBuildThisFileDirectory)..\Build\NuGet.Packaging.Sdk.targets</CustomProjectCoreTargets>
-		<!--<CustomProjectExtensionTargets>$(MSBuildThisFileDirectory)Sdk.Restore.targets</CustomProjectExtensionTargets>-->
 		<ImportNuGetRestoreTargetsFromSdk>true</ImportNuGetRestoreTargetsFromSdk>
 	</PropertyGroup>
 
 	<Import Project="Sdk.targets" Sdk="MSBuild.NET.Legacy.Sdk"/>
-
-	<PropertyGroup>
-		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
-	</PropertyGroup>
 
 </Project>

@@ -52,8 +52,4 @@
 		<IsCodeSharingProject>$(IsSharingProject)</IsCodeSharingProject>
 	</PropertyGroup>
 
-	<PropertyGroup>
-		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
-	</PropertyGroup>
-
 </Project>

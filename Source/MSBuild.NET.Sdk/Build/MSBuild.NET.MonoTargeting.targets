@@ -1,13 +1,13 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
-	<Import Project="$(MSBuildThisFileDirectory)MSBuild.NET.MonoTargeting.BeforeLegacy.targets"/>
+	<Import Project="MSBuild.NET.MonoTargeting.BeforeLegacy.targets"/>
 
 	<!--
 		TODO: Remove once you made it independent of TargetFramework!
 		Sets RestoreAdditionalProjectSources or RestoreAdditionalProjectFallbackFolders
 		to the SDK Offline Cache based on the TargetFramework.
 	-->
-	<Import Project="$(MSBuildThisFileDirectory)..\Extensions\NuGet.OfflineCache.targets"/>
+	<Import Project="..\Extensions\NuGet.OfflineCache.targets"/>
 
 	<!--
 		NOTE: The `LanguageTargets` still Imports `Microsoft.Common.targets` which in-turn imports `ProjectExtension` and `DirectoryBuild` targets
@@ -50,7 +50,7 @@
 		<_SdkBackupImportDirectoryBuildTargets/>
 	</PropertyGroup>
 
-	<Import Project="$(MSBuildThisFileDirectory)MSBuild.NET.MonoTargeting.AfterLegacy.targets"/>
+	<Import Project="MSBuild.NET.MonoTargeting.AfterLegacy.targets"/>
 
 	<PropertyGroup>
 		<DisableStandardFrameworkResolution Condition="'$(DisableStandardFrameworkResolution)' == ''">$(_IsNETCoreOrNETStandard)</DisableStandardFrameworkResolution>

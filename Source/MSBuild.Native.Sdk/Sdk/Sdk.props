@@ -1,10 +1,9 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
-	<Import Project="Sdk.props" Sdk="MSBuild.Core.Sdk"/>
-	<Import Project="$(MSBuildThisFileDirectory)..\Build\MSBuild.Native.Sdk.props"/>
+	<Import Project="Sdk.Extensions.props" Sdk="MSBuild.Core.Sdk"/>
 
-	<PropertyGroup>
-		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
-	</PropertyGroup>
+	<Import Project="..\Build\MSBuild.Native.Sdk.props"/>
+
+	<Import Project="Sdk.Core.props" Sdk="MSBuild.Core.Sdk"/>
 
 </Project>

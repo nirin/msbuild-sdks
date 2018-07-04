@@ -48,8 +48,4 @@
 		<DefaultExcludesInProjectFolder>$(DefaultItemExcludesInProjectFolder);**\.*\**</DefaultExcludesInProjectFolder>
 	</PropertyGroup>
 
-	<PropertyGroup>
-		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
-	</PropertyGroup>
-
 </Project>

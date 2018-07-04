@@ -1,6 +1,14 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
+	<PropertyGroup>
+		<MSBuildAllProjects Condition="Exists('$(CustomProjectCoreProps)')">$(MSBuildAllProjects);$(CustomProjectCoreProps)</MSBuildAllProjects>
+	</PropertyGroup>
 
+	<Import Project="$(CustomProjectCoreProps)" Condition="Exists('$(CustomProjectCoreProps)')"/>
+
+	<Import Project="..\Core\MSBuild.Core.props"/>
+
+	<Import Project="Microsoft.VisualStudio.props"/>
 
 	<PropertyGroup>
 		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>

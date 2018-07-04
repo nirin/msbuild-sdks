@@ -12,16 +12,16 @@
 	<Choose>
 		<When Condition="'$(IsMultiTargetingBuild)' == 'true'">
 			<PropertyGroup>
-				<MicrosoftVisualBasicTargetsPath>$(MSBuildThisFileDirectory)$(MSBuildThisFileName).CrossTargeting.targets</MicrosoftVisualBasicTargetsPath>
+				<MicrosoftVisualBasicTargets>$(MSBuildThisFileName).CrossTargeting.targets</MicrosoftVisualBasicTargets>
 			</PropertyGroup>
 		</When>
 		<Otherwise>
 			<PropertyGroup>
-				<MicrosoftVisualBasicTargetsPath>$(MSBuildThisFileDirectory)$(MSBuildThisFileName).CurrentVersion.targets</MicrosoftVisualBasicTargetsPath>
+				<MicrosoftVisualBasicTargets>$(MSBuildThisFileName).CurrentVersion.targets</MicrosoftVisualBasicTargets>
 			</PropertyGroup>
 		</Otherwise>
 	</Choose>
 
-	<Import Project="$(MicrosoftVisualBasicTargetsPath)"/>
+	<Import Project="$(MicrosoftVisualBasicTargets)"/>
 
 </Project>
