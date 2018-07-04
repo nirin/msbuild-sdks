@@ -1,4 +1,4 @@
-﻿<Project Sdk="MSBuild.NET.Extras.Sdk">
+<Project Sdk="MSBuild.NET.Extras.Sdk">
 
 	<PropertyGroup>
 		<OutputType>Exe</OutputType>

@@ -3,9 +3,7 @@
 	<Import Project="$(MSBuildThisFileDirectory)..\$(MSBuildThisFile)"/>
 
 	<PropertyGroup>
-		<BuildFolder>~Builds</BuildFolder>
 		<BuildPath>$(SolutionDir)</BuildPath>
-		<PublishFolder>~Publish</PublishFolder>
 		<PublishPath>$(SolutionDir)</PublishPath>
 	</PropertyGroup>
 
@@ -13,16 +11,11 @@
 
 	<PropertyGroup>
 		<CustomBeforeSdkTargets>$(BuildToolsPath)MSBuild.OutputPaths.targets</CustomBeforeSdkTargets>
-		<IsLegacyProject Condition="$(MSBuildProjectName.EndsWith('LPS')) OR $(SolutionName.EndsWith('LPS'))">true</IsLegacyProject>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(IsLegacyProject)' == 'true'">
-		<CustomBeforeMicrosoftCommonTargets>$(CustomBeforeSdkTargets)</CustomBeforeMicrosoftCommonTargets>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="$(MSBuildProjectName.Contains('-'))">
-		<AssemblyName Condition="'$(AssemblyName)' == ''">$(MSBuildProjectName.Replace('-', '_'))</AssemblyName>
-		<RootNamespace Condition="'$(RootNamespace)' == ''">$(MSBuildProjectName.Replace('-', '_'))</RootNamespace>
+		<AssemblyName>$(MSBuildProjectName.Replace('-', '_'))</AssemblyName>
+		<RootNamespace>$(MSBuildProjectName.Replace('-', '_'))</RootNamespace>
 	</PropertyGroup>
 
 </Project>

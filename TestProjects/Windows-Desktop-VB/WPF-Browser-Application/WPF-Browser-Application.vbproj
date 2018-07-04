@@ -1,9 +1,9 @@
-﻿<Project Sdk="MSBuild.NET.Extras.Sdk">
+<Project Sdk="MSBuild.NET.Extras.Sdk">
 
 	<PropertyGroup>
 		<OutputType>WinExe</OutputType>
 		<TargetFramework>net45</TargetFramework>
-		<EnableWpfProjectSetup>true</EnableWpfProjectSetup>
+		<FrameworkProjectType>Wpf</FrameworkProjectType>
 		<MyType>Custom</MyType>
 		<ProjectGuid>{CEE5576C-A4D3-45E7-91AB-DE22AC6039C8}</ProjectGuid>
 	</PropertyGroup>
