@@ -5,8 +5,8 @@
 	</PropertyGroup>
 
 	<PropertyGroup Label="PackageInfo">
-		<Title>MSBuild .NET Framework Inbox Sdk</Title>
-		<PackageId>MSBuild.Inbox.NETFramework.Sdk</PackageId>
+		<Title>MSBuild .NET Inbox Sdk</Title>
+		<PackageId>MSBuild.NET.Inbox.Sdk</PackageId>
 		<PackageVersion Condition="'$(PackageVersion)' == ''">1.0.0</PackageVersion>
 	</PropertyGroup>
 
