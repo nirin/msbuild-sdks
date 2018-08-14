@@ -22,7 +22,7 @@
 		Split 'TargetFramework' into short identifier, version and profile list
 		For Example:
 			net45 into 'net', '45'
-			net40-client into 'net', '40', '+client+'
+			net40-client into 'net', '40', 'client'
 			portable45-net45+win8+wp8+wpa81 into 'portable', '45', '+net45+win8+wp8+wpa81+'
 	-->
 	<Choose>
@@ -33,6 +33,9 @@
 				<_ShortFrameworkIdentifier>$(_ShortFrameworkIdentifierWithVersion.TrimEnd('.0123456789'))</_ShortFrameworkIdentifier>
 				<_ShortFrameworkVersion>$(_ShortFrameworkIdentifierWithVersion.Substring($(_ShortFrameworkIdentifier.Length)))</_ShortFrameworkVersion>
 				<_ShortFrameworkProfile>$(TargetFramework.Split('-')[1])</_ShortFrameworkProfile>
+			</PropertyGroup>
+
+			<PropertyGroup Condition="$(_ShortFrameworkProfile.Contains('+'))">
 				<_ShortFrameworkProfileCount>$(_ShortFrameworkProfile.Split('+').Length)</_ShortFrameworkProfileCount>
 				<!-- Pre and post-pend the separator char + to the short-TFM list after counting so we can easily do a Contains() match -->
 				<_ShortFrameworkProfile>+$(_ShortFrameworkProfile)+</_ShortFrameworkProfile>
@@ -100,6 +103,7 @@
 		</Otherwise>
 	</Choose>
 
+	<!-- Support for resolving full framework profiles -->
 	<Import Condition="'$(TargetFrameworkIdentifier)' == '.NETFramework'" Project="$(MSBuildThisFileDirectory)FrameworkResolvers\MSBuild.NETFramework.targets"/>
 
 	<!-- Support for resolving portable framework profiles -->
