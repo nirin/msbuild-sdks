@@ -112,6 +112,8 @@
 		<None Remove="**\*.xamlx"/>
 		<XamlSvcDef Include="**\*.xamlx" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)"/>
 		<UpToDateCheckInput Include="@(XamlSvcDef)"/>
+
+		<!-- For Legacy Project System -->
 		<Content Include="@(XamlSvcDef)"/>
 	</ItemGroup>
 
