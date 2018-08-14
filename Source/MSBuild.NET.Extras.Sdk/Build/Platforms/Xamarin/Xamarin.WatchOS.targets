@@ -7,8 +7,10 @@
 	<PropertyGroup>
 		<TargetFrameworkVersion Condition="'$(TargetFrameworkVersion)' == ''">v1.0</TargetFrameworkVersion>
 		<iPhoneResourcePrefix Condition="'$(iPhoneResourcePrefix)' == ''">Resources</iPhoneResourcePrefix>
-		<MtouchUseRefCounting Condition="'$(MtouchUseRefCounting)' == ''">true</MtouchUseRefCounting>
-		<MtouchUseSGen Condition="'$(MtouchUseSGen)' == ''">true</MtouchUseSGen>
+		<ConsolePause Condition="'$(ConsolePause)' == ''">false</ConsolePause>
+
+		<mTouchUseSGen Condition="'$(mTouchUseSGen)' == ''">true</mTouchUseSGen>
+		<mTouchUseRefCounting Condition="'$(mTouchUseRefCounting)' == ''">true</mTouchUseRefCounting>
 	</PropertyGroup>
 
 </Project>

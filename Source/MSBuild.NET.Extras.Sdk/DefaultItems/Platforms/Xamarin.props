@@ -5,7 +5,8 @@
 	</PropertyGroup>
 
 	<ItemGroup Condition="$(TargetFrameworkIdentifier.EndsWith('Android'))">
-		<Compile Include="$(AndroidResgenFile)" Condition="'$(IncludeAndroidResgenFile)' == 'true'"
+		<Compile Remove="$(AndroidResgenFile)"/>
+		<Compile Update="$(AndroidResgenFile)" Condition="'$(IncludeAndroidResgenFile)' == 'true'"
 				 Visible="!$([System.IO.Path]::IsPathRooted('$(AndroidResgenFile)')) OR $(AndroidResgenFile.StartsWith('$(MSBuildProjectDirectory)'))"/>
 	</ItemGroup>
 
