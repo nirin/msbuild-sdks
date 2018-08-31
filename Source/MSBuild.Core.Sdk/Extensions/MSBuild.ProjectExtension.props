@@ -3,16 +3,25 @@
 	<!-- We need to initialize `MSBuildProjectExtensionsPath` property. -->
 	<Import Project="MSBuild.ProjectExtension.Core.props" Condition="'$(ImportedMSBuildProjectExtensionCoreProps)' != 'true'"/>
 
+	<Import Project="$(CustomProjectExtensionProps)" Condition="Exists('$(CustomProjectExtensionProps)')"/>
+
+	<PropertyGroup Condition="'$(MSBuildVersion)' == '' OR '$(MSBuildVersion)' &lt; '16.0'">
+		<MSBuildAllProjects Condition="Exists('$(CustomProjectExtensionProps)')">$(MSBuildAllProjects);$(CustomProjectExtensionProps)</MSBuildAllProjects>
+	</PropertyGroup>
+
 	<PropertyGroup Condition="'$(MSBuildProjectExtensionProps)' == ''">
 		<MSBuildProjectExtensionPropsFile Condition="'$(MSBuildProjectExtensionPropsFile)' == ''">$(MSBuildProjectFile).*.props</MSBuildProjectExtensionPropsFile>
 		<MSBuildProjectExtensionProps Condition="'$(MSBuildProjectExtensionsPath)' != ''">$(MSBuildProjectExtensionsPath)$(MSBuildProjectExtensionPropsFile)</MSBuildProjectExtensionProps>
 	</PropertyGroup>
 
-	<Import Project="$(CustomProjectExtensionProps)" Condition="Exists('$(CustomProjectExtensionProps)')"/>
 	<Import Project="$(MSBuildProjectExtensionProps)" Condition="Exists('$(MSBuildProjectExtensionProps)')"/>
 
-	<PropertyGroup Condition="!(Exists('$(MSBuildProjectExtensionProps)') AND Exists('$(CustomProjectExtensionProps)'))">
-		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+	<PropertyGroup Condition="'$(MSBuildVersion)' == '' OR '$(MSBuildVersion)' &lt; '16.0'">
+		<MSBuildAllProjects Condition="Exists('$(MSBuildProjectExtensionProps)')">$(MSBuildAllProjects);$(MSBuildProjectExtensionProps)</MSBuildAllProjects>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(MSBuildVersion)' == '' OR '$(MSBuildVersion)' &lt; '16.0'">
+		<MSBuildAllProjects Condition="!(Exists('$(MSBuildProjectExtensionProps)') AND Exists('$(CustomProjectExtensionProps)'))">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
 	</PropertyGroup>
 
 </Project>
