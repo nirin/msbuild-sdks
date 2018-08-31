@@ -1,10 +1,10 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
 	<!--
-		Note that this file is only included when $(TargetFramework) is set and so we do not need to check that here.
+		Note that this file is only included when 'TargetFramework' is set and so we do not need to check that here.
 
-		Common targets require that $(TargetFrameworkIdentifier) AND $(TargetFrameworkVersion) are set by static evaluation
-		before they are imported. In common cases, we infer them from the short names given via TargetFramework
+		Common targets require that 'TargetFrameworkIdentifier' AND 'TargetFrameworkVersion' are set by static evaluation
+		before they are imported. In common cases, we infer them from the short names given via 'TargetFramework'
 		to allow for terseness and lack of duplication in project files.
 
 		For other cases, the user must supply them manually.
@@ -27,7 +27,7 @@
 	-->
 
 	<PropertyGroup Condition="!$(TargetFramework.Contains(','))">
-		<!-- Convert $(TargetFramework) to lower case -->
+		<!-- Convert 'TargetFramework' to lower case -->
 		<TargetFramework>$(TargetFramework.ToLowerInvariant())</TargetFramework>
 		<!-- if version-less framework-profile is specified then default to the highest supported version of that framework-profile -->
 		<TargetFramework Condition="'$(TargetFramework)' == 'net-client'">net40-client</TargetFramework>
@@ -40,10 +40,10 @@
 	</PropertyGroup>
 
 	<!--
-		Split $(TargetFramework) into short identifier, version and profile list
+		Split 'TargetFramework' into short identifier, version and profile list
 		For Example:
 			net45 into 'net', '45'
-			net40-client into 'net', '40', '+client+'
+			net40-client into 'net', '40', 'client'
 			portable45-net45+win8+wp8+wpa81 into 'portable', '45', '+net45+win8+wp8+wpa81+'
 	-->
 	<Choose>
@@ -56,6 +56,9 @@
 				<_ShortFrameworkIdentifier>$(_ShortFrameworkIdentifierWithVersion.TrimEnd('.0123456789'))</_ShortFrameworkIdentifier>
 				<_ShortFrameworkVersion>$(_ShortFrameworkIdentifierWithVersion.Substring($(_ShortFrameworkIdentifier.Length)))</_ShortFrameworkVersion>
 				<_ShortFrameworkProfile>$(TargetFramework.Split('-')[1])</_ShortFrameworkProfile>
+			</PropertyGroup>
+
+			<PropertyGroup Condition="$(_ShortFrameworkProfile.Contains('+'))">
 				<_ShortFrameworkProfileCount>$(_ShortFrameworkProfile.Split('+').Length)</_ShortFrameworkProfileCount>
 				<!-- Pre and post-pend the separator char + to the short-TFM list after counting so we can easily do a Contains() match -->
 				<_ShortFrameworkProfile>+$(_ShortFrameworkProfile)+</_ShortFrameworkProfile>
@@ -148,8 +151,8 @@
 		but we need this to be a valid version so that our error message does not get pre-empted by failure to interpret
 		version comparison expressions, which is currently unrecoverable in VS.
 
-		Also don't leave TargetFrameworkIdentifier unset as it will be defaulted to .NETFramework by common targets, which
-		can cause restore (which we cannot block, see above) to silently succeed for empty TargetFramework.
+		Also don't leave 'TargetFrameworkIdentifier' unset as it will be defaulted to .NETFramework by common targets, which
+		can cause restore (which we cannot block, see above) to silently succeed for empty 'TargetFramework'.
 	-->
 	<PropertyGroup>
 		<TargetFrameworkIdentifier Condition="'$(TargetFrameworkIdentifier)' == ''">_</TargetFrameworkIdentifier>
@@ -166,10 +169,10 @@
 	<!--
 		NOTE:
 		We must not validate the TFM before restore target runs as it prevents adding additional TFM
-		support from being provided by a nuget package such as MSBuild.NET.Extras.Sdk.
+		support from being provided by a nuget package such as 'MSBuild.NET.Extras.Sdk'.
 
-		We run before RunResolvePackageDependencies and GetReferenceAssemblyPaths so that design-time builds
-		which do not currently invoke _CheckForInvalidConfigurationAndPlatform, will not trigger spurious
+		We run before 'RunResolvePackageDependencies' and 'GetReferenceAssemblyPaths' so that design-time builds
+		which do not currently invoke '_CheckForInvalidConfigurationAndPlatform', will not trigger spurious
 		errors that are only consequences of the root cause identified here.
 	-->
 	<Target Name="_CheckForUnsupportedTargetFramework"
@@ -233,7 +236,7 @@
 	</PropertyGroup>
 
 	<!--
-		Append $(TargetFramework) directory to output and intermediate paths to prevent bin clashes between targets.
+		Append 'TargetFramework' directory to output and intermediate paths to prevent bin clashes between targets.
 	-->
 	<PropertyGroup Condition="'$(AppendTargetFrameworkToOutputPath)' == 'true' AND '$(TargetFramework)' != '' AND '$(_UnsupportedTargetFrameworkError)' != 'true'">
 		<IntermediateOutputPath>$(IntermediateOutputPath)$(TargetFramework)\</IntermediateOutputPath>
