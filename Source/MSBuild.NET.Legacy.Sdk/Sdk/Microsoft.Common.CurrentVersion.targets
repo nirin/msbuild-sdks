@@ -2,7 +2,7 @@
 
 	<Import Project="$(MSBuildProjectFullPath).user" Condition="Exists('$(MSBuildProjectFullPath).user')"/>
 
-	<PropertyGroup>
+	<PropertyGroup Condition="'$(MSBuildVersion)' == '' OR '$(MSBuildVersion)' &lt; '16.0'">
 		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildProjectFullPath)</MSBuildAllProjects>
 		<MSBuildAllProjects Condition="Exists('$(MSBuildProjectFullPath).user')">$(MSBuildAllProjects);$(MSBuildProjectFullPath).user</MSBuildAllProjects>
 	</PropertyGroup>

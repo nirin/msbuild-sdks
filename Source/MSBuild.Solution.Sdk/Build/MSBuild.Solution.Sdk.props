@@ -10,7 +10,7 @@
 
 	<Import Project="Microsoft.VisualStudio.props"/>
 
-	<PropertyGroup>
+	<PropertyGroup Condition="'$(MSBuildVersion)' == '' OR '$(MSBuildVersion)' &lt; '16.0'">
 		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
 	</PropertyGroup>
 

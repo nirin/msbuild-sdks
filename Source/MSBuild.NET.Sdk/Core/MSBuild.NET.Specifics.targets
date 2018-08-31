@@ -24,7 +24,7 @@
 		<Import Project="Platforms\MSBuild.$(_SdkPlatformName).targets"/>
 	</ImportGroup>
 
-	<PropertyGroup>
+	<PropertyGroup Condition="'$(MSBuildVersion)' == '' OR '$(MSBuildVersion)' &lt; '16.0'">
 		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
 	</PropertyGroup>
 

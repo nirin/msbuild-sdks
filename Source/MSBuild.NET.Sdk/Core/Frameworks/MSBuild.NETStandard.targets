@@ -20,7 +20,7 @@
 		<ImplicitFrameworkPackageVersion Condition="'$(ImplicitFrameworkPackageVersion)' == ''">2.0.1</ImplicitFrameworkPackageVersion>
 	</PropertyGroup>
 
-	<PropertyGroup>
+	<PropertyGroup Condition="'$(MSBuildVersion)' == '' OR '$(MSBuildVersion)' &lt; '16.0'">
 		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
 	</PropertyGroup>
 

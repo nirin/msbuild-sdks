@@ -65,7 +65,7 @@
 	<Import Project="$(MicrosoftNETSdkBuildPath)Microsoft.NET.PreserveCompilationContext.targets"/>
 	<Import Project="$(MicrosoftNETSdkBuildPath)Microsoft.NET.ConflictResolution.targets"/>
 
-	<PropertyGroup>
+	<PropertyGroup Condition="'$(MSBuildVersion)' == '' OR '$(MSBuildVersion)' &lt; '16.0'">
 		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
 	</PropertyGroup>
 
