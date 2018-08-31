@@ -1,6 +1,6 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
-	<PropertyGroup>
+	<PropertyGroup Condition="'$(MSBuildVersion)' == '' OR '$(MSBuildVersion)' &lt; '16.0'">
 		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
 	</PropertyGroup>
 
@@ -15,14 +15,14 @@
 	</PropertyGroup>
 
 	<ImportGroup Condition="'$(IsMultiTargetingBuild)' != 'true'">
-		<Import Project="$(MSBuildThisFileDirectory)MSBuild.NET.Inference.targets" Condition="'$(_IsInvalidTargetFramework)' != 'true'"/>
-		<Import Project="$(MSBuildThisFileDirectory)MSBuild.NET.Platforms.targets" Condition="'$(TargetFrameworkIdentifier)' != ''"/>
+		<Import Project="MSBuild.NET.Inference.targets" Condition="'$(_IsInvalidTargetFramework)' != 'true'"/>
+		<Import Project="MSBuild.NET.Platforms.targets" Condition="'$(TargetFrameworkIdentifier)' != ''"/>
 	</ImportGroup>
 
 	<PropertyGroup Condition="'$(AppendTargetFrameworkToOutputPath)' == ''">
 		<AppendTargetFrameworkToOutputPath Condition="'$(TargetFrameworks)' == ''">false</AppendTargetFrameworkToOutputPath>
 	</PropertyGroup>
 
-	<Import Project="$(MSBuildThisFileDirectory)..\DefaultItems\MSBuild.NET.DefaultItems.targets"/>
+	<Import Project="..\DefaultItems\MSBuild.NET.DefaultItems.targets"/>
 
 </Project>

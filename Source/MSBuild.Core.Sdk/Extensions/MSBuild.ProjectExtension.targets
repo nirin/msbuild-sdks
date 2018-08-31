@@ -9,10 +9,19 @@
 	</PropertyGroup>
 
 	<Import Project="$(MSBuildProjectExtensionTargets)" Condition="Exists('$(MSBuildProjectExtensionTargets)')"/>
+
+	<PropertyGroup Condition="'$(MSBuildVersion)' == '' OR '$(MSBuildVersion)' &lt; '16.0'">
+		<MSBuildAllProjects Condition="Exists('$(MSBuildProjectExtensionTargets)')">$(MSBuildAllProjects);$(MSBuildProjectExtensionTargets)</MSBuildAllProjects>
+	</PropertyGroup>
+
 	<Import Project="$(CustomProjectExtensionTargets)" Condition="Exists('$(CustomProjectExtensionTargets)')"/>
 
-	<PropertyGroup Condition="!(Exists('$(MSBuildProjectExtensionTargets)') AND Exists('$(CustomProjectExtensionTargets)'))">
-		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+	<PropertyGroup Condition="'$(MSBuildVersion)' == '' OR '$(MSBuildVersion)' &lt; '16.0'">
+		<MSBuildAllProjects Condition="Exists('$(CustomProjectExtensionTargets)')">$(MSBuildAllProjects);$(CustomProjectExtensionTargets)</MSBuildAllProjects>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(MSBuildVersion)' == '' OR '$(MSBuildVersion)' &lt; '16.0'">
+		<MSBuildAllProjects Condition="!(Exists('$(MSBuildProjectExtensionTargets)') AND Exists('$(CustomProjectExtensionTargets)'))">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
 	</PropertyGroup>
 
 </Project>

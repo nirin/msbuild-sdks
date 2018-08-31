@@ -1,6 +1,6 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
-	<PropertyGroup>
+	<PropertyGroup Condition="'$(MSBuildVersion)' == '' OR '$(MSBuildVersion)' &lt; '16.0'">
 		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
 	</PropertyGroup>
 
@@ -60,6 +60,6 @@
 		<VBRuntime Condition="'$(VBRuntime)' == 'Embed'">Default</VBRuntime>
 	</PropertyGroup>
 
-	<Import Project="$(MSBuildThisFileDirectory)..\DefaultItems\MSBuild.NET.DefaultItems.props"/>
+	<Import Project="..\DefaultItems\MSBuild.NET.DefaultItems.props"/>
 
 </Project>

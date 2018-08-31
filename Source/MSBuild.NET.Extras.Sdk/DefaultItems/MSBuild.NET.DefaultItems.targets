@@ -1,6 +1,6 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
-	<PropertyGroup>
+	<PropertyGroup Condition="'$(MSBuildVersion)' == '' OR '$(MSBuildVersion)' &lt; '16.0'">
 		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
 	</PropertyGroup>
 
@@ -9,15 +9,15 @@
 		<_IsXamarinPlatform Condition="'$(TargetFrameworkIdentifier)' == 'MonoAndroid' OR '$(TargetFrameworkIdentifier)' == 'MonoTouch' OR '$(TargetFrameworkIdentifier)' == 'MonoMac'">true</_IsXamarinPlatform>
 	</PropertyGroup>
 
-	<Import Project="$(MSBuildThisFileDirectory)Platforms\Common.targets"/>
+	<Import Project="Platforms\Common.targets"/>
 
 	<ImportGroup Condition="'$(TargetFrameworkIdentifier)' == '.NETFramework'">
-		<Import Project="$(MSBuildThisFileDirectory)Platforms\Desktop.targets"/>
-		<Import Project="$(MSBuildThisFileDirectory)Platforms\Desktop.$(_LanguageSourceName).targets" Condition="Exists('$(MSBuildThisFileDirectory)Platforms\Desktop.$(_LanguageSourceName).targets')"/>
+		<Import Project="Platforms\Desktop.targets"/>
+		<Import Project="Platforms\Desktop.$(_LanguageSourceName).targets" Condition="Exists('$(MSBuildThisFileDirectory)Platforms\Desktop.$(_LanguageSourceName).targets')"/>
 	</ImportGroup>
 
-	<Import Project="$(MSBuildThisFileDirectory)Platforms\Xaml.targets" Condition="'$(EnableDefaultXamlItems)' == 'true' AND '$(_IsXamarinPlatform)' != 'true'"/>
+	<Import Project="Platforms\Xaml.targets" Condition="'$(EnableDefaultXamlItems)' == 'true' AND '$(_IsXamarinPlatform)' != 'true'"/>
 
-	<Import Project="$(MSBuildThisFileDirectory)Platforms\Xamarin.targets" Condition="'$(_IsXamarinPlatform)' == 'true'"/>
+	<Import Project="Platforms\Xamarin.targets" Condition="'$(_IsXamarinPlatform)' == 'true'"/>
 
 </Project>

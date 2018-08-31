@@ -1,6 +1,6 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
-	<PropertyGroup>
+	<PropertyGroup Condition="'$(MSBuildVersion)' == '' OR '$(MSBuildVersion)' &lt; '16.0'">
 		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
 	</PropertyGroup>
 
@@ -8,9 +8,9 @@
 		<CustomAfterMicrosoftCommonTargets>$(MSBuildThisFileDirectory)..\Build\MSBuild.NET.Workarounds.targets</CustomAfterMicrosoftCommonTargets>
 	</PropertyGroup>
 
-	<Import Project="$(MSBuildThisFileDirectory)..\Build\MSBuild.NET.Extras.Sdk.targets"/>
-	<Import Project="$(MSBuildThisFileDirectory)..\ProjectSystem\MSBuild.NET.ProjectSystem.targets"/>
-	<Import Project="$(MSBuildThisFileDirectory)..\DefaultItems\MSBuild.NET.ImplicitPackages.targets"/>
+	<Import Project="..\Build\MSBuild.NET.Extras.Sdk.targets"/>
+	<Import Project="..\ProjectSystem\MSBuild.NET.ProjectSystem.targets"/>
+	<Import Project="..\DefaultItems\MSBuild.NET.ImplicitPackages.targets"/>
 
 	<Import Project="$(CustomBeforeSdkTargets)" Condition="'$(CustomBeforeSdkTargets)' != ''"/>
 	<Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk"/>
