@@ -7,7 +7,7 @@
 	<Import Project="Platforms\Common.props"/>
 
 	<Import Project="Platforms\Desktop.props"/>
-	<Import Project="Platforms\Desktop.$(_LanguageSourceName).props" Condition="Exists('$(MSBuildThisFileDirectory)Platforms\Desktop.$(_LanguageSourceName).props')"/>
+	<Import Project="Platforms\Desktop.$(_LanguageSourceName).props" Condition="Exists('Platforms\Desktop.$(_LanguageSourceName).props')"/>
 
 	<Import Project="Platforms\Xaml.props"/>
 

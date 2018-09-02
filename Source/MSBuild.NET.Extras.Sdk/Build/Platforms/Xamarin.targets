@@ -31,6 +31,6 @@
 		<_SdkImplicitReference Include="System.Threading.Tasks"/>
 	</ItemGroup>
 
-	<Import Project="Xamarin\$(_SdkPlatformFrameworkName).targets" Condition="Exists('$(MSBuildThisFileDirectory)Xamarin\$(_SdkPlatformFrameworkName).targets')"/>
+	<Import Project="Xamarin\$(_SdkPlatformFrameworkName).targets" Condition="Exists('Xamarin\$(_SdkPlatformFrameworkName).targets')"/>
 
 </Project>
