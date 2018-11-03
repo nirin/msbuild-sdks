@@ -1,10 +1,10 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
 	<PropertyGroup>
-		<MSBuildAllProjects Condition="Exists('$(CustomProjectCoreProps)')">$(MSBuildAllProjects);$(CustomProjectCoreProps)</MSBuildAllProjects>
+		<MSBuildAllProjects Condition="Exists('$(CustomSolutionCoreProps)')">$(MSBuildAllProjects);$(CustomSolutionCoreProps)</MSBuildAllProjects>
 	</PropertyGroup>
 
-	<Import Project="$(CustomProjectCoreProps)" Condition="Exists('$(CustomProjectCoreProps)')"/>
+	<Import Project="$(CustomSolutionCoreProps)" Condition="Exists('$(CustomSolutionCoreProps)')"/>
 
 	<Import Project="..\Core\MSBuild.Core.props"/>
 
