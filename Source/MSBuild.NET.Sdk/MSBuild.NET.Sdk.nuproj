@@ -8,6 +8,9 @@
 		<Title>MSBuild .NET Sdk</Title>
 		<PackageId>MSBuild.NET.Sdk</PackageId>
 		<PackageVersion Condition="'$(PackageVersion)' == ''">1.0.0</PackageVersion>
+		<PackageTags>$(PackageTags);dotnet;.net;framework;build;project;platform</PackageTags>
+		<Summary>An MSBuild SDK package that supports authoring and building .NET Platform projects.</Summary>
+		<Description>$(Summary) This is the base SDK package for building .NET libraries and executables using various .NET Libraries, Frameworks and Runtime packages.</Description>
 	</PropertyGroup>
 
 </Project>

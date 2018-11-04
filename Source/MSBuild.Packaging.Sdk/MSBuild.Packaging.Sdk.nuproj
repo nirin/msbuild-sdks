@@ -8,6 +8,9 @@
 		<Title>MSBuild Packaging Sdk</Title>
 		<PackageId>MSBuild.Packaging.Sdk</PackageId>
 		<PackageVersion Condition="'$(PackageVersion)' == ''">1.0.0</PackageVersion>
+		<PackageTags>$(PackageTags);packaging;pack;archive;publish;install;uninstall</PackageTags>
+		<Summary>An MSBuild SDK package that provides authoring packages from the build output of the projects.</Summary>
+		<Description>$(Summary) You use this SDK primarly to author packages. It also provides packing tools, patching tools and installer support to the packages produced.</Description>
 	</PropertyGroup>
 
 </Project>

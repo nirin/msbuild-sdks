@@ -12,7 +12,7 @@ Supports projects that do not compile to an assembly. This is usually the base S
 
 ### [MSBuild.Dependencies.Sdk](Source/MSBuild.Dependencies.Sdk)
 
-**Coming Soon**! Supports centrally managing Native and Managed references directly and via packages. Also allows adding global references via the Solution SDK.
+Supports centrally managing Native and Managed references directly and via packages. Also allows adding global references via the Solution SDK.
 
 ### [MSBuild.Native.Sdk](Source/MSBuild.Native.Sdk)
 
@@ -28,15 +28,15 @@ Supports [.NET Platform](Docs/Support.md#net-platform-support) projects that inc
 
 ### [MSBuild.Packaging.Sdk](Source/MSBuild.Packaging.Sdk)
 
-**Coming Soon**! Create any type of package for any type of project!
+Supports creating any type of package for any type of project!
 
 ### [MSBuild.Sharing.Sdk](Source/MSBuild.Sharing.Sdk)
 
-**Coming Soon**! Shared project in SDK-style and more!
+Supports creating Shared projects in SDK-style and more!
 
 ### [MSBuild.Solution.Sdk](Source/MSBuild.Solution.Sdk)
 
-**Coming Soon**! Supports creating MSBuild solutions which are MSBuild projects that indicate what projects to include when building your tree. They are an evolution of Visual Studio solution files.
+Supports creating MSBuild solutions which are MSBuild projects that indicate what projects to include when building your tree. They are an evolution of Visual Studio solution files.
 
 ### [NuGet.Packaging.Sdk](Source/NuGet.Packaging.Sdk)
 

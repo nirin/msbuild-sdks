@@ -8,6 +8,9 @@
 		<Title>MSBuild Sharing Sdk</Title>
 		<PackageId>MSBuild.Sharing.Sdk</PackageId>
 		<PackageVersion Condition="'$(PackageVersion)' == ''">1.0.0</PackageVersion>
+		<PackageTags>$(PackageTags);sharing;assets;region;language;culture</PackageTags>
+		<Summary>An MSBuild SDK package that provides support for segregating assets into shareable project references.</Summary>
+		<Description>$(Summary) The projects that use this SDK, injects the assets into the parent project, so that the assets can be shared among different projects without compiling them into another package/assembly.</Description>
 	</PropertyGroup>
 
 </Project>

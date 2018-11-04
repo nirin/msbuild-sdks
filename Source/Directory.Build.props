@@ -18,6 +18,7 @@
 		<PackageProjectUrl>https://github.com/nirin/msbuild-sdks</PackageProjectUrl>
 		<RepositoryUrl>git://github.com/nirin/msbuild-sdks</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>
+		<PackageType>MSBuildSdk<PackageType>
 		<Serviceable>true</Serviceable>
 		<NeutralLanguage>en</NeutralLanguage>
 		<DevelopmentDependency>true</DevelopmentDependency>
