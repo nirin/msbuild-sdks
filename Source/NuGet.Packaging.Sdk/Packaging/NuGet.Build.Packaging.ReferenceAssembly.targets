@@ -1,8 +1,8 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
-	<UsingTask TaskName="NuGet.Build.Packaging.Tasks.ApiIntersect" AssemblyFile="NuGet.Build.Packaging.Tasks.dll"/>
-	<UsingTask TaskName="NuGet.Build.Packaging.Tasks.GenerateAssemblyInfo" AssemblyFile="NuGet.Build.Packaging.Tasks.dll"/>
-	<UsingTask TaskName="NuGet.Build.Packaging.Tasks.GetApiIntersectTargetPaths" AssemblyFile="NuGet.Build.Packaging.Tasks.dll"/>
+	<UsingTask TaskName="NuGet.Build.Packaging.Tasks.ApiIntersect" AssemblyFile="$(NuGetPackagingTaskAssemblyFile)"/>
+	<UsingTask TaskName="NuGet.Build.Packaging.Tasks.GenerateAssemblyInfo" AssemblyFile="$(NuGetPackagingTaskAssemblyFile)"/>
+	<UsingTask TaskName="NuGet.Build.Packaging.Tasks.GetApiIntersectTargetPaths" AssemblyFile="$(NuGetPackagingTaskAssemblyFile)"/>
 
 	<ItemGroup>
 		<!-- Converts potentially multiple $(ReferenceAssemblyFrameworks) into @(ReferenceAssemblyFramework) -->
@@ -22,8 +22,8 @@
 		</ItemGroup>
 
 		<MSBuild
-		Projects="@(_ReferenceAssemblyProjects)"
-		Targets="GetTargetPathWithTargetPlatformMoniker">
+			Projects="@(_ReferenceAssemblyProjects)"
+			Targets="GetTargetPathWithTargetPlatformMoniker">
 			<Output TaskParameter="TargetOutputs" ItemName="IntersectionAssembly"/>
 		</MSBuild>
 
@@ -52,6 +52,7 @@
 
 		<PropertyGroup>
 			<EnableDefaultIntersectionAssemblyReferencePath Condition="'$(EnableDefaultIntersectionAssemblyReferencePath)' == ''">true</EnableDefaultIntersectionAssemblyReferencePath>
+			<IntersectionIgnoreUnresolvedAssemblies Condition="'$(IntersectionIgnoreUnresolvedAssemblies)' == ''">true</IntersectionIgnoreUnresolvedAssemblies>
 		</PropertyGroup>
 
 		<ItemGroup>
@@ -69,6 +70,7 @@
 			ExcludeAssembly="@(IntersectionExcludeAssembly)"
 			KeepInternalConstructors="$(IntersectionKeepInternalConstructors)"
 			KeepMarshalling="$(IntersectionKeepMarshalling)"
+			IgnoreUnresolvedAssemblies="$(IntersectionIgnoreUnresolvedAssemblies)"
 			ToolPath="$(ApiIntersectToolPath)"
 			ToolExe="$(ApiIntersectToolExe)">
 			<Output TaskParameter="OutputDirectory" ItemName="_ReferenceAssemblyBuildInfo"/>
@@ -81,14 +83,13 @@
 		</GenerateAssemblyInfo>
 
 		<MSBuild
-			Projects="$(MSBuildThisFileDirectory)GenerateReferenceAssembly.csproj"
-			Properties="
-				AssemblyName=$(_ReferenceAssemblyName);
-				SrcDir=%(_ReferenceAssemblyBuildInfo.FullPath);
-				OutputPath=%(_ReferenceAssemblyBuildInfo.FullPath)bin\;
-				IntermediateOutputPath=%(_ReferenceAssemblyBuildInfo.FullPath)obj\;
+			Projects="$(NuGetPackagingToolsPath)GenerateReferenceAssembly.csproj"
+			Properties="AssemblyName=$(_ReferenceAssemblyName);
 				TargetFrameworkVersion=%(_ReferenceAssemblyBuildInfo.TargetFrameworkVersion);
-				TargetFrameworkProfile=%(_ReferenceAssemblyBuildInfo.TargetFrameworkProfile)"/>
+				TargetFrameworkProfile=%(_ReferenceAssemblyBuildInfo.TargetFrameworkProfile);
+				SrcDir=%(_ReferenceAssemblyBuildInfo.FullPath);
+				OutputPath=%(_ReferenceAssemblyBuildInfo.FullPath)$(OutputFolder)\;
+				IntermediateOutputPath=%(_ReferenceAssemblyBuildInfo.FullPath)$(IntermediateOutputFolder)\"/>
 	</Target>
 
 	<Target Name="_CleanReferenceAssemblyIntermediateOutputs" Condition="'@(ReferenceAssemblyFramework)' != '' AND Exists('$(IntermediateOutputPath)')">

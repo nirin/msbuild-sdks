@@ -1,6 +1,6 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
-	<PropertyGroup>
+	<PropertyGroup Condition="'$(MSBuildVersion)' == '' OR '$(MSBuildVersion)' &lt; '16.0'">
 		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
 	</PropertyGroup>
 
@@ -10,8 +10,8 @@
 
 	<Import Project="Sdk.props" Sdk="Microsoft.NET.Sdk"/>
 
-	<Import Project="$(MSBuildThisFileDirectory)..\Build\MSBuild.NET.Extras.Sdk.props"/>
-	<Import Project="$(MSBuildThisFileDirectory)..\ProjectSystem\MSBuild.NET.ProjectSystem.props"/>
-	<Import Project="$(MSBuildThisFileDirectory)..\DefaultItems\MSBuild.NET.ImplicitPackages.props"/>
+	<Import Project="..\Build\MSBuild.NET.Extras.Sdk.props"/>
+	<Import Project="..\ProjectSystem\MSBuild.NET.ProjectSystem.props"/>
+	<Import Project="..\DefaultItems\MSBuild.NET.ImplicitPackages.props"/>
 
 </Project>

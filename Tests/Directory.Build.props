@@ -1,12 +1,6 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
-	<Import Project="$(MSBuildThisFileDirectory)..\$(MSBuildThisFile)"/>
-
-	<Import Project="$(BuildToolsPath)MSBuild.OutputPaths.props"/>
-
-	<PropertyGroup>
-		<CustomBeforeSdkTargets>$(BuildToolsPath)MSBuild.OutputPaths.targets</CustomBeforeSdkTargets>
-	</PropertyGroup>
+	<Import Project="..\$(MSBuildThisFile)"/>
 
 	<Choose>
 		<When Condition="$(MSBuildProjectName.EndsWith('Tests'))">

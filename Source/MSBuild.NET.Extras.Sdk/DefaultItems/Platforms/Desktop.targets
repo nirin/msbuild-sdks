@@ -1,30 +1,30 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
-	<PropertyGroup>
+	<PropertyGroup Condition="'$(MSBuildVersion)' == '' OR '$(MSBuildVersion)' &lt; '16.0'">
 		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(FrameworkProjectType)' == 'Wpf'">
-		<EnableWpfProjectSetup>true</EnableWpfProjectSetup>
-		<EnableAspNetProjectSetup>false</EnableAspNetProjectSetup>
+	<!-- Force disable other projects' setup, Since it does not play very well with each other. -->
+	<PropertyGroup Condition="'$(EnableWpfProjectSetup)' == 'true'">
+		<EnableWebProjectSetup>false</EnableWebProjectSetup>
 		<EnableWinFormsProjectSetup>false</EnableWinFormsProjectSetup>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(FrameworkProjectType)' == 'AspNet'">
+	<PropertyGroup Condition="'$(EnableWebProjectSetup)' == 'true'">
 		<EnableWpfProjectSetup>false</EnableWpfProjectSetup>
-		<EnableAspNetProjectSetup>true</EnableAspNetProjectSetup>
 		<EnableWinFormsProjectSetup>false</EnableWinFormsProjectSetup>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(FrameworkProjectType)' == 'WinForms'">
+	<PropertyGroup Condition="'$(EnableWinFormsProjectSetup)' == 'true'">
 		<EnableWpfProjectSetup>false</EnableWpfProjectSetup>
-		<EnableAspNetProjectSetup>false</EnableAspNetProjectSetup>
-		<EnableWinFormsProjectSetup>true</EnableWinFormsProjectSetup>
+		<EnableWebProjectSetup>false</EnableWebProjectSetup>
 	</PropertyGroup>
+
+	<!-- Desktop Support -->
 
 	<PropertyGroup Condition="'$(ApplicationManifest)' == ''">
-		<ApplicationManifest Condition="Exists('$(MSBuildProjectDirectory)\$(AppDesignerFolder)\app.manifest')">$(AppDesignerFolder)\app.manifest</ApplicationManifest>
-		<ApplicationManifest Condition="Exists('$(MSBuildProjectDirectory)\app.manifest')">app.manifest</ApplicationManifest>
+		<ApplicationManifest Condition="Exists('$(MSBuildProjectDirectory)\$(AppDesignerFolder)\App.manifest')">$(AppDesignerFolder)\App.manifest</ApplicationManifest>
+		<ApplicationManifest Condition="Exists('$(MSBuildProjectDirectory)\App.manifest')">App.manifest</ApplicationManifest>
 	</PropertyGroup>
 
 	<PropertyGroup>
@@ -37,32 +37,78 @@
 		<SettingsCodeGeneratorTool Condition="'$(SettingsGeneratedCodeIsPublic)' == 'true'">PublicSettingsSingleFileGenerator</SettingsCodeGeneratorTool>
 	</PropertyGroup>
 
+	<!-- WPF Support -->
+
 	<PropertyGroup Condition="'$(EnableWpfProjectSetup)' == 'true'">
 		<EnableDefaultWpfItems Condition="'$(EnableDefaultWpfItems)' == ''">true</EnableDefaultWpfItems>
+		<EnableDefaultXamlItems>$(EnableDefaultWpfItems)</EnableDefaultXamlItems>
 		<EnableImplicitWpfReferences Condition="'$(EnableImplicitWpfReferences)' == ''">true</EnableImplicitWpfReferences>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(EnableAspNetProjectSetup)' == 'true'">
-		<EnableDefaultAspNetItems Condition="'$(EnableDefaultAspNetItems)' == ''">true</EnableDefaultAspNetItems>
-		<EnableImplicitAspNetReferences Condition="'$(EnableImplicitAspNetReferences)' == ''">true</EnableImplicitAspNetReferences>
-	</PropertyGroup>
+	<!-- Windows Forms Support -->
 
 	<PropertyGroup Condition="'$(EnableWinFormsProjectSetup)' == 'true'">
 		<EnableDefaultWinFormsItems Condition="'$(EnableDefaultWinFormsItems)' == ''">true</EnableDefaultWinFormsItems>
 		<EnableImplicitWinFormsReferences Condition="'$(EnableImplicitWinFormsReferences)' == ''">true</EnableImplicitWinFormsReferences>
 		<EnableUserControlDesigner Condition="'$(EnableUserControlDesigner)' == ''">false</EnableUserControlDesigner>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(EnableDefaultWpfItems)' == 'true'">
-		<EnableDefaultXamlItems Condition="'$(EnableDefaultXamlItems)' == ''">true</EnableDefaultXamlItems>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(EnableDefaultAspNetItems)' == 'true'">
-
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(EnableDefaultWinFormsItems)' == 'true'">
 		<UserControlDesignerService Condition="'$(UserControlDesignerService)' == ''">{94E38DFF-614B-4CBD-B67C-F211BB35CE8B}</UserControlDesignerService>
+	</PropertyGroup>
+
+	<!-- WEB Support -->
+
+	<PropertyGroup Condition="'$(EnableWebProjectSetup)' == 'true'">
+		<EnableDefaultWebItems Condition="'$(EnableDefaultWebItems)' == ''">true</EnableDefaultWebItems>
+		<EnableImplicitWebReferences Condition="'$(EnableImplicitWebReferences)' == ''">true</EnableImplicitWebReferences>
+		<EnableWebDesigner Condition="'$(EnableWebDesigner)' == ''">false</EnableWebDesigner>
+		<WebDesignerService Condition="'$(WebDesignerService)' == ''">{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}</WebDesignerService>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(EnableDefaultWebItems)' == 'true'">
+		<DefaultItemExcludes>$(DefaultItemExcludes);**\node_modules\**;node_modules\**</DefaultItemExcludes>
+		<DefaultItemExcludes>$(DefaultItemExcludes);**\jspm_packages\**;jspm_packages\**</DefaultItemExcludes>
+		<DefaultItemExcludes>$(DefaultItemExcludes);**\bower_components\**;bower_components\**</DefaultItemExcludes>
+
+		<DefaultWebCompileItems>**\*.Master$(DefaultLanguageSourceExtension)</DefaultWebCompileItems>
+		<DefaultWebCompileItems>$(DefaultWebCompileItems);**\*.asax$(DefaultLanguageSourceExtension)</DefaultWebCompileItems>
+		<DefaultWebCompileItems>$(DefaultWebCompileItems);**\*.aspx$(DefaultLanguageSourceExtension)</DefaultWebCompileItems>
+		<DefaultWebCompileItems>$(DefaultWebCompileItems);**\*.ascx$(DefaultLanguageSourceExtension)</DefaultWebCompileItems>
+
+		<EnableDefaultContentItems Condition="'$(EnableDefaultContentItems)' == ''">true</EnableDefaultContentItems>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(EnableDefaultWebItems)' == 'true' AND '$(EnableDefaultContentItems)' == 'true'">
+		<DefaultWebScriptIncludes>Scripts\**</DefaultWebScriptIncludes>
+		<DefaultWebStyleIncludes>Content\**;Styles\**;Themes\**</DefaultWebStyleIncludes>
+		<DefaultWebPageIncludes>Views\**;Areas\**;Pages\**;Controls\**</DefaultWebPageIncludes>
+
+		<DefaultWebPageItemIncludes>Views\**\*$(DefaultLanguageSourceExtension)html</DefaultWebPageItemIncludes>
+		<DefaultWebPageItemIncludes>$(DefaultWebPageItemIncludes);Areas\**\*$(DefaultLanguageSourceExtension)html</DefaultWebPageItemIncludes>
+		<DefaultWebPageItemIncludes>$(DefaultWebPageItemIncludes);Pages\**\*$(DefaultLanguageSourceExtension)html</DefaultWebPageItemIncludes>
+
+		<DefaultWebPageItemIncludes>*.Master</DefaultWebPageItemIncludes>
+		<DefaultWebPageItemIncludes>$(DefaultWebPageItemIncludes);*.asax</DefaultWebPageItemIncludes>
+		<DefaultWebPageItemIncludes>$(DefaultWebPageItemIncludes);*.aspx;Pages\**\*.aspx</DefaultWebPageItemIncludes>
+		<DefaultWebPageItemIncludes>$(DefaultWebPageItemIncludes);*.ascx;Controls\**\*.ascx</DefaultWebPageItemIncludes>
+	</PropertyGroup>
+
+	<!-- WCF/WFF Support -->
+
+	<PropertyGroup Condition="'$(EnableWcfProjectSetup)' == 'true'">
+		<EnableDefaultServiceItems Condition="'$(EnableDefaultServiceItems)' == ''">true</EnableDefaultServiceItems>
+		<EnableImplicitWcfReferences Condition="'$(EnableImplicitWcfReferences)' == ''">true</EnableImplicitWcfReferences>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(EnableDefaultServiceItems)' == 'true'">
+		<DefaultServiceIncludes>Services\**;Api\**</DefaultServiceIncludes>
+		<DefaultServiceItemIncludes>**\*.svc</DefaultServiceItemIncludes>
+		<DefaultServiceCompileItems>**\*.svc$(DefaultLanguageSourceExtension)</DefaultServiceCompileItems>
+		<EnableDefaultContentItems Condition="'$(EnableDefaultContentItems)' == ''">true</EnableDefaultContentItems>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(EnableWffProjectSetup)' == 'true'">
+		<EnableDefaultWorkflowItems Condition="'$(EnableDefaultWorkflowItems)' == ''">true</EnableDefaultWorkflowItems>
+		<EnableDefaultXamlItems Condition="'$(EnableDefaultWorkflowItems)' == 'true'">false</EnableDefaultXamlItems>
+		<EnableImplicitWffReferences Condition="'$(EnableImplicitWffReferences)' == ''">true</EnableImplicitWffReferences>
 	</PropertyGroup>
 
 </Project>

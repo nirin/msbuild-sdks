@@ -7,7 +7,7 @@
 	<PropertyGroup Label="PackageInfo">
 		<Title>MSBuild Sdk Extras for .NET</Title>
 		<PackageId>MSBuild.NET.Extras.Sdk</PackageId>
-		<PackageVersion>1.2.0</PackageVersion>
+		<PackageVersion>1.3.0</PackageVersion>
 		<PackageTags>$(PackageTags);dotnet;xamarin;macos;tvos;watchos;ios;android;tizen;windows;uwp;portable;sl;cf;netmf</PackageTags>
 		<Summary>An MSBuild SDK package for SDK-style .NET projects which extends `Microsoft.NET.Sdk`.</Summary>
 		<Description>An MSBuild SDK package for SDK-style .NET projects that has additional targets and properties which extends `Microsoft.NET.Sdk`.</Description>

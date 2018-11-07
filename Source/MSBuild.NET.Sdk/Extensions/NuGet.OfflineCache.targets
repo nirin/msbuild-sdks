@@ -1,0 +1,18 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+	<PropertyGroup>
+		<_NugetFallbackFolder>$(ProgramFiles)\dotnet\sdk\NuGetFallbackFolder</_NugetFallbackFolder>
+		<_IsNETCore1x Condition="'$(TargetFrameworkIdentifier)' == '.NETCoreApp' AND '$(_TargetFrameworkVersionWithoutV)' &lt; '2.0'">true</_IsNETCore1x>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(DisableImplicitNuGetFallbackFolder)' != 'true' AND Exists('$(_NugetFallbackFolder)')">
+		<RestoreAdditionalProjectSources Condition="'$(_IsNETCore1x)' == 'true'">$(RestoreAdditionalProjectSources);$(_NugetFallbackFolder)</RestoreAdditionalProjectSources>
+		<RestoreAdditionalProjectFallbackFoldersExcludes Condition="'$(_IsNETCore1x)' == 'true'">$(RestoreAdditionalProjectFallbackFoldersExcludes);$(_NugetFallbackFolder)</RestoreAdditionalProjectFallbackFoldersExcludes>
+		<RestoreAdditionalProjectFallbackFolders Condition="'$(_IsNETCore1x)' != 'true'">$(RestoreAdditionalProjectFallbackFolders);$(_NugetFallbackFolder)</RestoreAdditionalProjectFallbackFolders>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(MSBuildVersion)' == '' OR '$(MSBuildVersion)' &lt; '16.0'">
+		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+	</PropertyGroup>
+
+</Project>

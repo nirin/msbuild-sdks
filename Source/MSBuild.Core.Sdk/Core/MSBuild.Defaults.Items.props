@@ -4,8 +4,4 @@
 		<None Include="**\*" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)"/>
 	</ItemGroup>
 
-	<PropertyGroup>
-		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
-	</PropertyGroup>
-
 </Project>

@@ -1,0 +1,27 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+	<!-- We need to initialize `MSBuildSolutionExtensionsPath` property. -->
+	<Import Project="MSBuild.SolutionExtension.Core.props" Condition="'$(ImportedMSBuildSolutionExtensionCoreProps)' != 'true'"/>
+
+	<Import Project="$(CustomSolutionExtensionProps)" Condition="Exists('$(CustomSolutionExtensionProps)')"/>
+
+	<PropertyGroup Condition="'$(MSBuildVersion)' == '' OR '$(MSBuildVersion)' &lt; '16.0'">
+		<MSBuildAllProjects Condition="Exists('$(CustomSolutionExtensionProps)')">$(MSBuildAllProjects);$(CustomSolutionExtensionProps)</MSBuildAllProjects>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(MSBuildSolutionExtensionProps)' == ''">
+		<MSBuildSolutionExtensionPropsFile Condition="'$(MSBuildSolutionExtensionPropsFile)' == ''">$(MSBuildSolutionFile).*.props</MSBuildSolutionExtensionPropsFile>
+		<MSBuildSolutionExtensionProps Condition="'$(MSBuildSolutionExtensionsPath)' != ''">$(MSBuildSolutionExtensionsPath)$(MSBuildSolutionExtensionPropsFile)</MSBuildSolutionExtensionProps>
+	</PropertyGroup>
+
+	<Import Project="$(MSBuildSolutionExtensionProps)" Condition="Exists('$(MSBuildSolutionExtensionProps)')"/>
+
+	<PropertyGroup Condition="'$(MSBuildVersion)' == '' OR '$(MSBuildVersion)' &lt; '16.0'">
+		<MSBuildAllProjects Condition="Exists('$(MSBuildSolutionExtensionProps)')">$(MSBuildAllProjects);$(MSBuildSolutionExtensionProps)</MSBuildAllProjects>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(MSBuildVersion)' == '' OR '$(MSBuildVersion)' &lt; '16.0'">
+		<MSBuildAllProjects Condition="!(Exists('$(MSBuildSolutionExtensionProps)') AND Exists('$(CustomSolutionExtensionProps)'))">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+	</PropertyGroup>
+
+</Project>

@@ -1,0 +1,12 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+	<!-- We need to init SourceLanguage* properties! -->
+	<Import Project="..\Build\Resolvers\MSBuild.NET.LanguageInference.props"/>
+
+	<Import Project="..\Core\Languages\MSBuild.$(SourceLanguageName).props"/>
+
+	<PropertyGroup Condition="'$(MSBuildVersion)' == '' OR '$(MSBuildVersion)' &lt; '16.0'">
+		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+	</PropertyGroup>
+
+</Project>

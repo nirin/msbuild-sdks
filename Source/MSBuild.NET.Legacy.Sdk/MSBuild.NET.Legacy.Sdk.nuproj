@@ -7,12 +7,14 @@
 	<PropertyGroup Label="PackageInfo">
 		<Title>MSBuild .NET Legacy Sdk</Title>
 		<PackageId>MSBuild.NET.Legacy.Sdk</PackageId>
-		<PackageVersion>0.1.0</PackageVersion>
+		<PackageVersion Condition="'$(PackageVersion)' == ''">1.0.0</PackageVersion>
+		<PackageTags>$(PackageTags);dotnet;.net;legacy;inbox;windows;desktop;framework</PackageTags>
+		<Summary>An MSBuild SDK package that has updated __legacy__ props and targets that came inbox with .NET Framework.</Summary>
+		<Description>$(Summary) This SDK package is mostly used for testing puposes for compiling exclusively with the X-Platform MSBuild.</Description>
 	</PropertyGroup>
 
-	<ItemGroup>
-		<None Remove="*.props;*.targets;*.items;*.tasks"/>
-		<PackageFile Include="*.props;*.targets;*.items;*.tasks" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)"/>
-	</ItemGroup>
+	<PropertyGroup>
+		<DefaultItemExcludes>**\*-wip\**\*;**\*-wip.*</DefaultItemExcludes>
+	</PropertyGroup>
 
 </Project>

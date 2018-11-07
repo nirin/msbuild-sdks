@@ -1,0 +1,43 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+	<PropertyGroup Condition="'$(NETCoreSdkBundledVersionsProps)' == ''">
+		<NETCoreSdkBundledVersionsProps>$(MSBuildToolsPath)\Microsoft.NETCoreSdk.BundledVersions.props</NETCoreSdkBundledVersionsProps>
+	</PropertyGroup>
+
+	<Import Project="$(NETCoreSdkBundledVersionsProps)" Condition="Exists('$(NETCoreSdkBundledVersionsProps)')"/>
+
+	<PropertyGroup Condition="!Exists('$(NETCoreSdkBundledVersionsProps)')">
+		<NETCoreSdkVersion>2.1.300</NETCoreSdkVersion>
+
+		<BundledNETCoreAppTargetFrameworkVersion>2.1</BundledNETCoreAppTargetFrameworkVersion>
+		<BundledNETCoreAppPackageVersion>2.1.0</BundledNETCoreAppPackageVersion>
+		<BundledNETStandardTargetFrameworkVersion>2.0</BundledNETStandardTargetFrameworkVersion>
+		<BundledNETStandardPackageVersion>2.0.1</BundledNETStandardPackageVersion>
+
+		<BundledNETCorePlatformsPackageVersion>2.1.0</BundledNETCorePlatformsPackageVersion>
+
+		<BundledAspNetCoreAllTargetFrameworkVersion>2.1</BundledAspNetCoreAllTargetFrameworkVersion>
+		<BundledAspNetCoreAllPackageVersion>2.1.0</BundledAspNetCoreAllPackageVersion>
+		<BundledAspNetCoreAppTargetFrameworkVersion>2.1</BundledAspNetCoreAppTargetFrameworkVersion>
+		<BundledAspNetCoreAppPackageVersion>2.1.0</BundledAspNetCoreAppPackageVersion>
+
+		<!-- Latest patch versions for each minor version of .NET Core -->
+		<LatestPatchVersionForNetCore1_0>1.0.11</LatestPatchVersionForNetCore1_0>
+		<LatestPatchVersionForNetCore1_1>1.1.8</LatestPatchVersionForNetCore1_1>
+		<LatestPatchVersionForNetCore2_0>2.0.7</LatestPatchVersionForNetCore2_0>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(NETCoreSdkBundledCliToolsProps)' == ''">
+		<NETCoreSdkBundledCliToolsProps>$(MSBuildToolsPath)\Microsoft.NETCoreSdk.BundledCliTools.props</NETCoreSdkBundledCliToolsProps>
+	</PropertyGroup>
+
+	<Import Project="$(NETCoreSdkBundledCliToolsProps)" Condition="Exists('$(NETCoreSdkBundledCliToolsProps)')"/>
+
+	<ItemGroup Condition="!Exists('$(NETCoreSdkBundledCliToolsProps)')">
+		<BundledDotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet"/>
+		<BundledDotNetCliToolReference Include="Microsoft.Extensions.Caching.SqlConfig.Tools"/>
+		<BundledDotNetCliToolReference Include="Microsoft.Extensions.SecretManager.Tools"/>
+		<BundledDotNetCliToolReference Include="Microsoft.DotNet.Watcher.Tools"/>
+	</ItemGroup>
+
+</Project>

@@ -2,23 +2,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27004.2008
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sdks", "Sdks", "{43CB834E-28D8-4B88-B668-F1388A5D774E}"
-EndProject
-Project("{5DD5E4FA-CB73-4610-85AB-557B54E96AA9}") = "MSBuild.Core.Sdk", "Source\MSBuild.Core.Sdk\MSBuild.Core.Sdk.nuproj", "{783A4558-BD83-4557-A6BC-A9C5636E82AD}"
-EndProject
 Project("{5DD5E4FA-CB73-4610-85AB-557B54E96AA9}") = "MSBuild.NET.DefaultItems", "Source\MSBuild.NET.DefaultItems\MSBuild.NET.DefaultItems.nuproj", "{D954D633-9922-4AFF-83F2-BF157E2ED850}"
 EndProject
 Project("{5DD5E4FA-CB73-4610-85AB-557B54E96AA9}") = "MSBuild.NET.Extras.Sdk", "Source\MSBuild.NET.Extras.Sdk\MSBuild.NET.Extras.Sdk.nuproj", "{FBA79394-3A96-4BBE-B046-7302181AF10D}"
 EndProject
+Project("{5DD5E4FA-CB73-4610-85AB-557B54E96AA9}") = "MSBuild.NET.Inbox.Sdk", "Source\MSBuild.NET.Inbox.Sdk\MSBuild.NET.Inbox.Sdk.nuproj", "{4E58D45C-5E52-4301-A661-C49594094319}"
+EndProject
 Project("{5DD5E4FA-CB73-4610-85AB-557B54E96AA9}") = "MSBuild.NET.Legacy.Sdk", "Source\MSBuild.NET.Legacy.Sdk\MSBuild.NET.Legacy.Sdk.nuproj", "{9E0252B6-8815-4E25-8C6E-5838963C8233}"
 EndProject
 Project("{5DD5E4FA-CB73-4610-85AB-557B54E96AA9}") = "NuGet.Packaging.Sdk", "Source\NuGet.Packaging.Sdk\NuGet.Packaging.Sdk.nuproj", "{208EC1B3-8458-4382-9C82-E20BDC7A0CAC}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{A6D598DD-B005-4ECF-B7B4-1CDC7FF3B65B}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MSBuild.NET.Extras.Tests", "Tests\MSBuild.NET.Extras.Tests\MSBuild.NET.Extras.Tests.csproj", "{FEAA802B-B30B-40F2-B6C9-D2E46BB793D4}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MSBuild.TestFramework", "Tests\MSBuild.TestFramework\MSBuild.TestFramework.csproj", "{9D3A6804-CB5F-48FE-A75A-9F6C359DBDC7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -26,10 +18,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{783A4558-BD83-4557-A6BC-A9C5636E82AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{783A4558-BD83-4557-A6BC-A9C5636E82AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{783A4558-BD83-4557-A6BC-A9C5636E82AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{783A4558-BD83-4557-A6BC-A9C5636E82AD}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D954D633-9922-4AFF-83F2-BF157E2ED850}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D954D633-9922-4AFF-83F2-BF157E2ED850}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D954D633-9922-4AFF-83F2-BF157E2ED850}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -38,6 +26,10 @@ Global
 		{FBA79394-3A96-4BBE-B046-7302181AF10D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FBA79394-3A96-4BBE-B046-7302181AF10D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FBA79394-3A96-4BBE-B046-7302181AF10D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4E58D45C-5E52-4301-A661-C49594094319}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4E58D45C-5E52-4301-A661-C49594094319}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4E58D45C-5E52-4301-A661-C49594094319}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4E58D45C-5E52-4301-A661-C49594094319}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9E0252B6-8815-4E25-8C6E-5838963C8233}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9E0252B6-8815-4E25-8C6E-5838963C8233}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9E0252B6-8815-4E25-8C6E-5838963C8233}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -46,26 +38,9 @@ Global
 		{208EC1B3-8458-4382-9C82-E20BDC7A0CAC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{208EC1B3-8458-4382-9C82-E20BDC7A0CAC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{208EC1B3-8458-4382-9C82-E20BDC7A0CAC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FEAA802B-B30B-40F2-B6C9-D2E46BB793D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FEAA802B-B30B-40F2-B6C9-D2E46BB793D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FEAA802B-B30B-40F2-B6C9-D2E46BB793D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FEAA802B-B30B-40F2-B6C9-D2E46BB793D4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9D3A6804-CB5F-48FE-A75A-9F6C359DBDC7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9D3A6804-CB5F-48FE-A75A-9F6C359DBDC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9D3A6804-CB5F-48FE-A75A-9F6C359DBDC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9D3A6804-CB5F-48FE-A75A-9F6C359DBDC7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{783A4558-BD83-4557-A6BC-A9C5636E82AD} = {43CB834E-28D8-4B88-B668-F1388A5D774E}
-		{D954D633-9922-4AFF-83F2-BF157E2ED850} = {43CB834E-28D8-4B88-B668-F1388A5D774E}
-		{FBA79394-3A96-4BBE-B046-7302181AF10D} = {43CB834E-28D8-4B88-B668-F1388A5D774E}
-		{9E0252B6-8815-4E25-8C6E-5838963C8233} = {43CB834E-28D8-4B88-B668-F1388A5D774E}
-		{208EC1B3-8458-4382-9C82-E20BDC7A0CAC} = {43CB834E-28D8-4B88-B668-F1388A5D774E}
-		{FEAA802B-B30B-40F2-B6C9-D2E46BB793D4} = {A6D598DD-B005-4ECF-B7B4-1CDC7FF3B65B}
-		{9D3A6804-CB5F-48FE-A75A-9F6C359DBDC7} = {A6D598DD-B005-4ECF-B7B4-1CDC7FF3B65B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {59E40B9F-1468-4E2F-BD7B-EFE7B2DDDCF0}

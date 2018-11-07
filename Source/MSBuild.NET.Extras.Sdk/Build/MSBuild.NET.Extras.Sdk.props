@@ -1,6 +1,6 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
-	<PropertyGroup>
+	<PropertyGroup Condition="'$(MSBuildVersion)' == '' OR '$(MSBuildVersion)' &lt; '16.0'">
 		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
 	</PropertyGroup>
 
@@ -27,7 +27,7 @@
 		</When>
 
 		<Otherwise>
-			<PropertyGroup>
+			<PropertyGroup Condition="'$(_LanguageSourceName)' == ''">
 				<_LanguageSourceName>Common</_LanguageSourceName>
 				<!--<DefaultLanguageSourceExtension>.msil</DefaultLanguageSourceExtension>-->
 			</PropertyGroup>
@@ -38,6 +38,10 @@
 		<DefaultLanguage Condition="'$(DefaultLanguage)' == ''">$(LangName)</DefaultLanguage>
 		<DefaultLanguage Condition="'$(DefaultLanguage)' == ''">$([System.Globalization.CultureInfo]::CurrentUICulture.Name)</DefaultLanguage>
 		<SupportedCultures Condition="'$(SupportedCultures)' == ''">$(DefaultLanguage)</SupportedCultures>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<VisualStudioVersion Condition="'$(VisualStudioVersion)' == '' OR '$(VisualStudioVersion)' &lt; '14.0'">15.0</VisualStudioVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(AppDesignerFolder)' == ''">
@@ -56,6 +60,6 @@
 		<VBRuntime Condition="'$(VBRuntime)' == 'Embed'">Default</VBRuntime>
 	</PropertyGroup>
 
-	<Import Project="$(MSBuildThisFileDirectory)..\DefaultItems\MSBuild.NET.DefaultItems.props"/>
+	<Import Project="..\DefaultItems\MSBuild.NET.DefaultItems.props"/>
 
 </Project>

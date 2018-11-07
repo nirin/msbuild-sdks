@@ -1,21 +1,11 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
-	<PropertyGroup>
+	<PropertyGroup Condition="'$(MSBuildVersion)' == '' OR '$(MSBuildVersion)' &lt; '16.0'">
 		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
 	</PropertyGroup>
 
-	<!--<PropertyGroup Condition="'$(TargetFrameworks)' != '' AND !$(TargetFrameworks.Contains(';'))">
-		<TargetFramework>$(TargetFrameworks)</TargetFramework>
-		<TargetFrameworks/>
-	</PropertyGroup>-->
-
 	<PropertyGroup Condition="'$(TargetFrameworks)' != '' AND '$(TargetFramework)' == ''">
 		<IsMultiTargetingBuild>true</IsMultiTargetingBuild>
-	</PropertyGroup>
-
-	<PropertyGroup>
-		<_SdkVisualStudioVersion>$(VisualStudioVersion)</_SdkVisualStudioVersion>
-		<_SdkVisualStudioVersion Condition="'$(_SdkVisualStudioVersion)' == '' OR '$(_SdkVisualStudioVersion)' &lt; '14.0'">15.0</_SdkVisualStudioVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(IsMultiTargetingBuild)' != 'true'">
@@ -25,14 +15,14 @@
 	</PropertyGroup>
 
 	<ImportGroup Condition="'$(IsMultiTargetingBuild)' != 'true'">
-		<Import Project="$(MSBuildThisFileDirectory)MSBuild.NET.Inference.targets" Condition="'$(_IsInvalidTargetFramework)' != 'true'"/>
-		<Import Project="$(MSBuildThisFileDirectory)MSBuild.NET.Platforms.targets" Condition="'$(TargetFrameworkIdentifier)' != ''"/>
+		<Import Project="MSBuild.NET.Inference.targets" Condition="'$(_IsInvalidTargetFramework)' != 'true'"/>
+		<Import Project="MSBuild.NET.Platforms.targets" Condition="'$(TargetFrameworkIdentifier)' != ''"/>
 	</ImportGroup>
 
 	<PropertyGroup Condition="'$(AppendTargetFrameworkToOutputPath)' == ''">
 		<AppendTargetFrameworkToOutputPath Condition="'$(TargetFrameworks)' == ''">false</AppendTargetFrameworkToOutputPath>
 	</PropertyGroup>
 
-	<Import Project="$(MSBuildThisFileDirectory)..\DefaultItems\MSBuild.NET.DefaultItems.targets"/>
+	<Import Project="..\DefaultItems\MSBuild.NET.DefaultItems.targets"/>
 
 </Project>

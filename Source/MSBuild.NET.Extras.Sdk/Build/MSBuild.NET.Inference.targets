@@ -1,26 +1,28 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
-	<PropertyGroup>
+	<PropertyGroup Condition="'$(MSBuildVersion)' == '' OR '$(MSBuildVersion)' &lt; '16.0'">
 		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
 	</PropertyGroup>
 
 	<PropertyGroup>
-		<!-- Convert $(TargetFramework) to lower case -->
+		<!-- Convert 'TargetFramework' to lower case -->
 		<TargetFramework>$(TargetFramework.ToLowerInvariant())</TargetFramework>
 		<!-- if version-less framework-profile is specified then default to the highest supported version of that framework-profile -->
-		<TargetFramework Condition="'$(TargetFramework)' == 'net-client'">net40-client</TargetFramework>
 		<TargetFramework Condition="'$(TargetFramework)' == 'net'">net45</TargetFramework>
-		<TargetFramework Condition="'$(TargetFramework)' == 'wp'">wp8</TargetFramework>
+		<TargetFramework Condition="'$(TargetFramework)' == 'net-client'">net40-client</TargetFramework>
+		<TargetFramework Condition="'$(TargetFramework)' == 'net-cf'">net35-cf</TargetFramework>
+		<TargetFramework Condition="'$(TargetFramework)' == 'netmf'">netmf44</TargetFramework>
 		<TargetFramework Condition="'$(TargetFramework)' == 'wpa'">wpa81</TargetFramework>
 		<TargetFramework Condition="'$(TargetFramework)' == 'win'">win8</TargetFramework>
+		<TargetFramework Condition="'$(TargetFramework)' == 'wp'">wp8</TargetFramework>
 		<TargetFramework Condition="'$(TargetFramework)' == 'sl'">sl5</TargetFramework>
 	</PropertyGroup>
 
 	<!--
-		Split $(TargetFramework) into short identifier, version and profile list
+		Split 'TargetFramework' into short identifier, version and profile list
 		For Example:
 			net45 into 'net', '45'
-			net40-client into 'net', '40', '+client+'
+			net40-client into 'net', '40', 'client'
 			portable45-net45+win8+wp8+wpa81 into 'portable', '45', '+net45+win8+wp8+wpa81+'
 	-->
 	<Choose>
@@ -31,6 +33,9 @@
 				<_ShortFrameworkIdentifier>$(_ShortFrameworkIdentifierWithVersion.TrimEnd('.0123456789'))</_ShortFrameworkIdentifier>
 				<_ShortFrameworkVersion>$(_ShortFrameworkIdentifierWithVersion.Substring($(_ShortFrameworkIdentifier.Length)))</_ShortFrameworkVersion>
 				<_ShortFrameworkProfile>$(TargetFramework.Split('-')[1])</_ShortFrameworkProfile>
+			</PropertyGroup>
+
+			<PropertyGroup Condition="$(_ShortFrameworkProfile.Contains('+'))">
 				<_ShortFrameworkProfileCount>$(_ShortFrameworkProfile.Split('+').Length)</_ShortFrameworkProfileCount>
 				<!-- Pre and post-pend the separator char + to the short-TFM list after counting so we can easily do a Contains() match -->
 				<_ShortFrameworkProfile>+$(_ShortFrameworkProfile)+</_ShortFrameworkProfile>
@@ -47,7 +52,7 @@
 	</Choose>
 
 	<!-- Map short name to long name. See earlier comment for example of how to work with identifiers that are not recognized here -->
-	<PropertyGroup Condition="'$(TargetFrameworkIdentifier)' == ''">
+	<PropertyGroup Condition="'$(TargetFrameworkIdentifier)' == '' AND '$(_ShortFrameworkIdentifier)' != ''">
 		<TargetFrameworkIdentifier Condition="'$(_ShortFrameworkIdentifier)' == 'net'">.NETFramework</TargetFrameworkIdentifier>
 		<TargetFrameworkIdentifier Condition="'$(_ShortFrameworkIdentifier)' == 'netstandard'">.NETStandard</TargetFrameworkIdentifier>
 		<TargetFrameworkIdentifier Condition="'$(_ShortFrameworkIdentifier)' == 'netcoreapp'">.NETCoreApp</TargetFrameworkIdentifier>
@@ -98,12 +103,13 @@
 		</Otherwise>
 	</Choose>
 
-	<Import Condition="'$(TargetFrameworkIdentifier)' == '.NETFramework'" Project="$(MSBuildThisFileDirectory)FrameworkResolvers\MSBuild.NETFramework.targets"/>
+	<!-- Support for resolving full framework profiles -->
+	<Import Condition="'$(TargetFrameworkIdentifier)' == '.NETFramework'" Project="FrameworkResolvers\MSBuild.NETFramework.targets"/>
 
 	<!-- Support for resolving portable framework profiles -->
 	<ImportGroup Condition="'$(TargetFrameworkIdentifier)' == '.NETPortable'">
-		<Import Condition="'$(TargetFrameworkVersion)' == ''" Project="$(MSBuildThisFileDirectory)FrameworkResolvers\MSBuild.NETPortable.v*.targets"/>
-		<Import Condition="'$(TargetFrameworkVersion)' != ''" Project="$(MSBuildThisFileDirectory)FrameworkResolvers\MSBuild.NETPortable.v$(TargetFrameworkVersion).targets"/>
+		<Import Condition="'$(TargetFrameworkVersion)' == ''" Project="FrameworkResolvers\MSBuild.NETPortable.v*.targets"/>
+		<Import Condition="'$(TargetFrameworkVersion)' != ''" Project="FrameworkResolvers\MSBuild.NETPortable.v$(TargetFrameworkVersion).targets"/>
 	</ImportGroup>
 
 	<PropertyGroup>

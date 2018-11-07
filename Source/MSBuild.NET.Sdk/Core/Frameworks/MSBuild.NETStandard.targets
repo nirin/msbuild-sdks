@@ -1,0 +1,27 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+	<PropertyGroup>
+		<ImplicitFrameworkPackageName Condition="'$(ImplicitFrameworkPackageName)' == ''">NETStandard.Library</ImplicitFrameworkPackageName>
+	</PropertyGroup>
+
+	<!--
+		Set the default versions of the NETStandard.Library packages to reference.
+		The implicit package references are defined in MSBuild.NET.Sdk.props, so that they can be overridden in the project file.
+	-->
+	<PropertyGroup>
+		<!--
+			If targeting .NET Standard 1.x, use version 1.6.1 of the package. This is so that when projects are packed, the dependency on the package produced won't change when
+			updating to the 2.0 or higher SDK. When targeting .NET Standard 2.0 or higher, the NETStandard.Library reference won't show up as a dependency of the package
+			produced, so we will roll forward to the latest version.
+		-->
+		<ImplicitFrameworkPackageVersion Condition="'$(ImplicitFrameworkPackageVersion)' == '' AND '$(_TargetFrameworkVersionWithoutV)' &lt; '2.0'">1.6.1</ImplicitFrameworkPackageVersion>
+
+		<!-- Default to use the latest stable release. Currently this is the same as the previous clause, but when we have a stable 2.0 package this should change. -->
+		<ImplicitFrameworkPackageVersion Condition="'$(ImplicitFrameworkPackageVersion)' == ''">2.0.1</ImplicitFrameworkPackageVersion>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(MSBuildVersion)' == '' OR '$(MSBuildVersion)' &lt; '16.0'">
+		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+	</PropertyGroup>
+
+</Project>

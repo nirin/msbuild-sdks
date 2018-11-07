@@ -1,4 +1,4 @@
-﻿Public Class Service1
+Public Class Service1
 
 	Protected Overrides Sub OnStart(ByVal args() As String)
 		' Add code here to start your service. This method should set things

@@ -1,6 +1,6 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
-	<PropertyGroup>
+	<PropertyGroup Condition="'$(MSBuildVersion)' == '' OR '$(MSBuildVersion)' &lt; '16.0'">
 		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
 	</PropertyGroup>
 
@@ -16,12 +16,12 @@
 		</Compile>
 		<EmbeddedResource>
 			<SubType>Designer</SubType>
-			<Generator>MSBuild:Compile</Generator>
+			<Generator>$(DefaultGeneratorTool)</Generator>
 		</EmbeddedResource>
 	</ItemDefinitionGroup>
 
 	<PropertyGroup>
-		<!-- REGEX: '(?:\.([a-z]{2,3})(?:-([A-Z][a-z]{3}|[a-z]{3,5}))?(?:-([A-Z]{2}))?)%24' for LCIDs -->
+		<!-- LCID RegEx: (?:\.([a-z]{2,3})(?:-([A-Z][a-z]{3}|[a-z]{3,5}))?(?:-([A-Z]{2}))?)$ for LCIDs -->
 		<LangIdRegEx>(?:\.([a-z]{2,3})(?:-([A-Z][a-z]{3}|[a-z]{3,5}))?(?:-([A-Z]{2}))?)%24</LangIdRegEx>
 	</PropertyGroup>
 

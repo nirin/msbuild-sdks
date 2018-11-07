@@ -1,6 +1,6 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
-	<PropertyGroup>
+	<PropertyGroup Condition="'$(MSBuildVersion)' == '' OR '$(MSBuildVersion)' &lt; '16.0'">
 		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
 	</PropertyGroup>
 
@@ -33,6 +33,7 @@
 		<WarnOnPackingNonPackableProject Condition="'$(WarnOnPackingNonPackableProject)' == ''">false</WarnOnPackingNonPackableProject>
 		<AllowedOutputExtensionsInPackageBuildOutputFolder>.dll;.exe;.winmd;.json;.pri;.xml;$(AllowedOutputExtensionsInPackageBuildOutputFolder)</AllowedOutputExtensionsInPackageBuildOutputFolder>
 		<AllowedOutputExtensionsInSymbolsPackageBuildOutputFolder>.pdb;.mdb;$(AllowedOutputExtensionsInPackageBuildOutputFolder);$(AllowedOutputExtensionsInSymbolsPackageBuildOutputFolder)</AllowedOutputExtensionsInSymbolsPackageBuildOutputFolder>
+		<SuppressDependenciesWhenPacking Condition="'$(SuppressDependenciesWhenPacking)' == ''">false</SuppressDependenciesWhenPacking>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(NoBuild)' == 'true'">
@@ -211,6 +212,7 @@
 			ProjectReferencesWithVersions="@(_ProjectReferencesWithVersions)"
 			TargetPathsToSymbols="@(_TargetPathsToSymbols)"
 			TargetFrameworks="@(_TargetFrameworks)"
+			FrameworksWithSuppressedDependencies="@(_FrameworksWithSuppressedDependencies)"
 			AssemblyName="$(AssemblyName)"
 			PackageOutputPath="$(PackageOutputAbsolutePath)"
 			IncludeSymbols="$(IncludeSymbols)"
@@ -223,6 +225,7 @@
 			RepositoryCommit="$(RepositoryCommit)"
 			SourceFiles="@(_SourceFiles->Distinct())"
 			NoPackageAnalysis="$(NoPackageAnalysis)"
+			NoDefaultExcludes="$(NoDefaultExcludes)"
 			MinClientVersion="$(MinClientVersion)"
 			Serviceable="$(Serviceable)"
 			FrameworkAssemblyReferences="@(_FrameworkAssemblyReferences)"
@@ -239,7 +242,9 @@
 			AllowedOutputExtensionsInSymbolsPackageBuildOutputFolder="$(AllowedOutputExtensionsInSymbolsPackageBuildOutputFolder)"
 			NoWarn="$(NoWarn)"
 			WarningsAsErrors="$(WarningsAsErrors)"
-			TreatWarningsAsErrors="$(TreatWarningsAsErrors)"/>
+			TreatWarningsAsErrors="$(TreatWarningsAsErrors)"
+			OutputFileNamesWithoutVersion="$(OutputFileNamesWithoutVersion)"
+			InstallPackageToOutputPath="$(InstallPackageToOutputPath)"/>
 	</Target>
 
 	<!--
@@ -268,7 +273,9 @@
 		</PropertyGroup>
 	</Target>
 
-	<Target Name="_GetProjectReferenceVersions" DependsOnTargets="_CalculateInputsOutputsForPack;$(GetPackageVersionDependsOn)">
+	<Target Name="_GetProjectReferenceVersions"
+			Condition="'$(NuspecFile)' == ''"
+			DependsOnTargets="_CalculateInputsOutputsForPack;$(GetPackageVersionDependsOn)">
 
 		<ConvertToAbsolutePath Paths="$(RestoreOutputPath)">
 			<Output TaskParameter="AbsolutePaths" PropertyName="RestoreOutputAbsolutePath"/>
@@ -364,6 +371,23 @@
 				TaskParameter="TargetOutputs"
 				ItemName="_FrameworkAssemblyReferences"/>
 		</MSBuild>
+
+		<MSBuild
+			Projects="$(MSBuildProjectFullPath)"
+			Targets="_GetFrameworksWithSuppressedDependencies"
+			Properties="TargetFramework=%(_TargetFrameworks.Identity);
+						BuildProjectReferences=false;">
+
+			<Output
+				TaskParameter="TargetOutputs"
+				ItemName="_FrameworksWithSuppressedDependencies"/>
+			</MSBuild>
+	</Target>
+
+	<Target Name ="_GetFrameworksWithSuppressedDependencies" Returns="@(_TfmWithDependenciesSuppressed)">
+		<ItemGroup>
+			<_TfmWithDependenciesSuppressed Include="$(TargetFramework)" Condition="'$(SuppressDependenciesWhenPacking)' == 'true'"/>
+		</ItemGroup>
 	</Target>
 
 	<Target Name ="_GetFrameworkAssemblyReferences" DependsOnTargets="ResolveReferences" Returns="@(TfmSpecificFrameworkAssemblyReferences)">

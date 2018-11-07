@@ -1,7 +1,15 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
-	<PropertyGroup>
+	<PropertyGroup Condition="'$(MSBuildVersion)' == '' OR '$(MSBuildVersion)' &lt; '16.0'">
 		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+	</PropertyGroup>
+
+	<!-- HACK: Temporary hook to fill in 'DefaultLanguageSourceExtension'. Since, this is imported before language targets. -->
+	<PropertyGroup Condition="'$(DefaultLanguageSourceExtension)' == ''">
+		<DefaultLanguageSourceExtension Condition="'$(_LanguageSourceName)' == 'CSharp'">.cs</DefaultLanguageSourceExtension>
+		<DefaultLanguageSourceExtension Condition="'$(_LanguageSourceName)' == 'VisualBasic'">.vb</DefaultLanguageSourceExtension>
+		<DefaultLanguageSourceExtension Condition="'$(_LanguageSourceName)' == 'FSharp'">.fs</DefaultLanguageSourceExtension>
+		<DefaultLanguageSourceExtension Condition="'$(_LanguageSourceName)' == 'Common'">.msil</DefaultLanguageSourceExtension>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="$(TargetFrameworkIdentifier.EndsWith('Android'))">

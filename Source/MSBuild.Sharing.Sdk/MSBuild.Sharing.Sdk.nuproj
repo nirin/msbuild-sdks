@@ -1,0 +1,16 @@
+<Project Sdk="NuGet.Packaging.Sdk">
+
+	<PropertyGroup Label="Globals">
+		<ProjectGuid>{4E83D386-7C67-465C-9407-1FEA813B1DFA}</ProjectGuid>
+	</PropertyGroup>
+
+	<PropertyGroup Label="PackageInfo">
+		<Title>MSBuild Sharing Sdk</Title>
+		<PackageId>MSBuild.Sharing.Sdk</PackageId>
+		<PackageVersion Condition="'$(PackageVersion)' == ''">1.0.0</PackageVersion>
+		<PackageTags>$(PackageTags);sharing;assets;region;language;culture</PackageTags>
+		<Summary>An MSBuild SDK package that provides support for segregating assets into shareable project references.</Summary>
+		<Description>$(Summary) The projects that use this SDK, injects the assets into the parent project, so that the assets can be shared among different projects without compiling them into another package/assembly.</Description>
+	</PropertyGroup>
+
+</Project>

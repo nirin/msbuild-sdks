@@ -2,13 +2,17 @@
 
 	<Import Project="NuGet.Build.Packaging.props" Condition="'$(NuGetBuildPackagingPropsImported)' == ''"/>
 
-	<UsingTask TaskName="NuGet.Build.Packaging.Tasks.AssignPackagePath" AssemblyFile="NuGet.Build.Packaging.Tasks.dll"/>
-	<UsingTask TaskName="NuGet.Build.Packaging.Tasks.CreatePackage" AssemblyFile="NuGet.Build.Packaging.Tasks.dll"/>
+	<PropertyGroup>
+		<NuGetPackagingToolsPath>$(MSBuildThisFileDirectory)Tools\</NuGetPackagingToolsPath>
+		<!-- Load NuGet.Build.Packaging.Tasks.dll, this can be overridden to use a different version with $(NuGetPackagingTaskAssemblyFile) -->
+		<NuGetPackagingTaskAssemblyFile Condition="$(NuGetPackagingTaskAssemblyFile) == ''">$(NuGetPackagingToolsPath)NuGet.Build.Packaging.Tasks.dll</NuGetPackagingTaskAssemblyFile>
+	</PropertyGroup>
+
+	<UsingTask TaskName="NuGet.Build.Packaging.Tasks.AssignPackagePath" AssemblyFile="$(NuGetPackagingTaskAssemblyFile)"/>
+	<UsingTask TaskName="NuGet.Build.Packaging.Tasks.CreatePackage" AssemblyFile="$(NuGetPackagingTaskAssemblyFile)"/>
 
 	<PropertyGroup Label="Globals">
 		<IsMultiTargetingBuild Condition="'$(TargetFrameworks)' != '' AND '$(TargetFramework)' == ''">true</IsMultiTargetingBuild>
-		<!-- TODO: Remove once the migration is done. Microsoft.CSharp.targets and Microsoft.VisualBasic.targets use this property. -->
-		<IsCrossTargetingBuild>$(IsMultiTargetingBuild)</IsCrossTargetingBuild>
 	</PropertyGroup>
 
 	<!-- Adds compatibility targets with Pack SDK -->
@@ -137,7 +141,7 @@
 				<ReleaseNotes>$(PackageReleaseNotes)</ReleaseNotes>
 				<RepositoryUrl>$(RepositoryUrl)</RepositoryUrl>
 				<RepositoryType>$(RepositoryType)</RepositoryType>
-				<PackageTypes>$(PackageTypes)</PackageTypes>
+				<PackageTypes>$(PackageType)</PackageTypes>
 			</PackageTargetPath>
 		</ItemGroup>
 	</Target>
@@ -265,8 +269,7 @@
 			</_ReferencedPackageDependency>
 			<!-- Remove the referenced package actual contents if it provides a manifest, since it will be a dependency in that case. -->
 			<_PackageContentFromDependency Include="@(_ReferencedPackageContent)"
-				Condition="'%(_ReferencedPackageContent.PackageId)' != '' and
-										              '%(_ReferencedPackageContent.PackageId)' != '$(PackageId)'"/>
+				Condition="'%(_ReferencedPackageContent.PackageId)' != '' AND '%(_ReferencedPackageContent.PackageId)' != '$(PackageId)'"/>
 			<_ReferencedPackageContent Remove="@(_PackageContentFromDependency)"/>
 		</ItemGroup>
 

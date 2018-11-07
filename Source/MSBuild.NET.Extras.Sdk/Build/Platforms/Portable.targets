@@ -1,6 +1,6 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
-	<PropertyGroup>
+	<PropertyGroup Condition="'$(MSBuildVersion)' == '' OR '$(MSBuildVersion)' &lt; '16.0'">
 		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
 	</PropertyGroup>
 
@@ -13,8 +13,8 @@
 
 	<!-- .NET Portable gets profiles as defines as that's how most people refer to them NET_PORTABLE259, PROFILE259 -->
 	<PropertyGroup Condition="'$(DisableImplicitFrameworkDefines)' != 'true'">
-		<ImplicitFrameworkProfileDefine Condition="'$(_LanguageSourceName)' != 'VisualBasic'">$(TargetFrameworkProfile.ToUpperInvariant());$(ImplicitFrameworkIdentifierDefine)$(TargetFrameworkProfile.Substring('7'))</ImplicitFrameworkProfileDefine>
-		<ImplicitFrameworkProfileDefine Condition="'$(_LanguageSourceName)' == 'VisualBasic'">$(TargetFrameworkProfile.ToUpperInvariant())=-1,$(ImplicitFrameworkIdentifierDefine)$(TargetFrameworkProfile.Substring('7'))=-1</ImplicitFrameworkProfileDefine>
+		<ImplicitFrameworkProfileDefine>$(TargetFrameworkProfile.ToUpperInvariant())</ImplicitFrameworkProfileDefine>
+		<ImplicitFrameworkDefine>$(ImplicitFrameworkIdentifierDefine)$(TargetFrameworkProfile.Substring('7'))</ImplicitFrameworkDefine>
 	</PropertyGroup>
 
 </Project>

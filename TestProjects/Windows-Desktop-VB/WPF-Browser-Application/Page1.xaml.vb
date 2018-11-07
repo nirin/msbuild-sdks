@@ -1,3 +1,3 @@
-﻿Class Page1
+Class Page1
 
 End Class

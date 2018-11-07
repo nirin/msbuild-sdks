@@ -1,6 +1,10 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
-	<Import Project="$(MSBuildThisFileDirectory)..\$(MSBuildThisFile)"/>
+	<Import Project="..\$(MSBuildThisFile)"/>
+
+	<PropertyGroup Label="Output">
+		<PublishFolder>~Packages</PublishFolder>
+	</PropertyGroup>
 
 	<PropertyGroup Label="PackageInfo">
 		<Company>NIRIN</Company>
@@ -14,6 +18,7 @@
 		<PackageProjectUrl>https://github.com/nirin/msbuild-sdks</PackageProjectUrl>
 		<RepositoryUrl>git://github.com/nirin/msbuild-sdks</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>
+		<PackageType>MSBuildSdk<PackageType>
 		<Serviceable>true</Serviceable>
 		<NeutralLanguage>en</NeutralLanguage>
 		<DevelopmentDependency>true</DevelopmentDependency>

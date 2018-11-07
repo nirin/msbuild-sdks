@@ -1,0 +1,91 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+	<PropertyGroup Condition="'$(MSBuildVersion)' == '' OR '$(MSBuildVersion)' &lt; '16.0'">
+		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<Language>C#</Language>
+		<TargetRuntime>Managed</TargetRuntime>
+		<DefaultLanguageSourceExtension>.cs</DefaultLanguageSourceExtension>
+		<AlwaysUseNumericalSuffixInItemNames>true</AlwaysUseNumericalSuffixInItemNames>
+		<DefineCommonItemSchemas Condition="'$(DefineCommonItemSchemas)' == ''">true</DefineCommonItemSchemas>
+		<DefineCommonReferenceSchemas Condition="'$(DefineCommonReferenceSchemas)' == ''">true</DefineCommonReferenceSchemas>
+		<DefineCommonCapabilities Condition="'$(DefineCommonCapabilities)' == ''">true</DefineCommonCapabilities>
+		<SynthesizeLinkMetadata Condition="'$(SynthesizeLinkMetadata)' == '' AND '$(HasSharedItems)' == 'true'">true</SynthesizeLinkMetadata>
+		<DefaultProjectTypeGuid Condition="'$(DefaultProjectTypeGuid)' == ''">{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</DefaultProjectTypeGuid>
+		<AppDesignerFolder Condition="'$(AppDesignerFolder)' == ''">Properties</AppDesignerFolder>
+	</PropertyGroup>
+
+	<ItemGroup Condition="'$(DefineCSharpItemSchemas)' != 'false'">
+		<PropertyPageSchema Include="$(CommonXamlResourcesDirectory)CSharp.ProjectItemsSchema.xaml;"/>
+		<PropertyPageSchema Include="$(CommonXamlResourcesDirectory)CSharp.xaml;">
+			<Context>File</Context>
+		</PropertyPageSchema>
+		<PropertyPageSchema Include="$(CommonXamlResourcesDirectory)CSharp.BrowseObject.xaml;">
+			<Context>BrowseObject</Context>
+		</PropertyPageSchema>
+
+		<ProjectCapability Include="CSharp;Managed"/>
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(DefineCommonCapabilities)' == 'true'">
+		<ProjectCapability Include="ReferencesFolder;LanguageService"/>
+	</ItemGroup>
+
+	<ItemGroup>
+		<!-- Activate CPS projects to track folder names in namespace. -->
+		<ProjectCapability Include="RelativePathDerivedDefaultNamespace"/>
+	</ItemGroup>
+
+	<PropertyGroup>
+		<!-- Provide a facility to override UseHostCompilerIfAvailable-->
+		<UseHostCompilerIfAvailable Condition="'$(UseHostCompilerIfAvailable)' == ''">true</UseHostCompilerIfAvailable>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<DocFileItem Include="$(DocumentationFile)" Condition="'$(DocumentationFile)' != ''"/>
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(_DebugSymbolsProduced)' == 'true' AND '$(PdbFile)' != ''">
+		<_DebugSymbolsIntermediatePathTemporary Include="$(PdbFile)"/>
+		<!-- Add any missing .pdb extension, as the compiler does -->
+		<_DebugSymbolsIntermediatePath Include="@(_DebugSymbolsIntermediatePathTemporary->'%(RootDir)%(Directory)%(Filename).pdb')"/>
+	</ItemGroup>
+
+	<!-- Import design time targets for Roslyn Project System. These are only available if Visual Studio is installed. -->
+	<PropertyGroup>
+		<CSharpDesignTimeTargetsPath Condition="'$(CSharpDesignTimeTargetsPath)'==''">$(MSBuildExtensionsPath)\Microsoft\VisualStudio\Managed\Microsoft.CSharp.DesignTime.targets</CSharpDesignTimeTargetsPath>
+	</PropertyGroup>
+	<Import Project="$(CSharpDesignTimeTargetsPath)" Condition="'$(CSharpDesignTimeTargetsPath)' != '' AND Exists('$(CSharpDesignTimeTargetsPath)')"/>
+
+	<PropertyGroup>
+		<Utf8Output Condition="'$(Utf8Output)' == ''">true</Utf8Output>
+
+		<!--
+			NoCompilerStandardLib maps to the compiler's /nostdlib option. By default we always
+			want that switch to be passed to the compiler so that either we or the user
+			provides the references
+			NoStdLib on the other hand indicates that the user doesn't want standard references
+			so only if NoStdLib isn't set to true, will we provide the standard references
+		-->
+		<NoCompilerStandardLib Condition="'$(NoCompilerStandardLib)' == ''">true</NoCompilerStandardLib>
+
+		<ErrorEndLocation Condition="'$(BuildingInsideVisualStudio)' == 'true' AND '$(ErrorEndLocation)' == ''">true</ErrorEndLocation>
+
+		<!-- When building inside VS, by default use the same language for compiler messages as VS itself does. -->
+		<PreferredUILang Condition="'$(BuildingInsideVisualStudio)' == 'true' AND '$(PreferredUILang)' == ''">$([System.Globalization.CultureInfo]::CurrentUICulture.Name)</PreferredUILang>
+	</PropertyGroup>
+
+	<!-- Add any "automatic" compiler references that need to be resolved when NoCompilerStandardLib is set
+		 but the user hasn't told us to not include standard references -->
+	<ItemGroup Condition="'$(NoCompilerStandardLib)' == 'true' AND '$(NoStdLib)' != 'true'">
+		<!--
+			Note that unlike VB, C# does not automatically locate System.dll as a "standard library"
+			instead the reference is always passed from the project. Also, for mscorlib.dll
+			we need to provide the explicit location in order to maintain the correct behaviour
+		-->
+		<_ExplicitReference Include="$(FrameworkPathOverride)\mscorlib.dll"/>
+	</ItemGroup>
+
+</Project>

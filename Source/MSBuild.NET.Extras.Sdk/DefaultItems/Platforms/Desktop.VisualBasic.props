@@ -1,6 +1,6 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
-	<PropertyGroup>
+	<PropertyGroup Condition="'$(MSBuildVersion)' == '' OR '$(MSBuildVersion)' &lt; '16.0'">
 		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
 	</PropertyGroup>
 
@@ -12,7 +12,7 @@
 
 	<ItemGroup Condition="'$(EnableDefaultMyAppItems)' == 'true'">
 		<None Update="**\*.myapp" SubType="Designer">
-			<Generator Condition="'$(EnableMyAppCodeGenerator)' == 'false'">MSBuild:Compile</Generator>
+			<Generator Condition="'$(EnableMyAppCodeGenerator)' == 'false'">$(DefaultGeneratorTool)</Generator>
 		</None>
 	</ItemGroup>
 
@@ -65,9 +65,14 @@
 		<_SdkImplicitImport Include="System.Windows.Navigation"/>
 	</ItemGroup>
 
-	<ItemGroup Condition="'$(DisableImplicitNamespaceImports)' != 'true' AND '$(EnableImplicitAspNetReferences)' == 'true'">
+	<ItemGroup Condition="'$(DisableImplicitNamespaceImports)' != 'true' AND '$(EnableImplicitWebReferences)' == 'true'">
 		<_SdkImplicitImport Include="System.Web"/>
 		<_SdkImplicitImport Include="System.Web.Http"/>
+		<_SdkImplicitImport Include="System.Web.Helpers"/>
+		<_SdkImplicitImport Include="System.Web.Mvc"/>
+		<_SdkImplicitImport Include="System.Web.Mvc.Ajax"/>
+		<_SdkImplicitImport Include="System.Web.Mvc.Html"/>
+		<_SdkImplicitImport Include="System.Web.WebPages"/>
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(DisableImplicitNamespaceImports)' != 'true' AND '$(EnableImplicitWinFormsReferences)' == 'true'">

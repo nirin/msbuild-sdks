@@ -1,0 +1,17 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+	<PropertyGroup>
+		<WarningLevel Condition="'$(WarningLevel)' == ''">4</WarningLevel>
+		<NoWarn Condition="'$(NoWarn)' == ''">1701;1702</NoWarn>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<DefineConstants Condition="'$(DefineConstants)' != ''">$(DefineConstants);</DefineConstants>
+		<DefineConstants>$(DefineConstants)TRACE</DefineConstants>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(MSBuildVersion)' == '' OR '$(MSBuildVersion)' &lt; '16.0'">
+		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+	</PropertyGroup>
+
+</Project>

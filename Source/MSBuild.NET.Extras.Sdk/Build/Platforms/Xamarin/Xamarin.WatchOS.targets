@@ -1,14 +1,16 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
-	<PropertyGroup>
+	<PropertyGroup Condition="'$(MSBuildVersion)' == '' OR '$(MSBuildVersion)' &lt; '16.0'">
 		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
 	</PropertyGroup>
 
 	<PropertyGroup>
 		<TargetFrameworkVersion Condition="'$(TargetFrameworkVersion)' == ''">v1.0</TargetFrameworkVersion>
 		<iPhoneResourcePrefix Condition="'$(iPhoneResourcePrefix)' == ''">Resources</iPhoneResourcePrefix>
-		<MtouchUseRefCounting Condition="'$(MtouchUseRefCounting)' == ''">true</MtouchUseRefCounting>
-		<MtouchUseSGen Condition="'$(MtouchUseSGen)' == ''">true</MtouchUseSGen>
+		<ConsolePause Condition="'$(ConsolePause)' == ''">false</ConsolePause>
+
+		<mTouchUseSGen Condition="'$(mTouchUseSGen)' == ''">true</mTouchUseSGen>
+		<mTouchUseRefCounting Condition="'$(mTouchUseRefCounting)' == ''">true</mTouchUseRefCounting>
 	</PropertyGroup>
 
 </Project>

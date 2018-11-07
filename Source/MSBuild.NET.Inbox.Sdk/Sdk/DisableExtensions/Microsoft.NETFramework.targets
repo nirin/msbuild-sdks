@@ -1,0 +1,13 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+	<PropertyGroup Label="Microsoft.NETFramework.targets">
+		<ImportUserLocationsByWildcardBeforeMicrosoftNETFrameworkTargets>false</ImportUserLocationsByWildcardBeforeMicrosoftNETFrameworkTargets>
+		<ImportByWildcardBeforeMicrosoftNETFrameworkTargets>false</ImportByWildcardBeforeMicrosoftNETFrameworkTargets>
+		<ImportByWildcardAfterMicrosoftNETFrameworkTargets>false</ImportByWildcardAfterMicrosoftNETFrameworkTargets>
+		<ImportUserLocationsByWildcardAfterMicrosoftNETFrameworkTargets>false</ImportUserLocationsByWildcardAfterMicrosoftNETFrameworkTargets>
+
+		<CustomBeforeMicrosoftNETFrameworkTargets Condition="'$(CustomBeforeMicrosoftNETFrameworkTargets)' == ''">DISABLED-FROM-SDK</CustomBeforeMicrosoftNETFrameworkTargets>
+		<CustomAfterMicrosoftNETFrameworkTargets Condition="'$(CustomAfterMicrosoftNETFrameworkTargets)' == ''">DISABLED-FROM-SDK</CustomAfterMicrosoftNETFrameworkTargets>
+	</PropertyGroup>
+
+</Project>

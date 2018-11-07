@@ -1,7 +1,7 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
-	<UsingTask TaskName="NuGet.Build.Packaging.Tasks.ReadLegacyJsonDependencies" AssemblyFile="NuGet.Build.Packaging.Tasks.dll"/>
-	<UsingTask TaskName="NuGet.Build.Packaging.Tasks.ReadLegacyConfigDependencies" AssemblyFile="NuGet.Build.Packaging.Tasks.dll"/>
+	<UsingTask TaskName="NuGet.Build.Packaging.Tasks.ReadLegacyJsonDependencies" AssemblyFile="$(NuGetPackagingTaskAssemblyFile)"/>
+	<UsingTask TaskName="NuGet.Build.Packaging.Tasks.ReadLegacyConfigDependencies" AssemblyFile="$(NuGetPackagingTaskAssemblyFile)"/>
 
 	<PropertyGroup>
 		<!-- Infer PackageReference elements from packages.config/project.json files in the project -->
@@ -18,12 +18,14 @@
 		<IncludeOutputsInPackage Condition="'$(IncludeOutputsInPackage)' == ''">true</IncludeOutputsInPackage>
 		<!-- Whether to include @(DebugSymbolsProjectOutputGroupOutput) items in the package -->
 		<IncludeSymbolsInPackage Condition="'$(IncludeSymbolsInPackage)' == '' AND '$(IncludeOutputsInPackage)' == 'true'">true</IncludeSymbolsInPackage>
-		<!-- Whether to include framework references (%(ReferencePath.ResolvedFrom)' == '{TargetFrameworkDirectory}') in the package -->
+		<!-- Whether to include framework references ('%(ReferencePath.ResolvedFrom)' == '{TargetFrameworkDirectory}') in the package -->
 
 		<!-- Only default to true if the project isn't a nuget packaging project itself and its primary output is lib. -->
 		<IncludeFrameworkReferencesInPackage Condition="'$(IncludeFrameworkReferencesInPackage)' == '' AND '$(IsPackagingProject)' != 'true' AND '$(PrimaryOutputKind)' == 'Lib'">true</IncludeFrameworkReferencesInPackage>
+	</PropertyGroup>
 
-		<_OutputFullPath Condition="$([System.IO.Path]::IsPathRooted($(OutputPath)))">$(OutputPath)</_OutputFullPath>
+	<PropertyGroup>
+		<_OutputFullPath Condition="$([System.IO.Path]::IsPathRooted('$(OutputPath)'))">$(OutputPath)</_OutputFullPath>
 		<_OutputFullPath Condition="'$(_OutputFullPath)' == ''">$(MSBuildProjectDirectory)\$(OutputPath)</_OutputFullPath>
 	</PropertyGroup>
 
@@ -87,7 +89,7 @@
 			<!-- Remove when https://github.com/Microsoft/msbuild/pull/1076 ships -->
 			<_DocumentationProjectOutputGroupOutput Include="@(DocumentationProjectOutputGroupOutput)"
 				Condition="'$(IncludeOutputsInPackage)' == 'true'">
-				<FinalOutputPath Condition="$([System.IO.Path]::IsPathRooted('%(FinalOutputPath)')) == 'false'">$(MSBuildProjectDirectory)\%(FinalOutputPath)</FinalOutputPath>
+				<FinalOutputPath Condition="!$([System.IO.Path]::IsPathRooted('%(FinalOutputPath)'))">$(MSBuildProjectDirectory)\%(FinalOutputPath)</FinalOutputPath>
 			</_DocumentationProjectOutputGroupOutput>
 
 			<_InferredPackageFile Include="@(_DocumentationProjectOutputGroupOutput -> '%(FinalOutputPath)')"
@@ -220,13 +222,13 @@
 	<Target Name="_SetInferPackageContentsDependsOn" AfterTargets="_SetPropertiesFromCapabilities">
 		<PropertyGroup>
 			<!-- NOTE: this avoids taking dependencies on targets that are only available when the project supports the concept of references -->
-			<_SupportsReferences Condition="
-						$(_AllProjectCapabilities.Contains('AssemblyReferences')) OR
-						$(_AllProjectCapabilities.Contains('COMReferences')) OR
-						$(_AllProjectCapabilities.Contains('ProjectReferences')) OR
-						$(_AllProjectCapabilities.Contains('PackageReferences')) OR
-						$(_AllProjectCapabilities.Contains('WinRTReferences')) OR
-						$(_AllProjectCapabilities.Contains('SDKReferences'))">true</_SupportsReferences>
+			<_SupportsReferences
+				Condition="$(_AllProjectCapabilities.Contains('AssemblyReferences')) OR
+					$(_AllProjectCapabilities.Contains('COMReferences')) OR
+					$(_AllProjectCapabilities.Contains('ProjectReferences')) OR
+					$(_AllProjectCapabilities.Contains('PackageReferences')) OR
+					$(_AllProjectCapabilities.Contains('WinRTReferences')) OR
+					$(_AllProjectCapabilities.Contains('SDKReferences'))">true</_SupportsReferences>
 
 			<InferPackageContentsDependsOn Condition="'$(_SupportsReferences)' == 'true'">
 				ResolveReferences;

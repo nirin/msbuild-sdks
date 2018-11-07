@@ -1,0 +1,17 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+	<PropertyGroup>
+		<ImportProjectDefaults Condition="'$(ImportProjectDefaults)' == ''">true</ImportProjectDefaults>
+	</PropertyGroup>
+
+	<ImportGroup Condition="'$(ImportProjectDefaults)' == 'true'">
+		<Import Project="..\Core\MSBuild.NET.Defaults.props"/>
+		<Import Project="..\Core\MSBuild.NET.Specifics.props"/>
+		<Import Project="..\Core\MSBuild.NET.Defaults.Items.props"/>
+	</ImportGroup>
+
+	<PropertyGroup Condition="'$(MSBuildVersion)' == '' OR '$(MSBuildVersion)' &lt; '16.0'">
+		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+	</PropertyGroup>
+
+</Project>
