@@ -1,0 +1,16 @@
+<Project Sdk="NuGet.Packaging.Sdk">
+
+	<PropertyGroup Label="Globals">
+		<ProjectGuid>{4E58D45C-5E52-4301-A661-C49594094319}</ProjectGuid>
+	</PropertyGroup>
+
+	<PropertyGroup Label="PackageInfo">
+		<Title>MSBuild .NET Inbox Sdk</Title>
+		<PackageId>MSBuild.NET.Inbox.Sdk</PackageId>
+		<PackageVersion Condition="'$(PackageVersion)' == ''">1.0.0</PackageVersion>
+		<PackageTags>$(PackageTags);dotnet;.net;legacy;inbox;windows;desktop</PackageTags>
+		<Summary>An MSBuild SDK package that redirects to props and targets that comes __inbox__ with .NET Framework.</Summary>
+		<Description>$(Summary) This SDK package is mostly used for testing puposes for compiling exclusively with the Full Framework MSBuild.</Description>
+	</PropertyGroup>
+
+</Project>

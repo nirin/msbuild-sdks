@@ -8,7 +8,7 @@
 	</PropertyGroup>
 
 	<PropertyGroup>
-		<ApiIntersectToolPath Condition="'$(ApiIntersectTool)' == ''">$(MSBuildThisFileDirectory)</ApiIntersectToolPath>
+		<ApiIntersectToolPath Condition="'$(ApiIntersectTool)' == ''">$(NuGetPackagingToolsPath)</ApiIntersectToolPath>
 		<ApiIntersectToolExe Condition="'$(ApiIntersectToolExe)' == ''">ApiIntersect.exe</ApiIntersectToolExe>
 	</PropertyGroup>
 

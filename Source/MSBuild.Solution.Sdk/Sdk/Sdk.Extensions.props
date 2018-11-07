@@ -1,0 +1,13 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+	<PropertyGroup>
+		<ImportSolutionBuildProps Condition="'$(ImportSolutionBuildProps)' == ''">true</ImportSolutionBuildProps>
+		<ImportSolutionExtensionProps Condition="'$(ImportSolutionExtensionProps)' == ''">true</ImportSolutionExtensionProps>
+	</PropertyGroup>
+
+	<ImportGroup>
+		<Import Project="..\Extensions\Solution.Build.props" Condition="'$(ImportSolutionBuildProps)' == 'true'"/>
+		<Import Project="..\Extensions\MSBuild.SolutionExtension.props" Condition="'$(ImportSolutionExtensionProps)' == 'true'"/>
+	</ImportGroup>
+
+</Project>

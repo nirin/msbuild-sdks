@@ -1,0 +1,16 @@
+<Project Sdk="NuGet.Packaging.Sdk">
+
+	<PropertyGroup Label="Globals">
+		<ProjectGuid>{9B67EF80-5F2B-453E-AB0C-2E3DBE098F22}</ProjectGuid>
+	</PropertyGroup>
+
+	<PropertyGroup Label="PackageInfo">
+		<Title>MSBuild .NET Sdk</Title>
+		<PackageId>MSBuild.NET.Sdk</PackageId>
+		<PackageVersion Condition="'$(PackageVersion)' == ''">1.0.0</PackageVersion>
+		<PackageTags>$(PackageTags);dotnet;.net;framework;build;project;platform</PackageTags>
+		<Summary>An MSBuild SDK package that supports authoring and building .NET Platform projects.</Summary>
+		<Description>$(Summary) This is the base SDK package for building .NET libraries and executables using various .NET Libraries, Frameworks and Runtime packages.</Description>
+	</PropertyGroup>
+
+</Project>

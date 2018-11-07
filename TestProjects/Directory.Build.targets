@@ -13,7 +13,7 @@
 		<InformationalVersion>1.0 Test Project</InformationalVersion>
 	</PropertyGroup>
 
-	<Import Project="$(MSBuildThisFileDirectory)..\$(MSBuildThisFile)"/>
+	<Import Project="..\$(MSBuildThisFile)"/>
 
 	<Import Project="$(BuildToolsPath)MSBuild.OutputPaths.Check.targets"/>
 

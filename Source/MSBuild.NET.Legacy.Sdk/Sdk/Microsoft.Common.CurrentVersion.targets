@@ -2468,6 +2468,7 @@
 			<!-- Will be copied by the "copy WinMD artifacts" step instead -->
 			<CopyBuildOutputToOutputDirectory>false</CopyBuildOutputToOutputDirectory>
 			<CopyOutputSymbolsToOutputDirectory>false</CopyOutputSymbolsToOutputDirectory>
+			<CopyDocumentationFileToOutputDirectory>false</CopyDocumentationFileToOutputDirectory>
 
 			<WinMdExpToolPath Condition="'$(WinMdExpToolPath)' == ''">$(TargetFrameworkSDKToolsDirectory)</WinMdExpToolPath>
 			<WinMdExpUTF8Ouput Condition="'$(WinMdExpUTF8Ouput)' == ''">true</WinMdExpUTF8Ouput>
@@ -3872,7 +3873,7 @@
 
 	<!--
 		============================================================
-											_DeploymentComputeClickOnceManifestInfo
+					_DeploymentComputeClickOnceManifestInfo
 
 		Compute info for  ClickOnce manifest generation
 		============================================================
@@ -3888,19 +3889,30 @@
 			<_SGenDllsRelatedToCurrentDll Include="@(SerializationAssembly->'%(FullPath)')" Condition="'%(Extension)' == '.dll'"/>
 		</ItemGroup>
 
+		<ItemGroup Condition="!Exists('$(ProjectLockFile)')">
+			<_CopyLocalFalseRefPaths Include="@(ReferencePath)" Condition="'%(CopyLocal)' == 'false'"/>
+			<_CopyLocalFalseRefPathsWithExclusion Include="@(_CopyLocalFalseRefPaths)"
+				Exclude="@(ReferenceCopyLocalPaths);@(_NETStandardLibraryNETFrameworkLib)"/>
+		</ItemGroup>
+
 		<!-- Flag primary dependencies-certain warnings emitted during application manifest generation apply only to them. -->
 		<ItemGroup>
-			<_DeploymentReferencePaths Include="@(ReferencePathCopyLocalPaths)" Condition="'%(Extension)' == '.dll' OR '%(Extension)' == '.exe'">
+			<_SatelliteAssemblies Include="@(IntermediateSatelliteAssembliesWithTargetPath);@(ReferenceSatellitePaths)"/>
+			<_DeploymentReferencePaths Include="@(ReferenceCopyLocalPaths)"
+				Condition="'%(Extension)' == '.dll' OR '%(Extension)' == '.exe'">
 				<IsPrimary>true</IsPrimary>
 			</_DeploymentReferencePaths>
+			<_DeploymentReferencePaths Include="@(_DeploymentReferencePaths);@(_CopyLocalFalseRefPathsWithExclusion)"/>
+			<_ManifestManagedReferences Include="@(_DeploymentReferencePaths);@(ReferenceDependencyPaths);@(_SGenDllsRelatedToCurrentDll);@(SerializationAssembly);@(ReferenceCOMWrappersToCopyLocal)"
+				Exclude="@(_SatelliteAssemblies);@(_ReferenceScatterPaths);@(_ExcludedAssembliesFromManifestGeneration)"/>
 		</ItemGroup>
 
 		<!-- Copy the application executable from Obj folder to app.publish folder.
 		This is being done to avoid Windows Forms designer memory issues that can arise while operating directly on files located in Obj directory. -->
 		<Copy
-		SourceFiles="@(_DeploymentManifestEntryPoint)"
-		DestinationFolder="$(PublishDir)">
-			<Output TaskParameter="DestinationFiles" ItemName="_DeploymentClickOnceApplicationExecutable"/>
+			SourceFiles="@(_DeploymentManifestEntryPoint)"
+			DestinationFolder="$(PublishDir)">
+				<Output TaskParameter="DestinationFiles" ItemName="_DeploymentClickOnceApplicationExecutable"/>
 		</Copy>
 
 		<!-- Sign the application executable located in app.publish folder.  Signing this file is done to comply with SmartScreen. -->
@@ -3917,10 +3929,10 @@
 			EntryPoint="@(_DeploymentClickOnceApplicationExecutable)"
 			ExtraFiles="@(_DebugSymbolsIntermediatePath);$(IntermediateOutputPath)$(TargetName).xml;@(_ReferenceRelatedPaths)"
 			Files="@(ContentWithTargetPath);@(_DeploymentManifestIconFile);@(AppConfigWithTargetPath)"
-			ManagedAssemblies="@(_DeploymentReferencePaths);@(ReferenceDependencyPaths);@(_SGenDllsRelatedToCurrentDll);@(SerializationAssembly)"
+			ManagedAssemblies="@(_ManifestManagedReferences)"
 			NativeAssemblies="@(NativeReferenceFile);@(_DeploymentNativePrerequisite)"
 			PublishFiles="@(PublishFile)"
-			SatelliteAssemblies="@(IntermediateSatelliteAssembliesWithTargetPath);@(ReferenceSatellitePaths)"
+			SatelliteAssemblies="@(_SatelliteAssemblies)"
 			TargetCulture="$(TargetCulture)">
 
 			<Output TaskParameter="OutputAssemblies" ItemName="_DeploymentManifestDependencies"/>
@@ -3928,6 +3940,12 @@
 			<Output TaskParameter="OutputEntryPoint" ItemName="_DeploymentResolvedManifestEntryPoint"/>
 
 		</ResolveManifestFiles>
+
+		<!-- We have to filter items out of the dependencies that have neither CopyLocal set to true, nor the dependency type manually set to 'Install'.-->
+		<ItemGroup>
+			<_DeploymentManifestDependencies Include="@(_DeploymentManifestDependenciesUnfiltered)"
+				Condition="!('%(_DeploymentManifestDependenciesUnfiltered.CopyLocal)' == 'false' AND '%(_DeploymentManifestDependenciesUnfiltered.DependencyType)' != 'Install')"/>
+		</ItemGroup>
 
 		<PropertyGroup>
 			<_DeploymentManifestType>ClickOnce</_DeploymentManifestType>
@@ -3954,7 +3972,7 @@
 
 	<!--
 		============================================================
-											_DeploymentGenerateTrustInfo
+						_DeploymentGenerateTrustInfo
 
 		Generates the application permission set for inclusion in the generated ClickOnce application manifest.
 		============================================================
@@ -4037,7 +4055,7 @@
 	<!--
 		***********************************************************************************************
 		***********************************************************************************************
-																	PrepareForRun Section
+												PrepareForRun Section
 		***********************************************************************************************
 		***********************************************************************************************
 	-->
@@ -4049,7 +4067,7 @@
 
 	<!--
 		============================================================
-											PrepareForRun
+								PrepareForRun
 
 		Copy the build outputs to the final directory if they have changed.
 		============================================================
@@ -4065,7 +4083,7 @@
 
 	<!--
 		============================================================
-											CopyFilesToOutputDirectory
+							CopyFilesToOutputDirectory
 
 		Copy all build outputs, satellites and other necessary files to the final directory.
 		============================================================
@@ -4096,6 +4114,7 @@
 		<PropertyGroup>
 			<CopyBuildOutputToOutputDirectory Condition="'$(CopyBuildOutputToOutputDirectory)' == ''">true</CopyBuildOutputToOutputDirectory>
 			<CopyOutputSymbolsToOutputDirectory Condition="'$(CopyOutputSymbolsToOutputDirectory)' == ''">true</CopyOutputSymbolsToOutputDirectory>
+			<CopyDocumentationFileToOutputDirectory Condition="'$(CopyDocumentationFileToOutputDirectory)' == ''">true</CopyDocumentationFileToOutputDirectory>
 		</PropertyGroup>
 
 		<!-- Copy the build product (.dll or .exe). -->
@@ -4186,7 +4205,7 @@
 			RetryDelayMilliseconds="$(CopyRetryDelayMilliseconds)"
 			UseHardlinksIfPossible="$(CreateHardLinksForCopyFilesToOutputDirectoryIfPossible)"
 			UseSymboliclinksIfPossible="$(CreateSymbolicLinksForCopyFilesToOutputDirectoryIfPossible)"
-			Condition="'$(_DocumentationFileProduced)' == 'true'">
+			Condition="'$(_DocumentationFileProduced)' == 'true' AND '$(CopyDocumentationFileToOutputDirectory)'=='true'">
 
 			<Output TaskParameter="DestinationFiles" ItemName="FileWrites"/>
 
@@ -4840,14 +4859,14 @@
 	<!--
 		***********************************************************************************************
 		***********************************************************************************************
-																	Clean Section
+												Clean Section
 		***********************************************************************************************
 		***********************************************************************************************
 	-->
 
 	<!--
 		============================================================
-											Clean
+									Clean
 
 		Delete all intermediate and final build outputs.
 		============================================================
@@ -4869,7 +4888,7 @@
 
 	<!--
 		============================================================
-											BeforeClean
+								BeforeClean
 
 		Redefine this target in your project in order to run tasks just before Clean.
 		============================================================
@@ -4878,7 +4897,7 @@
 
 	<!--
 		============================================================
-											AfterClean
+								AfterClean
 
 		Redefine this target in your project in order to run tasks just after Clean.
 		============================================================
@@ -4887,7 +4906,7 @@
 
 	<!--
 		============================================================
-											CleanReferencedProjects
+							CleanReferencedProjects
 
 		Call Clean target on all Referenced Projects.
 		============================================================
@@ -4914,7 +4933,7 @@
 
 	<!--
 		============================================================
-											CoreClean
+								CoreClean
 		============================================================
 	-->
 	<PropertyGroup>
@@ -4974,7 +4993,7 @@
 
 	<!--
 		============================================================
-											_CleanRecordFileWrites
+							_CleanRecordFileWrites
 
 		Save the list of all files written to disk so that it can be used for "Clean" later.
 
@@ -5006,7 +5025,7 @@
 
 	<!--
 		============================================================
-											CleanPublishFolder
+							CleanPublishFolder
 		============================================================
 	-->
 	<Target
@@ -5024,14 +5043,14 @@
 	<!--
 		***********************************************************************************************
 		***********************************************************************************************
-																	PostBuildEvent Section
+												PostBuildEvent Section
 		***********************************************************************************************
 		***********************************************************************************************
 	-->
 
 	<!--
 		============================================================
-											PostBuildEvent
+								PostBuildEvent
 
 		Run the post-build event. This step is driven by two parameters:
 
@@ -5688,7 +5707,7 @@
 	<!--
 		***********************************************************************************************
 		***********************************************************************************************
-																	AllProjectOutputGroupsDependencies Section
+									AllProjectOutputGroupsDependencies Section
 		***********************************************************************************************
 		***********************************************************************************************
 	-->

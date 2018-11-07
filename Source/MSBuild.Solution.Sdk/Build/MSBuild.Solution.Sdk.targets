@@ -1,0 +1,17 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+	<Import Project="$(MSBuildSolutionFullPath).user" Condition="Exists('$(MSBuildSolutionFullPath).user')"/>
+
+	<Import Project="..\Core\MSBuild.Core.targets"/>
+
+	<PropertyGroup>
+		<MSBuildAllProjects Condition="Exists('$(CustomSolutionCoreTargets)')">$(MSBuildAllProjects);$(CustomSolutionCoreTargets)</MSBuildAllProjects>
+	</PropertyGroup>
+
+	<Import Project="$(CustomSolutionCoreTargets)" Condition="Exists('$(CustomSolutionCoreTargets)')"/>
+
+	<PropertyGroup Condition="'$(MSBuildVersion)' == '' OR '$(MSBuildVersion)' &lt; '16.0'">
+		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+	</PropertyGroup>
+
+</Project>

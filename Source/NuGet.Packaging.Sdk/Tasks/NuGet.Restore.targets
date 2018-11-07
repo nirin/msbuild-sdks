@@ -116,7 +116,8 @@
 			RestoreIgnoreFailedSources="$(RestoreIgnoreFailedSources)"
 			RestoreRecursive="$(RestoreRecursive)"
 			RestoreForce="$(RestoreForce)"
-			HideWarningsAndErrors="$(HideWarningsAndErrors)"/>
+			HideWarningsAndErrors="$(HideWarningsAndErrors)"
+			Interactive="$(NuGetInteractive)"/>
 	</Target>
 
 	<!--
@@ -486,7 +487,7 @@
 	-->
 	<Target Name="_GetRestoreSettings"
 			Condition="'$(PackageReferenceCompatibleProjectStyle)' == 'true' OR '$(RestoreProjectStyle)' == 'ProjectJson'"
-			DependsOnTargets="_GetRestoreProjectStyle;_GetRestoreSettingsOverrides;_GetRestoreSettingsCurrentProject;_GetRestoreSettingsAllFrameworks"
+			DependsOnTargets="_GetRestoreSettingsOverrides;_GetRestoreSettingsCurrentProject;_GetRestoreSettingsAllFrameworks"
 			Returns="$(_OutputSources);$(_OutputPackagesPath);$(_OutputFallbackFolders);$(_OutputConfigFilePaths)">
 
 		<!-- For transitive project styles, we rely on evaluating all the settings and including them in the dg spec to faciliate no-op restore-->
@@ -532,7 +533,7 @@
 
 	<!--
 		============================================================
-		_GetRestoreSettingsCurrentProject
+		_GetRestoreSettingsAllFrameworks
 		Generate items for a single framework.
 		============================================================
 	-->

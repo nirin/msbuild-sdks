@@ -1,0 +1,31 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+	<!-- We need to init _SdkFrameworkName, _SdkPlatformName properties! -->
+	<PropertyGroup>
+		<_SdkFrameworkName Condition="$(TargetFrameworkIdentifier.StartsWith('.NET'))">$(TargetFrameworkIdentifier.TrimStart('.'))</_SdkFrameworkName>
+		<_SdkFrameworkName Condition="$(TargetFrameworkIdentifier.StartsWith('Mono'))">NETMono</_SdkFrameworkName>
+		<_SdkFrameworkName Condition="'$(_SdkFrameworkName)' == ''"/>
+
+		<_SdkPlatformName Condition="$(TargetFrameworkIdentifier.StartsWith('Windows')) OR $(TargetPlatformIdentifier.StartsWith('Windows'))">Windows</_SdkPlatformName>
+		<_SdkPlatformName Condition="$(TargetFrameworkIdentifier.StartsWith('Xamarin')) OR $(TargetPlatformIdentifier.StartsWith('Mac'))">Apple</_SdkPlatformName>
+		<_SdkPlatformName Condition="$(TargetFrameworkIdentifier.StartsWith('Xamarin')) OR $(TargetPlatformIdentifier.StartsWith('Android'))">Android</_SdkPlatformName>
+		<_SdkPlatformName Condition="$(TargetFrameworkIdentifier.StartsWith('Tizen')) OR $(TargetPlatformIdentifier.StartsWith('Tizen'))">Tizen</_SdkPlatformName>
+		<_SdkPlatformName Condition="$(TargetPlatformIdentifier.StartsWith('Linux'))">Linux</_SdkPlatformName>
+		<_SdkPlatformName Condition="'$(_SdkPlatformName)' == ''"/>
+	</PropertyGroup>
+
+	<ImportGroup Condition="'$(_SdkFrameworkName)' != ''">
+		<Import Project="Frameworks\MSBuild.$(_SdkFrameworkName).props"/>
+		<Import Project="Frameworks\MSBuild.$(_SdkFrameworkName).targets"/>
+	</ImportGroup>
+
+	<ImportGroup Condition="'$(_SdkPlatformName)' != ''">
+		<Import Project="Platforms\MSBuild.$(_SdkPlatformName).props"/>
+		<Import Project="Platforms\MSBuild.$(_SdkPlatformName).targets"/>
+	</ImportGroup>
+
+	<PropertyGroup Condition="'$(MSBuildVersion)' == '' OR '$(MSBuildVersion)' &lt; '16.0'">
+		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+	</PropertyGroup>
+
+</Project>

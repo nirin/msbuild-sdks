@@ -4,7 +4,7 @@
 		<PackageVersion Condition="'$(VersionMeta)' != ''">$(PackageVersion)-$(VersionMeta)</PackageVersion>
 	</PropertyGroup>
 
-	<Import Project="$(MSBuildThisFileDirectory)..\$(MSBuildThisFile)"/>
+	<Import Project="..\$(MSBuildThisFile)"/>
 
 	<PropertyGroup Condition="'$(IsCloudBuild)' == ''">
 		<IsCloudBuild Condition="'$(BuildRunner)' == 'MyGet'">true</IsCloudBuild>

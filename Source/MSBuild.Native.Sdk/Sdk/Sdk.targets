@@ -1,0 +1,9 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+	<Import Project="Sdk.Core.targets" Sdk="MSBuild.Core.Sdk"/>
+
+	<Import Project="..\Build\MSBuild.Native.Sdk.targets"/>
+
+	<Import Project="Sdk.Extensions.targets" Sdk="MSBuild.Core.Sdk"/>
+
+</Project>

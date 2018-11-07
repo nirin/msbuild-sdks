@@ -1,0 +1,16 @@
+<Project Sdk="NuGet.Packaging.Sdk">
+
+	<PropertyGroup Label="Globals">
+		<ProjectGuid>{4D73720F-06D1-4A74-84D6-FE23115F5F96}</ProjectGuid>
+	</PropertyGroup>
+
+	<PropertyGroup Label="PackageInfo">
+		<Title>MSBuild Dependencies Sdk</Title>
+		<PackageId>MSBuild.Dependencies.Sdk</PackageId>
+		<PackageVersion Condition="'$(PackageVersion)' == ''">1.0.0</PackageVersion>
+		<PackageTags>$(PackageTags);dependencies;references;dependency-management;reference-support</PackageTags>
+		<Summary>An MSBuild SDK support package that provides reference support and dependency management to the projects.</Summary>
+		<Description>$(Summary) This means you can't directly use it in your project file. However, you can use the SDKs which depend on this package OR you can create your own SDK package which uses/extends the functionality from this package.</Description>
+	</PropertyGroup>
+
+</Project>

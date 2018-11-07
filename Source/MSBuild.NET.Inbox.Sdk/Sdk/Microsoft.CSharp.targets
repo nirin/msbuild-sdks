@@ -1,0 +1,35 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+	<Import Project="DisableExtensions\Microsoft.CSharp.targets"/>
+	<Import Project="DisableExtensions\Microsoft.Common.targets"/>
+	<Import Project="DisableExtensions\Microsoft.NETFramework.props"/>
+	<Import Project="DisableExtensions\Microsoft.NETFramework.targets"/>
+
+	<!--
+		With MSBuild 12, we've changed MSBuildToolsPath to for the first time point to a directory
+		outside of the .NET Framework.  As a result of this, there were several targets files, of which
+		this was one, that were being referenced as out of MSBuildToolsPath that are now no longer there.
+
+		Thus, we are shimming those targets files so that they do still appear in MSBuildToolsPath, so that
+		consumers of them are not broken, but since the targets files themselves are still part of .NET,
+		the shim will internally simply redirect to the real copy of the targets file in the .NET Framework.
+	-->
+
+	<PropertyGroup>
+		<!-- Same condition as in .NET 4.5 C# targets so that we can override the behaviour where it defaults to MSBuildToolsPath, which would be incorrect in this case -->
+		<CscToolPath Condition="'$(CscToolPath)' == '' AND '$(BuildingInsideVisualStudio)' != 'true'">$(MSBuildFrameworkToolsPath)</CscToolPath>
+	</PropertyGroup>
+
+	<Import Project="$(MSBuildFrameworkToolsPath)\Microsoft.CSharp.targets"/>
+
+	<!--
+		Fix up FrameworkPathOverride, which is primarily used to determine the location of mscorlib.dll in the (relatively uncommon)
+		situation where the reference assemblies, in which it's usually found, are not installed.
+		Defined here rather than in Microsoft.Common.targets because the .NET Microsoft.CSharp.targets
+		imports Microsoft.Common.targets from the current directory.
+	-->
+	<PropertyGroup>
+		<FrameworkPathOverride Condition="!Exists('$(FrameworkPathOverride)\mscorlib.dll')">$(MSBuildFrameworkToolsPath)</FrameworkPathOverride>
+	</PropertyGroup>
+
+</Project>
