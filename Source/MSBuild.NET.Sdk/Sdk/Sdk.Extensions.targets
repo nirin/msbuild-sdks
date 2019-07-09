@@ -5,8 +5,8 @@
 	</PropertyGroup>
 
 	<ImportGroup Condition="'$(ImportNuGetBuildTargets)' == 'true'">
-		<Import Project="Sdk.Restore.targets" Sdk="NuGet.Packaging.Sdk"/>
-		<Import Project="Sdk.Pack.targets" Sdk="NuGet.Packaging.Sdk"/>
+		<Import Sdk="NuGet.Packaging.Sdk" Project="Sdk.Restore.targets"/>
+		<Import Sdk="NuGet.Packaging.Sdk" Project="Sdk.Pack.targets"/>
 	</ImportGroup>
 
 </Project>

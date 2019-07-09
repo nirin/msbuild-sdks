@@ -8,7 +8,7 @@
 		<CustomBeforeMicrosoftCommonProps>$(MSBuildThisFileDirectory)..\Build\MSBuild.NET.Workarounds.props</CustomBeforeMicrosoftCommonProps>
 	</PropertyGroup>
 
-	<Import Project="Sdk.props" Sdk="Microsoft.NET.Sdk"/>
+	<Import Sdk="Microsoft.NET.Sdk" Project="Sdk.props"/>
 
 	<Import Project="..\Build\MSBuild.NET.Extras.Sdk.props"/>
 	<Import Project="..\ProjectSystem\MSBuild.NET.ProjectSystem.props"/>

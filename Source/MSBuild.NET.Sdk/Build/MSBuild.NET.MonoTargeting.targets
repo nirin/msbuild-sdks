@@ -3,9 +3,9 @@
 	<Import Project="MSBuild.NET.MonoTargeting.BeforeLegacy.targets"/>
 
 	<!--
-		TODO: Remove once you made it independent of TargetFramework!
-		Sets RestoreAdditionalProjectSources or RestoreAdditionalProjectFallbackFolders
-		to the SDK Offline Cache based on the TargetFramework.
+		TODO: Remove once you made it independent of 'TargetFramework'!
+		Sets RestoreAdditionalProjectSources or 'RestoreAdditionalProjectFallbackFolders'
+		to the SDK Offline Cache based on the 'TargetFramework'.
 	-->
 	<Import Project="..\Extensions\NuGet.OfflineCache.targets"/>
 
@@ -27,8 +27,8 @@
 	</PropertyGroup>
 
 	<!--
-		If LanguageTargets isn't otherwise set, then we'll just import the legacy targets.
-		This should allow the restore target to run, which could bring in NuGet packages that sets the LanguageTargets.
+		If 'LanguageTargets' isn't otherwise set, then we'll just import the legacy targets.
+		This should allow the restore target to run, which could bring in NuGet packages that sets the 'LanguageTargets'.
 		This means support for different languages could either be supplied via an SDK or a NuGet package.
 	-->
 	<PropertyGroup Condition="'$(LanguageTargets)' == ''">

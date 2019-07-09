@@ -4,6 +4,6 @@
 		<CustomProjectCoreProps>$(MSBuildThisFileDirectory)..\Build\NuGet.Packaging.Sdk.props</CustomProjectCoreProps>
 	</PropertyGroup>
 
-	<Import Project="Sdk.props" Sdk="MSBuild.NET.Legacy.Sdk"/>
+	<Import Sdk="MSBuild.NET.Legacy.Sdk" Project="Sdk.props"/>
 
 </Project>

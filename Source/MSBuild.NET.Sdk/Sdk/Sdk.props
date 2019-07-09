@@ -30,10 +30,10 @@
 
 	<Import Project="Sdk.Bundles.props"/>
 
-	<Import Project="Sdk.Extensions.props" Sdk="MSBuild.Core.Sdk"/>
+	<Import Sdk="MSBuild.Core.Sdk" Project="Sdk.Extensions.props"/>
 
 	<Import Project="..\Build\MSBuild.NET.Sdk.props"/>
 
-	<Import Project="Sdk.Core.props" Sdk="MSBuild.Core.Sdk"/>
+	<Import Sdk="MSBuild.Core.Sdk" Project="Sdk.Core.props"/>
 
 </Project>

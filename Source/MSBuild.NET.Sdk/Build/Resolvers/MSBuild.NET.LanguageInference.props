@@ -25,11 +25,11 @@
 			</PropertyGroup>
 		</When>
 
-		<When Condition="'$(MSBuildProjectExtension)' == '.cilproj'">
+		<When Condition="'$(MSBuildProjectExtension)' == '.ilproj'">
 			<PropertyGroup>
-				<SourceLanguageName>CommonIntermediateLanguage</SourceLanguageName>
-				<SourceLanguageSymbol>CIL</SourceLanguageSymbol>
-				<SourceLanguageExtension>.cil</SourceLanguageExtension>
+				<SourceLanguageName>IntermediateLanguage</SourceLanguageName>
+				<SourceLanguageSymbol>IL</SourceLanguageSymbol>
+				<SourceLanguageExtension>.il</SourceLanguageExtension>
 			</PropertyGroup>
 		</When>
 

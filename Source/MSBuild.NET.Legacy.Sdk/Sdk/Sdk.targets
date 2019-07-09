@@ -1,6 +1,6 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
-	<Import Project="Sdk.Core.targets" Sdk="MSBuild.Core.Sdk"/>
+	<Import Sdk="MSBuild.Core.Sdk" Project="Sdk.Core.targets"/>
 
 	<PropertyGroup>
 		<MicrosoftLegacyTargets>Microsoft.Common.targets</MicrosoftLegacyTargets>
@@ -12,6 +12,6 @@
 
 	<Import Project="$(MicrosoftLegacyTargets)"/>
 
-	<Import Project="Sdk.Extensions.targets" Sdk="MSBuild.Core.Sdk"/>
+	<Import Sdk="MSBuild.Core.Sdk" Project="Sdk.Extensions.targets"/>
 
 </Project>

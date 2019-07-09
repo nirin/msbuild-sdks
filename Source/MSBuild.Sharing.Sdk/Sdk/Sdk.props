@@ -1,6 +1,6 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
-	<Import Project="Sdk.props" Sdk="MSBuild.Core.Sdk"/>
+	<Import Sdk="MSBuild.Core.Sdk" Project="Sdk.props"/>
 
 	<Import Project="..\Core\MSBuild.Sharing.Sdk.props"/>
 

@@ -4,7 +4,7 @@
 
 	<Import Project="..\Core\MSBuild.Core.targets"/>
 
-	<PropertyGroup>
+	<PropertyGroup Condition="'$(MSBuildVersion)' == '' OR '$(MSBuildVersion)' &lt; '16.0'">
 		<MSBuildAllProjects Condition="Exists('$(CustomProjectCoreTargets)')">$(MSBuildAllProjects);$(CustomProjectCoreTargets)</MSBuildAllProjects>
 	</PropertyGroup>
 

@@ -136,7 +136,7 @@
 	</Target>
 
 	<!--
-		Don't leave TargetPlatformVersion empty if it still hasn't been determined. We will trigger the error above,
+		Don't leave 'TargetPlatformVersion' empty if it still hasn't been determined. We will trigger the error above,
 		but we need this to be a valid version so that our error message does not get pre-empted by failure to interpret
 		version comparison expressions, which is currently unrecoverable in VS.
 

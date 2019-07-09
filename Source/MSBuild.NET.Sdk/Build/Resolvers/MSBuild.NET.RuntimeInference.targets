@@ -47,7 +47,8 @@
 		'$(RuntimeIdentifier)' == ''">
 		<_UsingDefaultRuntimeIdentifier>true</_UsingDefaultRuntimeIdentifier>
 		<RuntimeIdentifier Condition="'$(PlatformTarget)' == 'x64'">win7-x64</RuntimeIdentifier>
-		<RuntimeIdentifier Condition="'$(PlatformTarget)' == 'x86' OR '$(PlatformTarget)' == ''">win7-x86</RuntimeIdentifier>
+		<RuntimeIdentifier Condition="'$(PlatformTarget)' == 'x86'">win7-x86</RuntimeIdentifier>
+		<RuntimeIdentifier Condition="'$(PlatformTarget)' == ''">win7</RuntimeIdentifier>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(PlatformTarget)' == ''">
@@ -133,7 +134,7 @@
 	</PropertyGroup>
 
 	<!--
-		Append $(RuntimeIdentifier) directory to output and intermediate paths to prevent bin clashes between targets.
+		Append 'RuntimeIdentifier' directory to output and intermediate paths to prevent bin clashes between targets.
 		But do not append the implicit default runtime identifier for .NET Framework apps as that would
 		append a RID the user never mentioned in the path and do so even in the AnyCPU case.
 	-->

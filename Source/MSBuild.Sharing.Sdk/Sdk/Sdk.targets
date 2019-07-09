@@ -2,6 +2,6 @@
 
 	<Import Project="..\Core\MSBuild.Sharing.Sdk.targets"/>
 
-	<Import Project="Sdk.targets" Sdk="MSBuild.Core.Sdk"/>
+	<Import Sdk="MSBuild.Core.Sdk" Project="Sdk.targets"/>
 
 </Project>
