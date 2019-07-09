@@ -23,7 +23,9 @@
 
 	<Target Name="_ComputeTargetFrameworkItems" Returns="@(InnerOutput)">
 		<ItemGroup>
-			<_TargetFramework Include="$(TargetFrameworks)"/>
+			<_TargetFrameworkRaw Include="$(TargetFrameworks)"/>
+			<!-- Make normalization explicit: Trim; Deduplicate by keeping first occurence, case insensitive -->
+			<_TargetFramework Include="@(_TargetFramework->Trim()->Distinct())"/>
 			<_InnerBuildProjects Include="$(MSBuildProjectFile)">
 				<AdditionalProperties>TargetFramework=%(_TargetFramework.Identity)</AdditionalProperties>
 			</_InnerBuildProjects>

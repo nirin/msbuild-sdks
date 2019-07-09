@@ -39,6 +39,8 @@
 	<UsingTask TaskName="NuGet.Build.Tasks.GetRestoreProjectJsonPathTask" AssemblyFile="$(RestoreTaskAssemblyFile)"/>
 	<UsingTask TaskName="NuGet.Build.Tasks.GetRestoreProjectReferencesTask" AssemblyFile="$(RestoreTaskAssemblyFile)"/>
 	<UsingTask TaskName="NuGet.Build.Tasks.GetRestorePackageReferencesTask" AssemblyFile="$(RestoreTaskAssemblyFile)"/>
+	<UsingTask TaskName="NuGet.Build.Tasks.GetRestorePackageDownloadsTask" AssemblyFile="$(RestoreTaskAssemblyFile)"/>
+	<UsingTask TaskName="NuGet.Build.Tasks.GetRestoreFrameworkReferencesTask" AssemblyFile="$(RestoreTaskAssemblyFile)"/>
 	<UsingTask TaskName="NuGet.Build.Tasks.GetRestoreDotnetCliToolsTask" AssemblyFile="$(RestoreTaskAssemblyFile)"/>
 	<UsingTask TaskName="NuGet.Build.Tasks.GetProjectTargetFrameworksTask" AssemblyFile="$(RestoreTaskAssemblyFile)"/>
 	<UsingTask TaskName="NuGet.Build.Tasks.GetRestoreSolutionProjectsTask" AssemblyFile="$(RestoreTaskAssemblyFile)"/>
@@ -63,6 +65,10 @@
 		<RestoreBuildInParallel Condition="'$(RestoreBuildInParallel)' == ''">true</RestoreBuildInParallel>
 		<!-- Check if the restore target was executed on a sln file -->
 		<_RestoreSolutionFileUsed Condition="'$(_RestoreSolutionFileUsed)' == '' AND '$(SolutionDir)' != '' AND '$(MSBuildProjectExtension)' == '.metaproj'">true</_RestoreSolutionFileUsed>
+		<!-- We default to MSBuildInteractive. -->
+		<NuGetInteractive Condition="'$(NuGetInteractive)' == ''">$(MSBuildInteractive)</NuGetInteractive>
+		<!-- Mark that this targets file supports package download. -->
+		<PackageDownloadSupported>true</PackageDownloadSupported>
 	</PropertyGroup>
 
 	<PropertyGroup>
@@ -89,6 +95,9 @@
 			_RestoreSolutionFileUsed=true;
 			SolutionDir=$(SolutionDir);
 			SolutionName=$(SolutionName);
+			SolutionFileName=$(SolutionFileName);
+			SolutionPath=$(SolutionPath);
+			SolutionExt=$(SolutionExt);
 		</_GenerateRestoreGraphProjectEntryInputProperties>
 	</PropertyGroup>
 
@@ -117,7 +126,8 @@
 			RestoreRecursive="$(RestoreRecursive)"
 			RestoreForce="$(RestoreForce)"
 			HideWarningsAndErrors="$(HideWarningsAndErrors)"
-			Interactive="$(NuGetInteractive)"/>
+			Interactive="$(NuGetInteractive)"
+			RestoreForceEvaluate="$(RestoreForceEvaluate)"/>
 	</Target>
 
 	<!--
@@ -154,6 +164,23 @@
 		============================================================
 	-->
 	<Target Name="CollectPackageReferences" Returns="@(PackageReference)"/>
+
+	<!--
+		============================================================
+		CollectPackageDownloads
+		Gathers all PackageDownload items from the project.
+		This target may be used as an extension point to modify
+		package downloads before NuGet reads them.
+		============================================================
+	-->
+	<Target Name="CollectPackageDownloads" Returns="@(PackageDownload)"/>
+
+	<!--
+		============================================================
+		CollectFrameworkReferences
+		============================================================
+	-->
+	<Target Name="CollectFrameworkReferences" Returns="@(FrameworkReference)"/>
 
 	<!--
 		============================================================
@@ -261,7 +288,7 @@
 
 		<!-- Warn for projects that do not support restore. -->
 		<WarnForInvalidProjectsTask
-			Condition="'$(DisableWarnForInvalidRestoreProjects)' != 'true'"
+			Condition="'$(DisableWarnForInvalidRestoreProjects)' != 'true' AND '$(HideWarningsAndErrors)' != 'true'"
 			AllProjects="@(FilteredRestoreGraphProjectInputItemsWithoutDuplicates)"
 			ValidProjects="@(FilteredRestoreGraphProjectInputItems)"/>
 	</Target>
@@ -653,6 +680,9 @@
 				<TreatWarningsAsErrors>$(TreatWarningsAsErrors)</TreatWarningsAsErrors>
 				<WarningsAsErrors>$(WarningsAsErrors)</WarningsAsErrors>
 				<NoWarn>$(NoWarn)</NoWarn>
+				<RestorePackagesWithLockFile>$(RestorePackagesWithLockFile)</RestorePackagesWithLockFile>
+				<NuGetLockFilePath>$(NuGetLockFilePath)</NuGetLockFilePath>
+				<RestoreLockedMode>$(RestoreLockedMode)</RestoreLockedMode>
 			</_RestoreGraphEntry>
 		</ItemGroup>
 
@@ -759,7 +789,7 @@
 		============================================================
 	-->
 	<Target Name="_GenerateProjectRestoreGraphPerFramework"
-			DependsOnTargets="_GetRestoreProjectStyle;CollectPackageReferences"
+			DependsOnTargets="_GetRestoreProjectStyle;CollectPackageReferences;CollectPackageDownloads;CollectFrameworkReferences"
 			Returns="@(_RestoreGraphEntry)">
 
 		<!-- Write out project references -->
@@ -774,7 +804,7 @@
 				ItemName="_RestoreGraphEntry"/>
 		</GetRestoreProjectReferencesTask>
 
-		<!-- Write out package references for NETCore -->
+		<!-- Write out package references -->
 		<GetRestorePackageReferencesTask
 			Condition="'$(PackageReferenceCompatibleProjectStyle)' == 'true'"
 			ProjectUniqueName="$(MSBuildProjectFullPath)"
@@ -785,6 +815,40 @@
 				TaskParameter="RestoreGraphItems"
 				ItemName="_RestoreGraphEntry"/>
 		</GetRestorePackageReferencesTask>
+
+		<!-- Write out package downloads -->
+		<GetRestorePackageDownloadsTask
+			Condition="'$(PackageReferenceCompatibleProjectStyle)' == 'true'"
+			ProjectUniqueName="$(MSBuildProjectFullPath)"
+			PackageDownloads="@(PackageDownload)"
+			TargetFrameworks="$(TargetFramework)">
+
+			<Output
+				TaskParameter="RestoreGraphItems"
+				ItemName="_RestoreGraphEntry"/>
+		</GetRestorePackageDownloadsTask>
+
+		<!-- Write out Framework References-->
+		<GetRestoreFrameworkReferencesTask
+			Condition="'$(PackageReferenceCompatibleProjectStyle)' == 'true'"
+			ProjectUniqueName="$(MSBuildProjectFullPath)"
+			FrameworkReferences="@(FrameworkReference)"
+			TargetFrameworks="$(TargetFramework)">
+
+			<Output
+				TaskParameter="RestoreGraphItems"
+				ItemName="_RestoreGraphEntry"/>
+		</GetRestoreFrameworkReferencesTask>
+
+		<!-- Write out the TargetFramework specific properties -->
+		<ItemGroup Condition="'$(PackageReferenceCompatibleProjectStyle)' == 'true' AND '$(RuntimeIdentifierGraphPath)' != ''">
+			<_RestoreGraphEntry Include="$([System.Guid]::NewGuid())">
+				<Type>TargetFrameworkProperties</Type>
+				<ProjectUniqueName>$(MSBuildProjectFullPath)</ProjectUniqueName>
+				<TargetFramework>$(TargetFramework)</TargetFramework>
+				<RuntimeIdentifierGraphPath>$(RuntimeIdentifierGraphPath)</RuntimeIdentifierGraphPath>
+			</_RestoreGraphEntry>
+		</ItemGroup>
 
 		<PropertyGroup>
 			<_CombinedFallbacks>$(PackageTargetFallback);$(AssetTargetFallback)</_CombinedFallbacks>

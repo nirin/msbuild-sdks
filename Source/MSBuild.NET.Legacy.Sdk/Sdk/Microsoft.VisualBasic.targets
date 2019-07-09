@@ -1,14 +1,8 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
-	<!--
-		We are doing a multi-targeting build if there is no list of target frameworks specified
-		nor is there a current target framework being built individually. In that case, this import is
-		redirected to $(MSBuildThisFileName).CrossTargeting.targets.
-	-->
-	<PropertyGroup Condition="'$(TargetFrameworks)' != '' AND '$(TargetFramework)' == ''">
-		<IsMultiTargetingBuild>true</IsMultiTargetingBuild>
-	</PropertyGroup>
+	<Import Project="Microsoft.Managed.targets"/>
 
+	<!-- When we are doing a multi-targeting build, this import is redirected to $(MSBuildThisFileName).CrossTargeting.targets. -->
 	<Choose>
 		<When Condition="'$(IsMultiTargetingBuild)' == 'true'">
 			<PropertyGroup>
