@@ -31,20 +31,26 @@
 	-->
 	<Import Project="MSBuild.OutputPaths.props" Condition="'$(ImportedMSBuildOutputPathsProps)' != 'true'"/>
 
+	<PropertyGroup Condition="'$(Configuration)' != ''">
+		<_BuildContext Condition="$(_BuildContext.EndsWith('-'))">$(_BuildContext)-</_BuildContext>
+		<_BuildContext Condition="'$(Configuration)' != 'Release'">$(_BuildContext)$(Configuration)</_BuildContext>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Platform)' != ''">
+		<_BuildContext Condition="$(_BuildContext.EndsWith('-'))">$(_BuildContext)-</_BuildContext>
+		<_BuildContext Condition="'$(Platform)' != 'AnyCPU'">$(_BuildContext)$(Platform)</_BuildContext>
+	</PropertyGroup>
+
 	<PropertyGroup Label="Build">
 		<IntermediateOutputFolder Condition="'$(IntermediateOutputFolder)' == ''">obj</IntermediateOutputFolder>
 		<BaseIntermediateOutputPath>$(BuildPath)$(IntermediateOutputFolder)\</BaseIntermediateOutputPath>
-
-		<IntermediateOutputPath Condition="'$(Platform)' == 'AnyCPU'">$(BaseIntermediateOutputPath)$(Configuration)\</IntermediateOutputPath>
-		<IntermediateOutputPath Condition="'$(Platform)' != 'AnyCPU'">$(BaseIntermediateOutputPath)$(Configuration)-$(Platform)\</IntermediateOutputPath>
-		<IntermediateOutputPath Condition="!HasTrailingSlash('$(IntermediateOutputPath)')">$(IntermediateOutputPath)\</IntermediateOutputPath>
+		<IntermediateOutputPath>$(BaseIntermediateOutputPath)</IntermediateOutputPath>
+		<IntermediateOutputPath Condition="'$(_BuildContext)' != ''">$(IntermediateOutputPath)$(_BuildContext)\</IntermediateOutputPath>
 
 		<OutputFolder Condition="'$(OutputFolder)' == ''">bin</OutputFolder>
 		<BaseOutputPath>$(BuildPath)$(OutputFolder)\</BaseOutputPath>
-
-		<OutputPath Condition="'$(Platform)' == 'AnyCPU'">$(BaseOutputPath)$(Configuration)\</OutputPath>
-		<OutputPath Condition="'$(Platform)' != 'AnyCPU'">$(BaseOutputPath)$(Configuration)-$(Platform)\</OutputPath>
-		<OutputPath Condition="!HasTrailingSlash('$(OutputPath)')">$(OutputPath)\</OutputPath>
+		<OutputPath>$(BaseOutputPath)</OutputPath>
+		<OutputPath Condition="'$(_BuildContext)' != ''">$(OutputPath)$(_BuildContext)\</OutputPath>
 	</PropertyGroup>
 
 	<PropertyGroup Label="Publish">
@@ -63,9 +69,30 @@
 		Set PublishDir here, before Microsoft.Common.targets, to avoid a competing default there.
 		Reset PublishDir here, Since we made OutDir -> BuildPath and PublishDir -> PublishPath as the new Output defaults
 	-->
-	<!--<PropertyGroup Label="Publish.Legacy">
-		<PublishDir>$(PublishPath)</PublishDir>
-	</PropertyGroup>-->
+	<PropertyGroup Label="Publish.Legacy">
+		<PublishDir>$(PublishPath)$(PublishName)</PublishDir>
+		<PublishDir Condition="!HasTrailingSlash('$(PublishDir)')">$(PublishDir)\</PublishDir>
+	</PropertyGroup>
+
+	<!--
+		Set DefaultItemExcludes property for output paths that should be excluded from the default items.
+		This is here because it needs to come after the final OutputPaths has been evaluated.
+	-->
+	<PropertyGroup>
+		<!-- build folder, by default -->
+		<DefaultItemExcludes>$(DefaultItemExcludes);$(BuildPath)\**</DefaultItemExcludes>
+		<!-- publish folder, by default -->
+		<DefaultItemExcludes>$(DefaultItemExcludes);$(PublishPath)\**</DefaultItemExcludes>
+
+		<ExcludeDefaultLegacyPaths Condition="'$(ExcludeDefaultLegacyPaths)' == ''">false</ExcludeDefaultLegacyPaths>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(ExcludeDefaultLegacyPaths)' == 'true'">
+		<!-- bin folder, by default -->
+		<DefaultItemExcludes>$(DefaultItemExcludes);$(BaseOutputPath)\**</DefaultItemExcludes>
+		<!-- obj folder, by default -->
+		<DefaultItemExcludes>$(DefaultItemExcludes);$(BaseIntermediateOutputPath)\**</DefaultItemExcludes>
+	</PropertyGroup>
 
 	<PropertyGroup>
 		<ImportedMSBuildOutputPathsTargets>true</ImportedMSBuildOutputPathsTargets>

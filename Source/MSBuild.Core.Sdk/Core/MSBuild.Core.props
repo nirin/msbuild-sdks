@@ -2,7 +2,7 @@
 
 	<Import Project="MSBuild.Defaults.props"/>
 
-	<Import Project="MSBuild.Defaults.Items.props"/>
+	<Import Project="MSBuild.Defaults.Items.props" Condition="'$(UsingMicrosoftNETSdk)' != 'true'"/>
 
 	<Import Project="MSBuild.OutputPaths.props" Condition="'$(ImportedMSBuildOutputPathsProps)' != 'true'"/>
 

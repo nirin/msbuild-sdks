@@ -4,27 +4,14 @@
 		<EnableDefaultItems Condition="'$(EnableDefaultItems)' == ''">true</EnableDefaultItems>
 		<EnableDefaultNoneItems Condition="'$(EnableDefaultNoneItems)' == ''">true</EnableDefaultNoneItems>
 		<ExcludeDefaultBuildFiles Condition="'$(ExcludeDefaultBuildFiles)' == ''">true</ExcludeDefaultBuildFiles>
-		<ExcludeDefaultLegacyPaths Condition="'$(ExcludeDefaultLegacyPaths)' == ''">false</ExcludeDefaultLegacyPaths>
 	</PropertyGroup>
 
 	<!--
 		Set DefaultItemExcludes property for items that should be excluded from the default items.
-		This is in the .targets because it needs to come after the final OutputPaths has been evaluated.
 	-->
-	<PropertyGroup Condition="'$(ExcludeDefaultLegacyPaths)' == 'true'">
-		<!-- bin folder, by default -->
-		<DefaultItemExcludes>$(DefaultItemExcludes);$(BaseOutputPath)\**</DefaultItemExcludes>
-		<!-- obj folder, by default -->
-		<DefaultItemExcludes>$(DefaultItemExcludes);$(BaseIntermediateOutputPath)\**</DefaultItemExcludes>
-	</PropertyGroup>
 
+	<!-- Various files that should generally always be ignored -->
 	<PropertyGroup>
-		<!-- build folder, by default -->
-		<DefaultItemExcludes>$(DefaultItemExcludes);$(BuildPath)\**</DefaultItemExcludes>
-		<!-- publish folder, by default -->
-		<DefaultItemExcludes>$(DefaultItemExcludes);$(PublishPath)\**</DefaultItemExcludes>
-
-		<!-- Various files that should generally always be ignored -->
 		<DefaultItemExcludes>$(DefaultItemExcludes);**\*.sln</DefaultItemExcludes>
 		<DefaultItemExcludes>$(DefaultItemExcludes);**\*.user</DefaultItemExcludes>
 		<DefaultItemExcludes>$(DefaultItemExcludes);**\*.*proj</DefaultItemExcludes>

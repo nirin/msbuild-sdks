@@ -5,8 +5,8 @@
 	-->
 	<PropertyGroup Label="NuGet">
 		<RestoreOutputPath Condition="'$(RestoreOutputPath)' == ''">$(MSBuildProjectExtensionsPath)</RestoreOutputPath>
-		<NuspecOutputPath Condition="'$(NuspecOutputPath)' == ''">$(BaseOutputPath)$(Configuration)\</NuspecOutputPath>
-		<PackageOutputPath Condition="'$(PackageOutputPath)' == ''">$(PublishPath)$(Configuration)\</PackageOutputPath>
+		<NuspecOutputPath Condition="'$(NuspecOutputPath)' == ''">$(BuildPath)</NuspecOutputPath>
+		<PackageOutputPath Condition="'$(PackageOutputPath)' == ''">$(PublishPath)</PackageOutputPath>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(MSBuildVersion)' == '' OR '$(MSBuildVersion)' &lt; '16.0'">
