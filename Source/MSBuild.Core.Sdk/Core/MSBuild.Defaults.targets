@@ -2,8 +2,8 @@
 
 	<PropertyGroup Condition="'$(PublishName)' == ''">
 		<PublishName>$(MSBuildProjectName)</PublishName>
-		<PublishName Condition="'$(ProjectName)' != ''">$(ProjectName)</PublishName>
 		<PublishName Condition="'$(AssemblyName)' != ''">$(AssemblyName)</PublishName>
+		<PublishName Condition="'$(ProjectName)' != ''">$(ProjectName)</PublishName>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(AppendProjectMetaToPublishName)' == 'true'">

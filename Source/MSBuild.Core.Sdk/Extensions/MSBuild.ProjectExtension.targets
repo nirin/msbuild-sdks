@@ -3,25 +3,18 @@
 	<!-- Check if we already imported them as props. -->
 	<Import Project="MSBuild.ProjectExtension.Core.props" Condition="'$(ImportedMSBuildProjectExtensionCoreProps)' != 'true'"/>
 
-	<PropertyGroup Condition="'$(MSBuildProjectExtensionTargets)' == ''">
-		<MSBuildProjectExtensionTargetsFile Condition="'$(MSBuildProjectExtensionTargetsFile)' == ''">$(MSBuildProjectFile).*.targets</MSBuildProjectExtensionTargetsFile>
-		<MSBuildProjectExtensionTargets Condition="'$(MSBuildProjectExtensionsPath)' != ''">$(MSBuildProjectExtensionsPath)$(MSBuildProjectExtensionTargetsFile)</MSBuildProjectExtensionTargets>
+	<PropertyGroup>
+		<MSBuildProjectExtensionFileName Condition="'$(MSBuildProjectExtensionFileName)' == ''">$(MSBuildProjectFile).*</MSBuildProjectExtensionFileName>
 	</PropertyGroup>
 
-	<Import Project="$(MSBuildProjectExtensionTargets)" Condition="Exists('$(MSBuildProjectExtensionTargets)')"/>
+	<Import Project="$(MSBuildProjectExtensionsPath)$(MSBuildProjectExtensionFileName).targets" Condition="Exists('$(MSBuildProjectExtensionsPath)')"/>
 
 	<PropertyGroup Condition="'$(MSBuildVersion)' == '' OR '$(MSBuildVersion)' &lt; '16.0'">
-		<MSBuildAllProjects Condition="Exists('$(MSBuildProjectExtensionTargets)')">$(MSBuildAllProjects);$(MSBuildProjectExtensionTargets)</MSBuildAllProjects>
-	</PropertyGroup>
-
-	<Import Project="$(CustomProjectExtensionTargets)" Condition="Exists('$(CustomProjectExtensionTargets)')"/>
-
-	<PropertyGroup Condition="'$(MSBuildVersion)' == '' OR '$(MSBuildVersion)' &lt; '16.0'">
-		<MSBuildAllProjects Condition="Exists('$(CustomProjectExtensionTargets)')">$(MSBuildAllProjects);$(CustomProjectExtensionTargets)</MSBuildAllProjects>
+		<MSBuildAllProjects Condition="Exists('$(MSBuildProjectExtensionsPath)')">$(MSBuildAllProjects);$(MSBuildProjectExtensionsPath)$(MSBuildProjectExtensionFileName).targets</MSBuildAllProjects>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(MSBuildVersion)' == '' OR '$(MSBuildVersion)' &lt; '16.0'">
-		<MSBuildAllProjects Condition="!(Exists('$(MSBuildProjectExtensionTargets)') AND Exists('$(CustomProjectExtensionTargets)'))">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+		<MSBuildAllProjects Condition="!Exists('$(MSBuildProjectExtensionsPath)')">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
 	</PropertyGroup>
 
 </Project>
