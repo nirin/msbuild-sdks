@@ -38,7 +38,11 @@
 	@(InnerOutput) - The combined output items of the inner targets across all builds.
 	============================================================
 	-->
-	<Target Name="GetPackageContents" DependsOnTargets="_SetGetPackageContentsInnerTarget;DispatchToInnerBuilds" Returns="@(InnerOutput)"/>
+	<Target Name="GetPackageContents" DependsOnTargets="_SetGetPackageContentsInnerTarget;DispatchToInnerBuilds" Returns="@(InnerOutput)">
+		<ItemGroup>
+			<_PackageContent Include="@(InnerOutput)" />
+		</ItemGroup>
+	</Target>
 
 	<Target Name="_SetGetPackageContentsInnerTarget">
 		<PropertyGroup>
