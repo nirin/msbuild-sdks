@@ -24,10 +24,6 @@
 -->
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
-	<PropertyGroup Condition="'$(MSBuildVersion)' == '' OR '$(MSBuildVersion)' &lt; '16.0'">
-		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
-	</PropertyGroup>
-
 	<!-- Load NuGet.Build.Tasks.dll, this can be overridden to use a different version with $(RestoreTaskAssemblyFile) -->
 	<PropertyGroup Condition="$(RestoreTaskAssemblyFile) == ''">
 		<RestoreTaskAssemblyFile>$(MSBuildThisFileDirectory)$(MSBuildRuntimeType)\NuGet.Build.Tasks.dll</RestoreTaskAssemblyFile>

@@ -34,8 +34,4 @@
 		<PreferredUILang Condition="'$(PreferredUILang)' == ''">$([System.Globalization.CultureInfo]::CurrentUICulture.Name)</PreferredUILang>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(MSBuildVersion)' == '' OR '$(MSBuildVersion)' &lt; '16.0'">
-		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
-	</PropertyGroup>
-
 </Project>

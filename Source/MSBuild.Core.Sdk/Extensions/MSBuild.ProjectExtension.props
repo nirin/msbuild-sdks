@@ -9,12 +9,4 @@
 
 	<Import Project="$(MSBuildProjectExtensionsPath)$(MSBuildProjectExtensionFileName).props" Condition="Exists('$(MSBuildProjectExtensionsPath)')"/>
 
-	<PropertyGroup Condition="'$(MSBuildVersion)' == '' OR '$(MSBuildVersion)' &lt; '16.0'">
-		<MSBuildAllProjects Condition="Exists('$(MSBuildProjectExtensionsPath)')">$(MSBuildAllProjects);$(MSBuildProjectExtensionsPath)$(MSBuildProjectExtensionFileName).props</MSBuildAllProjects>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(MSBuildVersion)' == '' OR '$(MSBuildVersion)' &lt; '16.0'">
-		<MSBuildAllProjects Condition="!Exists('$(MSBuildProjectExtensionsPath)')">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
-	</PropertyGroup>
-
 </Project>

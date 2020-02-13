@@ -11,8 +11,4 @@
 		<RestoreAdditionalProjectFallbackFolders Condition="'$(_IsNETCore1x)' != 'true'">$(RestoreAdditionalProjectFallbackFolders);$(_NugetFallbackFolder)</RestoreAdditionalProjectFallbackFolders>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(MSBuildVersion)' == '' OR '$(MSBuildVersion)' &lt; '16.0'">
-		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
-	</PropertyGroup>
-
 </Project>

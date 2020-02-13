@@ -1,9 +1,5 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
-	<PropertyGroup Condition="'$(MSBuildVersion)' == '' OR '$(MSBuildVersion)' &lt; '16.0'">
-		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
-	</PropertyGroup>
-
 	<!-- Load NuGet.Build.Tasks.Pack.dll, this can be overridden to use a different version with $(NuGetPackTaskAssemblyFile) -->
 	<PropertyGroup Condition="$(NuGetPackTaskAssemblyFile) == ''">
 		<NuGetPackTaskAssemblyFile>$(MSBuildThisFileDirectory)$(MSBuildRuntimeType)\NuGet.Build.Tasks.Pack.dll</NuGetPackTaskAssemblyFile>

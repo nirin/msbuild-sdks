@@ -1,9 +1,5 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
-	<PropertyGroup Condition="'$(MSBuildVersion)' == '' OR '$(MSBuildVersion)' &lt; '16.0'">
-		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
-	</PropertyGroup>
-
 	<ItemGroup Condition="$(TargetFrameworkIdentifier.EndsWith('Android'))">
 		<Compile Remove="$(AndroidResgenFile)"/>
 		<Compile Update="$(AndroidResgenFile)" Condition="'$(IncludeAndroidResgenFile)' == 'true'"

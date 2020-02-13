@@ -1,9 +1,5 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
-	<PropertyGroup Condition="'$(MSBuildVersion)' == '' OR '$(MSBuildVersion)' &lt; '16.0'">
-		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
-	</PropertyGroup>
-
 	<Import Project="Items.props" Condition="'$(ImportedDefaultItemsProps)' != 'true'"/>
 
 	<Import Project="..\Core\MSBuild.NET.DefaultItems.targets"/>

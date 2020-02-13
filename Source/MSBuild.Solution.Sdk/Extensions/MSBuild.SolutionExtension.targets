@@ -10,18 +10,6 @@
 
 	<Import Project="$(MSBuildSolutionExtensionTargets)" Condition="Exists('$(MSBuildSolutionExtensionTargets)')"/>
 
-	<PropertyGroup Condition="'$(MSBuildVersion)' == '' OR '$(MSBuildVersion)' &lt; '16.0'">
-		<MSBuildAllProjects Condition="Exists('$(MSBuildSolutionExtensionTargets)')">$(MSBuildAllProjects);$(MSBuildSolutionExtensionTargets)</MSBuildAllProjects>
-	</PropertyGroup>
-
 	<Import Project="$(CustomSolutionExtensionTargets)" Condition="Exists('$(CustomSolutionExtensionTargets)')"/>
-
-	<PropertyGroup Condition="'$(MSBuildVersion)' == '' OR '$(MSBuildVersion)' &lt; '16.0'">
-		<MSBuildAllProjects Condition="Exists('$(CustomSolutionExtensionTargets)')">$(MSBuildAllProjects);$(CustomSolutionExtensionTargets)</MSBuildAllProjects>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(MSBuildVersion)' == '' OR '$(MSBuildVersion)' &lt; '16.0'">
-		<MSBuildAllProjects Condition="!(Exists('$(MSBuildSolutionExtensionTargets)') AND Exists('$(CustomSolutionExtensionTargets)'))">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
-	</PropertyGroup>
 
 </Project>

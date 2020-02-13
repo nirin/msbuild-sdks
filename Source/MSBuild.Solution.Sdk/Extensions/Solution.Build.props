@@ -12,9 +12,4 @@
 
 	<Import Project="$(SolutionBuildProps)" Condition="Exists('$(SolutionBuildProps)')"/>
 
-	<PropertyGroup Condition="'$(MSBuildVersion)' == '' OR '$(MSBuildVersion)' &lt; '16.0'">
-		<MSBuildAllProjects Condition="Exists('$(SolutionBuildProps)')">$(MSBuildAllProjects);$(SolutionBuildProps)</MSBuildAllProjects>
-		<MSBuildAllProjects Condition="!Exists('$(SolutionBuildProps)')">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
-	</PropertyGroup>
-
 </Project>

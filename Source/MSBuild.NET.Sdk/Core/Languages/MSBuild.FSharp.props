@@ -16,8 +16,4 @@
 	</PropertyGroup>
 	<Import Condition="'$(UseBundledFSharpTargets)' == 'true' AND Exists('$(FSharpPropsShim)') " Project="$(FSharpPropsShim)"/>
 
-	<PropertyGroup Condition="'$(MSBuildVersion)' == '' OR '$(MSBuildVersion)' &lt; '16.0'">
-		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
-	</PropertyGroup>
-
 </Project>

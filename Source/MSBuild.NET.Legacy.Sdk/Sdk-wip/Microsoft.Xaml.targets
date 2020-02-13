@@ -32,10 +32,6 @@
 		<XamlBuildTaskLocation Condition="'$(XamlBuildTaskPath)'!=''">$(XamlBuildTaskPath)</XamlBuildTaskLocation>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(MSBuildVersion)' == '' OR '$(MSBuildVersion)' &lt; '16.0'">
-		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildToolsPath)\Microsoft.Xaml.targets</MSBuildAllProjects>
-	</PropertyGroup>
-
 	<PropertyGroup>
 		<XamlGenCodeFileNames Condition="'$(XamlGenCodeFileNames)'==''">$(MSBuildProjectFile).XamlGeneratedCodeFileListAbsolute.txt</XamlGenCodeFileNames>
 		<XamlGenMarkupFileNames Condition="'$(XamlGenMarkupFileNames)'==''">$(MSBuildProjectFile).XamlGeneratedXamlFileListAbsolute.txt</XamlGenMarkupFileNames>
