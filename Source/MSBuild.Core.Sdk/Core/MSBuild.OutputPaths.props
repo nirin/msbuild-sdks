@@ -12,6 +12,12 @@
 		<_InitialBuildPath>$(BuildPath)</_InitialBuildPath>
 	</PropertyGroup>
 
+	<!-- Set `DefaultItemExcludes` property for output paths that should be excluded from the default items only when under project directory. -->
+	<PropertyGroup Condition="!$([System.IO.Path]::IsPathRooted('$(BuildPath)')) OR $(BuildPath.StartsWith('$(MSBuildProjectDirectory)'))">
+		<!-- Exclude `BuildPath`, by default -->
+		<DefaultItemExcludes>$(DefaultItemExcludes);$(BuildPath)\**</DefaultItemExcludes>
+	</PropertyGroup>
+
 	<PropertyGroup>
 		<ImportedMSBuildOutputPathsProps>true</ImportedMSBuildOutputPathsProps>
 	</PropertyGroup>

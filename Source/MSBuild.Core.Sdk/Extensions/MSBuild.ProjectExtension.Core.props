@@ -5,7 +5,7 @@
 
 	<!--
 		Prepare to import project extensions which usually come from packages. Package management systems will create a file at:
-		$(MSBuildProjectExtensionsPath)\$(MSBuildProjectFile).<SomethingUnique>.<props/targets>
+		`$(MSBuildProjectExtensionsPath)\$(MSBuildProjectFile).<SomethingUnique>.<props/targets>`
 		Each package management system should use a unique moniker to avoid collisions. It is a wild-card import so the package
 		management system can write out multiple files but the order of the import is alphabetic because MSBuild sorts the list.
 	-->
@@ -13,9 +13,9 @@
 		<MSBuildProjectExtensionsPath Condition="'$(MSBuildProjectExtensionsPath)' == ''">$(BuildPath)</MSBuildProjectExtensionsPath>
 		<MSBuildProjectExtensionsPath Condition="!HasTrailingSlash('$(MSBuildProjectExtensionsPath)')">$(MSBuildProjectExtensionsPath)\</MSBuildProjectExtensionsPath>
 		<!--
-			Import paths that are relative default to be relative to the importing file. However, since MSBuildExtensionsPath
-			defaults to BuildPath we expect it to be relative to the BuildPath directory. So if the path is relative
-			it needs to be made absolute based on the MSBuildProjectDirectory directory.
+			Import paths that are relative default to be relative to the importing file. However, since `MSBuildExtensionsPath`
+			defaults to `BuildPath` we expect it to be relative to the `BuildPath` directory. So if the path is relative
+			it needs to be made absolute based on the `MSBuildProjectDirectory` directory.
 		-->
 		<MSBuildProjectExtensionsPath Condition="!$([System.IO.Path]::IsPathRooted('$(MSBuildProjectExtensionsPath)'))">$([System.IO.Path]::Combine('$(MSBuildProjectDirectory)', '$(MSBuildProjectExtensionsPath)'))</MSBuildProjectExtensionsPath>
 		<_InitialMSBuildProjectExtensionsPath>$(MSBuildProjectExtensionsPath)</_InitialMSBuildProjectExtensionsPath>

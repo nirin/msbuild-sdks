@@ -31,26 +31,14 @@
 	-->
 	<Import Project="MSBuild.OutputPaths.props" Condition="'$(ImportedMSBuildOutputPathsProps)' != 'true'"/>
 
-	<PropertyGroup Condition="'$(Configuration)' != ''">
-		<_BuildContext Condition="$(_BuildContext.EndsWith('-'))">$(_BuildContext)-</_BuildContext>
-		<_BuildContext Condition="'$(Configuration)' != 'Release'">$(_BuildContext)$(Configuration)</_BuildContext>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Platform)' != ''">
-		<_BuildContext Condition="$(_BuildContext.EndsWith('-'))">$(_BuildContext)-</_BuildContext>
-		<_BuildContext Condition="'$(Platform)' != 'AnyCPU'">$(_BuildContext)$(Platform)</_BuildContext>
-	</PropertyGroup>
-
 	<PropertyGroup Label="Build">
 		<IntermediateOutputFolder Condition="'$(IntermediateOutputFolder)' == ''">obj</IntermediateOutputFolder>
 		<BaseIntermediateOutputPath>$(BuildPath)$(IntermediateOutputFolder)\</BaseIntermediateOutputPath>
 		<IntermediateOutputPath>$(BaseIntermediateOutputPath)</IntermediateOutputPath>
-		<IntermediateOutputPath Condition="'$(_BuildContext)' != ''">$(IntermediateOutputPath)$(_BuildContext)\</IntermediateOutputPath>
 
 		<OutputFolder Condition="'$(OutputFolder)' == ''">bin</OutputFolder>
 		<BaseOutputPath>$(BuildPath)$(OutputFolder)\</BaseOutputPath>
 		<OutputPath>$(BaseOutputPath)</OutputPath>
-		<OutputPath Condition="'$(_BuildContext)' != ''">$(OutputPath)$(_BuildContext)\</OutputPath>
 	</PropertyGroup>
 
 	<PropertyGroup Label="Publish">
@@ -64,34 +52,37 @@
 		<PublishPath Condition="'$(AppendProjectNameToPublishPath)' == 'true'">$(PublishPath)$(MSBuildProjectName)\</PublishPath>
 	</PropertyGroup>
 
+	<!-- Set `DefaultItemExcludes` property for output paths that should be excluded from the default items only when under project directory. -->
+	<PropertyGroup Condition="!$([System.IO.Path]::IsPathRooted('$(PublishPath)')) OR $(PublishPath.StartsWith('$(MSBuildProjectDirectory)'))">
+		<!-- Exclude `PublishPath`, by default -->
+		<DefaultItemExcludes>$(DefaultItemExcludes);$(PublishPath)\**</DefaultItemExcludes>
+	</PropertyGroup>
+
 	<!--
 		TODO: Remove if other Sdks no longer need it!
-		Set PublishDir here, before Microsoft.Common.targets, to avoid a competing default there.
-		Reset PublishDir here, Since we made OutDir -> BuildPath and PublishDir -> PublishPath as the new Output defaults
+		Set `PublishDir` here, before `Microsoft.Common.targets`, to avoid a competing default there.
+		Reset `PublishDir` here, Since we made `OutDir` -> `BuildPath` and `PublishDir` -> `PublishPath` as the new Output defaults
 	-->
 	<PropertyGroup Label="Publish.Legacy">
 		<PublishDir>$(PublishPath)$(PublishName)</PublishDir>
 		<PublishDir Condition="!HasTrailingSlash('$(PublishDir)')">$(PublishDir)\</PublishDir>
 	</PropertyGroup>
 
-	<!--
-		Set DefaultItemExcludes property for output paths that should be excluded from the default items.
-		This is here because it needs to come after the final OutputPaths has been evaluated.
-	-->
-	<PropertyGroup>
-		<!-- build folder, by default -->
-		<DefaultItemExcludes>$(DefaultItemExcludes);$(BuildPath)\**</DefaultItemExcludes>
-		<!-- publish folder, by default -->
-		<DefaultItemExcludes>$(DefaultItemExcludes);$(PublishPath)\**</DefaultItemExcludes>
-
-		<ExcludeDefaultLegacyPaths Condition="'$(ExcludeDefaultLegacyPaths)' == ''">false</ExcludeDefaultLegacyPaths>
+	<!-- Append `BuildContext` with the properties that's used in multi-targeting to identify targeted builds -->
+	<PropertyGroup Condition="'$(Configuration)' != ''">
+		<_BuildContext Condition="!$(_BuildContext.EndsWith('-'))">$(_BuildContext)-</_BuildContext>
+		<_BuildContext Condition="'$(Configuration)' != 'Release'">$(_BuildContext)$(Configuration)</_BuildContext>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(ExcludeDefaultLegacyPaths)' == 'true'">
-		<!-- bin folder, by default -->
-		<DefaultItemExcludes>$(DefaultItemExcludes);$(BaseOutputPath)\**</DefaultItemExcludes>
-		<!-- obj folder, by default -->
-		<DefaultItemExcludes>$(DefaultItemExcludes);$(BaseIntermediateOutputPath)\**</DefaultItemExcludes>
+	<PropertyGroup Condition="'$(Platform)' != ''">
+		<_BuildContext Condition="!$(_BuildContext.EndsWith('-'))">$(_BuildContext)-</_BuildContext>
+		<_BuildContext Condition="'$(Platform)' != 'AnyCPU'">$(_BuildContext)$(Platform)</_BuildContext>
+	</PropertyGroup>
+
+	<!-- Append `BuildContext` to Output paths, so that the output from the multi-targeted builds don't overwrite each other -->
+	<PropertyGroup Condition="'$(_BuildContext)' != ''">
+		<IntermediateOutputPath>$(IntermediateOutputPath)$(_BuildContext)\</IntermediateOutputPath>
+		<OutputPath>$(OutputPath)$(_BuildContext)\</OutputPath>
 	</PropertyGroup>
 
 	<PropertyGroup>

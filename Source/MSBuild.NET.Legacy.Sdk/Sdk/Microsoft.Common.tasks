@@ -108,8 +108,4 @@
 	<UsingTask TaskName="Microsoft.CodeAnalysis.BuildTasks.Vbc"                       AssemblyFile="$(RoslynBuildTasksAssembly)"/>
 	<UsingTask TaskName="Microsoft.CodeAnalysis.BuildTasks.CopyRefAssembly"           AssemblyFile="$(RoslynBuildTasksAssembly)"/>
 
-	<PropertyGroup>
-		<ImportedMicrosoftCommonTasks>true</ImportedMicrosoftCommonTasks>
-	</PropertyGroup>
-
 </Project>

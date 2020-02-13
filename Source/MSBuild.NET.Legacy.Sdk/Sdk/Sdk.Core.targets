@@ -1,7 +1,5 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
-	<Import Sdk="MSBuild.Core.Sdk" Project="Sdk.Core.targets"/>
-
 	<PropertyGroup>
 		<MicrosoftLegacyTargets>Microsoft.Common.targets</MicrosoftLegacyTargets>
 		<MicrosoftLegacyTargets Condition="'$(MSBuildProjectExtension)' == '.csproj'">Microsoft.CSharp.targets</MicrosoftLegacyTargets>
@@ -9,10 +7,6 @@
 		<MicrosoftLegacyTargets Condition="'$(MSBuildProjectExtension)' == '.vbproj'">Microsoft.VisualBasic.targets</MicrosoftLegacyTargets>
 	</PropertyGroup>
 
-	<!--<Import Project="Sdk.tasks" Condition="'$(ImportedMicrosoftLegacyTasks)' != 'true'"/>-->
-
 	<Import Project="$(MicrosoftLegacyTargets)"/>
-
-	<Import Sdk="MSBuild.Core.Sdk" Project="Sdk.Extensions.targets"/>
 
 </Project>
