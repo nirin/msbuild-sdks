@@ -57,7 +57,7 @@
 		<Reference Include="@(_SdkImplicitReference)"/>
 	</ItemGroup>
 
-	<!-- Update '*TargetFrameworkVersion*' properties. Since, we could have updated 'TargetFrameworkVersion' within platform targets -->
+	<!-- Update '*TargetFrameworkVersion*' properties. Since, we might have updated 'TargetFrameworkVersion' again within platform targets -->
 	<PropertyGroup Condition="'$(TargetFrameworkVersion)' != ''">
 		<_TargetFrameworkVersionWithoutV>$(TargetFrameworkVersion.TrimStart('vV'))</_TargetFrameworkVersionWithoutV>
 		<_TargetFrameworkVersionWithV>v$(_TargetFrameworkVersionWithoutV)</_TargetFrameworkVersionWithV>

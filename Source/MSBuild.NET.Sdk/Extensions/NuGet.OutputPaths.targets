@@ -5,8 +5,8 @@
 	-->
 	<PropertyGroup Label="NuGet">
 		<RestoreOutputPath Condition="'$(RestoreOutputPath)' == ''">$(MSBuildProjectExtensionsPath)</RestoreOutputPath>
-		<NuspecOutputPath Condition="'$(NuspecOutputPath)' == ''">$(BuildPath)</NuspecOutputPath>
-		<PackageOutputPath Condition="'$(PackageOutputPath)' == ''">$(PublishPath)</PackageOutputPath>
+		<NuspecOutputPath Condition="'$(NuspecOutputPath)' == ''">$(BuildPath)$(Configuration)\</NuspecOutputPath>
+		<PackageOutputPath Condition="'$(PackageOutputPath)' == ''">$(PublishPath)$(Configuration)\</PackageOutputPath>
 	</PropertyGroup>
 
 </Project>

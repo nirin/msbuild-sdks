@@ -1,15 +1,8 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
-	<!-- Check if we already imported them as props. -->
+	<!-- Check if we already initialized `MSBuildSolutionExtensionsPath` property. -->
 	<Import Project="MSBuild.SolutionExtension.Core.props" Condition="'$(ImportedMSBuildSolutionExtensionCoreProps)' != 'true'"/>
 
-	<PropertyGroup Condition="'$(MSBuildSolutionExtensionTargets)' == ''">
-		<MSBuildSolutionExtensionTargetsFile Condition="'$(MSBuildSolutionExtensionTargetsFile)' == ''">$(MSBuildSolutionFile).*.targets</MSBuildSolutionExtensionTargetsFile>
-		<MSBuildSolutionExtensionTargets Condition="'$(MSBuildSolutionExtensionsPath)' != ''">$(MSBuildSolutionExtensionsPath)$(MSBuildSolutionExtensionTargetsFile)</MSBuildSolutionExtensionTargets>
-	</PropertyGroup>
-
-	<Import Project="$(MSBuildSolutionExtensionTargets)" Condition="Exists('$(MSBuildSolutionExtensionTargets)')"/>
-
-	<Import Project="$(CustomSolutionExtensionTargets)" Condition="Exists('$(CustomSolutionExtensionTargets)')"/>
+	<Import Project="$(MSBuildSolutionExtensionsPath)$(MSBuildSolutionExtensionsFileName).targets" Condition="Exists('$(MSBuildSolutionExtensionsPath)')"/>
 
 </Project>

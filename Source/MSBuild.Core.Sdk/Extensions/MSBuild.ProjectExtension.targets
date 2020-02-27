@@ -1,12 +1,8 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
-	<!-- Check if we already imported them as props. -->
+	<!-- Check if we already initialized `MSBuildProjectExtensionsPath` property. -->
 	<Import Project="MSBuild.ProjectExtension.Core.props" Condition="'$(ImportedMSBuildProjectExtensionCoreProps)' != 'true'"/>
 
-	<PropertyGroup>
-		<MSBuildProjectExtensionFileName Condition="'$(MSBuildProjectExtensionFileName)' == ''">$(MSBuildProjectFile).*</MSBuildProjectExtensionFileName>
-	</PropertyGroup>
-
-	<Import Project="$(MSBuildProjectExtensionsPath)$(MSBuildProjectExtensionFileName).targets" Condition="Exists('$(MSBuildProjectExtensionsPath)')"/>
+	<Import Project="$(MSBuildProjectExtensionsPath)$(MSBuildProjectExtensionsFileName).targets" Condition="Exists('$(MSBuildProjectExtensionsPath)')"/>
 
 </Project>

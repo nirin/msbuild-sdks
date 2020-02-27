@@ -9,7 +9,7 @@
 	<!-- NOTE: Using the fully qualified class name in a <UsingTask> tag is faster than using a partially qualified name. -->
 
 	<PropertyGroup Condition="'$(MSBuildLegacyTasksAssembly)' == ''">
-		<MSBuildLegacyTasksDirectory>$(MSBuildThisFileDirectory)Tasks\$(MSBuildRuntimeType)\</MSBuildLegacyTasksDirectory>
+		<MSBuildLegacyTasksDirectory>$(MSBuildThisFileDirectory)..\Tasks\$(MSBuildRuntimeType)\</MSBuildLegacyTasksDirectory>
 		<MSBuildLegacyTasksAssembly>$(MSBuildLegacyTasksDirectory)Microsoft.Build.Tasks.Core.dll</MSBuildLegacyTasksAssembly>
 	</PropertyGroup>
 

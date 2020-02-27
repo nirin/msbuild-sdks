@@ -2,7 +2,17 @@
 
 	<Import Project="$(CustomBeforeMicrosoftFSharpTargets)" Condition="Exists('$(CustomBeforeMicrosoftFSharpTargets)')"/>
 
+	<!--
+		Shim to select the correct `Microsoft.NET.Sdk.FSharp.targets` file when not running as Multi-targeting build and not under `FSharp.Sdk`
+		When running under Full MSBuild select `Microsoft.FSharp.targets` file from VS deployment,
+		When running under Core MSBuild select `Microsoft.FSharp.targets` from .NET CLI deployment
+	-->
+	<PropertyGroup Condition="'$(_FSharpTargets)' == ''">
+		<_FSharpTargets Condition="Exists('$(MSBuildToolsPath)\FSharp\Microsoft.FSharp.NetSdk.targets') ">$(MSBuildToolsPath)\FSharp\Microsoft.FSharp.NetSdk.targets</_FSharpTargets>
+		<_FSharpTargets Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\FSharp\Microsoft.FSharp.NetSdk.targets') ">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\FSharp\Microsoft.FSharp.NetSdk.targets</_FSharpTargets>
+	</PropertyGroup>
 
+	<Import Project="$(_FSharpTargets)" Condition="'$(UseBundledFSharpTargets)' == 'true' and Exists('$(_FSharpTargets)')"/>
 
 	<Import Project="$(CustomAfterMicrosoftFSharpTargets)" Condition="Exists('$(CustomAfterMicrosoftFSharpTargets)')"/>
 

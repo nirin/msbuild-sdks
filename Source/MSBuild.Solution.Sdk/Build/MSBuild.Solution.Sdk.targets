@@ -4,6 +4,4 @@
 
 	<Import Project="..\Core\MSBuild.Core.targets"/>
 
-	<Import Project="$(CustomSolutionCoreTargets)" Condition="Exists('$(CustomSolutionCoreTargets)')"/>
-
 </Project>

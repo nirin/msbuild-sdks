@@ -54,7 +54,7 @@
 
 	<!-- Set `DefaultItemExcludes` property for output paths that should be excluded from the default items only when under project directory. -->
 	<PropertyGroup Condition="!$([System.IO.Path]::IsPathRooted('$(PublishPath)')) OR $(PublishPath.StartsWith('$(MSBuildProjectDirectory)'))">
-		<!-- Exclude `PublishPath`, by default -->
+		<!-- publish folder, by default -->
 		<DefaultItemExcludes>$(DefaultItemExcludes);$(PublishPath)\**</DefaultItemExcludes>
 	</PropertyGroup>
 
@@ -69,18 +69,19 @@
 	</PropertyGroup>
 
 	<!-- Append `BuildContext` with the properties that's used in multi-targeting to identify targeted builds -->
-	<PropertyGroup Condition="'$(Configuration)' != ''">
+	<PropertyGroup Condition="'$(Configuration)' != '' AND '$(Configuration)' != 'Release'">
 		<_BuildContext Condition="!$(_BuildContext.EndsWith('-'))">$(_BuildContext)-</_BuildContext>
-		<_BuildContext Condition="'$(Configuration)' != 'Release'">$(_BuildContext)$(Configuration)</_BuildContext>
+		<_BuildContext>$(_BuildContext)$(Configuration)</_BuildContext>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(Platform)' != ''">
+	<PropertyGroup Condition="'$(Platform)' != '' AND '$(Platform)' != 'AnyCPU'">
 		<_BuildContext Condition="!$(_BuildContext.EndsWith('-'))">$(_BuildContext)-</_BuildContext>
-		<_BuildContext Condition="'$(Platform)' != 'AnyCPU'">$(_BuildContext)$(Platform)</_BuildContext>
+		<_BuildContext>$(_BuildContext)$(Platform)</_BuildContext>
 	</PropertyGroup>
 
 	<!-- Append `BuildContext` to Output paths, so that the output from the multi-targeted builds don't overwrite each other -->
 	<PropertyGroup Condition="'$(_BuildContext)' != ''">
+		<_BuildContext Condition="$(_BuildContext.StartsWith('-')) OR $(_BuildContext.EndsWith('-'))">$(_BuildContext.Trim('-'))</_BuildContext>
 		<IntermediateOutputPath>$(IntermediateOutputPath)$(_BuildContext)\</IntermediateOutputPath>
 		<OutputPath>$(OutputPath)$(_BuildContext)\</OutputPath>
 	</PropertyGroup>

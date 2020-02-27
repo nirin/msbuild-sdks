@@ -1,7 +1,7 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
 	<PropertyGroup>
-		<!-- HACK: $(MSBuildExtensionsPath) for VS <= 14.0 -->
+		<!-- HACK: 'MSBuildExtensionsPath' for VS <= 14.0 -->
 		<_SdkMSBuildExtensionsPath>$(MSBuildProgramFiles32)\MSBuild</_SdkMSBuildExtensionsPath>
 	</PropertyGroup>
 

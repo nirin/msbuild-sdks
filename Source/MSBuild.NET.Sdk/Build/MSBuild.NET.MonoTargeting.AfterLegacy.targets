@@ -8,7 +8,7 @@
 
 	<Import Project="MSBuild.NET.BuildTargeting.targets"/>
 
-	<Import Project="$(MicrosoftNETSdkBuildPath)Microsoft.PackageDependencyResolution.targets" Condition="Exists('$(MicrosoftNETSdkBuildPath)Microsoft.PackageDependencyResolution.targets')"/>
+	<Import Sdk="Microsoft.NET.Sdk" Project="..\targets\Microsoft.PackageDependencyResolution.targets"/>
 
 	<ImportGroup>
 		<Import Project="..\Core\MSBuild.NET.Defaults.targets"/>

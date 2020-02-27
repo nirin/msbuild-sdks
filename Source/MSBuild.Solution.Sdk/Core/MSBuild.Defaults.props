@@ -1,0 +1,17 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+	<!-- Default configurations and platforms -->
+	<PropertyGroup>
+		<Configurations Condition="'$(Configurations)' == ''">Debug;Release</Configurations>
+		<Platforms Condition="'$(Platforms)' == ''">AnyCPU</Platforms>
+	</PropertyGroup>
+
+	<!-- Default configuration and platform to Debug and AnyCPU-->
+	<PropertyGroup>
+		<Configuration Condition="'$(DefaultConfiguration)' != ''">$(DefaultConfiguration)</Configuration>
+		<Configuration Condition="'$(Configuration)' == ''">Debug</Configuration>
+		<Platform Condition="'$(DefaultPlatform)' != ''">$(DefaultPlatform)</Platform>
+		<Platform Condition="'$(Platform)' == ''">AnyCPU</Platform>
+	</PropertyGroup>
+
+</Project>

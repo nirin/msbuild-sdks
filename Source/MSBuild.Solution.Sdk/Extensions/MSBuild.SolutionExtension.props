@@ -3,13 +3,6 @@
 	<!-- We need to initialize `MSBuildSolutionExtensionsPath` property. -->
 	<Import Project="MSBuild.SolutionExtension.Core.props" Condition="'$(ImportedMSBuildSolutionExtensionCoreProps)' != 'true'"/>
 
-	<Import Project="$(CustomSolutionExtensionProps)" Condition="Exists('$(CustomSolutionExtensionProps)')"/>
-
-	<PropertyGroup Condition="'$(MSBuildSolutionExtensionProps)' == ''">
-		<MSBuildSolutionExtensionPropsFile Condition="'$(MSBuildSolutionExtensionPropsFile)' == ''">$(MSBuildSolutionFile).*.props</MSBuildSolutionExtensionPropsFile>
-		<MSBuildSolutionExtensionProps Condition="'$(MSBuildSolutionExtensionsPath)' != ''">$(MSBuildSolutionExtensionsPath)$(MSBuildSolutionExtensionPropsFile)</MSBuildSolutionExtensionProps>
-	</PropertyGroup>
-
-	<Import Project="$(MSBuildSolutionExtensionProps)" Condition="Exists('$(MSBuildSolutionExtensionProps)')"/>
+	<Import Project="$(MSBuildSolutionExtensionsPath)$(MSBuildSolutionExtensionsFileName).props" Condition="Exists('$(MSBuildSolutionExtensionsPath)')"/>
 
 </Project>

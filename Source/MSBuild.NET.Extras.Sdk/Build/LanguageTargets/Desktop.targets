@@ -1,12 +1,13 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
 	<PropertyGroup Condition="'$(MicrosoftNETSdkTargetsPath)' == ''">
-		<MicrosoftNETSdkTargetsPath>$(ToolDepsJsonGeneratorProject.TrimEnd('GenerateDeps\GenerateDeps.proj'))</MicrosoftNETSdkTargetsPath>
-		<MicrosoftNETSdkTargetsPath Condition="!Exists('$(MicrosoftNETSdkTargetsPath)')">$(_NugetFallbackFolder.TrimEnd('..\..\..\..\NuGetFallbackFolder'))</MicrosoftNETSdkTargetsPath>
+		<MicrosoftNETSdkTargetsPath>$(MSBuildSdksPath)\Microsoft.NET.Sdk\targets\</MicrosoftNETSdkTargetsPath>
+		<MicrosoftNETSdkTargetsPath Condition="!Exists('$(MicrosoftNETSdkTargetsPath)')">$(ToolDepsJsonGeneratorProject.TrimEnd('GenerateDeps\GenerateDeps.proj'))</MicrosoftNETSdkTargetsPath>
+		<MicrosoftNETSdkTargetsPath Condition="!Exists('$(MicrosoftNETSdkTargetsPath)')">$(_NuGetFallbackFolder.TrimEnd('..\..\..\..\NuGetFallbackFolder'))</MicrosoftNETSdkTargetsPath>
 		<MicrosoftNETSdkTargetsPath Condition="!Exists('$(MicrosoftNETSdkTargetsPath)')">$(NETCoreSdkBundledVersionsProps.TrimEnd('..\..\..\Microsoft.NETCoreSdk.BundledVersions.props'))</MicrosoftNETSdkTargetsPath>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(_FSharpTargetsPath)' == ''">
+	<PropertyGroup Condition="'$(_LanguageSourceName)' == 'FSharp' AND '$(_FSharpTargetsPath)' == ''">
 		<_FSharpTargetsPath>$(MicrosoftNETSdkTargetsPath)Microsoft.NET.Sdk.FSharpTargetsShim.targets</_FSharpTargetsPath>
 		<_FSharpTargetsPath Condition="!Exists('$(_FSharpTargetsPath)')">$(MicrosoftNETSdkTargetsPath)Microsoft.NET.Sdk.FSharp.targets</_FSharpTargetsPath>
 	</PropertyGroup>

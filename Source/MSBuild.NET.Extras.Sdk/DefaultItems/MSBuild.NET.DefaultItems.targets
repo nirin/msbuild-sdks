@@ -7,7 +7,7 @@
 
 	<Import Project="Platforms\Common.targets"/>
 
-	<ImportGroup Condition="'$(TargetFrameworkIdentifier)' == '.NETFramework'">
+	<ImportGroup Condition="'$(TargetFrameworkIdentifier)' == '.NETFramework' OR '$(TargetFrameworkIdentifier)' == '.NETCoreApp'">
 		<Import Project="Platforms\Desktop.targets"/>
 		<Import Project="Platforms\Desktop.$(_LanguageSourceName).targets" Condition="Exists('Platforms\Desktop.$(_LanguageSourceName).targets')"/>
 	</ImportGroup>

@@ -5,12 +5,12 @@
 	</PropertyGroup>
 
 	<PropertyGroup>
-		<!-- WPF temporary project suffix: _{hash:8}_wpftmp -->
+		<!-- WPF temporary project suffix: `_{hash:8}_wpftmp` -->
 		<_GeneratedProjectSuffixPattern>_[a-z0-9]{8}_wpftmp</_GeneratedProjectSuffixPattern>
 	</PropertyGroup>
 
 	<Choose>
-		<!-- Check for *.tmp_proj files -->
+		<!-- Check for `*.tmp_proj` files -->
 		<When Condition="'$(MSBuildProjectExtension)' == '.tmp_proj'">
 			<PropertyGroup>
 				<_IsGeneratedProject>true</_IsGeneratedProject>
@@ -20,7 +20,7 @@
 			</PropertyGroup>
 		</When>
 
-		<!-- Check for _*_wpftmp.*proj files -->
+		<!-- Check for `_*_wpftmp.*proj` files -->
 		<When Condition="$([System.Text.RegularExpressions.Regex]::IsMatch('$(MSBuildProjectName)', '$(_GeneratedProjectSuffixPattern)%24'))">
 			<PropertyGroup>
 				<_IsGeneratedProject>true</_IsGeneratedProject>

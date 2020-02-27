@@ -2,7 +2,7 @@
 
 	<Import Project="MSBuild.NET.ProjectCore.props"/>
 
-	<Import Project="$(MicrosoftNETSdkBuildPath)Microsoft.NET.PackTool.props"/>
+	<Import Sdk="Microsoft.NET.Sdk" Project="..\targets\Microsoft.NET.PackTool.props"/>
 
 	<PropertyGroup>
 		<ImportedMSBuildNETSdkProps>true</ImportedMSBuildNETSdkProps>
