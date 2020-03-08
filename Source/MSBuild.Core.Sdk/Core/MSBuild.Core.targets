@@ -2,7 +2,7 @@
 
 	<Import Project="MSBuild.Defaults.targets"/>
 
-	<Import Project="MSBuild.Defaults.Items.targets" Condition="'$(UsingMicrosoftNETSdk)' != 'true'"/>
+	<Import Project="MSBuild.Defaults.Items.targets"/>
 
 	<Import Project="MSBuild.OutputPaths.targets"/>
 

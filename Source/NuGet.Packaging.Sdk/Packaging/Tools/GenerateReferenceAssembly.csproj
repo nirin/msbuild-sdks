@@ -1,8 +1,8 @@
-<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="MSBuild.NET.Sdk">
 
 	<PropertyGroup>
 		<UseMSBuildEngine>true</UseMSBuildEngine>
-		<TargetFrameworkVersion Condition="$(TargetFrameworkVersion) == ''">v5.0</TargetFrameworkVersion>
+		<TargetFrameworkVersion Condition="'$(TargetFrameworkVersion)' == ''">v5.0</TargetFrameworkVersion>
 		<PrepareResourcesDependsOn>_CollectCompileFiles;$(PrepareResourcesDependsOn)</PrepareResourcesDependsOn>
 		<LanguageTargets>$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets</LanguageTargets>
 	</PropertyGroup>

@@ -4,11 +4,11 @@
 
 	<Import Project="Microsoft.Managed.targets"/>
 
-	<!-- When we are doing a multi-targeting build, this import is redirected to $(MSBuildThisFileName).CrossTargeting.targets. -->
+	<!-- When we are doing a multi-targeting build, this import is redirected to $(MSBuildThisFileName).MultiTargeting.targets. -->
 	<Choose>
 		<When Condition="'$(IsMultiTargetingBuild)' == 'true'">
 			<PropertyGroup>
-				<MicrosoftCommonTargets>$(MSBuildThisFileName).CrossTargeting.targets</MicrosoftCommonTargets>
+				<MicrosoftCommonTargets>$(MSBuildThisFileName).MultiTargeting.targets</MicrosoftCommonTargets>
 			</PropertyGroup>
 		</When>
 		<Otherwise>

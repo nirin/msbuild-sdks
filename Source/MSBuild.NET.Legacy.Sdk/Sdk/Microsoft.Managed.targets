@@ -16,7 +16,7 @@
 
 	<PropertyGroup Condition="'$(IsGraphBuild)' == 'true'">
 		<!--
-			Microsoft.NET.Sdk adds all transitive project references to ProjectReference. It does this at build time
+			The 'Microsoft.NET.Sdk' adds all transitive project references to ProjectReference. It does this at build time
 			via a target. This fails the undeclared msbuild reference /isolate constraint, so disable transitive references.
 			Do not disable transitive references if BuildProjectReferences is false. If building references is false,
 			then MSBuild won't try to build the transitive references, which won't trigger undeclared reference constraints.
@@ -60,7 +60,7 @@
 		<ProjectReferenceTargets Include="Clean" Targets="$(ProjectReferenceTargetsForCleanInOuterBuild)" Condition="'$(ProjectReferenceTargetsForCleanInOuterBuild)' != ''" OuterBuild="true"/>
 		<ProjectReferenceTargets Include="Clean" Targets="$(ProjectReferenceTargetsForClean)" Condition="'$(ProjectReferenceTargetsForClean)' != ''"/>
 
-		<ProjectReferenceTargets Include="Rebuild" Targets="$(ProjectReferenceTargetsForRebuildInOuterBuild)" Condition="'$(ProjectReferenceTargetsForRebuildInOuterBuild)' != ''"/>
+		<ProjectReferenceTargets Include="Rebuild" Targets="$(ProjectReferenceTargetsForRebuildInOuterBuild)" Condition="'$(ProjectReferenceTargetsForRebuildInOuterBuild)' != ''" OuterBuild="true"/>
 		<ProjectReferenceTargets Include="Rebuild" Targets="$(ProjectReferenceTargetsForRebuild)" Condition="'$(ProjectReferenceTargetsForRebuild)' != ''"/>
 
 		<ProjectReferenceTargets Include="Publish" Targets="$(ProjectReferenceTargetsForPublish)" Condition="'$(ProjectReferenceTargetsForPublish)' != ''"/>

@@ -43,6 +43,7 @@
 	<UsingTask TaskName="NuGet.Build.Tasks.GetRestoreSettingsTask" AssemblyFile="$(NuGetRestoreTaskAssembly)"/>
 	<UsingTask TaskName="NuGet.Build.Tasks.WarnForInvalidProjectsTask" AssemblyFile="$(NuGetRestoreTaskAssembly)"/>
 	<UsingTask TaskName="NuGet.Build.Tasks.GetReferenceNearestTargetFrameworkTask" AssemblyFile="$(NuGetRestoreTaskAssembly)"/>
+	<UsingTask TaskName="NuGet.Build.Tasks.GetRestoreProjectStyleTask" AssemblyFile="$(NuGetRestoreTaskAssembly)" />
 
 	<PropertyGroup>
 		<!-- Mark that this target file has been loaded.  -->
@@ -81,6 +82,8 @@
 			$(_GenerateRestoreGraphProjectEntryInputProperties);
 			NuGetRestoreTargets=$(MSBuildThisFileFullPath);
 			RestoreUseCustomAfterTargets=$(RestoreUseCustomAfterTargets);
+			CustomAfterMicrosoftCommonMultiTargetingTargets=$(MSBuildThisFileFullPath);
+			<!-- TODO: Remove when no longer needed! -->
 			CustomAfterMicrosoftCommonCrossTargetingTargets=$(MSBuildThisFileFullPath);
 			CustomAfterMicrosoftCommonTargets=$(MSBuildThisFileFullPath);
 		</_GenerateRestoreGraphProjectEntryInputProperties>
@@ -123,7 +126,8 @@
 			RestoreForce="$(RestoreForce)"
 			HideWarningsAndErrors="$(HideWarningsAndErrors)"
 			Interactive="$(NuGetInteractive)"
-			RestoreForceEvaluate="$(RestoreForceEvaluate)"/>
+			RestoreForceEvaluate="$(RestoreForceEvaluate)"
+			RestorePackagesConfig="$(RestorePackagesConfig)"/>
 	</Target>
 
 	<!--
@@ -224,11 +228,12 @@
 		<ItemGroup Condition="'$(RestoreProjectFilterMode)' == 'inclusionlist'">
 			<_FilteredRestoreGraphProjectInputItemsTmp
 			Include="@(RestoreGraphProjectInputItems)"
-			Condition="'%(RestoreGraphProjectInputItems.Extension)' == '.csproj' OR
+			Condition="'%(RestoreGraphProjectInputItems.Extension)' == '.proj' OR
+				'%(RestoreGraphProjectInputItems.Extension)' == '.msbuildproj' OR
+				'%(RestoreGraphProjectInputItems.Extension)' == '.csproj' OR
 				'%(RestoreGraphProjectInputItems.Extension)' == '.vbproj' OR
 				'%(RestoreGraphProjectInputItems.Extension)' == '.fsproj' OR
 				'%(RestoreGraphProjectInputItems.Extension)' == '.nuproj' OR
-				'%(RestoreGraphProjectInputItems.Extension)' == '.msbuildproj' OR
 				'%(RestoreGraphProjectInputItems.Extension)' == '.vcxproj'"/>
 		</ItemGroup>
 
@@ -236,10 +241,10 @@
 		<ItemGroup Condition="'$(RestoreProjectFilterMode)' == 'exclusionlist'">
 			<_FilteredRestoreGraphProjectInputItemsTmp
 			Include="@(RestoreGraphProjectInputItems)"
-			Condition="'%(RestoreGraphProjectInputItems.Extension)' != '.metaproj'
-				AND '%(RestoreGraphProjectInputItems.Extension)' != '.shproj'
-				AND '%(RestoreGraphProjectInputItems.Extension)' != '.vcxitems'
-				AND '%(RestoreGraphProjectInputItems.Extension)' != ''"/>
+			Condition="'%(RestoreGraphProjectInputItems.Extension)' != '.shproj' AND
+				'%(RestoreGraphProjectInputItems.Extension)' != '.metaproj' AND
+				'%(RestoreGraphProjectInputItems.Extension)' != '.vcxitems' AND
+				'%(RestoreGraphProjectInputItems.Extension)' != ''"/>
 		</ItemGroup>
 
 		<!-- No filtering -->
@@ -424,15 +429,21 @@
 			Returns="$(RestoreProjectStyle);$(PackageReferenceCompatibleProjectStyle)">
 		<!-- This may be overridden by setting RestoreProjectStyle in the project. -->
 		<PropertyGroup>
-			<!-- If any PackageReferences exist treat it as PackageReference. This has priority over project.json. -->
-			<RestoreProjectStyle Condition="'$(RestoreProjectStyle)' == '' AND @(PackageReference) != ''">PackageReference</RestoreProjectStyle>
-			<!-- If this is not a PackageReference project check if project.json or projectName.project.json exists. -->
-			<RestoreProjectStyle Condition="'$(RestoreProjectStyle)' == '' AND '$(_CurrentProjectJsonPath)' != ''">ProjectJson</RestoreProjectStyle>
-			<!-- This project is either a packages.config project or one that does not use NuGet at all. -->
-			<RestoreProjectStyle Condition="'$(RestoreProjectStyle)' == ''">Unknown</RestoreProjectStyle>
+			<_HasPackageReferenceItems Condition="@(PackageReference->Count()) > 0">true</_HasPackageReferenceItems>
 		</PropertyGroup>
+
+		<GetRestoreProjectStyleTask
+			HasPackageReferenceItems="$(_HasPackageReferenceItems)"
+			MSBuildProjectDirectory="$(MSBuildProjectDirectory)"
+			MSBuildProjectName="$(MSBuildProjectName)"
+			ProjectJsonPath="$(_CurrentProjectJsonPath)"
+			RestoreProjectStyle="$(RestoreProjectStyle)">
+			<Output TaskParameter="ProjectStyle" PropertyName="RestoreProjectStyle"/>
+			<Output TaskParameter="IsPackageReferenceCompatibleProjectStyle" PropertyName="PackageReferenceCompatibleProjectStyle"/>
+		</GetRestoreProjectStyleTask>
+
 		<PropertyGroup>
-			<PackageReferenceCompatibleProjectStyle Condition="'$(RestoreProjectStyle)' == 'PackageReference' OR '$(RestoreProjectStyle)' == 'DotnetToolReference'">true</PackageReferenceCompatibleProjectStyle>
+			<_HasPackageReferenceItems/>
 		</PropertyGroup>
 	</Target>
 
@@ -509,23 +520,29 @@
 		============================================================
 	-->
 	<Target Name="_GetRestoreSettings"
-			Condition="'$(PackageReferenceCompatibleProjectStyle)' == 'true' OR '$(RestoreProjectStyle)' == 'ProjectJson'"
+			Condition="'$(PackageReferenceCompatibleProjectStyle)' == 'true' OR '$(RestoreProjectStyle)' == 'ProjectJson' OR '$(RestoreProjectStyle)' == 'PackagesConfig'"
 			DependsOnTargets="_GetRestoreSettingsOverrides;_GetRestoreSettingsCurrentProject;_GetRestoreSettingsAllFrameworks"
 			Returns="$(_OutputSources);$(_OutputPackagesPath);$(_OutputFallbackFolders);$(_OutputConfigFilePaths)">
 
+		<PropertyGroup Condition="'$(RestoreProjectStyle)' == 'PackagesConfig'">
+			<RestoreSolutionDirectory Condition="'$(RestoreSolutionDirectory)' == '' AND '$(SolutionDir)' != '*Undefined*'">$(SolutionDir)</RestoreSolutionDirectory>
+		</PropertyGroup>
 		<!-- For transitive project styles, we rely on evaluating all the settings and including them in the dg spec to faciliate no-op restore-->
 		<GetRestoreSettingsTask
 			ProjectUniqueName="$(MSBuildProjectFullPath)"
 			RestoreSources="$(RestoreSources)"
 			RestorePackagesPath="$(RestorePackagesPath)"
+			RestoreRepositoryPath="$(RestoreRepositoryPath)"
 			RestoreFallbackFolders="$(RestoreFallbackFolders)"
 			RestoreConfigFile="$(RestoreConfigFile)"
 			RestoreRootConfigDirectory="$(RestoreRootConfigDirectory)"
 			RestoreSolutionDirectory="$(RestoreSolutionDirectory)"
 			RestoreSettingsPerFramework="@(_RestoreSettingsPerFramework)"
 			RestorePackagesPathOverride="$(_RestorePackagesPathOverride)"
+			RestoreRepositoryPathOverride="$(_RestoreRepositoryPathOverride)"
 			RestoreSourcesOverride="$(_RestoreSourcesOverride)"
 			RestoreFallbackFoldersOverride="$(_RestoreFallbackFoldersOverride)"
+			RestoreProjectStyle="$(RestoreProjectStyle)"
 			MSBuildStartupDirectory="$(MSBuildStartupDirectory)">
 			<Output
 				TaskParameter="OutputSources"
@@ -533,6 +550,9 @@
 			<Output
 				TaskParameter="OutputPackagesPath"
 				PropertyName="_OutputPackagesPath"/>
+			<Output
+				TaskParameter="OutputRepositoryPath"
+				PropertyName="_OutputRepositoryPath"/>
 			<Output
 				TaskParameter="OutputFallbackFolders"
 				PropertyName="_OutputFallbackFolders"/>
@@ -642,9 +662,9 @@
 			<_RestoreProjectVersion Condition="'$(PackageVersion)' != ''">$(PackageVersion)</_RestoreProjectVersion>
 		</PropertyGroup>
 
-		<!-- Determine if this will use cross targeting -->
+		<!-- Determine if this will use multi targeting -->
 		<PropertyGroup Condition="'$(PackageReferenceCompatibleProjectStyle)' == 'true' AND '$(TargetFrameworks)' != ''">
-			<_RestoreCrossTargeting>true</_RestoreCrossTargeting>
+			<_RestoreMultiTargeting>true</_RestoreMultiTargeting>
 		</PropertyGroup>
 
 		<!-- Determine if ContentFiles should be written by NuGet -->
@@ -668,7 +688,9 @@
 				<TargetFrameworks>@(_RestoreTargetFrameworksOutputFiltered)</TargetFrameworks>
 				<RuntimeIdentifiers>$(RuntimeIdentifiers);$(RuntimeIdentifier)</RuntimeIdentifiers>
 				<RuntimeSupports>$(RuntimeSupports)</RuntimeSupports>
-				<CrossTargeting>$(_RestoreCrossTargeting)</CrossTargeting>
+				<MultiTargeting>$(_RestoreMultiTargeting)</MultiTargeting>
+				<!-- TODO: Remove when no longer needed! -->
+				<CrossTargeting>$(_RestoreMultiTargeting)</CrossTargeting>
 				<RestoreLegacyPackagesDirectory>$(RestoreLegacyPackagesDirectory)</RestoreLegacyPackagesDirectory>
 				<ValidateRuntimeAssets>$(ValidateRuntimeIdentifierCompatibility)</ValidateRuntimeAssets>
 				<SkipContentFileWrite>$(_RestoreSkipContentFileWrite)</SkipContentFileWrite>
@@ -697,6 +719,28 @@
 				<ProjectStyle>$(RestoreProjectStyle)</ProjectStyle>
 				<ConfigFilePaths>$(_OutputConfigFilePaths)</ConfigFilePaths>
 			</_RestoreGraphEntry>
+		</ItemGroup>
+
+		<!-- Use packages.config -->
+		<ItemGroup Condition="'$(RestoreProjectStyle)' == 'PackagesConfig'">
+		<_RestoreGraphEntry Include="$([System.Guid]::NewGuid())">
+			<Type>ProjectSpec</Type>
+			<ProjectUniqueName>$(MSBuildProjectFullPath)</ProjectUniqueName>
+			<ProjectPath>$(MSBuildProjectFullPath)</ProjectPath>
+			<ProjectName>$(_RestoreProjectName)</ProjectName>
+			<ProjectStyle>$(RestoreProjectStyle)</ProjectStyle>
+			<TargetFrameworks>@(_RestoreTargetFrameworksOutputFiltered)</TargetFrameworks>
+			<PackagesConfigPath Condition="Exists('$(MSBuildProjectDirectory)\packages.$(MSBuildProjectName).config')">$(MSBuildProjectDirectory)\packages.$(MSBuildProjectName).config</PackagesConfigPath>
+			<PackagesConfigPath Condition="Exists('$(MSBuildProjectDirectory)\packages.config')">$(MSBuildProjectDirectory)\packages.config</PackagesConfigPath>
+			<RestorePackagesWithLockFile>$(RestorePackagesWithLockFile)</RestorePackagesWithLockFile>
+			<NuGetLockFilePath>$(NuGetLockFilePath)</NuGetLockFilePath>
+			<RestoreLockedMode>$(RestoreLockedMode)</RestoreLockedMode>
+			<Sources>$(_OutputSources)</Sources>
+			<SolutionDir>$(SolutionDir)</SolutionDir>
+			<RepositoryPath>$(_OutputRepositoryPath)</RepositoryPath>
+			<ConfigFilePaths>$(_OutputConfigFilePaths)</ConfigFilePaths>
+			<PackagesPath>$(_OutputPackagesPath)</PackagesPath>
+		</_RestoreGraphEntry>
 		</ItemGroup>
 
 		<!-- Non-NuGet type -->
@@ -1109,6 +1153,18 @@
 				PropertyName="_RestorePackagesPathOverride"/>
 		</MSBuild>
 
+		<!-- RestoreRepositoryPathOverride -->
+		<MSBuild
+			BuildInParallel="$(RestoreBuildInParallel)"
+			Condition="'$(RestoreRepositoryPathOverride)' != ''"
+			Projects="$(MSBuildThisFileFullPath)"
+			Targets="_GetRestoreRepositoryPathOverride">
+
+			<Output
+				TaskParameter="TargetOutputs"
+				PropertyName="_RestoreRepositoryPathOverride"/>
+		</MSBuild>
+
 		<!-- RestoreSourcesOverride -->
 		<MSBuild
 			BuildInParallel="$(RestoreBuildInParallel)"
@@ -1143,6 +1199,18 @@
 			Returns="$(_RestorePackagesPathOverride)">
 		<PropertyGroup>
 			<_RestorePackagesPathOverride>$(RestorePackagesPath)</_RestorePackagesPathOverride>
+		</PropertyGroup>
+	</Target>
+
+	<!--
+		============================================================
+		_GetRestoreRepositoryPathOverride
+		============================================================
+	-->
+	<Target Name="_GetRestoreRepositoryPathOverride"
+			Returns="$(_RestoreRepositoryPathOverride)">
+		<PropertyGroup>
+			<_RestorePackagesPathOverride>$(RestoreRepositoryPath)</_RestorePackagesPathOverride>
 		</PropertyGroup>
 	</Target>
 
@@ -1183,5 +1251,17 @@
 			<_ValidProjectsForRestore Include="$(MSBuildProjectFullPath)"/>
 		</ItemGroup>
 	</Target>
+
+	<!--
+		============================================================
+		Import NuGet.RestoreEx.targets if the MSBuild property 'RestoreEnableStaticGraph'
+		is 'true'.  This file overrides the Restore target to use MSBuild Static Graph
+		to load and evaluate projects which is much faster.
+
+		This feature is not supported for NuGet.exe scenarios and NuGet.RestoreEx.targets
+		won't exist in that case.
+		============================================================
+	-->
+	<Import Project="NuGet.RestoreEx.targets" Condition="'$(RestoreUsingStaticGraphEvaluation)' == 'true'"/>
 
 </Project>

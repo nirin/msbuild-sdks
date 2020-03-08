@@ -1,6 +1,6 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
-	<!-- ============================== Microsoft.<Language>.CrossTargeting.targets ============================== -->
+	<!-- ============================== Microsoft.<Language>.MultiTargeting.targets ============================== -->
 
 	<!-- Import design time targets for the Roslyn Project System. These are only available if Visual Studio is installed. -->
 	<PropertyGroup>
@@ -9,7 +9,7 @@
 
 	<Import Project="$(DesignTimeLanguageTargets)" Condition="'$(DesignTimeLanguageTargets)' != '' AND Exists('$(DesignTimeLanguageTargets)')"/>
 
-	<!-- ============================== Microsoft.Common.CrossTargeting.targets ============================== -->
+	<!-- ============================== Microsoft.Common.MultiTargeting.targets ============================== -->
 
 	<PropertyGroup>
 		<BuildInParallel Condition="'$(BuildInParallel)' == ''">true</BuildInParallel>
@@ -32,7 +32,9 @@
 
 	<Target Name="_ComputeTargetFrameworkItems" Returns="@(InnerOutput)">
 		<ItemGroup>
-			<_TargetFramework Include="$(TargetFrameworks)"/>
+			<_TargetFrameworkRaw Include="$(TargetFrameworks)"/>
+			<!-- Make normalization explicit: Trim; Deduplicate by keeping first occurence, case insensitive -->
+			<_TargetFramework Include="@(_TargetFrameworkRaw->Trim()->Distinct())"/>
 			<_InnerBuildProjects Include="$(MSBuildProjectFile)">
 				<AdditionalProperties>TargetFramework=%(_TargetFramework.Identity)</AdditionalProperties>
 			</_InnerBuildProjects>
@@ -124,7 +126,7 @@
 	-->
 	<Target Name="Rebuild" DependsOnTargets="Clean;Build"/>
 
-	<!-- ============================== Microsoft.NET.Sdk.CrossTargeting.targets ============================== -->
+	<!-- ============================== Microsoft.NET.Sdk.MultiTargeting.targets ============================== -->
 
 	<Import Project="MSBuild.NET.BuildTargeting.targets"/>
 
