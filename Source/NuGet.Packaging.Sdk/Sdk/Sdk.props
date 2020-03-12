@@ -1,9 +1,11 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
-	<PropertyGroup>
-		<CustomProjectCoreProps>$(MSBuildThisFileDirectory)..\Build\NuGet.Packaging.Sdk.props</CustomProjectCoreProps>
-	</PropertyGroup>
+	<Import Sdk="MSBuild.Core.Sdk" Project="Sdk.Extensions.props"/>
 
-	<Import Project="Sdk.props" Sdk="MSBuild.NET.Legacy.Sdk"/>
+	<Import Project="..\Build\NuGet.Packaging.Sdk.props"/>
+
+	<Import Sdk="MSBuild.NET.Legacy.Sdk" Project="Microsoft.Common.props"/>
+
+	<Import Sdk="MSBuild.Core.Sdk" Project="Sdk.Core.props"/>
 
 </Project>

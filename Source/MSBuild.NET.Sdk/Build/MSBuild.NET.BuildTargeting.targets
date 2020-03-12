@@ -45,8 +45,8 @@
 		against the target framework that best matches the referring
 		project's target framework.
 
-		The referring project's $(TargetFrameworkMoniker) is passed
-		in as $(ReferringTargetFramework).
+		The referring project's 'TargetFrameworkMoniker' is passed
+		in as 'ReferringTargetFramework'.
 
 		This is in 'Microsoft.Common.targets' so that it will apply to both
 		multi-targeted and single-targeted projects.  It is run
@@ -82,9 +82,5 @@
 			<Output PropertyName="NearestTargetFramework" TaskParameter="NearestTargetFramework"/>
 		</GetNearestTargetFramework>
 	</Target>
-
-	<PropertyGroup Condition="'$(MSBuildVersion)' == '' OR '$(MSBuildVersion)' &lt; '16.0'">
-		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
-	</PropertyGroup>
 
 </Project>

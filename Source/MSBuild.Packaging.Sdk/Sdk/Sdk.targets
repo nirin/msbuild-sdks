@@ -1,9 +1,9 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
-	<Import Project="Sdk.Core.targets" Sdk="MSBuild.Core.Sdk"/>
+	<Import Sdk="MSBuild.Core.Sdk" Project="Sdk.Core.targets"/>
 
 	<Import Project="..\Build\MSBuild.Packaging.Sdk.targets"/>
 
-	<Import Project="Sdk.Extensions.targets" Sdk="MSBuild.Core.Sdk"/>
+	<Import Sdk="MSBuild.Core.Sdk" Project="Sdk.Extensions.targets"/>
 
 </Project>

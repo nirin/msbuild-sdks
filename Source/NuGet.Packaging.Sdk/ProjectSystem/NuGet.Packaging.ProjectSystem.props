@@ -18,10 +18,10 @@
 		</PropertyPageSchema>
 
 		<PropertyPageSchema Include="
-			Rules\PackageFile.xaml;
-			Rules\Folder.xaml;
-			Rules\None.xaml;
-			Rules\Content.xaml">
+				Rules\PackageFile.xaml;
+				Rules\Folder.xaml;
+				Rules\None.xaml;
+				Rules\Content.xaml">
 			<Context>File;BrowseObject</Context>
 		</PropertyPageSchema>
 

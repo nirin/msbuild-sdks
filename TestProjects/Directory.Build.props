@@ -7,12 +7,6 @@
 		<PublishPath>$(SolutionDir)</PublishPath>
 	</PropertyGroup>
 
-	<Import Project="$(BuildToolsPath)MSBuild.OutputPaths.props"/>
-
-	<PropertyGroup>
-		<CustomBeforeSdkTargets>$(BuildToolsPath)MSBuild.OutputPaths.targets</CustomBeforeSdkTargets>
-	</PropertyGroup>
-
 	<PropertyGroup Condition="$(MSBuildProjectName.Contains('-'))">
 		<AssemblyName>$(MSBuildProjectName.Replace('-', '_'))</AssemblyName>
 		<RootNamespace>$(MSBuildProjectName.Replace('-', '_'))</RootNamespace>

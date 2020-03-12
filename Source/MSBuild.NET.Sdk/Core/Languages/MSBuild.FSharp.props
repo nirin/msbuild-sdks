@@ -1,23 +1,7 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
-	<!-- If any of these variables are set then we are building under the FSharp.NET.Sdk so use their logic -->
-	<PropertyGroup Condition = "'$(UseBundledFSharpTargets)' == ''">
-		<!-- If any of these variables are set then we are building under the FSharp.NET.Sdk so use their logic -->
-		<UseBundledFSharpTargets Condition = "'$(_FscTaskAssemblyPath_net)' != '' OR '$(_FscTaskAssemblyPath_netcoreapp1_0)' != '' OR '$(_FscToolFullPath_net)' != '' OR '$(_FscToolFullPath_netcoreapp1_0)' != ''">false</UseBundledFSharpTargets>
-		<UseBundledFSharpTargets Condition = "'$(UseBundledFSharpTargets)' == ''">true</UseBundledFSharpTargets>
-	</PropertyGroup>
-
-	<!-- Shim to select the correct Microsoft.NET.Sdk.FSharp.props file.
-		If running under desktop select Microsoft.NET.Sdk.FSharp.props file from VS deployment,
-		if running core msbuild select Microsoft.NET.Sdk.FSharp.props from dotnet cli deployment -->
 	<PropertyGroup>
-		<FSharpPropsShim Condition = "'$(FSharpPropsShim)' == '' AND Exists('$(MSBuildToolsPath)\FSharp\Microsoft.FSharp.NetSdk.props') ">$(MSBuildToolsPath)\FSharp\Microsoft.FSharp.NetSdk.props</FSharpPropsShim>
-		<FSharpPropsShim Condition = "'$(FSharpPropsShim)' == '' AND Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\FSharp\Microsoft.FSharp.NetSdk.props') ">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\FSharp\Microsoft.FSharp.NetSdk.props</FSharpPropsShim>
-	</PropertyGroup>
-	<Import Condition="'$(UseBundledFSharpTargets)' == 'true' AND Exists('$(FSharpPropsShim)') " Project="$(FSharpPropsShim)"/>
 
-	<PropertyGroup Condition="'$(MSBuildVersion)' == '' OR '$(MSBuildVersion)' &lt; '16.0'">
-		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
 	</PropertyGroup>
 
 </Project>

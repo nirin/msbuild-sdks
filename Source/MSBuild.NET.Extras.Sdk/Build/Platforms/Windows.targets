@@ -1,9 +1,5 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
-	<PropertyGroup Condition="'$(MSBuildVersion)' == '' OR '$(MSBuildVersion)' &lt; '16.0'">
-		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
-	</PropertyGroup>
-
 	<PropertyGroup Condition="'$(DisableImplicitFrameworkDefines)' != 'true'">
 		<ImplicitFrameworkIdentifierDefine>NETFX_CORE</ImplicitFrameworkIdentifierDefine>
 		<ImplicitFrameworkProfileDefine Condition="$(TargetFramework.StartsWith('win'))">WINDOWS_APP</ImplicitFrameworkProfileDefine>

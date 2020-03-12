@@ -1,14 +1,10 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
-	<PropertyGroup Condition="'$(MSBuildVersion)' == '' OR '$(MSBuildVersion)' &lt; '16.0'">
-		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
-	</PropertyGroup>
-
 	<PropertyGroup>
 		<CustomBeforeMicrosoftCommonProps>$(MSBuildThisFileDirectory)..\Build\MSBuild.NET.Workarounds.props</CustomBeforeMicrosoftCommonProps>
 	</PropertyGroup>
 
-	<Import Project="Sdk.props" Sdk="Microsoft.NET.Sdk"/>
+	<Import Sdk="Microsoft.NET.Sdk" Project="Sdk.props"/>
 
 	<Import Project="..\Build\MSBuild.NET.Extras.Sdk.props"/>
 	<Import Project="..\ProjectSystem\MSBuild.NET.ProjectSystem.props"/>

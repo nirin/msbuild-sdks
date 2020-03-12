@@ -1,11 +1,6 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
-	<PropertyGroup>
-		<!-- Shim for Renames! -->
-		<ImportNuGetPackTargets>$(ImportNuGetBuildTasksPackTargetsFromSdk)</ImportNuGetPackTargets>
-	</PropertyGroup>
-
-	<!-- Import NuGet.Pack.targets (required for PackTask and used for Pack functionality) -->
+	<!-- Import `NuGet.Pack.targets` (required for `PackTask` and used for Pack functionality) -->
 	<PropertyGroup>
 		<ImportNuGetPackTargets Condition="'$(ImportNuGetPackTargets)' == ''">true</ImportNuGetPackTargets>
 		<NuGetPackTargets>$(MSBuildThisFileDirectory)..\Tasks\NuGet.Pack.targets</NuGetPackTargets>

@@ -6,7 +6,7 @@
 	<!--
 	============================================================
 					GetTargetPathWithTargetPlatformMoniker
-	NOTE: depends on Microsoft.Common.CrossTargeting.targets
+	NOTE: depends on 'Microsoft.Common.MultiTargeting.targets'
 
 	When multi-targeting and the authoring project references a
 	nugetized library, return all the determined target paths.
@@ -32,13 +32,17 @@
 	============================================================
 						GetPackageContents
 	Multi-targeting version of GetPackageContents.
-	NOTE: depends on Microsoft.Common.CrossTargeting.targets
+	NOTE: depends on 'Microsoft.Common.MultiTargeting.targets'
 
 	[OUT]
 	@(InnerOutput) - The combined output items of the inner targets across all builds.
 	============================================================
 	-->
-	<Target Name="GetPackageContents" DependsOnTargets="_SetGetPackageContentsInnerTarget;DispatchToInnerBuilds" Returns="@(InnerOutput)"/>
+	<Target Name="GetPackageContents" DependsOnTargets="_SetGetPackageContentsInnerTarget;DispatchToInnerBuilds" Returns="@(InnerOutput)">
+		<ItemGroup>
+			<_PackageContent Include="@(InnerOutput)" />
+		</ItemGroup>
+	</Target>
 
 	<Target Name="_SetGetPackageContentsInnerTarget">
 		<PropertyGroup>

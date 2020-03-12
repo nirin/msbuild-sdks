@@ -2,8 +2,8 @@
 
 	<Import Project="MSBuild.Defaults.targets"/>
 
-	<Import Project="MSBuild.OutputPaths.targets"/>
-
 	<Import Project="MSBuild.Defaults.Items.targets"/>
+
+	<Import Project="MSBuild.OutputPaths.targets"/>
 
 </Project>

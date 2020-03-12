@@ -22,18 +22,14 @@
 		<!-- Ease of Access -->
 		<MicrosoftNETSdk>Microsoft.NET.Sdk</MicrosoftNETSdk>
 		<MicrosoftNETSdkPath>$(MSBuildSdksPath)\$(MicrosoftNETSdk)\</MicrosoftNETSdkPath>
-		<MicrosoftNETSdkBuildPath>$(MicrosoftNETSdkPath)targets\</MicrosoftNETSdkBuildPath>
-
-		<MSBuildLegacySdk>MSBuild.NET.Legacy.Sdk</MSBuildLegacySdk>
-		<MSBuildLegacySdkPath>$(MSBuildSdksPath)\$(MSBuildLegacySdk)</MSBuildLegacySdkPath>
 	</PropertyGroup>
 
-	<Import Project="Sdk.Bundles.props"/>
+	<Import Sdk="MSBuild.Core.Sdk" Project="Sdk.Extensions.props"/>
 
-	<Import Project="Sdk.Extensions.props" Sdk="MSBuild.Core.Sdk"/>
+	<Import Project="Sdk.Extensions.props"/>
 
 	<Import Project="..\Build\MSBuild.NET.Sdk.props"/>
 
-	<Import Project="Sdk.Core.props" Sdk="MSBuild.Core.Sdk"/>
+	<Import Sdk="MSBuild.Core.Sdk" Project="Sdk.Core.props"/>
 
 </Project>

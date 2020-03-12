@@ -1,9 +1,5 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
-	<PropertyGroup Condition="'$(MSBuildVersion)' == '' OR '$(MSBuildVersion)' &lt; '16.0'">
-		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
-	</PropertyGroup>
-
 	<!-- Add conditional compilation symbols for the target framework (for example CLIENT40) -->
 	<PropertyGroup Condition="'$(DisableImplicitFrameworkDefines)' != 'true' AND '$(TargetFrameworkProfile)' != ''">
 		<ImplicitFrameworkProfileDefine>$(TargetFrameworkProfile.ToUpperInvariant())$(_ShortFrameworkVersion)</ImplicitFrameworkProfileDefine>

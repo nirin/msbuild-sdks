@@ -1,0 +1,25 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+	<Import Project="$(CustomBeforeMicrosoftFSharpTargets)" Condition="Exists('$(CustomBeforeMicrosoftFSharpTargets)')"/>
+
+	<!--
+		***************************************************************************************************************
+		Resolve the correct FSharp tools path when running under .NET Full Framework or .NET Core
+		If running under Full framework MSBuild, use FSharp tools from VS deployment.
+		If running under Core framework MSBuild, use FSharp tools from dotnet cli deployment.
+		***************************************************************************************************************
+	-->
+	<PropertyGroup Condition="'$(FSharpToolsPath)' == ''">
+		<FSharpToolsPath Condition="'$(MSBuildRuntimeType)' == 'Core'">$(MSBuildToolsPath)\FSharp</FSharpToolsPath>
+		<FSharpToolsPath Condition="'$(MSBuildRuntimeType)' == 'Full'">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\FSharp</FSharpToolsPath>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<FSharpLanguageTargets Condition="'$(FSharpLanguageTargets)' == ''">$(FSharpToolsPath)\Microsoft.FSharp.NetSdk.targets</FSharpLanguageTargets>
+	</PropertyGroup>
+
+	<Import Project="$(FSharpLanguageTargets)" Condition="Exists('$(FSharpLanguageTargets)')"/>
+
+	<Import Project="$(CustomAfterMicrosoftFSharpTargets)" Condition="Exists('$(CustomAfterMicrosoftFSharpTargets)')"/>
+
+</Project>

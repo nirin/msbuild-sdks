@@ -1,0 +1,25 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+	<Import Project="Microsoft.Common.props"/>
+
+	<Import Project="Microsoft.Managed.props"/>
+
+	<!--
+		***************************************************************************************************************
+		Resolve the correct FSharp tools path when running under .NET Full Framework or .NET Core
+		If running under Full framework MSBuild, use FSharp tools from VS deployment.
+		If running under Core framework MSBuild, use FSharp tools from dotnet cli deployment.
+		***************************************************************************************************************
+	-->
+	<PropertyGroup Condition="'$(FSharpToolsPath)' == ''">
+		<FSharpToolsPath Condition="'$(MSBuildRuntimeType)' == 'Core'">$(MSBuildToolsPath)\FSharp</FSharpToolsPath>
+		<FSharpToolsPath Condition="'$(MSBuildRuntimeType)' == 'Full'">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\FSharp</FSharpToolsPath>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<FSharpLanguageProps Condition="'$(FSharpLanguageProps)' == ''">$(FSharpToolsPath)\Microsoft.FSharp.NetSdk.props</FSharpLanguageProps>
+	</PropertyGroup>
+
+	<Import Project="$(FSharpLanguageProps)" Condition="Exists('$(FSharpLanguageProps)')"/>
+
+</Project>

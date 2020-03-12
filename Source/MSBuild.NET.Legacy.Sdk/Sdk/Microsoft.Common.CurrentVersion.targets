@@ -2,11 +2,6 @@
 
 	<Import Project="$(MSBuildProjectFullPath).user" Condition="Exists('$(MSBuildProjectFullPath).user')"/>
 
-	<PropertyGroup Condition="'$(MSBuildVersion)' == '' OR '$(MSBuildVersion)' &lt; '16.0'">
-		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildProjectFullPath)</MSBuildAllProjects>
-		<MSBuildAllProjects Condition="Exists('$(MSBuildProjectFullPath).user')">$(MSBuildAllProjects);$(MSBuildProjectFullPath).user</MSBuildAllProjects>
-	</PropertyGroup>
-
 	<Import Project="$(CustomBeforeMicrosoftCommonTargets)" Condition="Exists('$(CustomBeforeMicrosoftCommonTargets)')"/>
 
 	<PropertyGroup>
@@ -794,6 +789,7 @@
 			AfterBuild
 		</BuildDependsOn>
 	</PropertyGroup>
+
 	<Target
 		Name="Build"
 		Condition="'$(_InvalidConfigurationWarning)' != 'true'"
@@ -846,6 +842,7 @@
 			PostBuildEvent
 		</CoreBuildDependsOn>
 	</PropertyGroup>
+
 	<Target
 		Name="CoreBuild"
 		DependsOnTargets="$(CoreBuildDependsOn)">
@@ -863,7 +860,6 @@
 		============================================================
 	-->
 	<PropertyGroup>
-
 		<_ProjectDefaultTargets Condition="'$(MSBuildProjectDefaultTargets)' != ''">$(MSBuildProjectDefaultTargets)</_ProjectDefaultTargets>
 		<_ProjectDefaultTargets Condition="'$(MSBuildProjectDefaultTargets)' == ''">Build</_ProjectDefaultTargets>
 
@@ -1008,6 +1004,7 @@
 	<PropertyGroup>
 		<RunDependsOn></RunDependsOn>
 	</PropertyGroup>
+
 	<Target
 		Name="Run"
 		DependsOnTargets="$(RunDependsOn)">
@@ -1039,6 +1036,7 @@
 	<PropertyGroup>
 		<BuildingProject>false</BuildingProject>
 	</PropertyGroup>
+
 	<Target
 		Name="BuildOnlySettings">
 		<PropertyGroup>
@@ -1067,6 +1065,7 @@
 	<PropertyGroup>
 		<PrepareForBuildDependsOn>GetFrameworkPaths;GetReferenceAssemblyPaths;AssignLinkMetadata</PrepareForBuildDependsOn>
 	</PropertyGroup>
+
 	<Target
 		Name="PrepareForBuild"
 		DependsOnTargets="$(PrepareForBuildDependsOn)">
@@ -1283,6 +1282,7 @@
 	<PropertyGroup>
 		<PreBuildEventDependsOn></PreBuildEventDependsOn>
 	</PropertyGroup>
+
 	<Target
 		Name="PreBuildEvent"
 		Condition="'$(PreBuildEvent)' != ''"
@@ -1314,6 +1314,7 @@
 	<PropertyGroup>
 		<UnmanagedUnregistrationDependsOn></UnmanagedUnregistrationDependsOn>
 	</PropertyGroup>
+
 	<Target
 		Name="UnmanagedUnregistration"
 		Condition="(('$(_AssemblyTimestampBeforeCompile)' != '$(_AssemblyTimestampAfterCompile)' OR '$(RegisterForComInterop)' != 'true' OR '$(OutputType)' != 'library') OR
@@ -1706,6 +1707,7 @@
 			_GetProjectReferenceTargetFrameworkProperties
 		</PrepareProjectReferencesDependsOn>
 	</PropertyGroup>
+
 	<Target Name="PrepareProjectReferences" DependsOnTargets="$(PrepareProjectReferencesDependsOn)"/>
 
 	<!--
@@ -2013,6 +2015,7 @@
 			ExpandSDKReferences;
 		</ResolveAssemblyReferencesDependsOn>
 	</PropertyGroup>
+
 	<Target
 		Name="ResolveAssemblyReferences"
 		Returns="@(ReferencePath)"
@@ -2708,6 +2711,16 @@
 		DependsOnTargets="ResolveComReferences"/>
 
 	<!--
+		============================================================
+						ResolveFrameworkReferences
+
+		Overrridden by Microsoft.NET.Sdk to return
+		ResolvedFrameworkReference items in order to populate the
+		Frameworks node of the Solution Explorer in the IDE.
+	-->
+	<Target Name="ResolveFrameworkReferences"/>
+
+	<!--
 		***********************************************************************************************
 		***********************************************************************************************
 																	PrepareResources Section
@@ -2729,6 +2742,7 @@
 			CompileLicxFiles
 		</PrepareResourcesDependsOn>
 	</PropertyGroup>
+
 	<Target
 		Name="PrepareResources"
 		DependsOnTargets="$(PrepareResourcesDependsOn)"/>
@@ -2748,6 +2762,7 @@
 			CreateCustomManifestResourceNames
 		</PrepareResourceNamesDependsOn>
 	</PropertyGroup>
+
 	<Target
 		Name="PrepareResourceNames"
 		DependsOnTargets="$(PrepareResourceNamesDependsOn)"/>
@@ -2763,6 +2778,7 @@
 	<PropertyGroup>
 		<AssignTargetPathsDependsOn></AssignTargetPathsDependsOn>
 	</PropertyGroup>
+
 	<Target
 		Name="AssignTargetPaths"
 		DependsOnTargets="$(AssignTargetPathsDependsOn)">
@@ -2906,6 +2922,7 @@
 	<PropertyGroup>
 		<CreateCustomManifestResourceNamesDependsOn></CreateCustomManifestResourceNamesDependsOn>
 	</PropertyGroup>
+
 	<Target
 		Name="CreateCustomManifestResourceNames"
 		DependsOnTargets="$(CreateCustomManifestResourceNamesDependsOn)"/>
@@ -2924,6 +2941,7 @@
 		<UseSourcePath Condition="'$(UseSourcePath)' == ''">true</UseSourcePath>
 		<ResGenExecuteAsTool Condition="'$(ResGenExecuteAsTool)' == ''">false</ResGenExecuteAsTool>
 	</PropertyGroup>
+
 	<Target
 		Name="ResGen"
 		DependsOnTargets="$(ResGenDependsOn)"/>
@@ -2988,6 +3006,7 @@
 			Sources="@(EmbeddedResource)"
 			UseSourcePath="$(UseSourcePath)"
 			References="@(ReferencePathWithRefAssemblies)"
+			UsePreserializedResources="$(GenerateResourceUsePreserializedResources)"
 			AdditionalInputs="$(MSBuildAllProjects)"
 			NeverLockTypeAssemblies="$(GenerateResourceNeverLockTypeAssemblies)"
 			StateFile="$(IntermediateOutputPath)$(MSBuildProjectFile).GenerateResource.cache"
@@ -3082,6 +3101,7 @@
 	<PropertyGroup>
 		<CompileLicxFilesDependsOn></CompileLicxFilesDependsOn>
 	</PropertyGroup>
+
 	<Target
 		Name="CompileLicxFiles"
 		Condition="'@(_LicxFile)' != ''"
@@ -3191,6 +3211,7 @@
 			AfterCompile;
 		</CompileDependsOn>
 	</PropertyGroup>
+
 	<Target
 		Name="Compile"
 		DependsOnTargets="$(CompileDependsOn)"/>
@@ -3305,7 +3326,7 @@
 
 	<!--
 		============================================================
-											BeforeCompile
+								BeforeCompile
 
 		Redefine this target in your project in order to run tasks just before Compile.
 		============================================================
@@ -3314,7 +3335,7 @@
 
 	<!--
 		============================================================
-											AfterCompile
+								AfterCompile
 
 		Redefine this target in your project in order to run tasks just after Compile.
 		============================================================
@@ -3323,7 +3344,7 @@
 
 	<!--
 		============================================================
-											_TimeStampBeforeCompile
+							_TimeStampBeforeCompile
 
 		If post-build events are set to fire "OnOutputUpdated", then take before
 		and after timestamps so that we can compare them.
@@ -3341,7 +3362,7 @@
 
 	<!--
 		============================================================
-											_GenerateCompileDependencyCache
+						_GenerateCompileDependencyCache
 
 		Generate a file used to track compiler dependencies between incremental build
 		executions. This handles cases where items are added or removed from a glob (e.g.
@@ -3350,14 +3371,18 @@
 		contribute to incremental build inconsistencies.
 		============================================================
 	-->
-	<Target Name="_GenerateCompileDependencyCache" DependsOnTargets="ResolveAssemblyReferences">
+	<Target Name="_GenerateCompileDependencyCache"
+			DependsOnTargets="ResolveAssemblyReferences"
+			Condition="'$(DesignTimeBuild)' != 'true' AND '$(BuildingProject)' != 'true'">
+
 		<ItemGroup>
 			<CustomAdditionalCompileInputs Include="$(IntermediateOutputPath)$(MSBuildProjectFile).CoreCompileInputs.cache"/>
 			<CoreCompileCache Include="@(Compile)"/>
 			<CoreCompileCache Include="@(ReferencePath)"/>
+			<CoreCompileCache Include="$(DefineConstants)"/>
 		</ItemGroup>
 
-		<Hash ItemsToHash="@(CoreCompileCache)">
+		<Hash ItemsToHash="@(CoreCompileCache)" IgnoreCase="$([MSBuild]::ValueOrDefault(`$(CoreCompileCacheIgnoreCase)`, `true`))">
 			<Output TaskParameter="HashResult" PropertyName="CoreCompileDependencyHash"/>
 		</Hash>
 
@@ -3366,11 +3391,12 @@
 		<ItemGroup>
 			<FileWrites Include="$(IntermediateOutputPath)$(MSBuildProjectFile).CoreCompileInputs.cache"/>
 		</ItemGroup>
+
 	</Target>
 
 	<!--
 		============================================================
-											_TimeStampAfterCompile
+							_TimeStampAfterCompile
 
 		If post-build events are set to fire "OnOutputUpdated", then take before
 		and after timestamps so that we can compare them.
@@ -3388,7 +3414,7 @@
 
 	<!--
 		================================================================
-											_ComputeNonExistentFileProperty
+						_ComputeNonExistentFileProperty
 
 		There are certain situations in which we want to always run the CoreCompile target (and
 		thus the Csc task), even if the timestamps of the outputs appear to be up-to-date on disk.
@@ -3422,7 +3448,7 @@
 	<!--
 		***********************************************************************************************
 		***********************************************************************************************
-																	GenerateSerializationAssemblies Section
+									GenerateSerializationAssemblies Section
 		***********************************************************************************************
 		***********************************************************************************************
 	-->
@@ -3510,6 +3536,7 @@
 			GenerateSatelliteAssemblies
 		</CreateSatelliteAssembliesDependsOn>
 	</PropertyGroup>
+
 	<Target
 		Name="CreateSatelliteAssemblies"
 		DependsOnTargets="$(CreateSatelliteAssembliesDependsOn)"/>
@@ -3612,6 +3639,7 @@
 			CreateManifestResourceNames
 		</ComputeIntermediateSatelliteAssembliesDependsOn>
 	</PropertyGroup>
+
 	<Target
 		Name="ComputeIntermediateSatelliteAssemblies"
 		Condition="@(EmbeddedResource->'%(WithCulture)') != ''"
@@ -4077,6 +4105,7 @@
 			CopyFilesToOutputDirectory
 		</PrepareForRunDependsOn>
 	</PropertyGroup>
+
 	<Target
 		Name="PrepareForRun"
 		DependsOnTargets="$(PrepareForRunDependsOn)"/>
@@ -4344,6 +4373,7 @@
 			_GetProjectReferenceTargetFrameworkProperties
 		</GetCopyToOutputDirectoryItemsDependsOn>
 	</PropertyGroup>
+
 	<Target
 		Name="GetCopyToOutputDirectoryItems"
 		Returns="@(AllItemsFullPathWithTargetPath)"
@@ -4675,6 +4705,7 @@
 	<PropertyGroup>
 		<UnmanagedRegistrationDependsOn></UnmanagedRegistrationDependsOn>
 	</PropertyGroup>
+
 	<Target
 		Name="UnmanagedRegistration"
 		Condition="'$(RegisterForComInterop)' == 'true' AND '$(OutputType)' == 'library'"
@@ -4881,6 +4912,7 @@
 			AfterClean
 		</CleanDependsOn>
 	</PropertyGroup>
+
 	<Target
 		Name="Clean"
 		Condition="'$(_InvalidConfigurationWarning)' != 'true'"
@@ -4939,6 +4971,7 @@
 	<PropertyGroup>
 		<CoreCleanDependsOn></CoreCleanDependsOn>
 	</PropertyGroup>
+
 	<Target
 		Name="CoreClean"
 		DependsOnTargets="$(CoreCleanDependsOn)">
@@ -5070,6 +5103,7 @@
 	<PropertyGroup>
 		<PostBuildEventDependsOn></PostBuildEventDependsOn>
 	</PropertyGroup>
+
 	<Target
 		Name="PostBuildEvent"
 		Condition="'$(PostBuildEvent)' != '' AND ('$(RunPostBuildEvent)' != 'OnOutputUpdated' OR '$(_AssemblyTimestampBeforeCompile)' != '$(_AssemblyTimestampAfterCompile)')"
@@ -5107,6 +5141,7 @@
 			_DeploymentUnpublishable
 		</PublishDependsOn>
 	</PropertyGroup>
+
 	<Target
 		Name="Publish"
 		DependsOnTargets="$(PublishDependsOn)"/>
@@ -5166,6 +5201,7 @@
 			AfterPublish
 		</PublishOnlyDependsOn>
 	</PropertyGroup>
+
 	<Target
 		Name="PublishOnly"
 		DependsOnTargets="$(PublishOnlyDependsOn)"/>
@@ -5206,6 +5242,7 @@
 			CreateSatelliteAssemblies;
 		</PublishBuildDependsOn>
 	</PropertyGroup>
+
 	<Target
 		Name="PublishBuild"
 		DependsOnTargets="$(PublishBuildDependsOn)"/>
@@ -5429,6 +5466,7 @@
 		<BuiltProjectOutputGroupDependsOn>PrepareForBuild</BuiltProjectOutputGroupDependsOn>
 		<AddAppConfigToBuildOutputs Condition="('$(AddAppConfigToBuildOutputs)' == '') AND ('$(OutputType)' != 'library' AND '$(OutputType)' != 'winmdobj')">true</AddAppConfigToBuildOutputs>
 	</PropertyGroup>
+
 	<Target
 		Name="BuiltProjectOutputGroup"
 		Returns="@(BuiltProjectOutputGroupOutput)"
@@ -5541,6 +5579,7 @@
 	<PropertyGroup>
 		<SatelliteDllsProjectOutputGroupDependsOn>PrepareForBuild;PrepareResourceNames</SatelliteDllsProjectOutputGroupDependsOn>
 	</PropertyGroup>
+
 	<Target
 		Name="SatelliteDllsProjectOutputGroup"
 		Returns="@(SatelliteDllsProjectOutputGroupOutput)"
@@ -5576,6 +5615,7 @@
 	<PropertyGroup>
 		<SourceFilesProjectOutputGroupDependsOn>PrepareForBuild;AssignTargetPaths</SourceFilesProjectOutputGroupDependsOn>
 	</PropertyGroup>
+
 	<Target
 		Name="SourceFilesProjectOutputGroup"
 		Returns="@(SourceFilesProjectOutputGroupOutput)"
@@ -5613,6 +5653,7 @@
 	<PropertyGroup>
 		<ContentFilesProjectOutputGroupDependsOn>PrepareForBuild;AssignTargetPaths</ContentFilesProjectOutputGroupDependsOn>
 	</PropertyGroup>
+
 	<Target
 		Name="ContentFilesProjectOutputGroup"
 		Returns="@(ContentFilesProjectOutputGroupOutput)"
@@ -5910,6 +5951,38 @@
 
 	</Target>
 
+	<!--
+		============================================================
+			DesignerRuntimeImplementationProjectOutputGroup
+
+		Exposes build items to be used by designer. The default is empty, but
+		SDKs can override it as appropriate. The empty stub is required so that
+		the project system can always rely on calling it even if it is not
+		overridden.
+		============================================================
+	-->
+	<PropertyGroup>
+		<DesignerRuntimeImplementationProjectOutputGroupDependsOn>
+			$(DesignerRuntimeImplementationProjectOutputGroupDependsOn);
+			$(CommonOutputGroupsDependsOn)
+		</DesignerRuntimeImplementationProjectOutputGroupDependsOn>
+	</PropertyGroup>
+
+	<Target
+		Name="DesignerRuntimeImplementationProjectOutputGroup"
+		DependsOnTargets="$(DesignerRuntimeImplementationProjectOutputGroupDependsOn)"
+		Returns="@(DesignerRuntimeImplementationProjectOutputGroupOutput)">
+	</Target>
+
+	<!--
+		============================================================
+						.editorconfig support
+		============================================================
+	-->
+
+	<!-- Expose the set of potential .editorconfig files so the project system can retrieve them. -->
+	<Target Name="GetPotentialEditorConfigFiles" Returns="@(PotentialEditorConfigFiles)"/>
+
 	<PropertyGroup>
 		<MicrosoftCommonTargetsHasBeenImported>true</MicrosoftCommonTargetsHasBeenImported>
 	</PropertyGroup>
@@ -5966,7 +6039,19 @@
 
 	<Import Project="$(MSAppxPackageTargets)" Condition="'$(WindowsAppContainer)' == 'true' AND Exists('$(MSAppxPackageTargets)')"/>
 
-	<Import Project="NuGet.Common.targets"/>
+	<PropertyGroup>
+		<VSTestTargets Condition="'$(VSTestTargets)'==''">$(MSBuildExtensionsPath)\Microsoft.TestPlatform.targets</VSTestTargets>
+	</PropertyGroup>
+
+	<Import Project="$(VSTestTargets)" Condition="Exists('$(VSTestTargets)')"/>
+
+	<PropertyGroup>
+		<MicrosoftNETBuildExtensionsTargets Condition="'$(MicrosoftNETBuildExtensionsTargets)' == ''">$(MSBuildExtensionsPath)\Microsoft\Microsoft.NET.Build.Extensions\Microsoft.NET.Build.Extensions.targets</MicrosoftNETBuildExtensionsTargets>
+	</PropertyGroup>
+
+	<Import Project="$(MicrosoftNETBuildExtensionsTargets)" Condition="Exists('$(MicrosoftNETBuildExtensionsTargets)')"/>
+
+	<Import Project="NuGet.Restore.targets"/>
 
 	<Import Project="$(CustomAfterMicrosoftCommonTargets)" Condition="Exists('$(CustomAfterMicrosoftCommonTargets)')"/>
 

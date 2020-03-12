@@ -1,0 +1,21 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+	<Import Project="Microsoft.Managed.targets"/>
+
+	<!-- When we are doing a multi-targeting build, this import is redirected to $(MSBuildThisFileName).MultiTargeting.targets. -->
+	<Choose>
+		<When Condition="'$(IsMultiTargetingBuild)' == 'true'">
+			<PropertyGroup>
+				<MicrosoftFSharpTargets>$(MSBuildThisFileName).MultiTargeting.targets</MicrosoftFSharpTargets>
+			</PropertyGroup>
+		</When>
+		<Otherwise>
+			<PropertyGroup>
+				<MicrosoftFSharpTargets>$(MSBuildThisFileName).CurrentVersion.targets</MicrosoftFSharpTargets>
+			</PropertyGroup>
+		</Otherwise>
+	</Choose>
+
+	<Import Project="$(MicrosoftFSharpTargets)"/>
+
+</Project>

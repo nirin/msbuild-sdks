@@ -39,8 +39,4 @@
 			Condition="'$(OutputType)' != 'Exe' OR '$(OutputType)' != 'AppContainerExe'"/>
 	</ItemGroup>
 
-	<PropertyGroup Condition="'$(MSBuildVersion)' == '' OR '$(MSBuildVersion)' &lt; '16.0'">
-		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
-	</PropertyGroup>
-
 </Project>
