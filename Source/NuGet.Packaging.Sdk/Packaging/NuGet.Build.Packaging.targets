@@ -12,7 +12,7 @@
 	<UsingTask TaskName="NuGet.Build.Packaging.Tasks.CreatePackage" AssemblyFile="$(NuGetPackagingTaskAssemblyFile)"/>
 
 	<PropertyGroup Label="Globals">
-		<IsMultiTargetingBuild Condition="'$(TargetFrameworks)' != '' AND '$(TargetFramework)' == ''">true</IsMultiTargetingBuild>
+		<IsOuterBuild Condition="'$(TargetFrameworks)' != '' AND '$(TargetFramework)' == ''">true</IsOuterBuild>
 	</PropertyGroup>
 
 	<!-- Adds compatibility targets with Pack SDK -->
@@ -402,7 +402,7 @@
 
 	<Import Project="NuGet.Build.Packaging.ReferenceAssembly.targets"/>
 	<Import Project="NuGet.Build.Packaging.Authoring.targets" Condition="'$(IsPackagingProject)' == 'true'"/>
-	<Import Project="NuGet.Build.Packaging.MultiTargeting.targets" Condition="'$(IsMultiTargetingBuild)' == 'true' AND '$(FromPackagingProject)' == 'true'"/>
+	<Import Project="NuGet.Build.Packaging.MultiTargeting.targets" Condition="'$(IsOuterBuild)' == 'true' AND '$(FromPackagingProject)' == 'true'"/>
 	<Import Project="NuGet.Build.Packaging.Legacy.targets"/>
 
 </Project>
