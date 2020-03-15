@@ -1,10 +1,10 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
-	<Import Project="Microsoft.Managed.targets"/>
+	<Import Project="Microsoft.Managed.props"/>
 
 	<!-- When we are doing a multi-targeting build, this import is redirected to $(MSBuildThisFileName).MultiTargeting.targets. -->
 	<Choose>
-		<When Condition="'$(IsMultiTargetingBuild)' == 'true'">
+		<When Condition="'$(IsOuterBuild)' == 'true'">
 			<PropertyGroup>
 				<MicrosoftFSharpTargets>$(MSBuildThisFileName).MultiTargeting.targets</MicrosoftFSharpTargets>
 			</PropertyGroup>
@@ -17,5 +17,7 @@
 	</Choose>
 
 	<Import Project="$(MicrosoftFSharpTargets)"/>
+
+	<Import Project="Microsoft.Managed.targets"/>
 
 </Project>

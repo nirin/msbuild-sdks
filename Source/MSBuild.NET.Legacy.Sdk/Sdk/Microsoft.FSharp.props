@@ -2,7 +2,7 @@
 
 	<Import Project="Microsoft.Common.props"/>
 
-	<Import Project="Microsoft.Managed.props"/>
+	<!--<Import Project="Microsoft.Managed.props"/>-->
 
 	<!--
 		***************************************************************************************************************
@@ -16,7 +16,7 @@
 		<FSharpToolsPath Condition="'$(MSBuildRuntimeType)' == 'Full'">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\FSharp</FSharpToolsPath>
 	</PropertyGroup>
 
-	<PropertyGroup>
+	<PropertyGroup Condition="'$(UseFSharpNETSdk)' == 'true'">
 		<FSharpLanguageProps Condition="'$(FSharpLanguageProps)' == ''">$(FSharpToolsPath)\Microsoft.FSharp.NetSdk.props</FSharpLanguageProps>
 	</PropertyGroup>
 

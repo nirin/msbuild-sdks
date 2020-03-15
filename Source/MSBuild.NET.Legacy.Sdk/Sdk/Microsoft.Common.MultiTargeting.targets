@@ -15,10 +15,8 @@
 			Returns="@(_ThisProjectBuildMetadata)">
 		<ItemGroup>
 			<_ThisProjectBuildMetadata Include="$(MSBuildProjectFullPath)">
-				<TargetFrameworks Condition="'$(TargetFrameworks)' != ''">$(TargetFrameworks)</TargetFrameworks>
-				<TargetFrameworks Condition="'$(TargetFrameworks)' == ''">$(TargetFramework)</TargetFrameworks>
-				<HasSingleTargetFramework>true</HasSingleTargetFramework>
-				<HasSingleTargetFramework Condition="'$(IsMultiTargetingBuild)' == 'true'">false</HasSingleTargetFramework>
+				<TargetFrameworks>$(TargetFrameworks)</TargetFrameworks>
+				<HasSingleTargetFramework>false</HasSingleTargetFramework>
 				<!-- indicate to caller that project is RID agnostic so that a global property RuntimeIdentifier value can be removed -->
 				<IsRidAgnostic>false</IsRidAgnostic>
 				<IsRidAgnostic Condition="'$(RuntimeIdentifier)' == '' AND '$(RuntimeIdentifiers)' == ''">true</IsRidAgnostic>
@@ -122,7 +120,7 @@
 	-->
 	<Target Name="Rebuild" DependsOnTargets="Clean;Build"/>
 
-	<Import Project="NuGet.Restore.targets"/>
+	<Import Project="NuGet.Restore.targets" Condition="'$(IsRestoreTargetsFileLoaded)' != 'true'"/>
 
 	<!-- TODO: Remove when no longer needed! -->
 	<PropertyGroup Condition="'$(CustomAfterMicrosoftCommonCrossTargetingTargets)' != ''">

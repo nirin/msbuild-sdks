@@ -1,0 +1,34 @@
+
+<Project>
+
+	<!--
+		This file contains .NET-specific properties, and items. This file is imported for .NET Core, .NET Standard, and .NET Framework projects.
+		these two files are used to encapsulate the multi-targeting and framework specific build process.
+	-->
+
+	<!--
+		============================================================
+								GetToolPaths
+		Get the paths for the .NET Framework and .NET Core tools and sdk tools directories.
+		This does not need to be a target since all of the values are availiable at project evaluation time.
+		============================================================
+	-->
+	<PropertyGroup>
+		<TargetFrameworkSDKToolsDirectory Condition="'$(TargetFrameworkSDKToolsDirectory)' == ''">$(SDK40ToolsPath)</TargetFrameworkSDKToolsDirectory>
+	</PropertyGroup>
+
+	<!--
+		============================================================
+							SetHighEntropyVA
+		Set HighEntropyVA according to the TargetFramework
+		============================================================
+	-->
+	<PropertyGroup Condition="$(TargetFrameworkIdentifier)' == '.NETCoreApp' OR '$(TargetFrameworkIdentifier)' == '.NETStandard'">
+		<HighEntropyVA Condition="'$(HighEntropyVA)' == ''">true</HighEntropyVA>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<HighEntropyVA Condition="'$(HighEntropyVA)' == ''">false</HighEntropyVA>
+	</PropertyGroup>
+
+</Project>

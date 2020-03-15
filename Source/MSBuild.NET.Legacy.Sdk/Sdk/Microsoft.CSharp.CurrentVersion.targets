@@ -67,6 +67,7 @@
 		<CreateCSharpManifestResourceName
 			ResourceFiles="@(EmbeddedResource)"
 			RootNamespace="$(RootNamespace)"
+			UseDependentUponConvention="$(EmbeddedResourceUseDependentUponConvention)"
 			Condition="'%(EmbeddedResource.ManifestResourceName)' == '' AND ('%(EmbeddedResource.WithCulture)' == 'false' OR '%(EmbeddedResource.Type)' == 'Resx')">
 
 			<Output TaskParameter="ResourceFilesWithManifestResourceNames" ItemName="_Temporary"/>
@@ -78,6 +79,7 @@
 			ResourceFiles="@(EmbeddedResource)"
 			RootNamespace="$(RootNamespace)"
 			PrependCultureAsDirectory="false"
+			UseDependentUponConvention="$(EmbeddedResourceUseDependentUponConvention)"
 			Condition="'%(EmbeddedResource.ManifestResourceName)' == '' AND '%(EmbeddedResource.WithCulture)' == 'true' AND '%(EmbeddedResource.Type)' == 'Non-Resx'">
 
 			<Output TaskParameter="ResourceFilesWithManifestResourceNames" ItemName="_Temporary"/>
@@ -128,7 +130,7 @@
 	</ItemGroup>
 
 	<PropertyGroup>
-		<CoreCompileDependsOn>_ComputeNonExistentFileProperty;ResolveCodeAnalysisRuleSet</CoreCompileDependsOn>
+		<CoreCompileDependsOn>$(CoreCompileDependsOn);_ComputeNonExistentFileProperty;ResolveCodeAnalysisRuleSet</CoreCompileDependsOn>
 		<ExportWinMDFile Condition="'$(ExportWinMDFile)' == '' AND '$(OutputType)' == 'WinMDObj'">true</ExportWinMDFile>
 	</PropertyGroup>
 
@@ -268,7 +270,8 @@
 			Win32Resource="$(Win32Resource)"/>
 
 		<!-- Only Applicable to the regular CoreCompile: -->
-		<!-- <ItemGroup>
+		<!--
+			<ItemGroup>
 				<_CoreCompileResourceInputs Remove="@(_CoreCompileResourceInputs)"/>
 			</ItemGroup>
 
@@ -328,7 +331,8 @@
 		<!--
 			Note that unlike VB, C# does not automatically locate System.dll as a "standard library"
 			instead the reference is always passed from the project. Also, for mscorlib.dll
-			we need to provide the explicit location in order to maintain the correct behaviour
+			we need to provide the explicit location in order to avoid resolving from, e.g.,
+			{CandidateAssemblyFiles}.
 		-->
 		<_ExplicitReference Include="$(FrameworkPathOverride)\mscorlib.dll"/>
 	</ItemGroup>

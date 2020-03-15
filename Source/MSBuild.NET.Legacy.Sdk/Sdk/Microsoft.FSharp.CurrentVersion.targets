@@ -14,8 +14,13 @@
 		<FSharpToolsPath Condition="'$(MSBuildRuntimeType)' == 'Full'">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\FSharp</FSharpToolsPath>
 	</PropertyGroup>
 
-	<PropertyGroup>
+	<PropertyGroup Condition="'$(UseFSharpNETSdk)' == 'true'">
 		<FSharpLanguageTargets Condition="'$(FSharpLanguageTargets)' == ''">$(FSharpToolsPath)\Microsoft.FSharp.NetSdk.targets</FSharpLanguageTargets>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<FSharpLanguageTargets Condition="'$(FSharpLanguageTargets)' == ''">$(FSharpToolsPath)\Microsoft.FSharp.targets</FSharpLanguageTargets>
+		<FSharpLanguageTargets Condition="!Exists('$(FSharpLanguageTargets)')">$(FSharpToolsPath)\Microsoft.FSharp.Targets</FSharpLanguageTargets>
 	</PropertyGroup>
 
 	<Import Project="$(FSharpLanguageTargets)" Condition="Exists('$(FSharpLanguageTargets)')"/>

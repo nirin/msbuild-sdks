@@ -67,6 +67,7 @@
 		<CreateVisualBasicManifestResourceName
 			ResourceFiles="@(EmbeddedResource)"
 			RootNamespace="$(RootNamespace)"
+			UseDependentUponConvention="$(EmbeddedResourceUseDependentUponConvention)"
 			Condition="'%(EmbeddedResource.ManifestResourceName)' == '' AND ('%(EmbeddedResource.WithCulture)' == 'false' OR '%(EmbeddedResource.Type)' == 'Resx')">
 
 			<Output TaskParameter="ResourceFilesWithManifestResourceNames" ItemName="_Temporary"/>
@@ -78,6 +79,7 @@
 			ResourceFiles="@(EmbeddedResource)"
 			RootNamespace="$(RootNamespace)"
 			PrependCultureAsDirectory="false"
+			UseDependentUponConvention="$(EmbeddedResourceUseDependentUponConvention)"
 			Condition="'%(EmbeddedResource.ManifestResourceName)' == '' AND '%(EmbeddedResource.WithCulture)' == 'true' AND '%(EmbeddedResource.Type)' == 'Non-Resx'">
 
 			<Output TaskParameter="ResourceFilesWithManifestResourceNames" ItemName="_Temporary"/>
@@ -131,7 +133,7 @@
 	</ItemGroup>
 
 	<PropertyGroup>
-		<CoreCompileDependsOn>_ComputeNonExistentFileProperty;ResolveCodeAnalysisRuleSet</CoreCompileDependsOn>
+		<CoreCompileDependsOn>$(CoreCompileDependsOn);_ComputeNonExistentFileProperty;ResolveCodeAnalysisRuleSet</CoreCompileDependsOn>
 		<ExportWinMDFile Condition="'$(ExportWinMDFile)' == '' AND '$(OutputType)' == 'WinMDObj'">true</ExportWinMDFile>
 	</PropertyGroup>
 
@@ -269,7 +271,8 @@
 			VBRuntime="$(VBRuntime)"/>
 
 		<!-- Only Applicable to the regular CoreCompile: -->
-		<!-- <ItemGroup>
+		<!--
+			<ItemGroup>
 				<_CoreCompileResourceInputs Remove="@(_CoreCompileResourceInputs)"/>
 			</ItemGroup>
 
@@ -332,8 +335,8 @@
 			Note that unlike C#, VB gets its mscorlib.dll path from the $(FrameworkPathOverride) property
 			via the /sdkpath parameter.
 			In addition to that, VB normally treats System.dll as a "standard library" however since we are
-			passing NoCompilerStandardLib=true we need an explicit reference to System in order to maintain the
-			correct behaviour.
+			passing NoCompilerStandardLib=true we need an explicit reference to System in order to avoid
+			resolving it from, e.g., {CandidateAssemblyFiles}.
 		-->
 		<_ExplicitReference Include="$(FrameworkPathOverride)\System.dll"/>
 	</ItemGroup>

@@ -18,8 +18,8 @@
 	</PropertyGroup>
 
 	<!--
-		Because .NET 2.0 apps did not set TargetFrameworkIdentifier, we need to set it for them here by default.  If
-		the runtime is set to Managed, we also need to set these.  Otherwise they should be blank (for instance Javascript or
+		Because .NET 2.0 apps did not set TargetFrameworkIdentifier, we need to set it for them here by default.
+		If the runtime is set to Managed, we also need to set these. Otherwise they should be blank (for instance Javascript or
 		Native apps) because they do not target a .NET Framework.
 	-->
 	<PropertyGroup Condition="'$(TargetRuntime)' == 'Managed'">
@@ -462,8 +462,11 @@
 	</PropertyGroup>
 
 
-	<!-- Sensible defaults for the most-commonly-desired MSBuildRuntime and MSBuildArchitecture values -->
-	<PropertyGroup Condition="'$(DisableOutOfProcTaskHost)' == ''">
+		<!--
+			Sensible defaults for the most-commonly-desired MSBuildRuntime and MSBuildArchitecture values. The Core and Mono runtimes do not currently support specifying task architecture or runtime.
+			If support for out-of-proc task execution is added on other runtimes, make sure each task's logic is checked against the current state of support.
+		-->
+	<PropertyGroup Condition="'$(DisableOutOfProcTaskHost)' == '' and '$(MSBuildRuntimeType)' == 'Full'">
 		<TargetFrameworkAsMSBuildRuntime Condition="'$(TargetFrameworkVersion)' == 'v2.0' OR '$(TargetFrameworkVersion)' == 'v3.0' OR '$(TargetFrameworkVersion)' == 'v3.5'">CLR2</TargetFrameworkAsMSBuildRuntime>
 		<TargetFrameworkAsMSBuildRuntime Condition="'$(TargetFrameworkVersion)' == 'v4.0' OR '$(TargetFrameworkVersion)' == 'v4.5'">CLR4</TargetFrameworkAsMSBuildRuntime>
 		<TargetFrameworkAsMSBuildRuntime Condition="'$(TargetFrameworkAsMSBuildRuntime)' == ''">CurrentRuntime</TargetFrameworkAsMSBuildRuntime>
@@ -696,7 +699,7 @@
 		Source control information provider that sets these properties and items shall execute before this target (by including
 		InitializeSourceControlInformation in its BeforeTargets) and set source control properties and items that haven't been initialized yet.
 	-->
-	<Target Name="InitializeSourceControlInformation" />
+	<Target Name="InitializeSourceControlInformation"/>
 
 	<PropertyGroup>
 		<SourceControlInformationFeatureSupported>true</SourceControlInformationFeatureSupported>
@@ -1063,7 +1066,7 @@
 		============================================================
 	-->
 	<PropertyGroup>
-		<PrepareForBuildDependsOn>GetFrameworkPaths;GetReferenceAssemblyPaths;AssignLinkMetadata</PrepareForBuildDependsOn>
+		<PrepareForBuildDependsOn>$(PrepareForBuildDependsOn);GetFrameworkPaths;GetReferenceAssemblyPaths;AssignLinkMetadata</PrepareForBuildDependsOn>
 	</PropertyGroup>
 
 	<Target
@@ -1540,14 +1543,14 @@
 	-->
 	<Target Name="_GetProjectReferenceTargetFrameworkProperties">
 		<!--
-			Select the moniker to send to each project reference  if not already set. NugetTargetMoniker (NTM) is preferred by default over
+			Select the moniker to send to each project reference  if not already set. NuGetTargetMoniker (NTM) is preferred by default over
 			TargetFrameworkMoniker (TFM) because it is required to disambiguate the UWP case where TFM is fixed at .NETCore,Version=v5.0 and
 			has floating NTM=UAP,Version=vX.Y.Z. However, in other cases (classic PCLs), NTM contains multiple values and that will cause the MSBuild
 			invocation below to fail by passing invalid properties. Therefore we do not use the NTM if it contains a semicolon.
 		-->
 		<PropertyGroup Condition="'$(ReferringTargetFrameworkForProjectReferences)' == ''">
-			<ReferringTargetFrameworkForProjectReferences Condition="'$(NugetTargetMoniker)' != '' AND !$(NuGetTargetMoniker.Contains(';'))">$(NugetTargetMoniker)</ReferringTargetFrameworkForProjectReferences>
-			<ReferringTargetFrameworkForProjectReferences Condition="'$(NugetTargetMoniker)' == ''">$(TargetFrameworkMoniker)</ReferringTargetFrameworkForProjectReferences>
+			<ReferringTargetFrameworkForProjectReferences Condition="'$(NuGetTargetMoniker)' != '' AND !$(NuGetTargetMoniker.Contains(';'))">$(NugetTargetMoniker)</ReferringTargetFrameworkForProjectReferences>
+			<ReferringTargetFrameworkForProjectReferences Condition="'$(NuGetTargetMoniker)' == ''">$(TargetFrameworkMoniker)</ReferringTargetFrameworkForProjectReferences>
 		</PropertyGroup>
 
 		<!--
@@ -1659,10 +1662,8 @@
 			Returns="@(_ThisProjectBuildMetadata)">
 		<ItemGroup>
 			<_ThisProjectBuildMetadata Include="$(MSBuildProjectFullPath)">
-				<TargetFrameworks Condition="'$(TargetFrameworks)' != ''">$(TargetFrameworks)</TargetFrameworks>
-				<TargetFrameworks Condition="'$(TargetFrameworks)' == ''">$(TargetFramework)</TargetFrameworks>
+				<TargetFrameworks>$(TargetFramework)</TargetFrameworks>
 				<HasSingleTargetFramework>true</HasSingleTargetFramework>
-				<HasSingleTargetFramework Condition="'$(IsMultiTargetingBuild)' == 'true'">false</HasSingleTargetFramework>
 				<!-- indicate to caller that project is RID agnostic so that a global property RuntimeIdentifier value can be removed -->
 				<IsRidAgnostic>false</IsRidAgnostic>
 				<IsRidAgnostic Condition="'$(RuntimeIdentifier)' == '' AND '$(RuntimeIdentifiers)' == ''">true</IsRidAgnostic>
@@ -1754,33 +1755,6 @@
 			BuildInParallel="$(BuildInParallel)"
 			Properties="%(_MSBuildProjectReferenceExistent.SetConfiguration); %(_MSBuildProjectReferenceExistent.SetPlatform); %(_MSBuildProjectReferenceExistent.SetTargetFramework)"
 			Condition="'%(_MSBuildProjectReferenceExistent.BuildReference)' == 'true' AND '@(ProjectReferenceWithConfiguration)' != '' AND ('$(BuildingInsideVisualStudio)' == 'true' OR '$(BuildProjectReferences)' != 'true') AND '$(VisualStudioVersion)' != '10.0' AND '@(_MSBuildProjectReferenceExistent)' != ''"
-			ContinueOnError="!$(BuildingProject)"
-			RemoveProperties="%(_MSBuildProjectReferenceExistent.GlobalPropertiesToRemove)">
-
-			<Output TaskParameter="TargetOutputs" ItemName="_ResolvedProjectReferencePaths" Condition="'%(_MSBuildProjectReferenceExistent.ReferenceOutputAssembly)' == 'true'"/>
-			<Output TaskParameter="TargetOutputs" ItemName="%(_MSBuildProjectReferenceExistent.OutputItemType)" Condition="'%(_MSBuildProjectReferenceExistent.OutputItemType)' != ''"/>
-
-		</MSBuild>
-
-		<!--
-			QUIRKING FOR DEV10
-
-			In the 4.0 version of the targets, we built the targets specified in the Targets metadata in addition to
-			GetTargetPath when building in the IDE.  In 4.5, we changed this to just GetTargetPath because it was
-			causing performance trouble with certain systems that specified targets that did a significant amount of
-			work in the Targets metadata, expecting them to only build when doing a real build.
-
-			However, that change broke C++ unit testing in Dev10 + 4.5 scenarios, because they required use of the
-			Targets metadata in order to get design time builds to work properly.  Thus, we need to make sure we
-			restore the Dev10 behavior when building on Dev10.
-		-->
-
-		<MSBuild
-			Projects="@(_MSBuildProjectReferenceExistent)"
-			Targets="%(_MSBuildProjectReferenceExistent.Targets);GetTargetPath"
-			BuildInParallel="$(BuildInParallel)"
-			Properties="%(_MSBuildProjectReferenceExistent.SetConfiguration); %(_MSBuildProjectReferenceExistent.SetPlatform); %(_MSBuildProjectReferenceExistent.SetTargetFramework)"
-			Condition="'%(_MSBuildProjectReferenceExistent.BuildReference)' == 'true' AND '@(ProjectReferenceWithConfiguration)' != '' AND ('$(BuildingInsideVisualStudio)' == 'true' OR '$(BuildProjectReferences)' != 'true') AND '$(VisualStudioVersion)' == '10.0' AND '@(_MSBuildProjectReferenceExistent)' != ''"
 			ContinueOnError="!$(BuildingProject)"
 			RemoveProperties="%(_MSBuildProjectReferenceExistent.GlobalPropertiesToRemove)">
 
@@ -2737,6 +2711,7 @@
 	-->
 	<PropertyGroup>
 		<PrepareResourcesDependsOn>
+			$(PrepareResourcesDependsOn);
 			PrepareResourceNames;
 			ResGen;
 			CompileLicxFiles
@@ -3258,7 +3233,7 @@
 	<PropertyGroup Condition="'$(TargetFrameworkMoniker)' != ''">
 		<!-- Do not clean if we are going to default the path to the temp directory -->
 		<TargetFrameworkMonikerAssemblyAttributesFileClean Condition="'$(TargetFrameworkMonikerAssemblyAttributesFileClean)' == '' AND '$(TargetFrameworkMonikerAssemblyAttributesPath)' != ''">true</TargetFrameworkMonikerAssemblyAttributesFileClean>
-		<TargetFrameworkMonikerAssemblyAttributesPath Condition="'$(TargetFrameworkMonikerAssemblyAttributesPath)' == ''">$([System.IO.Path]::Combine('$([System.IO.Path]::GetTempPath())','$(TargetFrameworkMoniker).AssemblyAttributes$(DefaultLanguageSourceExtension)'))</TargetFrameworkMonikerAssemblyAttributesPath>
+		<TargetFrameworkMonikerAssemblyAttributesPath Condition="'$(TargetFrameworkMonikerAssemblyAttributesPath)' == ''">$([System.IO.Path]::Combine('$(IntermediateOutputPath)','$(TargetFrameworkMoniker).AssemblyAttributes$(DefaultLanguageSourceExtension)'))</TargetFrameworkMonikerAssemblyAttributesPath>
 	</PropertyGroup>
 
 	<PropertyGroup>
@@ -3373,7 +3348,7 @@
 	-->
 	<Target Name="_GenerateCompileDependencyCache"
 			DependsOnTargets="ResolveAssemblyReferences"
-			Condition="'$(DesignTimeBuild)' != 'true' AND '$(BuildingProject)' != 'true'">
+			Condition="'$(DesignTimeBuild)' != 'true' AND '$(BuildingProject)' == 'true'">
 
 		<ItemGroup>
 			<CustomAdditionalCompileInputs Include="$(IntermediateOutputPath)$(MSBuildProjectFile).CoreCompileInputs.cache"/>
@@ -3796,32 +3771,32 @@
 	<Target
 		Name="GenerateApplicationManifest"
 		DependsOnTargets="
-				_DeploymentComputeNativeManifestInfo;
-				_DeploymentComputeClickOnceManifestInfo;
-				ResolveComReferences;
-				ResolveNativeReferences;
-				_GenerateResolvedDeploymentManifestEntryPoint"
+			_DeploymentComputeNativeManifestInfo;
+			_DeploymentComputeClickOnceManifestInfo;
+			ResolveComReferences;
+			ResolveNativeReferences;
+			_GenerateResolvedDeploymentManifestEntryPoint"
 		Inputs="
-				$(MSBuildAllProjects);
-				@(AppConfigWithTargetPath);
-				$(_DeploymentBaseManifest);
-				@(ResolvedIsolatedComModules);
-				@(_DeploymentManifestDependencies);
-				@(_DeploymentResolvedManifestEntryPoint);
-				@(_DeploymentManifestFiles)"
+			$(MSBuildAllProjects);
+			@(AppConfigWithTargetPath);
+			$(_DeploymentBaseManifest);
+			@(ResolvedIsolatedComModules);
+			@(_DeploymentManifestDependencies);
+			@(_DeploymentResolvedManifestEntryPoint);
+			@(_DeploymentManifestFiles)"
 		Outputs="@(ApplicationManifest)">
 
 		<RequiresFramework35SP1Assembly
 			ReferencedAssemblies="@(Reference)"
-				ErrorReportUrl="$(_DeploymentFormattedErrorReportUrl)"
-				TargetFrameworkVersion="$(TargetFrameworkVersion)"
-				CreateDesktopShortcut="$(CreateDesktopShortcut)"
-				SigningManifests="$(SignManifests)"
-				Assemblies="@(_DeploymentManifestDependencies)"
-				DeploymentManifestEntryPoint="@(_DeploymentResolvedDeploymentManifestEntryPoint)"
-				EntryPoint="@(_DeploymentResolvedManifestEntryPoint)"
-				Files="@(_DeploymentManifestFiles)"
-				SuiteName="$(SuiteName)">
+			ErrorReportUrl="$(_DeploymentFormattedErrorReportUrl)"
+			TargetFrameworkVersion="$(TargetFrameworkVersion)"
+			CreateDesktopShortcut="$(CreateDesktopShortcut)"
+			SigningManifests="$(SignManifests)"
+			Assemblies="@(_DeploymentManifestDependencies)"
+			DeploymentManifestEntryPoint="@(_DeploymentResolvedDeploymentManifestEntryPoint)"
+			EntryPoint="@(_DeploymentResolvedManifestEntryPoint)"
+			Files="@(_DeploymentManifestFiles)"
+			SuiteName="$(SuiteName)">
 
 			<Output TaskParameter="RequiresMinimumFramework35SP1" PropertyName="_DeploymentRequiresMinimumFramework35SP1"/>
 		</RequiresFramework35SP1Assembly>
@@ -3963,7 +3938,7 @@
 			SatelliteAssemblies="@(_SatelliteAssemblies)"
 			TargetCulture="$(TargetCulture)">
 
-			<Output TaskParameter="OutputAssemblies" ItemName="_DeploymentManifestDependencies"/>
+			<Output TaskParameter="OutputAssemblies" ItemName="_DeploymentManifestDependenciesUnfiltered"/>
 			<Output TaskParameter="OutputFiles" ItemName="_DeploymentManifestFiles"/>
 			<Output TaskParameter="OutputEntryPoint" ItemName="_DeploymentResolvedManifestEntryPoint"/>
 
@@ -4138,6 +4113,7 @@
 			<!-- By default we're not using Hard Links to copy to the output directory, and never when building in VS -->
 			<CreateHardLinksForCopyFilesToOutputDirectoryIfPossible Condition="'$(BuildingInsideVisualStudio)' == 'true' OR '$(CreateHardLinksForCopyFilesToOutputDirectoryIfPossible)' == ''">false</CreateHardLinksForCopyFilesToOutputDirectoryIfPossible>
 			<CreateSymbolicLinksForCopyFilesToOutputDirectoryIfPossible Condition="'$(BuildingInsideVisualStudio)' == 'true' OR '$(CreateSymbolicLinksForCopyFilesToOutputDirectoryIfPossible)' == ''">false</CreateSymbolicLinksForCopyFilesToOutputDirectoryIfPossible>
+			<ErrorIfLinkFailsForCopyFilesToOutputDirectory Condition="'$(BuildingInsideVisualStudio)' == 'true' OR '$(ErrorIfLinkFailsForCopyFilesToOutputDirectory)' == ''">false</ErrorIfLinkFailsForCopyFilesToOutputDirectory>
 		</PropertyGroup>
 
 		<PropertyGroup>
@@ -4156,6 +4132,7 @@
 			RetryDelayMilliseconds="$(CopyRetryDelayMilliseconds)"
 			UseHardlinksIfPossible="$(CreateHardLinksForCopyFilesToOutputDirectoryIfPossible)"
 			UseSymboliclinksIfPossible="$(CreateSymbolicLinksForCopyFilesToOutputDirectoryIfPossible)"
+			ErrorIfLinkFails="$(ErrorIfLinkFailsForCopyFilesToOutputDirectory)"
 			Condition="'$(CopyBuildOutputToOutputDirectory)' == 'true' AND '$(SkipCopyBuildProduct)' != 'true'">
 
 			<Output TaskParameter="DestinationFiles" ItemName="MainAssembly"/>
@@ -4202,6 +4179,7 @@
 			RetryDelayMilliseconds="$(CopyRetryDelayMilliseconds)"
 			UseHardlinksIfPossible="$(CreateHardLinksForCopyFilesToOutputDirectoryIfPossible)"
 			UseSymboliclinksIfPossible="$(CreateSymbolicLinksForCopyFilesToOutputDirectoryIfPossible)"
+			ErrorIfLinkFails="$(ErrorIfLinkFailsForCopyFilesToOutputDirectory)"
 			Condition="'$(_SGenDllCreated)' == 'true'">
 
 			<Output TaskParameter="DestinationFiles" ItemName="FileWrites"/>
@@ -4218,6 +4196,7 @@
 			RetryDelayMilliseconds="$(CopyRetryDelayMilliseconds)"
 			UseHardlinksIfPossible="$(CreateHardLinksForCopyFilesToOutputDirectoryIfPossible)"
 			UseSymboliclinksIfPossible="$(CreateSymbolicLinksForCopyFilesToOutputDirectoryIfPossible)"
+			ErrorIfLinkFails="$(ErrorIfLinkFailsForCopyFilesToOutputDirectory)"
 			Condition="'$(_DebugSymbolsProduced)' == 'true' AND '$(SkipCopyingSymbolsToOutputDirectory)' != 'true' AND '$(CopyOutputSymbolsToOutputDirectory)' == 'true'">
 
 			<Output TaskParameter="DestinationFiles" ItemName="FileWrites"/>
@@ -4234,7 +4213,8 @@
 			RetryDelayMilliseconds="$(CopyRetryDelayMilliseconds)"
 			UseHardlinksIfPossible="$(CreateHardLinksForCopyFilesToOutputDirectoryIfPossible)"
 			UseSymboliclinksIfPossible="$(CreateSymbolicLinksForCopyFilesToOutputDirectoryIfPossible)"
-			Condition="'$(_DocumentationFileProduced)' == 'true' AND '$(CopyDocumentationFileToOutputDirectory)'=='true'">
+			ErrorIfLinkFails="$(ErrorIfLinkFailsForCopyFilesToOutputDirectory)"
+			Condition="'$(_DocumentationFileProduced)' == 'true' AND '$(CopyDocumentationFileToOutputDirectory)' == 'true'">
 
 			<Output TaskParameter="DestinationFiles" ItemName="FileWrites"/>
 
@@ -4250,6 +4230,7 @@
 			RetryDelayMilliseconds="$(CopyRetryDelayMilliseconds)"
 			UseHardlinksIfPossible="$(CreateHardLinksForCopyFilesToOutputDirectoryIfPossible)"
 			UseSymboliclinksIfPossible="$(CreateSymbolicLinksForCopyFilesToOutputDirectoryIfPossible)"
+			ErrorIfLinkFails="$(ErrorIfLinkFailsForCopyFilesToOutputDirectory)"
 			Condition="'@(IntermediateSatelliteAssembliesWithTargetPath)' != ''">
 
 			<Output TaskParameter="DestinationFiles" ItemName="FileWrites"/>
@@ -4285,6 +4266,7 @@
 			RetryDelayMilliseconds="$(CopyRetryDelayMilliseconds)"
 			UseHardlinksIfPossible="$(CreateHardLinksForCopyFilesToOutputDirectoryIfPossible)"
 			UseSymboliclinksIfPossible="$(CreateSymbolicLinksForCopyFilesToOutputDirectoryIfPossible)"
+			ErrorIfLinkFails="$(ErrorIfLinkFailsForCopyFilesToOutputDirectory)"
 			Condition="'$(SkipCopyWinMDArtifact)' != 'true' AND '@(WinMDExpArtifacts)' != ''">
 			<Output TaskParameter="DestinationFiles" ItemName="FileWrites"/>
 			<Output TaskParameter="DestinationFiles" ItemName="FinalWinmdExpArtifacts"/>
@@ -4367,39 +4349,65 @@
 		============================================================
 	-->
 	<PropertyGroup>
+		<_TargetsThatPrepareProjectReferences>_SplitProjectReferencesByFileExistence</_TargetsThatPrepareProjectReferences>
+		<!--
+			GetCopyToOutputDirectoryItems depends on an unspecified dependency _SplitProjectReferencesByFileExistence -> AssignProjectConfiguration (https://github.com/microsoft/msbuild/issues/4677).
+			When the unspecified dependency does not happen by accident, content copying is only 1 level deep instead of transitive.
+			This target enforces the dependency.
+
+			TODO: make transitive content copying the default when the breaking change is acceptable.
+		-->
+		<_TargetsThatPrepareProjectReferences Condition="'$(MSBuildCopyContentTransitively)' == 'true'">
+			AssignProjectConfiguration;
+			_SplitProjectReferencesByFileExistence
+		</_TargetsThatPrepareProjectReferences>
+
 		<GetCopyToOutputDirectoryItemsDependsOn>
 			AssignTargetPaths;
-			_SplitProjectReferencesByFileExistence;
-			_GetProjectReferenceTargetFrameworkProperties
+			$(_TargetsThatPrepareProjectReferences);
+			_GetProjectReferenceTargetFrameworkProperties;
+			_PopulateCommonStateForGetCopyToOutputDirectoryItems
 		</GetCopyToOutputDirectoryItemsDependsOn>
+
+		<!--
+			Mitigation for https://github.com/microsoft/msbuild/issues/4677
+			When MSBuildCopyContentTransitively == true, all content copying is transitive.
+			When MSBuildCopyContentTransitively == false, content copying is 1 level deep.
+			When MSBuildCopyContentTransitively != {true, false}, the legacy behaviour in https://github.com/microsoft/msbuild/issues/4677 manifests.
+		 -->
+		<_RecursiveTargetForContentCopying>GetCopyToOutputDirectoryItems</_RecursiveTargetForContentCopying>
+		<!-- Enforce 1 level deep content copying by replacing the recursive content target with the target that retrieves the content for the current project only. -->
+		<_RecursiveTargetForContentCopying Condition="'$(MSBuildCopyContentTransitively)' == 'false'">_GetCopyToOutputDirectoryItemsFromThisProject</_RecursiveTargetForContentCopying>
 	</PropertyGroup>
 
-	<Target
-		Name="GetCopyToOutputDirectoryItems"
-		Returns="@(AllItemsFullPathWithTargetPath)"
-		KeepDuplicateOutputs="'$(MSBuildDisableGetCopyToOutputDirectoryItemsOptimization)' == ''"
-		DependsOnTargets="$(GetCopyToOutputDirectoryItemsDependsOn)">
-
-
-		<!-- In the general case, clients need very little of the metadata which is generated by invoking this target on this project and its children.  For those
+	<Target Name="_PopulateCommonStateForGetCopyToOutputDirectoryItems">
+		<!--
+			In the general case, clients need very little of the metadata which is generated by invoking this target on this project and its children.  For those
 			cases, we can immediately discard the unwanted metadata, reducing memory usage, particularly in very large and interconnected systems of projects.
 			However, if some client does require the original functionality, it is sufficient to set MSBuildDisableGetCopyToOutputDirectoryItemsOptimization to
-			a non-empty value and the original behavior will be restored. -->
+			a non-empty value and the original behavior will be restored.
+		-->
 		<PropertyGroup Condition="'$(MSBuildDisableGetCopyToOutputDirectoryItemsOptimization)' == ''">
 			<_GCTODIKeepDuplicates>false</_GCTODIKeepDuplicates>
 			<_GCTODIKeepMetadata>CopyToOutputDirectory;TargetPath</_GCTODIKeepMetadata>
 		</PropertyGroup>
+	</Target>
+
+	<Target
+		Name="_GetCopyToOutputDirectoryItemsFromTransitiveProjectReferences"
+		DependsOnTargets="_PopulateCommonStateForGetCopyToOutputDirectoryItems"
+		Returns="@(_TransitiveItemsToCopyToOutputDirectory)">
 
 		<!-- Get items from child projects first. -->
 		<MSBuild
 			Projects="@(_MSBuildProjectReferenceExistent)"
-			Targets="GetCopyToOutputDirectoryItems"
+			Targets="$(_RecursiveTargetForContentCopying)"
 			BuildInParallel="$(BuildInParallel)"
 			Properties="%(_MSBuildProjectReferenceExistent.SetConfiguration); %(_MSBuildProjectReferenceExistent.SetPlatform); %(_MSBuildProjectReferenceExistent.SetTargetFramework)"
-			Condition="'@(_MSBuildProjectReferenceExistent)' != '' AND '$(_GetChildProjectCopyToOutputDirectoryItems)' == 'true' AND '%(_MSBuildProjectReferenceExistent.Private)' != 'false' AND '$(UseCommonOutputDirectory)' != 'true'"
-			ContinueOnError="$(ContinueOnError)"
+			RemoveProperties="%(_MSBuildProjectReferenceExistent.GlobalPropertiesToRemove)"
 			SkipNonexistentTargets="true"
-			RemoveProperties="%(_MSBuildProjectReferenceExistent.GlobalPropertiesToRemove)">
+			ContinueOnError="$(ContinueOnError)"
+			Condition="'@(_MSBuildProjectReferenceExistent)' != '' AND '$(_GetChildProjectCopyToOutputDirectoryItems)' == 'true' AND '%(_MSBuildProjectReferenceExistent.Private)' != 'false' AND '$(UseCommonOutputDirectory)' != 'true'">
 
 			<Output TaskParameter="TargetOutputs" ItemName="_AllChildProjectItemsWithTargetPath"/>
 
@@ -4407,8 +4415,8 @@
 
 		<!-- Target outputs must be full paths because they will be consumed by a different project. -->
 		<ItemGroup>
-			<_SourceItemsToCopyToOutputDirectoryAlways KeepDuplicates="'$(_GCTODIKeepDuplicates)' != 'false'" KeepMetadata="$(_GCTODIKeepMetadata)" Include="@(_AllChildProjectItemsWithTargetPath->'%(FullPath)')" Condition="'%(_AllChildProjectItemsWithTargetPath.CopyToOutputDirectory)' == 'Always'"/>
-			<_SourceItemsToCopyToOutputDirectory KeepDuplicates="'$(_GCTODIKeepDuplicates)' != 'false'" KeepMetadata="$(_GCTODIKeepMetadata)" Include="@(_AllChildProjectItemsWithTargetPath->'%(FullPath)')" Condition="'%(_AllChildProjectItemsWithTargetPath.CopyToOutputDirectory)' == 'PreserveNewest'"/>
+			<_TransitiveItemsToCopyToOutputDirectory KeepDuplicates="'$(_GCTODIKeepDuplicates)' != 'false'" KeepMetadata="$(_GCTODIKeepMetadata)" Include="@(_AllChildProjectItemsWithTargetPath->'%(FullPath)')" Condition="'%(_AllChildProjectItemsWithTargetPath.CopyToOutputDirectory)' == 'Always'"/>
+			<_TransitiveItemsToCopyToOutputDirectory KeepDuplicates="'$(_GCTODIKeepDuplicates)' != 'false'" KeepMetadata="$(_GCTODIKeepMetadata)" Include="@(_AllChildProjectItemsWithTargetPath->'%(FullPath)')" Condition="'%(_AllChildProjectItemsWithTargetPath.CopyToOutputDirectory)' == 'PreserveNewest'"/>
 		</ItemGroup>
 
 		<!-- Remove items which we will never again use - they just sit around taking up memory otherwise -->
@@ -4416,19 +4424,19 @@
 			<_AllChildProjectItemsWithTargetPath Remove="@(_AllChildProjectItemsWithTargetPath)"/>
 		</ItemGroup>
 
-		<!-- Get items from this project last so that they will be copied last. -->
+		<!-- Copy paste _GetCopyToOutputDirectoryItemsFromThisProject but keep the items that came from other projects via ProjectReference's OutputItemType metadata -->
 		<ItemGroup>
-			<_SourceItemsToCopyToOutputDirectoryAlways KeepMetadata="$(_GCTODIKeepMetadata)" Include="@(ContentWithTargetPath->'%(FullPath)')" Condition="'%(ContentWithTargetPath.CopyToOutputDirectory)' == 'Always'"/>
-			<_SourceItemsToCopyToOutputDirectory KeepMetadata="$(_GCTODIKeepMetadata)" Include="@(ContentWithTargetPath->'%(FullPath)')" Condition="'%(ContentWithTargetPath.CopyToOutputDirectory)' == 'PreserveNewest'"/>
+			<_TransitiveItemsToCopyToOutputDirectory KeepMetadata="$(_GCTODIKeepMetadata)" Include="@(ContentWithTargetPath->'%(FullPath)')" Condition="'%(ContentWithTargetPath.CopyToOutputDirectory)' == 'Always' AND '%(ContentWithTargetPath.MSBuildSourceProjectFile)' != ''"/>
+			<_TransitiveItemsToCopyToOutputDirectory KeepMetadata="$(_GCTODIKeepMetadata)" Include="@(ContentWithTargetPath->'%(FullPath)')" Condition="'%(ContentWithTargetPath.CopyToOutputDirectory)' == 'PreserveNewest' AND '%(ContentWithTargetPath.MSBuildSourceProjectFile)' != ''"/>
 		</ItemGroup>
 
 		<ItemGroup>
-			<_SourceItemsToCopyToOutputDirectoryAlways KeepMetadata="$(_GCTODIKeepMetadata)" Include="@(EmbeddedResource->'%(FullPath)')" Condition="'%(EmbeddedResource.CopyToOutputDirectory)' == 'Always'"/>
-			<_SourceItemsToCopyToOutputDirectory KeepMetadata="$(_GCTODIKeepMetadata)" Include="@(EmbeddedResource->'%(FullPath)')" Condition="'%(EmbeddedResource.CopyToOutputDirectory)' == 'PreserveNewest'"/>
+			<_TransitiveItemsToCopyToOutputDirectory KeepMetadata="$(_GCTODIKeepMetadata)" Include="@(EmbeddedResource->'%(FullPath)')" Condition="'%(EmbeddedResource.CopyToOutputDirectory)' == 'Always' AND '%(EmbeddedResource.MSBuildSourceProjectFile)' != ''"/>
+			<_TransitiveItemsToCopyToOutputDirectory KeepMetadata="$(_GCTODIKeepMetadata)" Include="@(EmbeddedResource->'%(FullPath)')" Condition="'%(EmbeddedResource.CopyToOutputDirectory)' == 'PreserveNewest' AND '%(EmbeddedResource.MSBuildSourceProjectFile)' != ''"/>
 		</ItemGroup>
 
 		<ItemGroup>
-			<_CompileItemsToCopy Include="@(Compile->'%(FullPath)')" Condition="'%(Compile.CopyToOutputDirectory)' == 'Always' OR '%(Compile.CopyToOutputDirectory)' == 'PreserveNewest'"/>
+			<_CompileItemsToCopy Include="@(Compile->'%(FullPath)')" Condition="('%(Compile.CopyToOutputDirectory)' == 'Always' OR '%(Compile.CopyToOutputDirectory)' == 'PreserveNewest') AND '%(Compile.MSBuildSourceProjectFile)' != ''"/>
 		</ItemGroup>
 
 		<AssignTargetPath Files="@(_CompileItemsToCopy)" RootFolder="$(MSBuildProjectDirectory)">
@@ -4436,17 +4444,89 @@
 		</AssignTargetPath>
 
 		<ItemGroup>
-			<_SourceItemsToCopyToOutputDirectoryAlways KeepMetadata="$(_GCTODIKeepMetadata)" Include="@(_CompileItemsToCopyWithTargetPath)" Condition="'%(_CompileItemsToCopyWithTargetPath.CopyToOutputDirectory)' == 'Always'"/>
-			<_SourceItemsToCopyToOutputDirectory KeepMetadata="$(_GCTODIKeepMetadata)" Include="@(_CompileItemsToCopyWithTargetPath)" Condition="'%(_CompileItemsToCopyWithTargetPath.CopyToOutputDirectory)' == 'PreserveNewest'"/>
+			<_TransitiveItemsToCopyToOutputDirectory KeepMetadata="$(_GCTODIKeepMetadata)" Include="@(_CompileItemsToCopyWithTargetPath)" Condition="'%(_CompileItemsToCopyWithTargetPath.CopyToOutputDirectory)' == 'Always'"/>
+			<_TransitiveItemsToCopyToOutputDirectory KeepMetadata="$(_GCTODIKeepMetadata)" Include="@(_CompileItemsToCopyWithTargetPath)" Condition="'%(_CompileItemsToCopyWithTargetPath.CopyToOutputDirectory)' == 'PreserveNewest'"/>
 		</ItemGroup>
 
 		<ItemGroup>
-			<_SourceItemsToCopyToOutputDirectoryAlways KeepMetadata="$(_GCTODIKeepMetadata)" Include="@(_NoneWithTargetPath->'%(FullPath)')" Condition="'%(_NoneWithTargetPath.CopyToOutputDirectory)' == 'Always'"/>
-			<_SourceItemsToCopyToOutputDirectory KeepMetadata="$(_GCTODIKeepMetadata)" Include="@(_NoneWithTargetPath->'%(FullPath)')" Condition="'%(_NoneWithTargetPath.CopyToOutputDirectory)' == 'PreserveNewest'"/>
+			<_TransitiveItemsToCopyToOutputDirectory KeepMetadata="$(_GCTODIKeepMetadata)" Include="@(_NoneWithTargetPath->'%(FullPath)')" Condition="'%(_NoneWithTargetPath.CopyToOutputDirectory)' == 'Always' AND '%(_NoneWithTargetPath.MSBuildSourceProjectFile)' != ''"/>
+			<_TransitiveItemsToCopyToOutputDirectory KeepMetadata="$(_GCTODIKeepMetadata)" Include="@(_NoneWithTargetPath->'%(FullPath)')" Condition="'%(_NoneWithTargetPath.CopyToOutputDirectory)' == 'PreserveNewest' AND '%(_NoneWithTargetPath.MSBuildSourceProjectFile)' != ''"/>
+		</ItemGroup>
+
+	</Target>
+
+	<Target
+		Name="_GetCopyToOutputDirectoryItemsFromThisProject"
+		DependsOnTargets="AssignTargetPaths;_PopulateCommonStateForGetCopyToOutputDirectoryItems"
+		Returns="@(_ThisProjectItemsToCopyToOutputDirectory)">
+
+		<ItemGroup>
+			<_ThisProjectItemsToCopyToOutputDirectory KeepMetadata="$(_GCTODIKeepMetadata)" Include="@(ContentWithTargetPath->'%(FullPath)')" Condition="'%(ContentWithTargetPath.CopyToOutputDirectory)' == 'Always' AND '%(ContentWithTargetPath.MSBuildSourceProjectFile)' == ''"/>
+			<_ThisProjectItemsToCopyToOutputDirectory KeepMetadata="$(_GCTODIKeepMetadata)" Include="@(ContentWithTargetPath->'%(FullPath)')" Condition="'%(ContentWithTargetPath.CopyToOutputDirectory)' == 'PreserveNewest' AND '%(ContentWithTargetPath.MSBuildSourceProjectFile)' == ''"/>
 		</ItemGroup>
 
 		<ItemGroup>
+			<_ThisProjectItemsToCopyToOutputDirectory KeepMetadata="$(_GCTODIKeepMetadata)" Include="@(EmbeddedResource->'%(FullPath)')" Condition="'%(EmbeddedResource.CopyToOutputDirectory)' == 'Always' AND '%(EmbeddedResource.MSBuildSourceProjectFile)' == ''"/>
+			<_ThisProjectItemsToCopyToOutputDirectory KeepMetadata="$(_GCTODIKeepMetadata)" Include="@(EmbeddedResource->'%(FullPath)')" Condition="'%(EmbeddedResource.CopyToOutputDirectory)' == 'PreserveNewest' AND '%(EmbeddedResource.MSBuildSourceProjectFile)' == ''"/>
+		</ItemGroup>
+
+		<ItemGroup>
+			<_CompileItemsToCopy Include="@(Compile->'%(FullPath)')" Condition="('%(Compile.CopyToOutputDirectory)' == 'Always' OR '%(Compile.CopyToOutputDirectory)' == 'PreserveNewest') AND '%(Compile.MSBuildSourceProjectFile)' == ''"/>
+		</ItemGroup>
+
+		<AssignTargetPath Files="@(_CompileItemsToCopy)" RootFolder="$(MSBuildProjectDirectory)">
+			<Output TaskParameter="AssignedFiles" ItemName="_CompileItemsToCopyWithTargetPath"/>
+		</AssignTargetPath>
+
+		<ItemGroup>
+			<_ThisProjectItemsToCopyToOutputDirectory KeepMetadata="$(_GCTODIKeepMetadata)" Include="@(_CompileItemsToCopyWithTargetPath)" Condition="'%(_CompileItemsToCopyWithTargetPath.CopyToOutputDirectory)' == 'Always'"/>
+			<_ThisProjectItemsToCopyToOutputDirectory KeepMetadata="$(_GCTODIKeepMetadata)" Include="@(_CompileItemsToCopyWithTargetPath)" Condition="'%(_CompileItemsToCopyWithTargetPath.CopyToOutputDirectory)' == 'PreserveNewest'"/>
+		</ItemGroup>
+
+		<ItemGroup>
+			<_ThisProjectItemsToCopyToOutputDirectory KeepMetadata="$(_GCTODIKeepMetadata)" Include="@(_NoneWithTargetPath->'%(FullPath)')" Condition="'%(_NoneWithTargetPath.CopyToOutputDirectory)' == 'Always' AND '%(_NoneWithTargetPath.MSBuildSourceProjectFile)' == ''"/>
+			<_ThisProjectItemsToCopyToOutputDirectory KeepMetadata="$(_GCTODIKeepMetadata)" Include="@(_NoneWithTargetPath->'%(FullPath)')" Condition="'%(_NoneWithTargetPath.CopyToOutputDirectory)' == 'PreserveNewest' AND '%(_NoneWithTargetPath.MSBuildSourceProjectFile)' == ''"/>
+		</ItemGroup>
+
+	</Target>
+
+	<Target
+		Name="GetCopyToOutputDirectoryItems"
+		Returns="@(AllItemsFullPathWithTargetPath)"
+		KeepDuplicateOutputs="'$(MSBuildDisableGetCopyToOutputDirectoryItemsOptimization)' == ''"
+		DependsOnTargets="$(GetCopyToOutputDirectoryItemsDependsOn)">
+
+		<!-- Compose the content items as the union between transitive content items and content items from this project. -->
+		<!-- Use CallTarget to avoid breaking targets that hook right before GetCopyToOutputDirectoryItems but expect to run after _GetCopyToOutputDirectoryItemsFromTransitiveProjectReferences and _GetCopyToOutputDirectoryItemsFromThisProject -->
+		<CallTarget Targets="_GetCopyToOutputDirectoryItemsFromTransitiveProjectReferences">
+			<Output TaskParameter="TargetOutputs" ItemName="_TransitiveItemsToCopyToOutputDirectory"/>
+		</CallTarget>
+
+		<CallTarget Targets="_GetCopyToOutputDirectoryItemsFromThisProject">
+			<Output TaskParameter="TargetOutputs" ItemName="_ThisProjectItemsToCopyToOutputDirectory"/>
+		</CallTarget>
+
+		<ItemGroup>
+			<_TransitiveItemsToCopyToOutputDirectoryAlways KeepDuplicates="'$(_GCTODIKeepDuplicates)' != 'false'" KeepMetadata="$(_GCTODIKeepMetadata)" Include="@(_TransitiveItemsToCopyToOutputDirectory->'%(FullPath)')" Condition="'%(_TransitiveItemsToCopyToOutputDirectory.CopyToOutputDirectory)' == 'Always'"/>
+			<_TransitiveItemsToCopyToOutputDirectoryPreserveNewest KeepDuplicates="'$(_GCTODIKeepDuplicates)' != 'false'" KeepMetadata="$(_GCTODIKeepMetadata)" Include="@(_TransitiveItemsToCopyToOutputDirectory->'%(FullPath)')" Condition="'%(_TransitiveItemsToCopyToOutputDirectory.CopyToOutputDirectory)' == 'PreserveNewest'"/>
+
+			<_ThisProjectItemsToCopyToOutputDirectoryAlways KeepDuplicates="'$(_GCTODIKeepDuplicates)' != 'false'" KeepMetadata="$(_GCTODIKeepMetadata)" Include="@(_ThisProjectItemsToCopyToOutputDirectory->'%(FullPath)')" Condition="'%(_ThisProjectItemsToCopyToOutputDirectory.CopyToOutputDirectory)' == 'Always'"/>
+			<_ThisProjectItemsToCopyToOutputDirectoryPreserveNewest KeepDuplicates="'$(_GCTODIKeepDuplicates)' != 'false'" KeepMetadata="$(_GCTODIKeepMetadata)" Include="@(_ThisProjectItemsToCopyToOutputDirectory->'%(FullPath)')" Condition="'%(_ThisProjectItemsToCopyToOutputDirectory.CopyToOutputDirectory)' == 'PreserveNewest'"/>
+
+			<!-- Append the items from this project last so that they will be copied last. -->
+			<_SourceItemsToCopyToOutputDirectoryAlways Include="@(_TransitiveItemsToCopyToOutputDirectoryAlways);@(_ThisProjectItemsToCopyToOutputDirectoryAlways)"/>
+			<_SourceItemsToCopyToOutputDirectory Include="@(_TransitiveItemsToCopyToOutputDirectoryPreserveNewest);@(_ThisProjectItemsToCopyToOutputDirectoryPreserveNewest)"/>
+
 			<AllItemsFullPathWithTargetPath Include="@(_SourceItemsToCopyToOutputDirectoryAlways->'%(FullPath)');@(_SourceItemsToCopyToOutputDirectory->'%(FullPath)')"/>
+
+			<!-- Empty intermediate items to release memory -->
+			<_TransitiveItemsToCopyToOutputDirectoryAlways Remove="@(_TransitiveItemsToCopyToOutputDirectoryAlways)"/>
+			<_TransitiveItemsToCopyToOutputDirectoryPreserveNewest Remove="@(_TransitiveItemsToCopyToOutputDirectoryPreserveNewest)"/>
+			<_TransitiveItemsToCopyToOutputDirectory Remove="@(_TransitiveItemsToCopyToOutputDirectory)"/>
+
+			<_ThisProjectItemsToCopyToOutputDirectoryAlways Remove="@(_ThisProjectItemsToCopyToOutputDirectoryAlways)"/>
+			<_ThisProjectItemsToCopyToOutputDirectoryPreserveNewest Remove="@(_ThisProjectItemsToCopyToOutputDirectoryPreserveNewest)"/>
+			<_ThisProjectItemsToCopyToOutputDirectory Remove="@(_ThisProjectItemsToCopyToOutputDirectory)"/>
 		</ItemGroup>
 
 	</Target>
@@ -4482,7 +4562,7 @@
 
 	<!--
 		============================================================
-											_CopyOutOfDateSourceItemsToOutputDirectory
+				_CopyOutOfDateSourceItemsToOutputDirectory
 
 		Copy files that have the CopyToOutputDirectory attribute set to 'PreserveNewest'.
 		============================================================
@@ -4514,7 +4594,7 @@
 
 	<!--
 		============================================================
-											_CopyOutOfDateSourceItemsToOutputDirectoryAlways
+			_CopyOutOfDateSourceItemsToOutputDirectoryAlways
 
 		Copy files that have the CopyToOutputDirectory attribute set to 'Always'.
 		============================================================
@@ -5412,7 +5492,7 @@
 											AllProjectOutputGroups
 
 		The targets below drive output groups, which provide generic information about a
-		project's inputs (e.g., content files, compilation sources, etc.) AND built outputs
+		project's inputs (e.g., content files, compilation sources, etc.) and built outputs
 		(e.g., built EXE/DLL, PDB, XML documentation files, etc.)
 
 		Each target may produce two kinds of items:  outputs and dependencies.  Outputs are
@@ -6040,7 +6120,7 @@
 	<Import Project="$(MSAppxPackageTargets)" Condition="'$(WindowsAppContainer)' == 'true' AND Exists('$(MSAppxPackageTargets)')"/>
 
 	<PropertyGroup>
-		<VSTestTargets Condition="'$(VSTestTargets)'==''">$(MSBuildExtensionsPath)\Microsoft.TestPlatform.targets</VSTestTargets>
+		<VSTestTargets Condition="'$(VSTestTargets)' == ''">$(MSBuildExtensionsPath)\Microsoft.TestPlatform.targets</VSTestTargets>
 	</PropertyGroup>
 
 	<Import Project="$(VSTestTargets)" Condition="Exists('$(VSTestTargets)')"/>
@@ -6051,7 +6131,7 @@
 
 	<Import Project="$(MicrosoftNETBuildExtensionsTargets)" Condition="Exists('$(MicrosoftNETBuildExtensionsTargets)')"/>
 
-	<Import Project="NuGet.Restore.targets"/>
+	<Import Project="NuGet.Restore.targets" Condition="'$(IsRestoreTargetsFileLoaded)' != 'true'"/>
 
 	<Import Project="$(CustomAfterMicrosoftCommonTargets)" Condition="Exists('$(CustomAfterMicrosoftCommonTargets)')"/>
 

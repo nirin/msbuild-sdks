@@ -4,25 +4,27 @@
 
 	<Target Name="GetFrameworkPaths" DependsOnTargets="$(GetFrameworkPathsDependsOn)">
 
-		<!-- For backwards compatibility of targets who replaced this target we cannot move these values outside the target even though they
-			 now only depend on statically availiable values-->
+		<!--
+			For backwards compatibility of targets, we cannot move these values outside the target even though they
+			now only depend on statically availiable values
+		-->
 		<ItemGroup>
 			<_TargetFramework40DirectoryItem Include="$(MSBuildFrameworkToolsRoot)v4.0.30319"/>
 			<_TargetFramework35DirectoryItem Include="$(MSBuildFrameworkToolsRoot)v3.5"/>
 			<_TargetFramework30DirectoryItem Include="$(MSBuildFrameworkToolsRoot)v3.0"/>
 			<_TargetFramework20DirectoryItem Include="$(MSBuildFrameworkToolsRoot)v2.0.50727"/>
 
-			<_TargetedFrameworkDirectoryItem Condition="'$(TargetFrameworkVersion)' == 'v2.0'" Include="@(_TargetFramework20DirectoryItem)"/>
-			<_TargetedFrameworkDirectoryItem Condition="'$(TargetFrameworkVersion)' == 'v3.0' OR '$(TargetFrameworkVersion)' == 'v3.5'" Include="$(MSBuildFrameworkToolsRoot)\$(TargetFrameworkVersion)"/>
-			<_TargetedFrameworkDirectoryItem Condition="'@(_TargetedFrameworkDirectoryItem)' == ''" Include="@(_TargetFramework40DirectoryItem)"/>
+			<_TargetedFrameworkDirectoryItem Include="@(_TargetFramework20DirectoryItem)" Condition="'$(TargetFrameworkVersion)' == 'v2.0'"/>
+			<_TargetedFrameworkDirectoryItem Include="$(MSBuildFrameworkToolsRoot)\$(TargetFrameworkVersion)" Condition="'$(TargetFrameworkVersion)' == 'v3.0' OR '$(TargetFrameworkVersion)' == 'v3.5'"/>
+			<_TargetedFrameworkDirectoryItem Include="@(_TargetFramework40DirectoryItem)" Condition="'@(_TargetedFrameworkDirectoryItem)' == ''"/>
 		</ItemGroup>
 
 		<ItemGroup>
-			<_CombinedTargetFrameworkDirectoriesItem Condition="'$(TargetFrameworkVersion)' == 'v4.0'" Include="@(_TargetFramework40DirectoryItem)"/>
-			<_CombinedTargetFrameworkDirectoriesItem Condition="'$(TargetFrameworkVersion)' == 'v3.5'" Include="@(_TargetFramework35DirectoryItem)"/>
-			<_CombinedTargetFrameworkDirectoriesItem Condition="'$(TargetFrameworkVersion)' == 'v3.0' OR '$(TargetFrameworkVersion)' == 'v3.5'" Include="@(_TargetFramework30DirectoryItem)"/>
-			<_CombinedTargetFrameworkDirectoriesItem Condition="'$(TargetFrameworkVersion)' == 'v2.0' OR '$(TargetFrameworkVersion)' == 'v3.0' OR '$(TargetFrameworkVersion)' == 'v3.5'" Include="@(_TargetFramework20DirectoryItem)"/>
-			<_CombinedTargetFrameworkDirectoriesItem Condition="'@(_CombinedTargetFrameworkDirectoriesItem)' == ''" Include="@(_TargetedFrameworkDirectoryItem)"/>
+			<_CombinedTargetFrameworkDirectoriesItem Include="@(_TargetFramework40DirectoryItem)" Condition="'$(TargetFrameworkVersion)' == 'v4.0'"/>
+			<_CombinedTargetFrameworkDirectoriesItem Include="@(_TargetFramework35DirectoryItem)" Condition="'$(TargetFrameworkVersion)' == 'v3.5'"/>
+			<_CombinedTargetFrameworkDirectoriesItem Include="@(_TargetFramework30DirectoryItem)" Condition="'$(TargetFrameworkVersion)' == 'v3.0' OR '$(TargetFrameworkVersion)' == 'v3.5'"/>
+			<_CombinedTargetFrameworkDirectoriesItem Include="@(_TargetFramework20DirectoryItem)" Condition="'$(TargetFrameworkVersion)' == 'v2.0' OR '$(TargetFrameworkVersion)' == 'v3.0' OR '$(TargetFrameworkVersion)' == 'v3.5'"/>
+			<_CombinedTargetFrameworkDirectoriesItem Include="@(_TargetedFrameworkDirectoryItem)" Condition="'@(_CombinedTargetFrameworkDirectoriesItem)' == ''"/>
 		</ItemGroup>
 
 		<PropertyGroup>

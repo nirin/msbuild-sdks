@@ -2,11 +2,11 @@
 
 	<Import Project="$(MSBuildThisFileName).props" Condition="'$(MicrosoftCommonPropsHasBeenImported)' != 'true' AND Exists('$(MSBuildThisFileName).props')"/>
 
-	<Import Project="Microsoft.Managed.targets"/>
+	<Import Project="Microsoft.Managed.props"/>
 
 	<!-- When we are doing a multi-targeting build, this import is redirected to $(MSBuildThisFileName).MultiTargeting.targets. -->
 	<Choose>
-		<When Condition="'$(IsMultiTargetingBuild)' == 'true'">
+		<When Condition="'$(IsOuterBuild)' == 'true'">
 			<PropertyGroup>
 				<MicrosoftCommonTargets>$(MSBuildThisFileName).MultiTargeting.targets</MicrosoftCommonTargets>
 			</PropertyGroup>
@@ -19,5 +19,7 @@
 	</Choose>
 
 	<Import Project="$(MicrosoftCommonTargets)"/>
+
+	<Import Project="Microsoft.Managed.targets"/>
 
 </Project>

@@ -6,9 +6,10 @@
 		This is used to import/use only tasks/targets that are relevant in the multi-targeting context.
 	-->
 	<PropertyGroup Condition="'$(TargetFrameworks)' != '' AND '$(TargetFramework)' == ''">
-		<IsMultiTargetingBuild>true</IsMultiTargetingBuild>
+		<IsOuterBuild>true</IsOuterBuild>
 	</PropertyGroup>
 
+	<!-- Define multi-targeting for static graph, so it can identify inner and outer build graph nodes -->
 	<PropertyGroup>
 		<InnerBuildProperty>TargetFramework</InnerBuildProperty>
 		<InnerBuildPropertyValues>TargetFrameworks</InnerBuildPropertyValues>
@@ -18,7 +19,7 @@
 		<!--
 			The 'Microsoft.NET.Sdk' adds all transitive project references to ProjectReference. It does this at build time
 			via a target. This fails the undeclared msbuild reference /isolate constraint, so disable transitive references.
-			Do not disable transitive references if BuildProjectReferences is false. If building references is false,
+			Do not disable transitive references if 'BuildProjectReferences' is false. If building references is false,
 			then MSBuild won't try to build the transitive references, which won't trigger undeclared reference constraints.
 		-->
 		<DisableTransitiveProjectReferences Condition="'$(BuildProjectReferences)' != 'false' AND '$(DisableTransitiveProjectReferences)' == ''">true</DisableTransitiveProjectReferences>
@@ -26,7 +27,7 @@
 
 	<ItemGroup Condition="'$(IsGraphBuild)' == 'true'">
 		<!--
-			WPF projects generate a project with a random name at build time and then build the project via the IBuildEngine callbacks.
+			WPF projects generate a project with a random name at build time and then build the project via the 'IBuildEngine' callbacks.
 			Detect WPF, and exclude the generated project from static graph isolation constraint checking.
 			Escape the item to avoid eager evaluation of the wildcards.
 		-->
@@ -35,13 +36,22 @@
 			Include="$([MSBuild]::Escape('$(MSBuildProjectDirectory)\$(MSBuildProjectName)*_wpftmp$(MSBuildProjectExtension)'))"/>
 	</ItemGroup>
 
+	<PropertyGroup>
+		<_RecursiveTargetForContentCopying>GetCopyToOutputDirectoryItems</_RecursiveTargetForContentCopying>
+		<_RecursiveTargetForContentCopying Condition="'$(MSBuildCopyContentTransitively)' == 'false'">_GetCopyToOutputDirectoryItemsFromThisProject</_RecursiveTargetForContentCopying>
+	</PropertyGroup>
+
 	<!--
-		Properties for extension of ProjectReferenceTargets.
-		Append any current value which may have been provided in a Directory.Build.props since the intent was likely to append, not prepend.
+		Properties for extension of 'ProjectReferenceTargets'.
+		Append any current value which may have been provided in a 'Directory.Build.props' since the intent was likely to append, not prepend.
 	-->
 	<PropertyGroup>
+		<!-- Empty case is for outer builds which do not import the target files that set BuildProjectReferences -->
+		<_MainReferenceTarget Condition="'$(BuildProjectReferences)' == '' or '$(BuildProjectReferences)' == 'true'">.projectReferenceTargetsOrDefaultTargets</_MainReferenceTarget>
+		<_MainReferenceTarget Condition="'$(_MainReferenceTarget)' == ''">GetTargetPath</_MainReferenceTarget>
+
 		<ProjectReferenceTargetsForBuildInOuterBuild>GetTargetFrameworks;$(ProjectReferenceTargetsForBuildInOuterBuild)</ProjectReferenceTargetsForBuildInOuterBuild>
-		<ProjectReferenceTargetsForBuild>.projectReferenceTargetsOrDefaultTargets;GetNativeManifest;GetCopyToOutputDirectoryItems;$(ProjectReferenceTargetsForBuild)</ProjectReferenceTargetsForBuild>
+		<ProjectReferenceTargetsForBuild>$(_MainReferenceTarget);GetNativeManifest;$(_RecursiveTargetForContentCopying);$(ProjectReferenceTargetsForBuild)</ProjectReferenceTargetsForBuild>
 
 		<ProjectReferenceTargetsForCleanInOuterBuild>GetTargetFrameworks;$(ProjectReferenceTargetsForCleanInOuterBuild)</ProjectReferenceTargetsForCleanInOuterBuild>
 		<ProjectReferenceTargetsForClean>Clean;$(ProjectReferenceTargetsForClean)</ProjectReferenceTargetsForClean>
