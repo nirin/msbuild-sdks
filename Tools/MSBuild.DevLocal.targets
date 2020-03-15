@@ -1,19 +1,21 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
 	<!-- Tools to make local dev easier -->
-	<Target Name="_EnsureTestPackageSource" BeforeTargets="Restore;_LocalPublish">
+	<Target Name="_EnsureTestPackageSource" BeforeTargets="Restore">
 		<PropertyGroup>
 			<TestPackagePath Condition="'$(TestPackagePath)' == ''">$(TEMP)\Packages</TestPackagePath>
 		</PropertyGroup>
-		<MakeDir Directories="$(TestPackagePath)" Condition="!Exists('$(TestPackagePath)')" />
+		<MakeDir Directories="$(TestPackagePath)" Condition="!Exists('$(TestPackagePath)')"/>
 	</Target>
 
-	<Target Name="_CleanTestPackageSource" AfterTargets="_EnsureTestPackageSource;Clean">
+	<Target Name="_CleanTestPackageSource"
+			DependsOnTargets="_EnsureTestPackageSource"
+			AfterTargets="Clean">
 		<ItemGroup>
 			<ToDelete Include="$(TestPackagePath)\$(PackageId).*.nupkg"/>
 		</ItemGroup>
 		<Delete Files="@(ToDelete)"/>
-		<Exec Command='rd "$(NuGetPackageRoot)$(PackageId.ToLowerInvariant())" /q /s' Condition="Exists('$(NuGetPackageRoot)$(PackageId.ToLowerInvariant())')"/>
+		<RemoveDir Directories="$(NuGetPackageRoot)$(PackageId.ToLowerInvariant())" Condition="Exists('$(NuGetPackageRoot)$(PackageId.ToLowerInvariant())')"/>
 	</Target>
 
 	<Target Name="_SetFixedVersion"
@@ -23,11 +25,13 @@
 		</PropertyGroup>
 	</Target>
 
-	<Target Name="_LocalPublish" AfterTargets="Pack">
+	<Target Name="_LocalPublish"
+			DependsOnTargets="_EnsureTestPackageSource"
+			AfterTargets="Pack">
 		<PropertyGroup>
 			<PackageOutputPath Condition="!HasTrailingSlash('$(PackageOutputPath)')">$(PackageOutputPath)\</PackageOutputPath>
 		</PropertyGroup>
-		<Copy SourceFiles="$(PackageOutputPath)$(PackageId).$(PackageVersion).nupkg" DestinationFolder="$(TestPackagePath)"/>
+		<Copy SourceFiles="$(PackageOutputPath)$(PackageId).$(PackageVersion).nupkg" DestinationFolder="$(TestPackagePath)" UseHardLinksIfPossible="$(UseHardLinksIfPossible)"/>
 	</Target>
 
 </Project>
