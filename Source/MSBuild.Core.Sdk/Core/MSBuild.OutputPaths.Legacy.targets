@@ -49,7 +49,7 @@
 
 	<PropertyGroup Label="Publish" Condition="$([System.IO.Path]::IsPathRooted('$(PublishPath)')) AND !$(PublishPath.StartsWith('$(MSBuildProjectDirectory)'))">
 		<PublishPath>$(PublishPath)$(PublishFolder)\</PublishPath>
-		<PublishPath Condition="'$(AppendProjectNameToPublishPath)' == 'true'">$(PublishPath)$(MSBuildProjectName)\</PublishPath>
+		<PublishPath Condition="'$(AppendProjectNameToPublishPath)' == 'true'">$(PublishPath)$(ProjectName)\</PublishPath>
 	</PropertyGroup>
 
 	<!-- Set `DefaultItemExcludes` property for output paths that should be excluded from the default items only when under project directory. -->
@@ -59,7 +59,6 @@
 	</PropertyGroup>
 
 	<!--
-		TODO: Remove if other Sdks no longer need it!
 		Set `PublishDir` here, before `Microsoft.Common.targets`, to avoid a competing default there.
 		Reset `PublishDir` here, Since we made `OutDir` -> `BuildPath` and `PublishDir` -> `PublishPath` as the new Output defaults
 	-->
@@ -68,23 +67,29 @@
 		<PublishDir Condition="!HasTrailingSlash('$(PublishDir)')">$(PublishDir)\</PublishDir>
 	</PropertyGroup>
 
-	<!-- Append `BuildContext` with the properties that's used in multi-targeting to identify targeted builds -->
-	<PropertyGroup Condition="'$(Configuration)' != '' AND '$(Configuration)' != 'Release'">
-		<_BuildContext Condition="!$(_BuildContext.EndsWith('-'))">$(_BuildContext)-</_BuildContext>
-		<_BuildContext>$(_BuildContext)$(Configuration)</_BuildContext>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Platform)' != '' AND '$(Platform)' != 'AnyCPU'">
-		<_BuildContext Condition="!$(_BuildContext.EndsWith('-'))">$(_BuildContext)-</_BuildContext>
-		<_BuildContext>$(_BuildContext)$(Platform)</_BuildContext>
-	</PropertyGroup>
-
 	<!-- Append `BuildContext` to Output paths, so that the output from the multi-targeted builds don't overwrite each other -->
-	<PropertyGroup Condition="'$(_BuildContext)' != ''">
-		<_BuildContext Condition="$(_BuildContext.StartsWith('-')) OR $(_BuildContext.EndsWith('-'))">$(_BuildContext.Trim('-'))</_BuildContext>
-		<IntermediateOutputPath>$(IntermediateOutputPath)$(_BuildContext)\</IntermediateOutputPath>
-		<OutputPath>$(OutputPath)$(_BuildContext)\</OutputPath>
+	<PropertyGroup>
+		<BuildContext>$(BuildContext.Trim('-'))</BuildContext>
 	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(BuildContext)' != ''">
+		<IntermediateOutputPath>$(IntermediateOutputPath)$(BuildContext)\</IntermediateOutputPath>
+		<OutputPath>$(OutputPath)$(BuildContext)\</OutputPath>
+	</PropertyGroup>
+
+	<Target Name="GetOutputPathsForProject" BeforeTargets="$(BuildDependsOn);Build;$(RebuildDependsOn);Rebuild;$(CleanDependsOn);Clean">
+
+		<!-- Append `BuildContext` to Output paths, so that the output from the multi-targeted builds don't overwrite each other -->
+		<PropertyGroup>
+			<BuildContext>$(BuildContext.Trim('-'))</BuildContext>
+		</PropertyGroup>
+
+		<PropertyGroup Condition="'$(BuildContext)' != ''">
+			<IntermediateOutputPath>$(IntermediateOutputPath)$(BuildContext)\</IntermediateOutputPath>
+			<OutputPath>$(OutputPath)$(BuildContext)\</OutputPath>
+		</PropertyGroup>
+
+	</Target>
 
 	<PropertyGroup>
 		<ImportedMSBuildOutputPathsTargets>true</ImportedMSBuildOutputPathsTargets>

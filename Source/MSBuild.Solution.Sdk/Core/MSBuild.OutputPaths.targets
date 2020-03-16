@@ -6,22 +6,14 @@
 
 		:Solution
 		├───<Builds>
-		│	├───<Binaries>
-		│	│	├───Release
-		│	│	└───Debug-x64
-		│	└───<Objects>
-		|		|•••
+		|	|•••
 		└───<Publish>
 			|•••
 
 		:Solution
 		├───<Builds>
 		│	├───Project.1
-		│	│	├───<Binaries>
-		│	│	│	├───Release
-		│	│	│	└───Debug-x64
-		│	│	└───<Objects>
-		|	|		|•••
+		|	|	|•••
 		│	├───Project.2
 		│	└───Project.3
 		└───<Publish>
@@ -39,7 +31,7 @@
 
 	<PropertyGroup Label="Publish" Condition="$([System.IO.Path]::IsPathRooted('$(PublishPath)')) AND !$(PublishPath.StartsWith('$(MSBuildSolutionDirectory)'))">
 		<PublishPath>$(PublishPath)$(PublishFolder)\</PublishPath>
-		<PublishPath Condition="'$(AppendSolutionNameToPublishPath)' == 'true'">$(PublishPath)$(MSBuildSolutionName)\</PublishPath>
+		<PublishPath Condition="'$(AppendSolutionNameToPublishPath)' == 'true'">$(PublishPath)$(SolutionName)\</PublishPath>
 	</PropertyGroup>
 
 	<!-- Set `DefaultItemExcludes` property for output paths that should be excluded from the default items only when under solution directory. -->

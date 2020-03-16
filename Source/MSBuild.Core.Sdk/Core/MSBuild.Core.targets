@@ -4,6 +4,6 @@
 
 	<Import Project="MSBuild.Defaults.Items.targets"/>
 
-	<Import Project="MSBuild.OutputPaths.targets"/>
+	<Import Project="MSBuild.OutputPaths.Legacy.targets"/>
 
 </Project>

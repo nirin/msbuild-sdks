@@ -3,15 +3,15 @@
 	<!-- Default configurations and platforms -->
 	<PropertyGroup>
 		<Configurations Condition="'$(Configurations)' == ''">Debug;Release</Configurations>
-		<Platforms Condition="'$(Platforms)' == ''">AnyCPU</Platforms>
+		<Platforms Condition="'$(Platforms)' == ''">Any;Windows;Linux</Platforms>
 	</PropertyGroup>
 
-	<!-- Default configuration and platform to Debug and AnyCPU-->
+	<!-- Default configuration and platform to Debug and Any-->
 	<PropertyGroup>
-		<Configuration Condition="'$(DefaultProjectConfiguration)' != ''">$(DefaultProjectConfiguration)</Configuration>
+		<Configuration Condition="'$(DefaultConfiguration)' != ''">$(DefaultConfiguration)</Configuration>
 		<Configuration Condition="'$(Configuration)' == ''">Debug</Configuration>
-		<Platform Condition="'$(DefaultProjectPlatform)' != ''">$(DefaultProjectPlatform)</Platform>
-		<Platform Condition="'$(Platform)' == ''">AnyCPU</Platform>
+		<Platform Condition="'$(DefaultPlatform)' != ''">$(DefaultPlatform)</Platform>
+		<Platform Condition="'$(Platform)' == ''">Any</Platform>
 	</PropertyGroup>
 
 </Project>

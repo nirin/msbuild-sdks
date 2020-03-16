@@ -3,15 +3,23 @@
 	<!-- Default configurations and platforms -->
 	<PropertyGroup>
 		<Configurations Condition="'$(Configurations)' == ''">Debug;Release</Configurations>
-		<Platforms Condition="'$(Platforms)' == ''">AnyCPU</Platforms>
+		<Platforms Condition="'$(Platforms)' == ''">Any;Windows;Linux</Platforms>
 	</PropertyGroup>
 
-	<!-- Default configuration and platform to Debug and AnyCPU-->
+	<!-- Default configuration and platform to Debug and Any-->
 	<PropertyGroup>
 		<Configuration Condition="'$(DefaultConfiguration)' != ''">$(DefaultConfiguration)</Configuration>
 		<Configuration Condition="'$(Configuration)' == ''">Debug</Configuration>
 		<Platform Condition="'$(DefaultPlatform)' != ''">$(DefaultPlatform)</Platform>
-		<Platform Condition="'$(Platform)' == ''">AnyCPU</Platform>
+		<Platform Condition="'$(Platform)' == ''">Any</Platform>
+	</PropertyGroup>
+
+	<!-- Default solution and project properties -->
+	<PropertyGroup>
+		<BuildInParallel Condition="'$(BuildInParallel)' == ''">true</BuildInParallel>
+		<SkipNonExistentTargets Condition="'$(SkipNonExistentTargets)' == ''">true</SkipNonExistentTargets>
+		<SkipNonExistentProjects Condition="'$(SkipNonExistentProjects)' == ''">true</SkipNonExistentProjects>
+		<RestoreProjectStyle Condition="'$(RestoreProjectStyle)' == ''">PackageReference</RestoreProjectStyle>
 	</PropertyGroup>
 
 </Project>

@@ -12,9 +12,14 @@
 
 	<!-- Various files that should generally always be ignored -->
 	<PropertyGroup>
-		<DefaultItemExcludes>$(DefaultItemExcludes);**\*.sln</DefaultItemExcludes>
+		<DefaultItemExcludes>$(DefaultItemExcludes);**\*.slnx</DefaultItemExcludes>
 		<DefaultItemExcludes>$(DefaultItemExcludes);**\*.user</DefaultItemExcludes>
 		<DefaultItemExcludes>$(DefaultItemExcludes);**\*.*proj</DefaultItemExcludes>
+	</PropertyGroup>
+
+	<!-- Legacy files, not used anymore -->
+	<PropertyGroup>
+		<DefaultItemExcludes>$(DefaultItemExcludes);**\*.sln</DefaultItemExcludes>
 		<DefaultItemExcludes>$(DefaultItemExcludes);**\*.projitems</DefaultItemExcludes>
 		<DefaultItemExcludes>$(DefaultItemExcludes);**\*.vssscc</DefaultItemExcludes>
 	</PropertyGroup>

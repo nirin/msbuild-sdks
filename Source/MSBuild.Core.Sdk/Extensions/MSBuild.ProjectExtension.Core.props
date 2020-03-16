@@ -1,7 +1,7 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
 	<!-- We need to initialize `BuildPath` property since `MSBuildProjectExtensionsPath` depends on it. -->
-	<Import Project="..\Core\MSBuild.OutputPaths.props" Condition="'$(ImportedMSBuildOutputPathsProps)' != 'true'"/>
+	<Import Project="..\Core\MSBuild.OutputPaths.props" Condition="'$(MSBuildProjectExtensionsPath)' == ''"/>
 
 	<!--
 		Prepare to import project extensions which usually come from packages. Package management systems will create a file at:
@@ -17,7 +17,6 @@
 			it needs to be made absolute based on the `MSBuildProjectDirectory` directory.
 		-->
 		<MSBuildProjectExtensionsPath Condition="!$([System.IO.Path]::IsPathRooted('$(MSBuildProjectExtensionsPath)'))">$([System.IO.Path]::Combine('$(MSBuildProjectDirectory)', '$(MSBuildProjectExtensionsPath)'))</MSBuildProjectExtensionsPath>
-
 		<MSBuildProjectExtensionsPath Condition="!HasTrailingSlash('$(MSBuildProjectExtensionsPath)')">$(MSBuildProjectExtensionsPath)\</MSBuildProjectExtensionsPath>
 		<_InitialMSBuildProjectExtensionsPath>$(MSBuildProjectExtensionsPath)</_InitialMSBuildProjectExtensionsPath>
 	</PropertyGroup>

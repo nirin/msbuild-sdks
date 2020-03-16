@@ -1,5 +1,14 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
+	<PropertyGroup>
+		<MSBuildSolutionFile>$(MSBuildProjectFile)</MSBuildSolutionFile>
+		<MSBuildSolutionName>$(MSBuildProjectName)</MSBuildSolutionName>
+		<MSBuildSolutionExtension>$(MSBuildProjectExtension)</MSBuildSolutionExtension>
+		<MSBuildSolutionFullPath>$(MSBuildProjectFullPath)</MSBuildSolutionFullPath>
+		<MSBuildSolutionDirectory>$(MSBuildProjectDirectory)</MSBuildSolutionDirectory>
+		<MSBuildSolutionDirectoryNoRoot>$(MSBuildProjectDirectoryNoRoot)</MSBuildSolutionDirectoryNoRoot>
+	</PropertyGroup>
+
 	<Import Project="..\Core\MSBuild.Core.props"/>
 
 	<Import Project="Microsoft.VisualStudio.props"/>

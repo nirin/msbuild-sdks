@@ -3,18 +3,22 @@
 	<PropertyGroup>
 		<EnableDefaultItems Condition="'$(EnableDefaultItems)' == ''">true</EnableDefaultItems>
 		<EnableDefaultNoneItems Condition="'$(EnableDefaultNoneItems)' == ''">true</EnableDefaultNoneItems>
-		<ExcludeDefaultBuildFiles Condition="'$(ExcludeDefaultBuildFiles)' == ''">true</ExcludeDefaultBuildFiles>
+		<ExcludeDefaultBuildFiles Condition="'$(ExcludeDefaultBuildFiles)' == ''">false</ExcludeDefaultBuildFiles>
 	</PropertyGroup>
 
 	<!--
-		Set DefaultItemExcludes property for items that should be excluded from the default items.
+		Set `DefaultItemExcludes` property for items that should be excluded by default.
 	-->
 
 	<!-- Various files that should generally always be ignored -->
 	<PropertyGroup>
-		<DefaultItemExcludes>$(DefaultItemExcludes);**\*.sln</DefaultItemExcludes>
+		<DefaultItemExcludes>$(DefaultItemExcludes);**\*.slnx</DefaultItemExcludes>
 		<DefaultItemExcludes>$(DefaultItemExcludes);**\*.user</DefaultItemExcludes>
-		<DefaultItemExcludes>$(DefaultItemExcludes);**\*.*proj</DefaultItemExcludes>
+	</PropertyGroup>
+
+	<!-- Legacy files, not used anymore -->
+	<PropertyGroup>
+		<DefaultItemExcludes>$(DefaultItemExcludes);**\*.sln</DefaultItemExcludes>
 		<DefaultItemExcludes>$(DefaultItemExcludes);**\*.projitems</DefaultItemExcludes>
 		<DefaultItemExcludes>$(DefaultItemExcludes);**\*.vssscc</DefaultItemExcludes>
 	</PropertyGroup>
@@ -28,11 +32,11 @@
 
 	<!--
 		WARNING: This pattern is there to ignore folders such as .git and .vs, but it will also match items included with a
-		relative path outside the project folder (for example "..\Shared\Shared.cs").  So be sure only to apply it to items
-		that are in the project folder.
+		relative path outside the solution folder (for example "..\Shared\Shared.cs").  So be sure only to apply it to items
+		that are in the solution folder.
 	-->
 	<PropertyGroup>
-		<DefaultExcludesInProjectFolder>$(DefaultItemExcludesInProjectFolder);**\.*\**</DefaultExcludesInProjectFolder>
+		<DefaultExcludesInSolutionFolder>$(DefaultItemExcludesInSolutionFolder);**\.*\**</DefaultExcludesInSolutionFolder>
 	</PropertyGroup>
 
 </Project>

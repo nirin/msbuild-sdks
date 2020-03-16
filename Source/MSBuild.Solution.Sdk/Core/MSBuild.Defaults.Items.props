@@ -1,7 +1,23 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
+	<ItemDefinitionGroup>
+		<ProjectItem>
+			<AdditionalProperties>$(AdditionalProperties)</AdditionalProperties>
+			<Configuration>$(Configuration)</Configuration>
+			<Platform>$(Platform)</Platform>
+		</ProjectItem>
+	</ItemDefinitionGroup>
+
+	<ItemGroup Condition="'$(EnableDefaultItems)' == 'true' AND '$(EnableDefaultProjectItems)' == 'true'">
+		<ProjectItem Include="**\*.*proj" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInSolutionFolder)"/>
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(EnableDefaultItems)' == 'true' AND '$(EnableDefaultSolutionItems)' == 'true'">
+		<SolutionItem Include="**\*.*" Exclude="$(DefaultItemExcludes);**\*.*proj;$(DefaultExcludesInSolutionFolder)"/>
+	</ItemGroup>
+
 	<ItemGroup Condition="'$(EnableDefaultItems)' == 'true' AND '$(EnableDefaultNoneItems)' == 'true'">
-		<None Include="**\*" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)"/>
+		<None Include="**\*" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInSolutionFolder)"/>
 	</ItemGroup>
 
 </Project>

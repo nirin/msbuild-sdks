@@ -1,15 +1,24 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
-	<PropertyGroup Condition="'$(PublishName)' == ''">
-		<PublishName>$(MSBuildProjectName)</PublishName>
-		<PublishName Condition="'$(AssemblyName)' != ''">$(AssemblyName)</PublishName>
-		<PublishName Condition="'$(ProjectName)' != ''">$(ProjectName)</PublishName>
+	<PropertyGroup>
+		<ProjectName Condition="'$(ProjectName)' != ''">$(MSBuildProjectName)</ProjectName>
+		<AssemblyName Condition="'$(AssemblyName)' != ''">$(ProjectName)</AssemblyName>
+		<RootNamespace Condition="'$(RootNamespace)' != ''">$(ProjectName)</RootNamespace>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(AppendProjectMetaToPublishName)' == 'true'">
-		<PublishName Condition="'$(Version)' != ''">$(PublishName)_$(Version)</PublishName>
-		<PublishName Condition="'$(Platform)' != 'AnyCPU'">$(PublishName)_$(Platform)</PublishName>
-		<PublishName Condition="'$(Configuration)' != 'Release'">$(PublishName)_$(Configuration)</PublishName>
+	<PropertyGroup>
+		<PublishName Condition="'$(PublishName)' == ''">$(ProjectName)</PublishName>
+	</PropertyGroup>
+
+	<!-- Append `BuildContext` with the properties that's used in multi-targeting to identify targeted builds -->
+	<PropertyGroup Condition="'$(Configuration)' != ''">
+		<BuildContext Condition="!$(BuildContext.EndsWith('-'))">$(BuildContext)-</BuildContext>
+		<BuildContext>$(BuildContext)$(Configuration)</BuildContext>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Platform)' != '' AND '$(Platform)' != 'Any'">
+		<BuildContext Condition="!$(BuildContext.EndsWith('-'))">$(BuildContext)-</BuildContext>
+		<BuildContext>$(BuildContext)$(Platform)</BuildContext>
 	</PropertyGroup>
 
 </Project>
