@@ -1,34 +1,6 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
-	<Choose>
-		<When Condition="'$(MSBuildProjectExtension)' == '.csproj'">
-			<PropertyGroup>
-				<_LanguageSourceName>CSharp</_LanguageSourceName>
-				<!--<DefaultLanguageSourceExtension>.cs</DefaultLanguageSourceExtension>-->
-			</PropertyGroup>
-		</When>
-
-		<When Condition="'$(MSBuildProjectExtension)' == '.vbproj'">
-			<PropertyGroup>
-				<_LanguageSourceName>VisualBasic</_LanguageSourceName>
-				<!--<DefaultLanguageSourceExtension>.vb</DefaultLanguageSourceExtension>-->
-			</PropertyGroup>
-		</When>
-
-		<When Condition="'$(MSBuildProjectExtension)' == '.fsproj'">
-			<PropertyGroup>
-				<_LanguageSourceName>FSharp</_LanguageSourceName>
-				<!--<DefaultLanguageSourceExtension>.fs</DefaultLanguageSourceExtension>-->
-			</PropertyGroup>
-		</When>
-
-		<Otherwise>
-			<PropertyGroup Condition="'$(_LanguageSourceName)' == ''">
-				<_LanguageSourceName>Common</_LanguageSourceName>
-				<!--<DefaultLanguageSourceExtension>.msil</DefaultLanguageSourceExtension>-->
-			</PropertyGroup>
-		</Otherwise>
-	</Choose>
+	<Import Project="MSBuild.NET.LanguageResolver.props" Condition="'$(_LanguageSourceName)' == ''"/>
 
 	<PropertyGroup>
 		<DefaultLanguage Condition="'$(DefaultLanguage)' == ''">$(LangName)</DefaultLanguage>
@@ -37,7 +9,7 @@
 	</PropertyGroup>
 
 	<PropertyGroup>
-		<VisualStudioVersion Condition="'$(VisualStudioVersion)' == '' OR '$(VisualStudioVersion)' &lt; '14.0'">15.0</VisualStudioVersion>
+		<VisualStudioVersion Condition="'$(VisualStudioVersion)' == '' OR '$(VisualStudioVersion)' &lt; '15.0'">16.0</VisualStudioVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(AppDesignerFolder)' == ''">
@@ -57,5 +29,12 @@
 	</PropertyGroup>
 
 	<Import Project="..\DefaultItems\MSBuild.NET.DefaultItems.props"/>
+
+	<Import Project="..\ProjectSystem\MSBuild.NET.ProjectSystem.props"/>
+
+	<ImportGroup Condition="'$(TargetFramework)' != ''">
+		<Import Project="MSBuild.NET.FrameworkResolver.props"/>
+		<Import Project="MSBuild.NET.Platforms.props" Condition="'$(TargetFrameworkIdentifier)' != ''"/>
+	</ImportGroup>
 
 </Project>

@@ -1,0 +1,46 @@
+<Project>
+
+	<PropertyGroup>
+		<!-- WPF temporary project suffix: `_{hash:8}_wpftmp` -->
+		<_GeneratedProjectSuffixPattern>_[a-z0-9]{8}_wpftmp</_GeneratedProjectSuffixPattern>
+	</PropertyGroup>
+
+	<Choose>
+		<!-- Check for `*.tmp_proj` files -->
+		<When Condition="'$(MSBuildProjectExtension)' == '.tmp_proj'">
+			<PropertyGroup>
+				<_IsGeneratedProject>true</_IsGeneratedProject>
+				<_OriginalProjectName Condition="'$(_OriginalProjectName)' == ''">$(AssemblyName)</_OriginalProjectName>
+			</PropertyGroup>
+			<PropertyGroup Condition="Exists('$(MSBuildProjectDirectory)\$(_OriginalProjectName).csproj')">
+				<_LanguageSourceName>CSharp</_LanguageSourceName>
+				<_OriginalProjectExtension>.csproj</_OriginalProjectExtension>
+			</PropertyGroup>
+			<PropertyGroup Condition="Exists('$(MSBuildProjectDirectory)\$(_OriginalProjectName).vbproj')">
+				<_LanguageSourceName>VisualBasic</_LanguageSourceName>
+				<_OriginalProjectExtension>.vbproj</_OriginalProjectExtension>
+			</PropertyGroup>
+			<PropertyGroup>
+				<_OriginalProjectFile Condition="'$(_OriginalProjectName)' != ''">$(_OriginalProjectName)$(_OriginalProjectExtension)</_OriginalProjectFile>
+			</PropertyGroup>
+		</When>
+
+		<!-- Check for `_*_wpftmp.*proj` files -->
+		<When Condition="$([System.Text.RegularExpressions.Regex]::IsMatch('$(MSBuildProjectName)', '$(_GeneratedProjectSuffixPattern)%24'))">
+			<PropertyGroup>
+				<_IsGeneratedProject>true</_IsGeneratedProject>
+				<_OriginalProjectName Condition="'$(_OriginalProjectName)' == ''">$(_TargetAssemblyProjectName)</_OriginalProjectName>
+				<_OriginalProjectName Condition="'$(_OriginalProjectName)' == ''">$([System.Text.RegularExpressions.Regex]::Replace('$(MSBuildProjectName)', '$(_GeneratedProjectSuffixPattern)', ''))</_OriginalProjectName>
+				<_OriginalProjectFile Condition="'$(_OriginalProjectName)' != ''">$(_OriginalProjectName)$(MSBuildProjectExtension)</_OriginalProjectFile>
+			</PropertyGroup>
+		</When>
+
+		<Otherwise/>
+	</Choose>
+
+	<PropertyGroup Condition="'$(_OriginalProjectName)' != ''">
+		<MSBuildProjectExtensionsPath Condition="$(MSBuildProjectExtensionsPath.Contains('$(MSBuildProjectName)'))">$(MSBuildProjectExtensionsPath.Replace('$(MSBuildProjectName)', '$(_OriginalProjectName)'))</MSBuildProjectExtensionsPath>
+		<RestoreOutputPath>$(MSBuildProjectExtensionsPath)</RestoreOutputPath>
+	</PropertyGroup>
+
+</Project>

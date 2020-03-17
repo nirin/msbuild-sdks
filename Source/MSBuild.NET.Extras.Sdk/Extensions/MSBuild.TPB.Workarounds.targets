@@ -1,0 +1,48 @@
+<Project>
+
+	<PropertyGroup>
+		<!-- Don't generate assembly info for generated projects -->
+		<GenerateAssemblyInfo Condition="'$(_IsGeneratedProject)' == 'true'">false</GenerateAssemblyInfo>
+	</PropertyGroup>
+
+	<!--
+		WPF/WFF creates a temporary project for doing a Two Pass Build (TPB), since it changes the peoject file name,
+		it breaks the 'MSBuildProjectName' dependent properies.
+		When that is the case we simply fix-up those properties
+			1. by replacing the modified property with the original name.
+			2. by removing the generated suffix from the modified property.
+	-->
+	<Target Name="_CheckAndFixupPropertiesWithGeneratedSuffix"
+			BeforeTargets="_CompileTemporaryAssembly;CoreCompile"
+			Condition="'$(_IsGeneratedProject)' == 'true' AND '$(DisableFixupPropertiesWithGeneratedSuffix)' != 'true'">
+
+		<PropertyGroup Condition="$([System.Text.RegularExpressions.Regex]::IsMatch('$(RootNamespace)', '[a-z0-9]{8}'))">
+			<_RootNamespaceInGeneratedProject>$(RootNamespace)</_RootNamespaceInGeneratedProject>
+			<RootNamespace/>
+
+			<!-- Default Scenarios -->
+			<RootNamespace Condition="'$(_RootNamespaceInGeneratedProject.Length)' == '8'">$(_OriginalProjectName)</RootNamespace>
+			<RootNamespace Condition="'$(RootNamespace)' == '' AND $(_RootNamespaceInGeneratedProject.Contains('$(MSBuildProjectName)'))">$(_RootNamespaceInGeneratedProject.Replace('$(MSBuildProjectName)', '$(_OriginalProjectName)'))</RootNamespace>
+
+			<!-- Common Special cases -->
+			<RootNamespace Condition="'$(RootNamespace)' == '' AND $(_RootNamespaceInGeneratedProject.Contains('_wpftmp'))">$([System.Text.RegularExpressions.Regex]::Replace('$(_RootNamespaceInGeneratedProject)', '$(_GeneratedProjectSuffixPattern)', ''))</RootNamespace>
+			<RootNamespace Condition="'$(RootNamespace)' == '' AND $(_RootNamespaceInGeneratedProject.Contains('.wpftmp'))">$([System.Text.RegularExpressions.Regex]::Replace('$(_RootNamespaceInGeneratedProject)', $(_GeneratedProjectSuffixPattern.Replace('_', '.')), ''))</RootNamespace>
+		</PropertyGroup>
+
+		<Message Importance="High" Condition="'$(_RootNamespaceInGeneratedProject)' != ''"
+			Text="The RootNamespace in the generated project was '$(_RootNamespaceInGeneratedProject)' and the fixed-up RootNamespace is '$(RootNamespace)'."/>
+	</Target>
+
+	<!--
+		Workaround to fix IntelliSense file generation for XAML projects
+		ISSUE: https://github.com/dotnet/project-system/issues/2488
+	-->
+	<Target Name="_DesignTimeBuildAndIntelliSenseWorkaround"
+			AfterTargets="_CheckCompileDesignTimePrerequisite"
+			Condition="'$(EnableWpfSupport)' == 'true' OR '$(EnableWffSupport)' == 'true'">
+		<PropertyGroup>
+			<BuildingProject>false</BuildingProject>
+		</PropertyGroup>
+	</Target>
+
+</Project>

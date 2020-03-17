@@ -1,6 +1,6 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
-	<Import Project="Inference.props" Condition="'$(_LanguageSourceName)' == ''"/>
+	<Import Project="Resolver.props" Condition="'$(_LanguageSourceName)' == ''"/>
 
 	<Import Project="..\Core\MSBuild.NET.DefaultItems.props"/>
 	<Import Project="..\Core\MSBuild.NET.ImplicitPackages.props"/>

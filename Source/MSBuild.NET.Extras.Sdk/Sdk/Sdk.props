@@ -1,13 +1,14 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
 	<PropertyGroup>
-		<CustomBeforeMicrosoftCommonProps>$(MSBuildThisFileDirectory)..\Build\MSBuild.NET.Workarounds.props</CustomBeforeMicrosoftCommonProps>
+		<_DotNetWorkaroundsProps>$(MSBuildThisFileDirectory)..\Extensions\MSBuild.NET.Workarounds.props</_DotNetWorkaroundsProps>
+		<CustomBeforeMicrosoftCommonProps>$(_DotNetWorkaroundsProps)</CustomBeforeMicrosoftCommonProps>
+		<CustomBeforeMicrosoftCommonCrossTargetingProps>$(_DotNetWorkaroundsProps)</CustomBeforeMicrosoftCommonCrossTargetingProps>
 	</PropertyGroup>
 
 	<Import Sdk="Microsoft.NET.Sdk" Project="Sdk.props"/>
 
 	<Import Project="..\Build\MSBuild.NET.Extras.Sdk.props"/>
-	<Import Project="..\ProjectSystem\MSBuild.NET.ProjectSystem.props"/>
 	<Import Project="..\DefaultItems\MSBuild.NET.ImplicitPackages.props"/>
 
 </Project>

@@ -1,0 +1,66 @@
+<Project>
+
+	<!--
+		We need to initialize '_PlatformImportId' and '_TargetPlatformId' properties
+		to bring in the corresponding props and targets (from external sources).
+	-->
+
+	<Choose>
+		<When Condition="$(TargetFrameworkIdentifier.StartsWith('.NET'))">
+			<PropertyGroup>
+				<_TargetPlatformId Condition="'$(TargetFrameworkIdentifier)' == '.NETCore'">Windows</_TargetPlatformId>
+				<_TargetPlatformId Condition="'$(TargetFrameworkIdentifier)' == '.NETFramework'">WindowsDesktop</_TargetPlatformId>
+				<_TargetPlatformId Condition="'$(TargetFrameworkIdentifier)' == '.NETPortable'">Portable</_TargetPlatformId>
+				<_PlatformImportId>$(_TargetPlatformId)</_PlatformImportId>
+			</PropertyGroup>
+		</When>
+
+		<When Condition="$(TargetFrameworkIdentifier.StartsWith('Windows')) OR '$(TargetFrameworkIdentifier)' == 'UAP'">
+			<PropertyGroup>
+				<_TargetPlatformId>Windows</_TargetPlatformId>
+				<_TargetPlatformId Condition="'$(TargetFrameworkIdentifier)' == 'WindowsPhone'">WindowsPhone</_TargetPlatformId>
+				<_PlatformImportId>$(_TargetPlatformId)</_PlatformImportId>
+			</PropertyGroup>
+		</When>
+
+		<When Condition="$(TargetFrameworkIdentifier.StartsWith('Xamarin'))">
+			<PropertyGroup>
+				<!-- Removing 'Xamarin.' gives 'Android', 'iOS', 'WatchOS', 'TVOS' and 'Mac' -->
+				<_TargetPlatformId>$(TargetFrameworkIdentifier.Substring('8'))</_TargetPlatformId>
+				<!-- Handle 'Xamarin.Mac.NET' special case -->
+				<_TargetPlatformId Condition="'$(_TargetPlatformId)' == 'Mac.NET'">Mac</_TargetPlatformId>
+				<!-- Handle 'Xamarin.Xbox360' and 'Xamarin.XboxOne' -->
+				<_TargetPlatformId Condition="$(_TargetPlatformId.Contains('Xbox'))">Xbox</_TargetPlatformId>
+				<!-- Handle 'Xamarin.PlayStationVita', 'Xamarin.PlayStation3' and 'Xamarin.PlayStation4' -->
+				<_TargetPlatformId Condition="$(_TargetPlatformId.Contains('PlayStation'))">PlayStation</_TargetPlatformId>
+			</PropertyGroup>
+
+			<PropertyGroup>
+				<_PlatformImportId>Xamarin</_PlatformImportId>
+			</PropertyGroup>
+		</When>
+
+		<When Condition="$(TargetFrameworkIdentifier.StartsWith('Mono'))">
+			<PropertyGroup>
+				<!-- Removing 'Mono' gives 'Android' and 'Mac' -->
+				<_TargetPlatformId>$(TargetFrameworkIdentifier.Substring('4'))</_TargetPlatformId>
+				<!-- Map 'MonoTouch' to 'iOS' -->
+				<_TargetPlatformId Condition="'$(_TargetPlatformId)' == 'Touch'">iOS</_TargetPlatformId>
+				<!-- Map 'MonoDroid' to 'Android' -->
+				<_TargetPlatformId Condition="'$(_TargetPlatformId)' == 'Droid'">Android</_TargetPlatformId>
+			</PropertyGroup>
+
+			<PropertyGroup>
+				<_PlatformImportId>Xamarin</_PlatformImportId>
+			</PropertyGroup>
+		</When>
+
+		<Otherwise>
+			<PropertyGroup>
+				<_TargetPlatformId>$(TargetFrameworkIdentifier)</_TargetPlatformId>
+				<_PlatformImportId>$(_TargetPlatformId)</_PlatformImportId>
+			</PropertyGroup>
+		</Otherwise>
+	</Choose>
+
+</Project>

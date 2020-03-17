@@ -1,18 +1,8 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
-	<PropertyGroup Condition="'$(TargetFrameworks)' != '' AND '$(TargetFramework)' == ''">
-		<IsMultiTargetingBuild>true</IsMultiTargetingBuild>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(IsMultiTargetingBuild)' != 'true'">
-		<_IsInvalidTargetFramework>false</_IsInvalidTargetFramework>
-		<_IsInvalidTargetFramework Condition="$(TargetFramework.Contains(','))">true</_IsInvalidTargetFramework>
-		<_IsInvalidTargetFramework Condition="$(TargetFramework.Contains(';'))">true</_IsInvalidTargetFramework>
-	</PropertyGroup>
-
-	<ImportGroup Condition="'$(IsMultiTargetingBuild)' != 'true'">
-		<Import Project="MSBuild.NET.Inference.targets" Condition="'$(_IsInvalidTargetFramework)' != 'true'"/>
-		<Import Project="MSBuild.NET.Platforms.targets" Condition="'$(TargetFrameworkIdentifier)' != ''"/>
+	<ImportGroup Condition="'$(TargetFramework)' != '' AND '$(_ResolvedTargetFramework)' != 'true'">
+		<Import Project="MSBuild.NET.FrameworkResolver.props"/>
+		<Import Project="MSBuild.NET.Platforms.props" Condition="'$(TargetFrameworkIdentifier)' != ''"/>
 	</ImportGroup>
 
 	<PropertyGroup Condition="'$(AppendTargetFrameworkToOutputPath)' == ''">
@@ -20,5 +10,7 @@
 	</PropertyGroup>
 
 	<Import Project="..\DefaultItems\MSBuild.NET.DefaultItems.targets"/>
+
+	<Import Project="..\ProjectSystem\MSBuild.NET.ProjectSystem.targets"/>
 
 </Project>

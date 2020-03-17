@@ -11,8 +11,7 @@
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(TargetFrameworkIdentifier)' == 'Tizen' AND '$(_ImplicitPlatformPackageVersion)' == ''">
-		<_ImplicitPlatformPackageVersion
-			Condition="'$(_TargetFrameworkVersionWithoutV)' >= '3.0' OR '$(_TargetFrameworkVersionWithoutV)' &lt;= '6.0'">$(_TargetFrameworkVersionWithoutV).0</_ImplicitPlatformPackageVersion>
+		<_ImplicitPlatformPackageVersion Condition="'$(_TargetFrameworkVersionWithoutV)' >= '3.0'">$(_TargetFrameworkVersionWithoutV).0</_ImplicitPlatformPackageVersion>
 	</PropertyGroup>
 
 </Project>

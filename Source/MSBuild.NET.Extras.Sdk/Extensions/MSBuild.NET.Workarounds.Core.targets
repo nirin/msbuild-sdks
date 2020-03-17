@@ -1,0 +1,20 @@
+<Project>
+
+	<!--
+		Workaround for a bug in 'Microsoft.NET.Sdk' < v2.0 where satellites were deployed on top of each other in root.
+		ISSUE: https://github.com/dotnet/sdk/issues/1360
+	-->
+	<Target Name="_SatelliteDeploymentOldSdkWorkaround"
+			AfterTargets="ResolveLockFileCopyLocalProjectDeps"
+			Condition="'$(DotNetSdkVersion)' &lt; '2.0'">
+		<ItemGroup>
+			<ReferenceCopyLocalPaths Remove="@(ResourceCopyLocalItems)"/>
+			<ReferenceCopyLocalPaths Include="@(ResourceCopyLocalItems)" Condition="'@(ResourceCopyLocalItems)' != ''">
+				<DestinationSubDirectory>$([System.IO.Directory]::GetParent(%(ResourceCopyLocalItems.FullPath)).Name)\</DestinationSubDirectory>
+			</ReferenceCopyLocalPaths>
+		</ItemGroup>
+	</Target>
+
+	<Import Project="MSBuild.NET.Workarounds.targets"/>
+
+</Project>

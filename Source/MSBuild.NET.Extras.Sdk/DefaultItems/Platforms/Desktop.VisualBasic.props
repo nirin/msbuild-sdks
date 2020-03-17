@@ -1,9 +1,9 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
 	<ItemDefinitionGroup>
-		<_SdkImplicitImport>
+		<_ImplicitImport>
 			<IsImplicitlyDefined>true</IsImplicitlyDefined>
-		</_SdkImplicitImport>
+		</_ImplicitImport>
 	</ItemDefinitionGroup>
 
 	<ItemGroup Condition="'$(EnableDefaultMyAppItems)' == 'true'">
@@ -50,33 +50,33 @@
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(DisableImplicitNamespaceImports)' != 'true' AND '$(EnableImplicitWpfReferences)' == 'true'">
-		<_SdkImplicitImport Include="System.Windows"/>
-		<_SdkImplicitImport Include="System.Windows.Controls"/>
-		<_SdkImplicitImport Include="System.Windows.Data"/>
-		<_SdkImplicitImport Include="System.Windows.Documents"/>
-		<_SdkImplicitImport Include="System.Windows.Input"/>
-		<_SdkImplicitImport Include="System.Windows.Shapes"/>
-		<_SdkImplicitImport Include="System.Windows.Media"/>
-		<_SdkImplicitImport Include="System.Windows.Media.Imaging"/>
-		<_SdkImplicitImport Include="System.Windows.Navigation"/>
+		<_ImplicitImport Include="System.Windows"/>
+		<_ImplicitImport Include="System.Windows.Controls"/>
+		<_ImplicitImport Include="System.Windows.Data"/>
+		<_ImplicitImport Include="System.Windows.Documents"/>
+		<_ImplicitImport Include="System.Windows.Input"/>
+		<_ImplicitImport Include="System.Windows.Shapes"/>
+		<_ImplicitImport Include="System.Windows.Media"/>
+		<_ImplicitImport Include="System.Windows.Media.Imaging"/>
+		<_ImplicitImport Include="System.Windows.Navigation"/>
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(DisableImplicitNamespaceImports)' != 'true' AND '$(EnableImplicitWebReferences)' == 'true'">
-		<_SdkImplicitImport Include="System.Web"/>
-		<_SdkImplicitImport Include="System.Web.Http"/>
-		<_SdkImplicitImport Include="System.Web.Helpers"/>
-		<_SdkImplicitImport Include="System.Web.Mvc"/>
-		<_SdkImplicitImport Include="System.Web.Mvc.Ajax"/>
-		<_SdkImplicitImport Include="System.Web.Mvc.Html"/>
-		<_SdkImplicitImport Include="System.Web.WebPages"/>
+		<_ImplicitImport Include="System.Web"/>
+		<_ImplicitImport Include="System.Web.Http"/>
+		<_ImplicitImport Include="System.Web.Helpers"/>
+		<_ImplicitImport Include="System.Web.Mvc"/>
+		<_ImplicitImport Include="System.Web.Mvc.Ajax"/>
+		<_ImplicitImport Include="System.Web.Mvc.Html"/>
+		<_ImplicitImport Include="System.Web.WebPages"/>
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(DisableImplicitNamespaceImports)' != 'true' AND '$(EnableImplicitWinFormsReferences)' == 'true'">
-		<_SdkImplicitImport Include="System.Design"/>
-		<_SdkImplicitImport Include="System.Drawing"/>
-		<_SdkImplicitImport Include="System.Deployment"/>
-		<_SdkImplicitImport Include="System.Windows"/>
-		<_SdkImplicitImport Include="System.Windows.Forms"/>
+		<_ImplicitImport Include="System.Design"/>
+		<_ImplicitImport Include="System.Drawing"/>
+		<_ImplicitImport Include="System.Deployment"/>
+		<_ImplicitImport Include="System.Windows"/>
+		<_ImplicitImport Include="System.Windows.Forms"/>
 	</ItemGroup>
 
 </Project>

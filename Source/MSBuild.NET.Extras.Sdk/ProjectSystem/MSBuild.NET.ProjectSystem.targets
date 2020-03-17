@@ -1,23 +1,21 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
-	<PropertyGroup>
-		<_SdkProjectSystemRulesDirectory>$(MSBuildThisFileDirectory)Rules\</_SdkProjectSystemRulesDirectory>
-	</PropertyGroup>
-
-	<PropertyGroup>
-		<UsingLegacyProjectSystem Condition="'$(ProjectGuid)' != ''">true</UsingLegacyProjectSystem>
+	<PropertyGroup Condition="'$(ProjectGuid)' != '' OR '$(ProjectTypeGuid)' != ''">
+		<UsingLegacyProjectSystem>true</UsingLegacyProjectSystem>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(UsingLegacyProjectSystem)' == 'true' AND '$(TargetFrameworkIdentifier)' == '.NETFramework'">
-		<ProjectTypeGuids Condition="'$(EnableWpfProjectSetup)' == 'true'">$(ProjectTypeGuids);{60DC8134-EBA5-43B8-BCC9-BB4BC16C2548}</ProjectTypeGuids>
-		<ProjectTypeGuids Condition="'$(EnableWffProjectSetup)' == 'true'">$(ProjectTypeGuids);{32F31D43-81CC-4C15-9DE6-3FC5453562B6}</ProjectTypeGuids>
-		<ProjectTypeGuids Condition="'$(EnableWebProjectSetup)' == 'true'">$(ProjectTypeGuids);{349C5851-65DF-11DA-9384-00065B846F21}</ProjectTypeGuids>
-		<ProjectTypeGuids Condition="'$(EnableWcfProjectSetup)' == 'true'">$(ProjectTypeGuids);{3D9AD99F-2412-4246-B90B-4EAA41C64699}</ProjectTypeGuids>
-		<ProjectTypeGuids Condition="'$(EnableWinFormsProjectSetup)' == 'true'">$(ProjectTypeGuids);{}</ProjectTypeGuids>
+		<CustomProjectTypeGuid Condition="'$(EnableWpfSupport)' == 'true'">{60DC8134-EBA5-43B8-BCC9-BB4BC16C2548}</CustomProjectTypeGuid>
+		<CustomProjectTypeGuid Condition="'$(EnableWffSupport)' == 'true'">{32F31D43-81CC-4C15-9DE6-3FC5453562B6}</CustomProjectTypeGuid>
+		<CustomProjectTypeGuid Condition="'$(EnableWebSupport)' == 'true'">{349C5851-65DF-11DA-9384-00065B846F21}</CustomProjectTypeGuid>
+		<CustomProjectTypeGuid Condition="'$(EnableWcfSupport)' == 'true'">{3D9AD99F-2412-4246-B90B-4EAA41C64699}</CustomProjectTypeGuid>
+		<!--<CustomProjectTypeGuid Condition="'$(EnableWinFormsSupport)' == 'true'">{}</CustomProjectTypeGuid>-->
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(UsingLegacyProjectSystem)' == 'true'">
-		<ProjectTypeGuids>$(DefaultProjectTypeGuid);$(ProjectTypeGuids)</ProjectTypeGuids>
+		<ProjectTypeGuids>$(DefaultProjectTypeGuid)</ProjectTypeGuids>
+		<ProjectTypeGuids Condition="'$(ProjectTypeGuid)' != ''">$(ProjectTypeGuids);$(ProjectTypeGuid)</ProjectTypeGuids>
+		<ProjectTypeGuids Condition="'$(CustomProjectTypeGuid)' != ''">$(ProjectTypeGuids);$(CustomProjectTypeGuid)</ProjectTypeGuids>
 		<ProjectTypeGuids>$(ProjectTypeGuids.Trim(';'))</ProjectTypeGuids>
 	</PropertyGroup>
 

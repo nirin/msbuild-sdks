@@ -1,32 +1,28 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
 	<PropertyGroup>
-		<_SdkPlatformLibraryName>$(TargetFrameworkIdentifier)</_SdkPlatformLibraryName>
-		<_SdkPlatformLibraryName Condition="$(_SdkPlatformLibraryName.EndsWith('Android'))">Mono.Android</_SdkPlatformLibraryName>
-
-		<_SdkPlatformFrameworkName>$(TargetFrameworkIdentifier)</_SdkPlatformFrameworkName>
-		<_SdkPlatformFrameworkName Condition="'$(_SdkPlatformFrameworkName)' == 'MonoTouch'">Xamarin.iOS</_SdkPlatformFrameworkName>
-		<_SdkPlatformFrameworkName Condition="$(_SdkPlatformFrameworkName.StartsWith('Mono'))">$(_SdkPlatformFrameworkName.Replace('Mono', 'Xamarin.'))</_SdkPlatformFrameworkName>
+		<_TargetPlatformAssemblyName Condition="'$(_TargetPlatformId)' == 'Android')">Mono.Android</_TargetPlatformAssemblyName>
+		<_TargetPlatformAssemblyName Condition="'$(_TargetPlatformId)' != 'Android')">Xamarin.$(_TargetPlatformId)</_TargetPlatformAssemblyName>
 	</PropertyGroup>
 
-	<!-- TODO: Separate Library references into respective platform targets. -->
+	<!-- TODO: Separate Library references into respective platform props. -->
 	<ItemGroup Condition="'$(DisableImplicitFrameworkReferences)' != 'true'">
-		<_SdkImplicitReference Include="System"/>
-		<_SdkImplicitReference Include="System.Core"/>
-		<_SdkImplicitReference Include="System.IdentityModel"/>
-		<_SdkImplicitReference Include="System.Net.Http"/>
-		<_SdkImplicitReference Include="System.Xml"/>
-		<_SdkImplicitReference Include="System.Xml.Linq"/>
-		<_SdkImplicitReference Include="System.Runtime.Serialization"/>
-		<_SdkImplicitReference Include="$(_SdkPlatformLibraryName)"/>
+		<_ImplicitReference Include="System"/>
+		<_ImplicitReference Include="System.Core"/>
+		<_ImplicitReference Include="System.IdentityModel"/>
+		<_ImplicitReference Include="System.Net.Http"/>
+		<_ImplicitReference Include="System.Xml"/>
+		<_ImplicitReference Include="System.Xml.Linq"/>
+		<_ImplicitReference Include="System.Runtime.Serialization"/>
+		<_ImplicitReference Include="$(_TargetPlatformAssemblyName)"/>
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(DisableImplicitFrameworkReferences)' != 'true' AND '$(IsBindingProject)' != 'true'">
-		<_SdkImplicitReference Include="System.Runtime"/>
-		<_SdkImplicitReference Include="System.Collections"/>
-		<_SdkImplicitReference Include="System.Threading.Tasks"/>
+		<_ImplicitReference Include="System.Runtime"/>
+		<_ImplicitReference Include="System.Collections"/>
+		<_ImplicitReference Include="System.Threading.Tasks"/>
 	</ItemGroup>
 
-	<Import Project="Xamarin\$(_SdkPlatformFrameworkName).targets" Condition="Exists('Xamarin\$(_SdkPlatformFrameworkName).targets')"/>
+	<Import Project="Xamarin\Xamarin.$(_TargetPlatformId).props" Condition="Exists('Xamarin\Xamarin.$(_TargetPlatformId).props')"/>
 
 </Project>

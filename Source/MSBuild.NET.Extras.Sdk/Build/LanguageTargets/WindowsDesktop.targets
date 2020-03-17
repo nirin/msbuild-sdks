@@ -2,6 +2,7 @@
 
 	<PropertyGroup Condition="'$(MicrosoftNETSdkTargetsPath)' == ''">
 		<MicrosoftNETSdkTargetsPath>$(MSBuildSdksPath)\Microsoft.NET.Sdk\targets\</MicrosoftNETSdkTargetsPath>
+		<MicrosoftNETSdkTargetsPath Condition="!Exists('$(MicrosoftNETSdkTargetsPath)')">$(MSBuildSdksPath)\Microsoft.NET.Sdk\build\</MicrosoftNETSdkTargetsPath>
 		<MicrosoftNETSdkTargetsPath Condition="!Exists('$(MicrosoftNETSdkTargetsPath)')">$(ToolDepsJsonGeneratorProject.TrimEnd('GenerateDeps\GenerateDeps.proj'))</MicrosoftNETSdkTargetsPath>
 		<MicrosoftNETSdkTargetsPath Condition="!Exists('$(MicrosoftNETSdkTargetsPath)')">$(_NuGetFallbackFolder.TrimEnd('..\..\..\..\NuGetFallbackFolder'))</MicrosoftNETSdkTargetsPath>
 		<MicrosoftNETSdkTargetsPath Condition="!Exists('$(MicrosoftNETSdkTargetsPath)')">$(NETCoreSdkBundledVersionsProps.TrimEnd('..\..\..\Microsoft.NETCoreSdk.BundledVersions.props'))</MicrosoftNETSdkTargetsPath>
@@ -13,28 +14,28 @@
 	</PropertyGroup>
 
 	<PropertyGroup>
-		<_SdkLanguageTargets Condition="'$(_LanguageSourceName)' != 'FSharp'">$(MSBuildToolsPath)\Microsoft.$(_LanguageSourceName).targets</_SdkLanguageTargets>
-		<_SdkLanguageTargets Condition="'$(_LanguageSourceName)' == 'FSharp'">$(_FSharpTargetsPath)</_SdkLanguageTargets>
+		<_LanguageTargets Condition="'$(_LanguageSourceName)' != 'FSharp'">$(MSBuildToolsPath)\Microsoft.$(_LanguageSourceName).targets</_LanguageTargets>
+		<_LanguageTargets Condition="'$(_LanguageSourceName)' == 'FSharp'">$(_FSharpTargetsPath)</_LanguageTargets>
 	</PropertyGroup>
 
 	<PropertyGroup>
-		<_SdkLanguageTargetsMissing Condition="!Exists('$(_SdkLanguageTargets)')">true</_SdkLanguageTargetsMissing>
+		<_LanguageTargetsMissing Condition="!Exists('$(_LanguageTargets)')">true</_LanguageTargetsMissing>
 	</PropertyGroup>
 
-	<Import Project="$(_SdkLanguageTargets)" Condition="Exists('$(_SdkLanguageTargets)')"/>
+	<Import Project="$(_LanguageTargets)" Condition="Exists('$(_LanguageTargets)')"/>
 
 	<PropertyGroup>
-		<_SdkWebApplicationTargets>$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\WebApplications\Microsoft.WebApplication.targets</_SdkWebApplicationTargets>
+		<_WebApplicationTargets>$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\WebApplications\Microsoft.WebApplication.targets</_WebApplicationTargets>
 	</PropertyGroup>
 
-	<Import Project="$(_SdkWebApplicationTargets)" Condition="Exists('$(_SdkWebApplicationTargets)') AND '$(ImportWebApplicationTargets)' == 'true'"/>
+	<Import Project="$(_WebApplicationTargets)" Condition="Exists('$(_WebApplicationTargets)') AND '$(ImportWebApplicationTargets)' == 'true'"/>
 
 	<PropertyGroup>
-		<_SdkServiceModelTargets>$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\WCF\Microsoft.VisualStudio.ServiceModel.targets</_SdkServiceModelTargets>
+		<_ServiceModelTargets>$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\WCF\Microsoft.VisualStudio.ServiceModel.targets</_ServiceModelTargets>
 	</PropertyGroup>
 
-	<Import Project="$(_SdkServiceModelTargets)" Condition="Exists('$(_SdkServiceModelTargets)') AND '$(ImportServiceModelTargets)' == 'true'"/>
+	<Import Project="$(_ServiceModelTargets)" Condition="Exists('$(_ServiceModelTargets)') AND '$(ImportServiceModelTargets)' == 'true'"/>
 
-	<Import Project="CheckMissing.targets" Condition="'$(_SdkLanguageTargetsMissing)' == 'true'"/>
+	<Import Project="CheckMissing.targets" Condition="'$(_LanguageTargetsMissing)' == 'true'"/>
 
 </Project>

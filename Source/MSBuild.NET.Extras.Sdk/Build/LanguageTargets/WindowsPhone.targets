@@ -2,20 +2,20 @@
 
 	<PropertyGroup>
 		<!-- HACK: $(MSBuildExtensionsPath) for VS <= 14.0 -->
-		<_SdkMSBuildExtensionsPath>$(MSBuildProgramFiles32)\MSBuild</_SdkMSBuildExtensionsPath>
+		<_MSBuildExtensionsPath>$(MSBuildProgramFiles32)\MSBuild</_MSBuildExtensionsPath>
 	</PropertyGroup>
 
 	<PropertyGroup>
-		<_SdkLanguageTargets>$(_SdkMSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).$(_LanguageSourceName).targets</_SdkLanguageTargets>
-		<_SdkLanguageOverridesTargets>$(_SdkMSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).$(TargetFrameworkVersion).Overrides.targets</_SdkLanguageOverridesTargets>
+		<_LanguageTargets>$(_MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).$(_LanguageSourceName).targets</_LanguageTargets>
+		<_LanguageOverridesTargets>$(_MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).$(TargetFrameworkVersion).Overrides.targets</_LanguageOverridesTargets>
 	</PropertyGroup>
 
 	<PropertyGroup>
-		<_SdkLanguageTargetsMissing Condition="!Exists('$(_SdkLanguageTargets)')">true</_SdkLanguageTargetsMissing>
+		<_LanguageTargetsMissing Condition="!Exists('$(_LanguageTargets)')">true</_LanguageTargetsMissing>
 	</PropertyGroup>
 
-	<Import Project="$(_SdkLanguageOverridesTargets)" Condition="Exists('$(_SdkLanguageOverridesTargets)')"/>
-	<Import Project="$(_SdkLanguageTargets)" Condition="Exists('$(_SdkLanguageTargets)')"/>
-	<Import Project="CheckMissing.targets" Condition="'$(_SdkLanguageTargetsMissing)' == 'true'"/>
+	<Import Project="$(_LanguageOverridesTargets)" Condition="Exists('$(_LanguageOverridesTargets)')"/>
+	<Import Project="$(_LanguageTargets)" Condition="Exists('$(_LanguageTargets)')"/>
+	<Import Project="CheckMissing.targets" Condition="'$(_LanguageTargetsMissing)' == 'true'"/>
 
 </Project>

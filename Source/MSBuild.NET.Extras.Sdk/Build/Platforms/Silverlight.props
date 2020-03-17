@@ -8,13 +8,13 @@
 	</PropertyGroup>
 
 	<ItemGroup Condition="'$(DisableImplicitFrameworkReferences)' != 'true'">
-		<_SdkImplicitReference Include="mscorlib"/>
-		<_SdkImplicitReference Include="System"/>
-		<_SdkImplicitReference Include="System.Core"/>
-		<_SdkImplicitReference Include="System.Xml"/>
-		<_SdkImplicitReference Include="System.Net"/>
-		<_SdkImplicitReference Include="System.Windows"/>
-		<_SdkImplicitReference Include="System.Windows.Browser"/>
+		<_ImplicitReference Include="mscorlib"/>
+		<_ImplicitReference Include="System"/>
+		<_ImplicitReference Include="System.Core"/>
+		<_ImplicitReference Include="System.Xml"/>
+		<_ImplicitReference Include="System.Net"/>
+		<_ImplicitReference Include="System.Windows"/>
+		<_ImplicitReference Include="System.Windows.Browser"/>
 	</ItemGroup>
 
 </Project>

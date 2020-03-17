@@ -1,9 +1,9 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
 	<ItemDefinitionGroup>
-		<_SdkImplicitReference>
+		<_ImplicitReference>
 			<IsImplicitlyDefined>true</IsImplicitlyDefined>
-		</_SdkImplicitReference>
+		</_ImplicitReference>
 	</ItemDefinitionGroup>
 
 	<ItemDefinitionGroup>

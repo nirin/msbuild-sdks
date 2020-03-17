@@ -1,14 +1,14 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
 	<PropertyGroup>
-		<_SdkLanguageTargets>$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.$(_LanguageSourceName).targets</_SdkLanguageTargets>
+		<_LanguageTargets>$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.$(_LanguageSourceName).targets</_LanguageTargets>
 	</PropertyGroup>
 
 	<PropertyGroup>
-		<_SdkLanguageTargetsMissing Condition="!Exists('$(_SdkLanguageTargets)')">true</_SdkLanguageTargetsMissing>
+		<_LanguageTargetsMissing Condition="!Exists('$(_LanguageTargets)')">true</_LanguageTargetsMissing>
 	</PropertyGroup>
 
-	<Import Project="$(_SdkLanguageTargets)" Condition="Exists('$(_SdkLanguageTargets)')"/>
-	<Import Project="CheckMissing.targets" Condition="'$(_SdkLanguageTargetsMissing)' == 'true'"/>
+	<Import Project="$(_LanguageTargets)" Condition="Exists('$(_LanguageTargets)')"/>
+	<Import Project="CheckMissing.targets" Condition="'$(_LanguageTargetsMissing)' == 'true'"/>
 
 </Project>

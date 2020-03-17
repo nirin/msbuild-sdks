@@ -1,35 +1,29 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
 	<PropertyGroup>
-		<_SdkTargetPlatformName Condition="$(TargetFrameworkIdentifier.StartsWith('Mono'))">$(TargetFrameworkIdentifier.Substring('4'))</_SdkTargetPlatformName>
-		<_SdkTargetPlatformName Condition="$(TargetFrameworkIdentifier.Contains('.'))">$(TargetFrameworkIdentifier.Split('.')[1])</_SdkTargetPlatformName>
-		<_SdkTargetPlatformName Condition="'$(_SdkTargetPlatformName)' == 'Touch'">iOS</_SdkTargetPlatformName>
-		<_SdkTargetsImportType>$(_LanguageSourceName)</_SdkTargetsImportType>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(IsApplePlatform)' == ''">
-		<IsApplePlatform Condition="'$(_SdkTargetPlatformName)' == 'iOS' OR '$(_SdkTargetPlatformName)' == 'Mac' OR '$(_SdkTargetPlatformName)' == 'TVOS' OR '$(_SdkTargetPlatformName)' == 'WatchOS'">true</IsApplePlatform>
+		<_ProjectImportId>$(_LanguageSourceName)</_ProjectImportId>
+		<_IsApplePlatform Condition="'$(_TargetPlatformId)' == 'iOS' OR '$(_TargetPlatformId)' == 'Mac' OR '$(_TargetPlatformId)' == 'TVOS' OR '$(_TargetPlatformId)' == 'WatchOS'">true</_IsApplePlatform>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(IsBindingProject)' == 'true'">
-		<_SdkTargetsImportType Condition="'$(_SdkTargetPlatformName)' == 'Android'">Bindings</_SdkTargetsImportType>
-		<_SdkTargetsImportType Condition="'$(IsApplePlatform)' == 'true'">ObjCBinding.$(_LanguageSourceName)</_SdkTargetsImportType>
+		<_ProjectImportId Condition="'$(_TargetPlatformId)' == 'Android'">Bindings</_ProjectImportId>
+		<_ProjectImportId Condition="'$(_IsApplePlatform)' == 'true'">ObjCBinding.$(_LanguageSourceName)</_ProjectImportId>
 	</PropertyGroup>
 
 	<PropertyGroup>
-		<_SdkLanguageTargets>$(MSBuildExtensionsPath)\Xamarin\$(_SdkTargetPlatformName)\Xamarin.$(_SdkTargetPlatformName).$(_SdkTargetsImportType).targets</_SdkLanguageTargets>
+		<_LanguageTargets>$(MSBuildExtensionsPath)\Xamarin\$(_TargetPlatformId)\Xamarin.$(_TargetPlatformId).$(_ProjectImportId).targets</_LanguageTargets>
 	</PropertyGroup>
 
 	<PropertyGroup>
-		<_SdkLanguageTargetsMissing Condition="!Exists('$(_SdkLanguageTargets)')">true</_SdkLanguageTargetsMissing>
+		<_LanguageTargetsMissing Condition="!Exists('$(_LanguageTargets)')">true</_LanguageTargetsMissing>
 	</PropertyGroup>
 
-	<Import Project="$(_SdkLanguageTargets)" Condition="Exists('$(_SdkLanguageTargets)')"/>
-	<Import Project="CheckMissing.targets" Condition="'$(_SdkLanguageTargetsMissing)' == 'true'"/>
+	<Import Project="$(_LanguageTargets)" Condition="Exists('$(_LanguageTargets)')"/>
+	<Import Project="CheckMissing.targets" Condition="'$(_LanguageTargetsMissing)' == 'true'"/>
 
 	<!-- CSharp is the only language supported for Binding Projects for Now -->
-	<Target Name="ShowAndroidBindingProjectError" Condition="'$(IsBindingProject)' == 'true' AND '$(_SdkTargetPlatformName)' == 'Android' AND '$(_LanguageSourceName)' != 'CSharp'" BeforeTargets="_CheckForUnsupportedTargetFramework">
-		<Error Text="The Binding Project for $(_SdkTargetPlatformName) is only supported with only C#, not with $(_LanguageSourceName). Please change the project to C# to use the Bindings Project.'"/>
+	<Target Name="ShowAndroidBindingProjectError" Condition="'$(IsBindingProject)' == 'true' AND '$(_TargetPlatformId)' == 'Android' AND '$(_LanguageSourceName)' != 'CSharp'" BeforeTargets="_CheckForUnsupportedTargetFramework">
+		<Error Text="The Binding Project for $(_TargetPlatformId) is only supported with only C#, not with $(_LanguageSourceName). Please change the project to C# to use the Bindings Project.'"/>
 	</Target>
 
 </Project>

@@ -1,19 +1,13 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
 	<!-- Force disable other projects' setup, Since it does not play very well with each other. -->
-	<PropertyGroup Condition="'$(EnableWpfProjectSetup)' == 'true'">
-		<EnableWebProjectSetup>false</EnableWebProjectSetup>
-		<EnableWinFormsProjectSetup>false</EnableWinFormsProjectSetup>
+	<PropertyGroup Condition="'$(EnableWpfSupport)' == 'true' OR '$(EnableWinFormsSupport)' == 'true'">
+		<EnableWebSupport>false</EnableWebSupport>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(EnableWebProjectSetup)' == 'true'">
-		<EnableWpfProjectSetup>false</EnableWpfProjectSetup>
-		<EnableWinFormsProjectSetup>false</EnableWinFormsProjectSetup>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(EnableWinFormsProjectSetup)' == 'true'">
-		<EnableWpfProjectSetup>false</EnableWpfProjectSetup>
-		<EnableWebProjectSetup>false</EnableWebProjectSetup>
+	<PropertyGroup Condition="'$(EnableWebSupport)' == 'true'">
+		<EnableWpfSupport>false</EnableWpfSupport>
+		<EnableWinFormsSupport>false</EnableWinFormsSupport>
 	</PropertyGroup>
 
 	<!-- Desktop Support -->
@@ -35,15 +29,17 @@
 
 	<!-- WPF Support -->
 
-	<PropertyGroup Condition="'$(EnableWpfProjectSetup)' == 'true'">
+	<PropertyGroup Condition="'$(EnableWpfSupport)' == 'true'">
 		<EnableDefaultWpfItems Condition="'$(EnableDefaultWpfItems)' == ''">true</EnableDefaultWpfItems>
 		<EnableDefaultXamlItems>$(EnableDefaultWpfItems)</EnableDefaultXamlItems>
 		<EnableImplicitWpfReferences Condition="'$(EnableImplicitWpfReferences)' == ''">true</EnableImplicitWpfReferences>
+		<EnableImplicitWpfControlReferences Condition="'$(EnableImplicitWpfControlReferences)' == ''">true</EnableImplicitWpfControlReferences>
+		<EnableImplicitUIAutomationReferences Condition="'$(EnableImplicitUIAutomationReferences)' == ''">true</EnableImplicitUIAutomationReferences>
 	</PropertyGroup>
 
 	<!-- Windows Forms Support -->
 
-	<PropertyGroup Condition="'$(EnableWinFormsProjectSetup)' == 'true'">
+	<PropertyGroup Condition="'$(EnableWinFormsSupport)' == 'true'">
 		<EnableDefaultWinFormsItems Condition="'$(EnableDefaultWinFormsItems)' == ''">true</EnableDefaultWinFormsItems>
 		<EnableImplicitWinFormsReferences Condition="'$(EnableImplicitWinFormsReferences)' == ''">true</EnableImplicitWinFormsReferences>
 		<EnableUserControlDesigner Condition="'$(EnableUserControlDesigner)' == ''">false</EnableUserControlDesigner>
@@ -52,7 +48,7 @@
 
 	<!-- WEB Support -->
 
-	<PropertyGroup Condition="'$(EnableWebProjectSetup)' == 'true'">
+	<PropertyGroup Condition="'$(EnableWebSupport)' == 'true'">
 		<EnableDefaultWebItems Condition="'$(EnableDefaultWebItems)' == ''">true</EnableDefaultWebItems>
 		<EnableImplicitWebReferences Condition="'$(EnableImplicitWebReferences)' == ''">true</EnableImplicitWebReferences>
 		<EnableWebDesigner Condition="'$(EnableWebDesigner)' == ''">false</EnableWebDesigner>
@@ -89,7 +85,7 @@
 
 	<!-- WCF/WFF Support -->
 
-	<PropertyGroup Condition="'$(EnableWcfProjectSetup)' == 'true'">
+	<PropertyGroup Condition="'$(EnableWcfSupport)' == 'true'">
 		<EnableDefaultServiceItems Condition="'$(EnableDefaultServiceItems)' == ''">true</EnableDefaultServiceItems>
 		<EnableImplicitWcfReferences Condition="'$(EnableImplicitWcfReferences)' == ''">true</EnableImplicitWcfReferences>
 	</PropertyGroup>
@@ -101,7 +97,7 @@
 		<EnableDefaultContentItems Condition="'$(EnableDefaultContentItems)' == ''">true</EnableDefaultContentItems>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(EnableWffProjectSetup)' == 'true'">
+	<PropertyGroup Condition="'$(EnableWffSupport)' == 'true'">
 		<EnableDefaultWorkflowItems Condition="'$(EnableDefaultWorkflowItems)' == ''">true</EnableDefaultWorkflowItems>
 		<EnableDefaultXamlItems Condition="'$(EnableDefaultWorkflowItems)' == 'true'">false</EnableDefaultXamlItems>
 		<EnableImplicitWffReferences Condition="'$(EnableImplicitWffReferences)' == ''">true</EnableImplicitWffReferences>

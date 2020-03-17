@@ -21,17 +21,20 @@
 
 	<ItemGroup Condition="'$(DisableImplicitNamespaceImports)' != 'true'">
 		<!-- Set IsImplicitlyDefined=true on implicit imports so they don't get added again by the IDE -->
-		<_SdkImplicitImport Update="@(_SdkImplicitImport)"/>
+		<_ImplicitImport Update="@(_ImplicitImport)"/>
 
 		<!--
 			Don't duplicate any imports that are explicit in the project file.
 			This means that if you do want to include an import in your project file(s),
 			you can just add the Import to your project file.
 		-->
-		<_SdkImplicitImport Remove="@(Import)"/>
+		<_ImplicitImport Remove="@(Import)"/>
 
 		<!-- Add the implicit imports to @(Import) -->
-		<Import Include="@(_SdkImplicitImport)"/>
+		<Import Include="@(_ImplicitImport)"/>
+
+		<!-- Cleanup the Temporary list -->
+		<_ImplicitImport Remove="@(_ImplicitImport)"/>
 	</ItemGroup>
 
 </Project>

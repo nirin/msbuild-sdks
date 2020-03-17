@@ -4,28 +4,38 @@
 		<When Condition="'$(MSBuildProjectExtension)' == '.csproj'">
 			<PropertyGroup>
 				<_LanguageSourceName>CSharp</_LanguageSourceName>
-				<!--<DefaultLanguageSourceExtension>.cs</DefaultLanguageSourceExtension>-->
+				<Language>C#</Language>
+				<DefaultLanguageSourceExtension>.cs</DefaultLanguageSourceExtension>
 			</PropertyGroup>
 		</When>
 
 		<When Condition="'$(MSBuildProjectExtension)' == '.vbproj'">
 			<PropertyGroup>
 				<_LanguageSourceName>VisualBasic</_LanguageSourceName>
-				<!--<DefaultLanguageSourceExtension>.vb</DefaultLanguageSourceExtension>-->
+				<Language>VB</Language>
+				<DefaultLanguageSourceExtension>.vb</DefaultLanguageSourceExtension>
 			</PropertyGroup>
 		</When>
 
 		<When Condition="'$(MSBuildProjectExtension)' == '.fsproj'">
 			<PropertyGroup>
 				<_LanguageSourceName>FSharp</_LanguageSourceName>
-				<!--<DefaultLanguageSourceExtension>.fs</DefaultLanguageSourceExtension>-->
+				<Language>F#</Language>
+				<DefaultLanguageSourceExtension>.fs</DefaultLanguageSourceExtension>
+			</PropertyGroup>
+		</When>
+
+		<When Condition="'$(MSBuildProjectExtension)' == '.ilproj'">
+			<PropertyGroup>
+				<_LanguageSourceName>IntermediateLanguage</_LanguageSourceName>
+				<Language>IL</Language>
+				<DefaultLanguageSourceExtension>.il</DefaultLanguageSourceExtension>
 			</PropertyGroup>
 		</When>
 
 		<Otherwise>
 			<PropertyGroup>
 				<_LanguageSourceName>Common</_LanguageSourceName>
-				<!--<DefaultLanguageSourceExtension>.msil</DefaultLanguageSourceExtension>-->
 			</PropertyGroup>
 		</Otherwise>
 	</Choose>

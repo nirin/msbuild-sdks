@@ -1,11 +1,13 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
 	<PropertyGroup>
-		<CustomAfterMicrosoftCommonTargets>$(MSBuildThisFileDirectory)..\Build\MSBuild.NET.Workarounds.targets</CustomAfterMicrosoftCommonTargets>
+		<_DotNetWorkaroundsTargets>$(MSBuildThisFileDirectory)..\Extensions\MSBuild.NET.Workarounds.targets</_DotNetWorkaroundsTargets>
+		<_DotNetWorkaroundsCoreTargets>$(MSBuildThisFileDirectory)..\Extensions\MSBuild.NET.Workarounds.Core.targets</_DotNetWorkaroundsCoreTargets>
+		<CustomAfterMicrosoftCommonTargets>$(_DotNetWorkaroundsCoreTargets)</CustomAfterMicrosoftCommonTargets>
+		<CustomAfterMicrosoftCommonCrossTargetingTargets>$(_DotNetWorkaroundsTargets)</CustomAfterMicrosoftCommonCrossTargetingTargets>
 	</PropertyGroup>
 
 	<Import Project="..\Build\MSBuild.NET.Extras.Sdk.targets"/>
-	<Import Project="..\ProjectSystem\MSBuild.NET.ProjectSystem.targets"/>
 	<Import Project="..\DefaultItems\MSBuild.NET.ImplicitPackages.targets"/>
 
 	<Import Project="$(CustomBeforeSdkTargets)" Condition="'$(CustomBeforeSdkTargets)' != ''"/>

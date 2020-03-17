@@ -2,7 +2,7 @@
 
 	<PropertyGroup Condition="'$(_IsXamarinPlatform)' == ''">
 		<_IsXamarinPlatform Condition="$(TargetFrameworkIdentifier.StartsWith('Xamarin'))">true</_IsXamarinPlatform>
-		<_IsXamarinPlatform Condition="'$(TargetFrameworkIdentifier)' == 'MonoAndroid' OR '$(TargetFrameworkIdentifier)' == 'MonoTouch' OR '$(TargetFrameworkIdentifier)' == 'MonoMac'">true</_IsXamarinPlatform>
+		<_IsXamarinPlatform Condition="$(TargetFrameworkIdentifier.StartsWith('Mono'))">true</_IsXamarinPlatform>
 	</PropertyGroup>
 
 	<Import Project="Platforms\Common.targets"/>

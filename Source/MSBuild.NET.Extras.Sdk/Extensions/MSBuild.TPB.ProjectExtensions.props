@@ -1,0 +1,15 @@
+<Project>
+
+	<!--
+		WPF sometimes creates a temporary project, since it changes the peoject file, it breaks Project Extensions import.
+		In order to properly import Project Extensions, we need to set '_OriginalProjectFile' and use it to import Project Extensions.
+	-->
+	<PropertyGroup>
+		<ImportProjectExtensionProps Condition="'$(ImportProjectExtensionProps)' == ''">true</ImportProjectExtensionProps>
+	</PropertyGroup>
+
+	<ImportGroup Condition="'$(_OriginalProjectFile)' != '' AND '$(ImportProjectExtensionProps)' == 'true'">
+		<Import Project="$(MSBuildProjectExtensionsPath)$(_OriginalProjectFile).*.props" Condition="Exists('$(MSBuildProjectExtensionsPath)')"/>
+	</ImportGroup>
+
+</Project>

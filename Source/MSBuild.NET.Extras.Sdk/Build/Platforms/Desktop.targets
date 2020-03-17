@@ -10,60 +10,72 @@
 		<AutoGenerateBindingRedirects Condition="'$(AutoGenerateBindingRedirects)' == ''">true</AutoGenerateBindingRedirects>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(EnableWebProjectSetup)' == 'true'">
+	<PropertyGroup Condition="'$(EnableWebSupport)' == 'true'">
 		<MvcBuildViews Condition="'$(MvcBuildViews)' == ''">true</MvcBuildViews>
 		<GenerateDependencyFile Condition="'$(GenerateDependencyFile)' == ''">true</GenerateDependencyFile>
 		<ImportWebApplicationTargets Condition="'$(ImportWebApplicationTargets)' == ''">true</ImportWebApplicationTargets>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(EnableWcfProjectSetup)' == 'true'">
+	<PropertyGroup Condition="'$(EnableWcfSupport)' == 'true'">
 		<XsdCodeGenEnabled Condition="'$(XsdCodeGenEnabled)' == ''">true</XsdCodeGenEnabled>
 		<WcfConfigValidationEnabled Condition="'$(WcfConfigValidationEnabled)' == ''">true</WcfConfigValidationEnabled>
 		<ImportServiceModelTargets Condition="'$(ImportServiceModelTargets)' == ''">true</ImportServiceModelTargets>
 	</PropertyGroup>
 
 	<ItemGroup Condition="'$(DisableImplicitFrameworkReferences)' != 'true'">
-		<_SdkImplicitReference Include="System.Configuration"/>
-		<_SdkImplicitReference Include="System.ComponentModel.DataAnnotations"/>
-		<_SdkImplicitReference Include="System.Data.DataSetExtensions" Condition="'$(_TargetFrameworkVersionWithoutV)' >= '3.5'"/>
-		<_SdkImplicitReference Include="System.Net.Http" Condition="'$(TargetFrameworkProfile)' != 'Client'"/>
-		<_SdkImplicitReference Include="System.Net.Http.WebRequest" Condition="'$(TargetFrameworkProfile)' != 'Client'"/>
+		<_ImplicitReference Include="System.Configuration"/>
+		<_ImplicitReference Include="System.ComponentModel.DataAnnotations"/>
+		<_ImplicitReference Include="System.Data.DataSetExtensions" Condition="'$(_TargetFrameworkVersionWithoutV)' >= '3.5'"/>
+		<_ImplicitReference Include="System.Net.Http" Condition="'$(TargetFrameworkProfile)' != 'Client'"/>
+		<_ImplicitReference Include="System.Net.Http.WebRequest" Condition="'$(TargetFrameworkProfile)' != 'Client'"/>
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(DisableImplicitFrameworkReferences)' != 'true' AND '$(_TargetFrameworkVersionWithoutV)' >= '4.0'">
-		<_SdkImplicitReference Include="System.Xaml" Condition="'$(EnableImplicitWpfReferences)' == 'true' OR '$(EnableImplicitWffReferences)' == 'true'"/>
-		<_SdkImplicitReference Include="System.Activities" Condition="'$(EnableImplicitWffReferences)' == 'true'"/>
-		<_SdkImplicitReference Include="System.Activities.Presentation" Condition="'$(EnableImplicitWffReferences)' == 'true' AND '$(EnableImplicitWpfReferences)' == 'true'"/>
-		<_SdkImplicitReference Include="System.ServiceModel" Condition="'$(EnableImplicitWcfReferences)' == 'true' OR '$(EnableImplicitWffReferences)' == 'true'"/>
-		<_SdkImplicitReference Include="System.ServiceModel.Activities" Condition="'$(EnableImplicitWcfReferences)' == 'true' OR '$(EnableImplicitWffReferences)' == 'true'"/>
-		<_SdkImplicitReference Include="System.ServiceModel.Channels" Condition="'$(EnableImplicitWcfReferences)' == 'true'"/>
-		<_SdkImplicitReference Include="System.ServiceModel.Web" Condition="'$(EnableImplicitWcfReferences)' == 'true' AND '$(EnableImplicitWebReferences)' == 'true'"/>
+		<_ImplicitReference Include="System.Xaml" Condition="'$(EnableImplicitWpfReferences)' == 'true' OR '$(EnableImplicitWffReferences)' == 'true'"/>
+		<_ImplicitReference Include="System.Activities" Condition="'$(EnableImplicitWffReferences)' == 'true'"/>
+		<_ImplicitReference Include="System.Activities.Presentation" Condition="'$(EnableImplicitWffReferences)' == 'true' AND '$(EnableImplicitWpfReferences)' == 'true'"/>
+		<_ImplicitReference Include="System.ServiceModel" Condition="'$(EnableImplicitWcfReferences)' == 'true' OR '$(EnableImplicitWffReferences)' == 'true'"/>
+		<_ImplicitReference Include="System.ServiceModel.Activities" Condition="'$(EnableImplicitWcfReferences)' == 'true' OR '$(EnableImplicitWffReferences)' == 'true'"/>
+		<_ImplicitReference Include="System.ServiceModel.Channels" Condition="'$(EnableImplicitWcfReferences)' == 'true'"/>
+		<_ImplicitReference Include="System.ServiceModel.Web" Condition="'$(EnableImplicitWcfReferences)' == 'true' AND '$(EnableImplicitWebReferences)' == 'true'"/>
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(DisableImplicitFrameworkReferences)' != 'true' AND '$(_TargetFrameworkVersionWithoutV)' >= '3.0'">
-		<_SdkImplicitReference Include="WindowsBase" Condition="'$(EnableImplicitWpfReferences)' == 'true'"/>
-		<_SdkImplicitReference Include="PresentationCore" Condition="'$(EnableImplicitWpfReferences)' == 'true'"/>
-		<_SdkImplicitReference Include="PresentationFramework" Condition="'$(EnableImplicitWpfReferences)' == 'true'"/>
+		<_ImplicitReference Include="WindowsBase" Condition="'$(EnableImplicitWpfReferences)' == 'true'"/>
+		<_ImplicitReference Include="PresentationCore" Condition="'$(EnableImplicitWpfReferences)' == 'true'"/>
+		<_ImplicitReference Include="PresentationFramework" Condition="'$(EnableImplicitWpfReferences)' == 'true'"/>
+		<_ImplicitReference Include="WindowsFormsIntegration" Condition="'$(EnableImplicitWpfReferences)' == 'true' AND $(EnableImplicitWinFormsReferences)' == 'true'"/>
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(DisableImplicitFrameworkReferences)' != 'true' AND '$(_TargetFrameworkVersionWithoutV)' >= '4.0' AND '$(EnableImplicitWpfReferences)' == 'true'">
+		<_ImplicitReference Include="UIAutomationClient" Condition="'$(EnableImplicitUIAutomationReferences)' == 'true'"/>
+		<_ImplicitReference Include="UIAutomationClientSideProviders" Condition="'$(EnableImplicitUIAutomationReferences)' == 'true'"/>
+		<_ImplicitReference Include="UIAutomationProvider" Condition="'$(EnableImplicitUIAutomationReferences)' == 'true'"/>
+		<_ImplicitReference Include="UIAutomationTypes" Condition="'$(EnableImplicitUIAutomationReferences)' == 'true'"/>
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(DisableImplicitFrameworkReferences)' != 'true' AND '$(_TargetFrameworkVersionWithoutV)' >= '4.5' AND $(EnableImplicitWpfReferences)' == 'true'">
+		<_ImplicitReference Include="System.Windows.Controls.Ribbon" Condition="'$(EnableImplicitWpfControlReferences)' == 'true'"/>
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(DisableImplicitFrameworkReferences)' != 'true' AND '$(EnableImplicitWinFormsReferences)' == 'true'">
-		<_SdkImplicitReference Include="System.Design"/>
-		<_SdkImplicitReference Include="System.Drawing"/>
-		<_SdkImplicitReference Include="System.Deployment"/>
-		<_SdkImplicitReference Include="System.Windows"/>
-		<_SdkImplicitReference Include="System.Windows.Forms"/>
+		<_ImplicitReference Include="System.Design"/>
+		<_ImplicitReference Include="System.Drawing"/>
+		<_ImplicitReference Include="System.Deployment"/>
+		<_ImplicitReference Include="System.Windows"/>
+		<_ImplicitReference Include="System.Windows.Forms"/>
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(DisableImplicitFrameworkReferences)' != 'true' AND '$(EnableImplicitWebReferences)' == 'true'">
-		<_SdkImplicitReference Include="System.Web"/>
-		<_SdkImplicitReference Include="System.Web.Abstractions"/>
-		<_SdkImplicitReference Include="System.Web.ApplicationServices"/>
-		<_SdkImplicitReference Include="System.Web.DynamicData"/>
-		<_SdkImplicitReference Include="System.Web.Entity"/>
-		<_SdkImplicitReference Include="System.Web.Extensions"/>
-		<_SdkImplicitReference Include="System.Web.Http"/>
-		<_SdkImplicitReference Include="System.Web.Routing"/>
-		<_SdkImplicitReference Include="System.Web.Services"/>
+		<_ImplicitReference Include="System.Web"/>
+		<_ImplicitReference Include="System.Web.Abstractions"/>
+		<_ImplicitReference Include="System.Web.ApplicationServices"/>
+		<_ImplicitReference Include="System.Web.DynamicData"/>
+		<_ImplicitReference Include="System.Web.Entity"/>
+		<_ImplicitReference Include="System.Web.Extensions"/>
+		<_ImplicitReference Include="System.Web.Http"/>
+		<_ImplicitReference Include="System.Web.Routing"/>
+		<_ImplicitReference Include="System.Web.Services"/>
 	</ItemGroup>
 
 </Project>
