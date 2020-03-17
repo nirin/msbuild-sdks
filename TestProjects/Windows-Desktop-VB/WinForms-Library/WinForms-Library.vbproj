@@ -2,7 +2,7 @@
 
 	<PropertyGroup>
 		<TargetFramework>net45</TargetFramework>
-		<EnableWinFormsProjectSetup>true</EnableWinFormsProjectSetup>
+		<EnableWinFormsSupport>true</EnableWinFormsSupport>
 		<EnableUserControlDesigner>true</EnableUserControlDesigner>
 		<MyType>Windows</MyType>
 		<DefineConstants>_MYFORMS=True</DefineConstants>
