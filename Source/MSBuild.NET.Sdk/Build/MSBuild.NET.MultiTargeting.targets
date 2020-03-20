@@ -1,16 +1,5 @@
 <Project>
 
-	<!-- ============================== Microsoft.<Language>.MultiTargeting.targets ============================== -->
-
-	<!-- Import design time targets for the Roslyn Project System. These are only available if Visual Studio is installed. -->
-	<PropertyGroup>
-		<DesignTimeLanguageTargets Condition="'$(DesignTimeLanguageTargets)'==''">$(MSBuildExtensionsPath)\Microsoft\VisualStudio\Managed\Microsoft.$(SourceLanguageName).DesignTime.targets</DesignTimeLanguageTargets>
-	</PropertyGroup>
-
-	<Import Project="$(DesignTimeLanguageTargets)" Condition="'$(DesignTimeLanguageTargets)' != '' AND Exists('$(DesignTimeLanguageTargets)')"/>
-
-	<!-- ============================== Microsoft.Common.MultiTargeting.targets ============================== -->
-
 	<PropertyGroup>
 		<BuildInParallel Condition="'$(BuildInParallel)' == ''">true</BuildInParallel>
 	</PropertyGroup>
@@ -19,10 +8,8 @@
 			Returns="@(_ThisProjectBuildMetadata)">
 		<ItemGroup>
 			<_ThisProjectBuildMetadata Include="$(MSBuildProjectFullPath)">
-				<TargetFrameworks Condition="'$(TargetFrameworks)' != ''">$(TargetFrameworks)</TargetFrameworks>
-				<TargetFrameworks Condition="'$(TargetFrameworks)' == ''">$(TargetFramework)</TargetFrameworks>
-				<HasSingleTargetFramework>true</HasSingleTargetFramework>
-				<HasSingleTargetFramework Condition="'$(IsMultiTargetingBuild)' == 'true'">false</HasSingleTargetFramework>
+				<TargetFrameworks>$(TargetFrameworks)</TargetFrameworks>
+				<HasSingleTargetFramework>false</HasSingleTargetFramework>
 				<!-- indicate to caller that project is RID agnostic so that a global property RuntimeIdentifier value can be removed -->
 				<IsRidAgnostic>false</IsRidAgnostic>
 				<IsRidAgnostic Condition="'$(RuntimeIdentifier)' == '' AND '$(RuntimeIdentifiers)' == ''">true</IsRidAgnostic>
@@ -54,7 +41,7 @@
 
 		[OUT]
 		@(InnerOutput) - The combined output items of the inner targets across
-						 all target frameworks..
+						 all target frameworks.
 	============================================================
 	-->
 	<Target Name="DispatchToInnerBuilds"
@@ -84,8 +71,7 @@
 						  and Z targets for each target framework.
 
 	[OUT]
-	@(InnerOutput) - The combined output items of the inner targets across
-						all builds.
+		@(InnerOutput) - The combined output items of the inner targets across all builds.
 	============================================================
 	-->
 	<Target Name="Build" DependsOnTargets="_SetBuildInnerTarget;DispatchToInnerBuilds"/>
@@ -104,8 +90,9 @@
 
 	Inner-build dispatch is a clone of DispatchToInnerBuilds;
 	the only reason it's replicated is that it must be a different
-	target to be run in the same build (e.g. by Rebuild or by
-	a /t:Clean;Build invocation.
+		target to be run in the same build.
+
+		e.g. by Rebuild or by a /t:Clean;Build invocation.
 	============================================================
 	-->
 	<Target Name="Clean"
@@ -126,10 +113,6 @@
 	-->
 	<Target Name="Rebuild" DependsOnTargets="Clean;Build"/>
 
-	<!-- ============================== Microsoft.NET.Sdk.MultiTargeting.targets ============================== -->
-
-	<Import Project="MSBuild.NET.BuildTargeting.targets"/>
-
 	<!--
 	============================================================
 							Publish
@@ -140,7 +123,7 @@
 		multiple published applications in a single directory.
 	============================================================
 	 -->
-	<Target Name="Publish">
+	<Target Name="Publish" Condition="'$(IsPublishable)' != 'false'">
 		<Error Text="The 'Publish' target is not supported without specifying a target framework. The current project targets multiple frameworks, please specify the framework for the published application."/>
 	</Target>
 
@@ -217,5 +200,8 @@
 	============================================================
 	-->
 	<Target Name="GetPackagingOutputs"/>
+
+	<!-- TODO: Move it before the import of this targets file, will require a heavy refactoring. -->
+	<Import Project="MSBuild.NET.BuildTargeting.targets"/>
 
 </Project>

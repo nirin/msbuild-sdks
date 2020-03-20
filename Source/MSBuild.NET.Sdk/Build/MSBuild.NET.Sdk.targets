@@ -1,9 +1,33 @@
 <Project>
 
-	<Import Project="MSBuild.NET.ProjectCore.targets"/>
-
-	<PropertyGroup>
-		<ImportedMSBuildNETSdkTargets>true</ImportedMSBuildNETSdkTargets>
+	<PropertyGroup Label="Globals">
+		<_SdkBuildMode Condition="'$(TargetFrameworks)' != '' AND '$(TargetFramework)' == ''">Build.Outer</_SdkBuildMode>
+		<_SdkBuildMode Condition="'$(TargetFrameworks)' != '' AND '$(TargetFramework)' != ''">Build.Inner</_SdkBuildMode>
+		<_SdkBuildMode Condition="'$(TargetFrameworks)' == '' AND '$(TargetFramework)' != ''">Build.Mono</_SdkBuildMode>
+		<_SdkBuildMode Condition="'$(TargetFrameworks)' == '' AND '$(TargetFramework)' == ''">Build.None</_SdkBuildMode>
 	</PropertyGroup>
+
+	<Import Project="..\Core\MSBuild.NET.References.targets"/>
+
+	<Import Project="..\Core\MSBuild.NET.Defaults.Items.targets"/>
+
+	<Import Project="..\Core\MSBuild.NET.Defaults.targets"/>
+
+	<Import Project="..\Core\MSBuild.NET.OutputPaths.targets"/>
+
+	<Import Project="..\Core\MSBuild.NET.AssemblyInfo.targets"/>
+
+	<Import Project="..\Core\MSBuild.NET.Specifics.targets"/>
+
+	<Import Project="..\ProjectSystem\MSBuild.NET.ProjectSystem.targets"/>
+
+	<PropertyGroup Label="Globals">
+		<IsOuterBuild Condition="'$(_SdkBuildMode)' == 'Build.Outer'">true</IsOuterBuild>
+		<IsCrossTargetingBuild>$(IsOuterBuild)</IsCrossTargetingBuild>
+	</PropertyGroup>
+
+	<Import Project="MSBuild.NET.MultiTargeting.targets" Condition="'$(IsOuterBuild)' == 'true'"/>
+
+	<Import Project="MSBuild.NET.MonoTargeting.targets" Condition="'$(IsOuterBuild)' != 'true'"/>
 
 </Project>

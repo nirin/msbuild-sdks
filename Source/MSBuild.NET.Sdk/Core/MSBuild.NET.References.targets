@@ -1,0 +1,41 @@
+<Project>
+
+	<!-- Used for importing framework package. -->
+	<PropertyGroup Condition="'$(_TargetFrameworkName)' != ''">
+		<_TargetFrameworkVendor Condition="$(_TargetFrameworkName.StartsWith('NET'))">Microsoft</_TargetFrameworkVendor>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(TargetFrameworkPackageName)' == ''">
+		<TargetFrameworkPackageName Condition="'$(_TargetFrameworkName)' != '' AND '$(_TargetFrameworkVendor)' != ''">$(_TargetFrameworkVendor).$(_TargetFrameworkName)</TargetFrameworkPackageName>
+	</PropertyGroup>
+
+	<!-- Used for importing platform package. -->
+	<PropertyGroup Condition="'$(_TargetPlatformName)' != ''">
+		<_TargetPlatformVendor Condition="'$(_TargetPlatformName)' == 'Windows'">Microsoft</_TargetPlatformVendor>
+		<_TargetPlatformVendor Condition="'$(_TargetPlatformName)' == 'Android'">Google</_TargetPlatformVendor>
+		<_TargetPlatformVendor Condition="'$(_TargetPlatformName)' == 'PlayStation'">Sony</_TargetPlatformVendor>
+		<_TargetPlatformVendor Condition="'$(_TargetPlatformName)' == 'Tizen'">Samsung</_TargetPlatformVendor>
+
+		<_ApplePlatformList>MacOS;iOS;iPadOS;WatchOS;TVOS</_ApplePlatformList>
+		<_TargetPlatformVendor Condition="$(_ApplePlatformList.Split(';').Contains($(_TargetPlatformName)))">Apple</_TargetPlatformVendor>
+		<_ApplePlatformList/>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(TargetPlatformPackageName)' == ''">
+		<TargetPlatformPackageName Condition="'$(_TargetPlatformName)' != '' AND '$(_TargetPlatformVendor)' != ''">$(_TargetPlatformVendor).$(_TargetPlatformName)</TargetPlatformPackageName>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<TargetFrameworkPackageVersion Condition="'$(TargetFrameworkPackageVersion)' == ''">$(TargetFrameworkVersion)</TargetFrameworkPackageVersion>
+		<TargetPlatformPackageVersion Condition="'$(TargetPlatformPackageVersion)' == ''">$(TargetPlatformVersion)</TargetPlatformPackageVersion>
+	</PropertyGroup>
+
+	<ItemGroup Condition="'$(DisableTargetPackageReferences)' != 'true'">
+		<PackageReference Include="@(FrameworkReference)" Type="Framework"/>
+		<PackageReference Include="@(PlatformReference)" Type="Platform"/>
+		<PackageReference Include="@(LibraryReference)" Type="Library"/>
+		<PackageReference Include="@(ToolReference)" Type="Tool"/>
+		<PackageReference Include="@(SdkReference)" Type="Sdk"/>
+	</ItemGroup>
+
+</Project>

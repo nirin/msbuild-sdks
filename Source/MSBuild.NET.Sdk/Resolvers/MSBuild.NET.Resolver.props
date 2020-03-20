@@ -1,0 +1,43 @@
+<Project>
+
+	<!--
+		Resolve the 'Source' and 'Target' properties here, if set before the project file properties.
+		i.e. When dispatching the builds through Graph Build. OR, Explicitly via MSBuild APIs and command-line calls.
+	-->
+
+	<!--
+		Resolve 'Source' properties
+	-->
+	<Import Project="..\Resolvers\MSBuild.NET.SourceResolver.props" Condition="'$(SourceProfile)' != '' AND '$(_ResolvedSourceProfile)' != 'true'"/>
+
+	<!--
+		Resolve 'SourceLanguage' properties
+	-->
+	<Import Project="..\Resolvers\MSBuild.NET.LanguageResolver.props" Condition="'$(SourceLanguage)' != '' AND '$(_ResolvedSourceLanguage)' != 'true'"/>
+
+	<!--
+		Resolve 'Target' properties
+	-->
+	<Import Project="..\Resolvers\MSBuild.NET.TargetResolver.props" Condition="'$(TargetProfile)' != '' AND '$(_ResolvedTargetProfile)' != 'true'"/>
+
+	<!--
+		Resolve 'TargetFramework' properties
+	-->
+	<Import Project="..\Resolvers\MSBuild.NET.FrameworkResolver.props" Condition="'$(TargetFramework)' != '' AND '$(_ResolvedTargetFramework)' != 'true'"/>
+
+	<!--
+		Resolve 'TargetRuntime' properties
+	-->
+	<Import Project="..\Resolvers\MSBuild.NET.RuntimeResolver.props" Condition="'$(TargetRuntime)' != '' AND '$(_ResolvedTargetRuntime)' != 'true'"/>
+
+	<!--
+		Resolve 'TargetPlatform' properties
+	-->
+	<Import Project="..\Resolvers\MSBuild.NET.PlatformResolver.props" Condition="'$(TargetPlatform)' != '' AND '$(_ResolvedTargetPlatform)' != 'true'"/>
+
+	<!--
+		Resolve 'TargetMachine' properties
+	-->
+	<Import Project="..\Resolvers\MSBuild.NET.MachineResolver.props" Condition="'$(TargetMachine)' != '' AND '$(_ResolvedTargetMachine)' != 'true'"/>
+
+</Project>

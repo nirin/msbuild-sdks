@@ -1,0 +1,21 @@
+<Project>
+
+	<PropertyGroup Condition="'$(SourceProfile)' == ''">
+		<SourceProfile>nil</SourceProfile>
+		<_IsInvalidSourceProfile>true</_IsInvalidSourceProfile>
+	</PropertyGroup>
+
+	<Target Name="_CheckForInvalidSourceProfile"
+		BeforeTargets="_CheckForInvalidConfigurationAndPlatform;Restore;CollectPackageReferences"
+		Condition="'$(_IsInvalidSourceProfile)' == 'true'">
+
+		<NETSdkError Condition="'$(SourceProfile)' != ''"
+			ResourceName="CannotResolveSourceProfile"
+			FormatArguments="$([MSBuild]::Escape('$(SourceProfile)'))"/>
+
+		<NETSdkError Condition="'$(SourceProfile)' == ''"
+			ResourceName="EmptySourceProfile"
+			FormatArguments="$([MSBuild]::Escape('$(SourceProfile)'))"/>
+	</Target>
+
+</Project>

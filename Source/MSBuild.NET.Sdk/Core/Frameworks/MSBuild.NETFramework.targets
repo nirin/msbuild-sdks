@@ -1,44 +1,7 @@
 <Project>
 
-	<ItemGroup Condition="'$(DisableImplicitFrameworkReferences)' != 'true'">
+	<PropertyGroup>
 
-		<_ImplicitReference Include="System"/>
-		<_ImplicitReference Include="System.Data"/>
-		<_ImplicitReference Include="System.Drawing"/>
-		<_ImplicitReference Include="System.Xml"/>
-
-		<!--
-			When doing greater than/less than comparisons between strings, MSBuild will try to parse the strings as Version objects and compare them as
-			such if the parse succeeds.
-		-->
-
-		<!-- Framework assemblies introduced in .NET 3.5 -->
-		<_ImplicitReference Include="System.Core" Condition="'$(_TargetFrameworkVersionWithoutV)' >= '3.5'"/>
-		<_ImplicitReference Include="System.Runtime.Serialization" Condition="'$(_TargetFrameworkVersionWithoutV)' >= '3.5'"/>
-		<_ImplicitReference Include="System.Xml.Linq" Condition="'$(_TargetFrameworkVersionWithoutV)' >= '3.5'"/>
-
-		<!-- Framework assemblies introduced in .NET 4.0 -->
-		<_ImplicitReference Include="System.Numerics" Condition="'$(_TargetFrameworkVersionWithoutV)' >= '4.0'"/>
-
-		<!-- Framework assemblies introduced in .NET 4.5 -->
-		<_ImplicitReference Include="System.IO.Compression.FileSystem" Condition="'$(_TargetFrameworkVersionWithoutV)' >= '4.5'"/>
-
-		<!-- TODO: Uncomment once the issue is fixed! https://github.com/Microsoft/msbuild/issues/1329. -->
-		<!--<_ImplicitReference Include="System.IO.Compression" Condition="'$(_TargetFrameworkVersionWithoutV)' >= '4.5'"/>
-		<_ImplicitReference Include="System.Net.Http" Condition="'$(_TargetFrameworkVersionWithoutV)' >= '4.5'"/>-->
-
-		<!-- Set Pack=false on implicit references so they don't get added to NuGet packages as framework assemblies -->
-		<_ImplicitReference Update="@(_ImplicitReference)" Pack="false"/>
-
-		<!--
-			Don't duplicate any references that are explicit in the project file.
-			This means that if you do want to include a framework assembly in your NuGet package,
-			you can just add the Reference to your project file.
-		-->
-		<_ImplicitReference Remove="@(Reference)"/>
-
-		<!-- Add the implicit references to @(Reference) -->
-		<Reference Include="@(_ImplicitReference)"/>
-	</ItemGroup>
+	</PropertyGroup>
 
 </Project>
