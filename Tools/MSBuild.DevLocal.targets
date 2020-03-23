@@ -1,4 +1,4 @@
-<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project>
 
 	<!-- Tools to make local dev easier -->
 	<Target Name="_EnsureTestPackageSource" BeforeTargets="Restore">
