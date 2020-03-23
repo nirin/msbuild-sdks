@@ -1,4 +1,4 @@
-<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project>
 
 	<!--
 		Note that this file is only included when 'TargetPlatform' is set and so we do not need to check that here.

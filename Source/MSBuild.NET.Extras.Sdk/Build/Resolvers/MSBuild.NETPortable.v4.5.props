@@ -1,4 +1,4 @@
-<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project>
 
 	<PropertyGroup Condition="$(_ShortFrameworkProfileCount) == 2 AND
 			$(_ShortFrameworkProfile.Contains('+net45+')) AND

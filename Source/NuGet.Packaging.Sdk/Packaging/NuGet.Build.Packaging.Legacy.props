@@ -1,4 +1,4 @@
-<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project>
 
 	<!-- This targets is used to adjust renamed properties, items and metadata -->
 

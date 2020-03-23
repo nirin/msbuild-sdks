@@ -1,4 +1,4 @@
-<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project>
 
 	<!--
 		Determine the path to the solution build targets file if the user did not disable `ImportSolutionBuildTargets` and

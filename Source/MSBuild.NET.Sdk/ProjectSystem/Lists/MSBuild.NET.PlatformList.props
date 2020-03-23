@@ -1,4 +1,4 @@
-<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project>
 <!--
 	This file contains a list of the TPMs that are supported by this .NET SDK.
 	This is used by VS to show the list of platforms to which projects can be retargeted.

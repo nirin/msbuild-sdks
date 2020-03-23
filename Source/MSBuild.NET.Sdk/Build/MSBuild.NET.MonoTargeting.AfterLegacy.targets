@@ -1,4 +1,4 @@
-<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project>
 
 	<!-- TODO: Remove this Workaround when a solution is found. ISSUE: https://github.com/Microsoft/msbuild/issues/1293 -->
 	<PropertyGroup Condition="'$(MSBuildRuntimeType)' == 'Core' OR '$(TargetFrameworkIdentifier)' != '.NETFramework'">

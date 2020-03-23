@@ -1,4 +1,4 @@
-<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project>
 
 	<PropertyGroup>
 		<SupportedPlatforms>AnyCPU;x64;x86;ARM;ARM64</SupportedPlatforms>

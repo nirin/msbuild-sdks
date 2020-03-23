@@ -1,4 +1,4 @@
-<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project>
 
 	<!--
 		These are different than the defaults set by either `Microsoft.Common.targets` or the `Microsoft.NET.Sdk`.

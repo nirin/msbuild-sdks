@@ -1,4 +1,4 @@
-<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project>
 
 	<!-- This file is imported by both multi-targeting and inner builds. Set properties that need to be available to both here. -->
 

@@ -1,4 +1,4 @@
-<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project>
 
 	<PropertyGroup Condition="'$(VisualStudioVersion)' == '' AND !Exists('$(VSToolsPath)')">
 		<MinVisualStudioVersion>10.0</MinVisualStudioVersion>

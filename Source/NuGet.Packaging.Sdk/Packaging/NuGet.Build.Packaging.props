@@ -1,4 +1,4 @@
-<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project>
 
 	<PropertyGroup>
 		<IsPackagingProject Condition="'$(IsPackagingProject)' == '' AND '$(MSBuildProjectExtension)' == '.nuproj'">true</IsPackagingProject>

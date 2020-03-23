@@ -1,4 +1,4 @@
-<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project>
 
 	<PropertyGroup>
 		<!-- VS10 without SP1 and without VS11 will not have VisualStudioVersion set, so do that here -->

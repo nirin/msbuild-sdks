@@ -1,4 +1,4 @@
-<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project>
 
 	<!--
 		These properties depend on `MSBuild.Core.Sdk`. For more information on how it's constructed, see the `MSBuild.OutputPaths` files.

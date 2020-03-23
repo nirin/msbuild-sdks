@@ -1,4 +1,4 @@
-<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project>
 
 	<!-- HACK: Import the core default output paths from the 'MSBuild.Core.Sdk' only if it is not imported with the 'Sdk.Core.targets' -->
 	<Import Project="..\Core\MSBuild.OutputPaths.targets" Sdk="MSBuild.Core.Sdk" Condition="'$(ImportedMSBuildOutputPathsTargets)' != 'true'"/>

@@ -1,4 +1,4 @@
-<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project>
 
 	<!-- Include default items for the current project type -->
 	<ItemGroup Condition="'$(EnableDefaultItems)' == 'true'">

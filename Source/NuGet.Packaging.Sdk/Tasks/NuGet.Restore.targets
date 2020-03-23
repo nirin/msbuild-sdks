@@ -22,7 +22,7 @@
 	3. Package and project dependencies for each project.
 	4. DotnetCliTool references
 -->
-<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project>
 
 	<!-- Load `NuGet.Build.Tasks.dll`, this can be overridden to use a different version with `NuGetRestoreTaskAssembly` -->
 	<PropertyGroup Condition="$(NuGetRestoreTaskAssembly) == ''">

@@ -1,4 +1,4 @@
-<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project>
 
 	<ItemGroup>
 		<PropertyPageSchema Include="$(MSBuildToolsPath)\$(LangName)\SubProject.xaml"/>

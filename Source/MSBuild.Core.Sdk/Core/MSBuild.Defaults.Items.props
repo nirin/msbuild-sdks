@@ -1,4 +1,4 @@
-<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project>
 
 	<ItemGroup Condition="'$(EnableDefaultItems)' == 'true' AND '$(EnableDefaultNoneItems)' == 'true'">
 		<None Include="**\*" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)"/>

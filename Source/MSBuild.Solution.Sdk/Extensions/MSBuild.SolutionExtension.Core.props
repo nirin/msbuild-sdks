@@ -1,4 +1,4 @@
-<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project>
 
 	<!-- We need to initialize `BuildPath` property since `MSBuildSolutionExtensionsPath` depends on it. -->
 	<Import Project="..\Core\MSBuild.OutputPaths.props" Condition="'$(MSBuildSolutionExtensionsPath)' == ''"/>

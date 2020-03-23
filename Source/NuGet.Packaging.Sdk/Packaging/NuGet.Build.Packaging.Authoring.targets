@@ -1,4 +1,4 @@
-<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project>
 
 	<PropertyGroup>
 		<!-- Inside Visual Studio, TF must be empty to bypass the CPS-based restore mechanism -->

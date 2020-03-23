@@ -1,4 +1,4 @@
-<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project>
 
 	<!-- Force disable other projects' setup, Since it does not play very well with each other. -->
 	<PropertyGroup Condition="'$(EnableWpfSupport)' == 'true' OR '$(EnableWinFormsSupport)' == 'true'">
