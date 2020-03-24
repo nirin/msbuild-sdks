@@ -120,8 +120,6 @@
 	-->
 	<Target Name="Rebuild" DependsOnTargets="Clean;Build"/>
 
-	<Import Project="NuGet.Restore.targets" Condition="'$(IsRestoreTargetsFileLoaded)' != 'true'"/>
-
 	<!-- TODO: Remove when no longer needed! -->
 	<PropertyGroup Condition="'$(CustomAfterMicrosoftCommonCrossTargetingTargets)' != ''">
 		<CustomAfterMicrosoftCommonMultiTargetingTargets>$(CustomAfterMicrosoftCommonCrossTargetingTargets)</CustomAfterMicrosoftCommonMultiTargetingTargets>

@@ -6152,8 +6152,6 @@
 
 	<Import Project="$(MicrosoftNETBuildExtensionsTargets)" Condition="Exists('$(MicrosoftNETBuildExtensionsTargets)')"/>
 
-	<Import Project="NuGet.Restore.targets" Condition="'$(IsRestoreTargetsFileLoaded)' != 'true'"/>
-
 	<Import Project="$(CustomAfterMicrosoftCommonTargets)" Condition="Exists('$(CustomAfterMicrosoftCommonTargets)')"/>
 
 </Project>
