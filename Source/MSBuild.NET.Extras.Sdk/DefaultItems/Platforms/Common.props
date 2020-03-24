@@ -32,10 +32,10 @@
 		<EmbeddedResource Update="**\*.resx">
 			<Generator Condition="!%(HasLangId)">$(EmbeddedResourceCodeGeneratorTool)</Generator>
 			<LastGenOutput Condition="!%(HasLangId)">%(Filename)$(DefaultDesignerFileSuffix)$(DefaultLanguageSourceExtension)</LastGenOutput>
-			<GenFilePath Condition="!%(HasLangId)">%(RecursiveDir)%(Filename)$(DefaultDesignerFileSuffix)$(DefaultLanguageSourceExtension)</GenFilePath>
+			<LastGenOutputPath Condition="!%(HasLangId)">%(RecursiveDir)</LastGenOutputPath>
 			<DependentUpon Condition="%(HasLangId)">$([System.Text.RegularExpressions.Regex]::Replace('%(FileName)', '$(LangIdRegEx)', '%(Extension)'))</DependentUpon>
 		</EmbeddedResource>
-		<Compile Update="@(EmbeddedResource->'%(GenFilePath)')">
+		<Compile Update="@(EmbeddedResource->'%(LastGenOutputPath)%(LastGenOutput)')">
 			<AutoGen>true</AutoGen>
 			<DesignTime>true</DesignTime>
 			<DesignTimeSharedInput>true</DesignTimeSharedInput>

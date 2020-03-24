@@ -1,33 +1,34 @@
 <Project>
 
-	<ItemDefinitionGroup>
-		<_ImplicitImport>
-			<IsImplicitlyDefined>true</IsImplicitlyDefined>
-		</_ImplicitImport>
+	<ItemDefinitionGroup Condition="'$(EnableDefaultMyAppItems)' == 'true'">
+		<MyApp>
+			<SubType>Designer</SubType>
+			<Generator>$(DefaultGeneratorTool)</Generator>
+		</MyApp>
 	</ItemDefinitionGroup>
 
-	<ItemGroup Condition="'$(EnableDefaultMyAppItems)' == 'true'">
-		<None Update="**\*.myapp" SubType="Designer">
-			<Generator Condition="'$(EnableMyAppCodeGenerator)' == 'false'">$(DefaultGeneratorTool)</Generator>
-		</None>
+	<ItemGroup>
+		<MyApp Include="**\*.myapp" Condition="'$(EnableDefaultMyAppItems)' == 'true'"/>
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(EnableDefaultMyAppItems)' == 'true' AND '$(EnableMyAppCodeGenerator)' == 'true'">
-		<None Update="**\*.myapp">
+		<MyApp Update="**\*.myapp">
 			<Generator>$(MyAppCodeGeneratorTool)</Generator>
 			<LastGenOutput>%(Filename)$(DefaultDesignerFileSuffix)$(DefaultLanguageSourceExtension)</LastGenOutput>
-		</None>
+			<LastGenOutputPath>%(RecursiveDir)</LastGenOutputPath>
+		</MyApp>
 
-		<_MyAppFiles Include="**\*.myapp">
-			<GenFilePath>%(RecursiveDir)%(Filename)$(DefaultDesignerFileSuffix)$(DefaultLanguageSourceExtension)</GenFilePath>
-		</_MyAppFiles>
-
-		<Compile Update="@(_MyAppFiles->'%(GenFilePath)')">
+		<Compile Update="@(MyApp->'%(LastGenOutputPath)%(LastGenOutput)')">
 			<AutoGen>true</AutoGen>
 			<DesignTime>true</DesignTime>
 			<DesignTimeSharedInput>true</DesignTimeSharedInput>
 			<DependentUpon>$([MSBuild]::ValueOrDefault('%(Filename)', '').Replace('$(DefaultDesignerFileSuffix)', '.myapp'))</DependentUpon>
 		</Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+		<!-- For Legacy Project System -->
+		<None Update="@(MyApp)" Condition="'$(EnableDefaultMyAppItems)' == 'true'" Visible="false"/>
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(EnableDefaultEmbeddedResourceItems)' == 'true' AND '$(EnableEmbeddedResourceCodeGenerator)' == 'true'">
@@ -37,9 +38,12 @@
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(EnableDefaultSettingsItems)' == 'true' AND '$(EnableSettingsCodeGenerator)' == 'true'">
-		<None Update="**\*.settings">
+		<Settings Update="**\*.settings">
 			<CustomToolNamespace>My</CustomToolNamespace>
-		</None>
+		</Settings>
+
+		<!-- For Legacy Project System -->
+		<None Update="@(Settings)"/>
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(EnableDefaultWpfItems)' == 'true'">
@@ -48,6 +52,12 @@
 			<VBMyExtensionTemplateVersion>1.0.0.0</VBMyExtensionTemplateVersion>
 		</Compile>
 	</ItemGroup>
+
+	<ItemDefinitionGroup>
+		<_ImplicitImport>
+			<IsImplicitlyDefined>true</IsImplicitlyDefined>
+		</_ImplicitImport>
+	</ItemDefinitionGroup>
 
 	<ItemGroup Condition="'$(DisableImplicitNamespaceImports)' != 'true' AND '$(EnableImplicitWpfReferences)' == 'true'">
 		<_ImplicitImport Include="System.Windows"/>

@@ -1,7 +1,7 @@
 <Project>
 
 	<!--
-		WPF sometimes creates a temporary project, since it changes the peoject file, it breaks Project Extensions import.
+		WPF/WFF sometimes creates a temporary project, since it changes the peoject file, it breaks Project Extensions import.
 		In order to properly import Project Extensions, we need to set '_OriginalProjectFile' and use it to import Project Extensions.
 	-->
 	<PropertyGroup>

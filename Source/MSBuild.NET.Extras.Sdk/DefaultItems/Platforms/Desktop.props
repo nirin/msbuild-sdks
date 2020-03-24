@@ -2,23 +2,25 @@
 
 	<!-- Desktop Support -->
 
-	<ItemGroup Condition="'$(EnableDefaultSettingsItems)' == 'true'">
-		<None Update="**\*.settings" SubType="Designer">
-			<Generator Condition="'$(EnableSettingsCodeGenerator)' == 'false'">$(DefaultGeneratorTool)</Generator>
-		</None>
+	<ItemDefinitionGroup Condition="'$(EnableDefaultSettingsItems)' == 'true'">
+		<Settings>
+			<SubType>Designer</SubType>
+			<Generator>$(DefaultGeneratorTool)</Generator>
+		</Settings>
+	</ItemDefinitionGroup>
+
+	<ItemGroup>
+		<Settings Include="**\*.settings" Condition="'$(EnableDefaultSettingsItems)' == 'true'"/>
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(EnableDefaultSettingsItems)' == 'true' AND '$(EnableSettingsCodeGenerator)' == 'true'">
-		<None Update="**\*.settings">
+		<Settings Update="**\*.settings">
 			<Generator>$(SettingsCodeGeneratorTool)</Generator>
 			<LastGenOutput>%(Filename)$(DefaultDesignerFileSuffix)$(DefaultLanguageSourceExtension)</LastGenOutput>
-		</None>
+			<LastGenOutputPath>%(RecursiveDir)</LastGenOutputPath>
+		</Settings>
 
-		<_SettingsFiles Include="**\*.settings">
-			<GenFilePath>%(RecursiveDir)%(Filename)$(DefaultDesignerFileSuffix)$(DefaultLanguageSourceExtension)</GenFilePath>
-		</_SettingsFiles>
-
-		<Compile Update="@(_SettingsFiles->'%(GenFilePath)')">
+		<Compile Update="@(Settings->'%(LastGenOutputPath)%(LastGenOutput)')">
 			<AutoGen>true</AutoGen>
 			<DesignTime>true</DesignTime>
 			<DesignTimeSharedInput>true</DesignTimeSharedInput>
@@ -42,7 +44,6 @@
 		</EmbeddedResource>
 		<!--
 			TODO: Add SubType(s) for Windows Forms Project
-			ISSUE: SubType(s) for Windows Forms Project doesn't work in CPS yet!
 		-->
 	</ItemGroup>
 
@@ -108,9 +109,6 @@
 		<None Remove="**\*.xamlx"/>
 		<XamlSvcDef Include="**\*.xamlx" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)"/>
 		<UpToDateCheckInput Include="@(XamlSvcDef)"/>
-
-		<!-- For Legacy Project System -->
-		<Content Include="@(XamlSvcDef)"/>
 	</ItemGroup>
 
 	<!-- Fix for Web/Service Content items -->
@@ -123,6 +121,13 @@
 
 		<!-- Keep track of the default content items for later to distinguish them from newly generated content items -->
 		<_ContentIncludedByDefault Include="@(Content)"/>
+	</ItemGroup>
+
+	<!-- Fix for Legacy Project System -->
+
+	<ItemGroup>
+		<None Update="@(Settings)" Condition="'$(EnableDefaultSettingsItems)' == 'true'" Visible="false"/>
+		<Content Include="@(XamlSvcDef)" Condition="'$(EnableDefaultWorkflowItems)' == 'true'" Visible="false"/>
 	</ItemGroup>
 
 </Project>

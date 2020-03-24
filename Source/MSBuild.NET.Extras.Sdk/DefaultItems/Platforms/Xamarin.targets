@@ -1,13 +1,5 @@
 <Project>
 
-	<!-- HACK: Temporary hook to fill in 'DefaultLanguageSourceExtension'. Since, this is imported before language targets. -->
-	<PropertyGroup Condition="'$(DefaultLanguageSourceExtension)' == ''">
-		<DefaultLanguageSourceExtension Condition="'$(_LanguageSourceName)' == 'CSharp'">.cs</DefaultLanguageSourceExtension>
-		<DefaultLanguageSourceExtension Condition="'$(_LanguageSourceName)' == 'VisualBasic'">.vb</DefaultLanguageSourceExtension>
-		<DefaultLanguageSourceExtension Condition="'$(_LanguageSourceName)' == 'FSharp'">.fs</DefaultLanguageSourceExtension>
-		<DefaultLanguageSourceExtension Condition="'$(_LanguageSourceName)' == 'Common'">.msil</DefaultLanguageSourceExtension>
-	</PropertyGroup>
-
 	<PropertyGroup Condition="$(TargetFrameworkIdentifier.EndsWith('Android'))">
 		<AndroidResgenFile Condition="$(AndroidResgenFile.Contains(';'))"/>
 		<AndroidResgenFile Condition="'$(AndroidResgenFile)' == ''">Resources\Resource$(DefaultDesignerFileSuffix)$(DefaultLanguageSourceExtension)</AndroidResgenFile>

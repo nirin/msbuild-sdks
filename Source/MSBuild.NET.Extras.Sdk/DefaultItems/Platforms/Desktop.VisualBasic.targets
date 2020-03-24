@@ -10,6 +10,7 @@
 		<MyAppCodeGeneratorTool Condition="'$(MyAppGeneratedCodeIsPublic)' == 'true'">PublicMyApplicationCodeGenerator</MyAppCodeGeneratorTool>
 	</PropertyGroup>
 
+	<!-- TODO: Replace with Item support OR atleast show an error if multiple files are provided! -->
 	<PropertyGroup Condition="'$(EnableDefaultWpfItems)' == 'true' AND '$(ApplicationExtensionFile)' != ''">
 		<ApplicationExtensionFile Condition="$(ApplicationExtensionFile.Contains(';'))"/>
 	</PropertyGroup>
