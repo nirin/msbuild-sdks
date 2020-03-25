@@ -290,7 +290,7 @@
 	</PropertyGroup>
 	<Import Project="$(CSharpDesignTimeTargetsPath)" Condition="'$(CSharpDesignTimeTargetsPath)' != '' AND Exists('$(CSharpDesignTimeTargetsPath)')"/>
 
-	<Import Project="Microsoft.Common.targets"/>
+	<Import Project="Microsoft.Common.CurrentVersion.targets"/>
 	<Import Project="Microsoft.ServiceModel.targets" Condition="'$(TargetFrameworkVersion.TrimStart(vV))' >= '4.0' AND Exists('Microsoft.ServiceModel.targets')"/>
 
 	<Target Name="_SetTargetFrameworkMonikerAttribute" BeforeTargets="GenerateTargetFrameworkMonikerAttribute">

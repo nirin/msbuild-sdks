@@ -1,8 +1,8 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
 	<!--
-		Determine the path to the solution build props file if the user did not disable $(ImportSolutionBuildProps) and
-		they did not already specify an absolute path to use via $(SolutionBuildProps)
+		Determine the path to the solution build props file if the user did not disable `ImportSolutionBuildProps` and
+		they did not already specify an absolute path to use via `SolutionBuildProps`
 	-->
 	<PropertyGroup Condition="'$(SolutionBuildProps)' == ''">
 		<SolutionBuildPropsFile Condition="'$(SolutionBuildPropsFile)' == ''">Solution.Build.props</SolutionBuildPropsFile>
@@ -11,10 +11,5 @@
 	</PropertyGroup>
 
 	<Import Project="$(SolutionBuildProps)" Condition="Exists('$(SolutionBuildProps)')"/>
-
-	<PropertyGroup Condition="'$(MSBuildVersion)' == '' OR '$(MSBuildVersion)' &lt; '16.0'">
-		<MSBuildAllProjects Condition="Exists('$(SolutionBuildProps)')">$(MSBuildAllProjects);$(SolutionBuildProps)</MSBuildAllProjects>
-		<MSBuildAllProjects Condition="!Exists('$(SolutionBuildProps)')">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
-	</PropertyGroup>
 
 </Project>

@@ -1,7 +1,9 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27004.2008
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29102.190
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{5DD5E4FA-CB73-4610-85AB-557B54E96AA9}") = "MSBuild.Core.Sdk", "Source\MSBuild.Core.Sdk\MSBuild.Core.Sdk.nuproj", "{783A4558-BD83-4557-A6BC-A9C5636E82AD}"
+EndProject
 Project("{5DD5E4FA-CB73-4610-85AB-557B54E96AA9}") = "MSBuild.NET.DefaultItems", "Source\MSBuild.NET.DefaultItems\MSBuild.NET.DefaultItems.nuproj", "{D954D633-9922-4AFF-83F2-BF157E2ED850}"
 EndProject
 Project("{5DD5E4FA-CB73-4610-85AB-557B54E96AA9}") = "MSBuild.NET.Extras.Sdk", "Source\MSBuild.NET.Extras.Sdk\MSBuild.NET.Extras.Sdk.nuproj", "{FBA79394-3A96-4BBE-B046-7302181AF10D}"
@@ -18,6 +20,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{783A4558-BD83-4557-A6BC-A9C5636E82AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{783A4558-BD83-4557-A6BC-A9C5636E82AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{783A4558-BD83-4557-A6BC-A9C5636E82AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{783A4558-BD83-4557-A6BC-A9C5636E82AD}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D954D633-9922-4AFF-83F2-BF157E2ED850}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D954D633-9922-4AFF-83F2-BF157E2ED850}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D954D633-9922-4AFF-83F2-BF157E2ED850}.Release|Any CPU.ActiveCfg = Release|Any CPU

@@ -1,9 +1,5 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
-	<PropertyGroup Condition="'$(MSBuildVersion)' == '' OR '$(MSBuildVersion)' &lt; '16.0'">
-		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
-	</PropertyGroup>
-
 	<PropertyGroup>
 		<_SdkPlatformName>$(TargetFrameworkIdentifier)</_SdkPlatformName>
 		<_SdkPlatformName Condition="'$(TargetFrameworkIdentifier)' == '.NETCore' OR '$(TargetFrameworkIdentifier)' == 'WindowsPhoneApp'">Windows</_SdkPlatformName>
@@ -61,7 +57,7 @@
 		<Reference Include="@(_SdkImplicitReference)"/>
 	</ItemGroup>
 
-	<!-- Update '*TargetFrameworkVersion*' properties. Since, we could have updated 'TargetFrameworkVersion' within platform targets -->
+	<!-- Update '*TargetFrameworkVersion*' properties. Since, we might have updated 'TargetFrameworkVersion' again within platform targets -->
 	<PropertyGroup Condition="'$(TargetFrameworkVersion)' != ''">
 		<_TargetFrameworkVersionWithoutV>$(TargetFrameworkVersion.TrimStart('vV'))</_TargetFrameworkVersionWithoutV>
 		<_TargetFrameworkVersionWithV>v$(_TargetFrameworkVersionWithoutV)</_TargetFrameworkVersionWithV>

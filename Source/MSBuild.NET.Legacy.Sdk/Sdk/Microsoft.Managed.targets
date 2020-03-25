@@ -1,0 +1,70 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+	<!--
+		We are doing a multi-targeting build if there is no list of target frameworks specified
+		nor is there a current target framework being built individually.
+		This is used to import/use only tasks/targets that are relevant in the multi-targeting context.
+	-->
+	<PropertyGroup Condition="'$(TargetFrameworks)' != '' AND '$(TargetFramework)' == ''">
+		<IsMultiTargetingBuild>true</IsMultiTargetingBuild>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<InnerBuildProperty>TargetFramework</InnerBuildProperty>
+		<InnerBuildPropertyValues>TargetFrameworks</InnerBuildPropertyValues>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(IsGraphBuild)' == 'true'">
+		<!--
+			The 'Microsoft.NET.Sdk' adds all transitive project references to ProjectReference. It does this at build time
+			via a target. This fails the undeclared msbuild reference /isolate constraint, so disable transitive references.
+			Do not disable transitive references if BuildProjectReferences is false. If building references is false,
+			then MSBuild won't try to build the transitive references, which won't trigger undeclared reference constraints.
+		-->
+		<DisableTransitiveProjectReferences Condition="'$(BuildProjectReferences)' != 'false' AND '$(DisableTransitiveProjectReferences)' == ''">true</DisableTransitiveProjectReferences>
+	</PropertyGroup>
+
+	<ItemGroup Condition="'$(IsGraphBuild)' == 'true'">
+		<!--
+			WPF projects generate a project with a random name at build time and then build the project via the IBuildEngine callbacks.
+			Detect WPF, and exclude the generated project from static graph isolation constraint checking.
+			Escape the item to avoid eager evaluation of the wildcards.
+		-->
+		<GraphIsolationExemptReference
+			Condition="'$(UseWPF)' == 'true' OR '@(Page)' != '' OR '@(ApplicationDefinition)' != '' OR '@(XamlPage)' != '' OR '@(XamlAppDef)' != ''"
+			Include="$([MSBuild]::Escape('$(MSBuildProjectDirectory)\$(MSBuildProjectName)*_wpftmp$(MSBuildProjectExtension)'))"/>
+	</ItemGroup>
+
+	<!--
+		Properties for extension of ProjectReferenceTargets.
+		Append any current value which may have been provided in a Directory.Build.props since the intent was likely to append, not prepend.
+	-->
+	<PropertyGroup>
+		<ProjectReferenceTargetsForBuildInOuterBuild>GetTargetFrameworks;$(ProjectReferenceTargetsForBuildInOuterBuild)</ProjectReferenceTargetsForBuildInOuterBuild>
+		<ProjectReferenceTargetsForBuild>.projectReferenceTargetsOrDefaultTargets;GetNativeManifest;GetCopyToOutputDirectoryItems;$(ProjectReferenceTargetsForBuild)</ProjectReferenceTargetsForBuild>
+
+		<ProjectReferenceTargetsForCleanInOuterBuild>GetTargetFrameworks;$(ProjectReferenceTargetsForCleanInOuterBuild)</ProjectReferenceTargetsForCleanInOuterBuild>
+		<ProjectReferenceTargetsForClean>Clean;$(ProjectReferenceTargetsForClean)</ProjectReferenceTargetsForClean>
+
+		<ProjectReferenceTargetsForRebuildInOuterBuild>$(ProjectReferenceTargetsForCleanInOuterBuild);$(ProjectReferenceTargetsForBuildInOuterBuild);$(ProjectReferenceTargetsForRebuildInOuterBuild)</ProjectReferenceTargetsForRebuildInOuterBuild>
+		<ProjectReferenceTargetsForRebuild>$(ProjectReferenceTargetsForClean);$(ProjectReferenceTargetsForBuild);$(ProjectReferenceTargetsForRebuild)</ProjectReferenceTargetsForRebuild>
+
+		<ProjectReferenceTargetsForPublish>GetCopyToPublishDirectoryItems;$(ProjectReferenceTargetsForPublish)</ProjectReferenceTargetsForPublish>
+		<ProjectReferenceTargetsForGetCopyToPublishDirectoryItems>GetCopyToPublishDirectoryItems;$(ProjectReferenceTargetsForGetCopyToPublishDirectoryItems)</ProjectReferenceTargetsForGetCopyToPublishDirectoryItems>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<ProjectReferenceTargets Include="Build" Targets="$(ProjectReferenceTargetsForBuildInOuterBuild)" Condition="'$(ProjectReferenceTargetsForBuildInOuterBuild)' != ''" OuterBuild="true"/>
+		<ProjectReferenceTargets Include="Build" Targets="$(ProjectReferenceTargetsForBuild)" Condition="'$(ProjectReferenceTargetsForBuild)' != ''"/>
+
+		<ProjectReferenceTargets Include="Clean" Targets="$(ProjectReferenceTargetsForCleanInOuterBuild)" Condition="'$(ProjectReferenceTargetsForCleanInOuterBuild)' != ''" OuterBuild="true"/>
+		<ProjectReferenceTargets Include="Clean" Targets="$(ProjectReferenceTargetsForClean)" Condition="'$(ProjectReferenceTargetsForClean)' != ''"/>
+
+		<ProjectReferenceTargets Include="Rebuild" Targets="$(ProjectReferenceTargetsForRebuildInOuterBuild)" Condition="'$(ProjectReferenceTargetsForRebuildInOuterBuild)' != ''" OuterBuild="true"/>
+		<ProjectReferenceTargets Include="Rebuild" Targets="$(ProjectReferenceTargetsForRebuild)" Condition="'$(ProjectReferenceTargetsForRebuild)' != ''"/>
+
+		<ProjectReferenceTargets Include="Publish" Targets="$(ProjectReferenceTargetsForPublish)" Condition="'$(ProjectReferenceTargetsForPublish)' != ''"/>
+		<ProjectReferenceTargets Include="GetCopyToPublishDirectoryItems" Targets="$(ProjectReferenceTargetsForGetCopyToPublishDirectoryItems)" Condition="'$(ProjectReferenceTargetsForGetCopyToPublishDirectoryItems)' != ''"/>
+	</ItemGroup>
+
+</Project>

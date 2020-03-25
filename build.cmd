@@ -1,6 +1,6 @@
 @echo Off
 
-REM Set Paths
+REM Set ENV Vars
 call build-env
 
 REM Check MyGet
@@ -11,26 +11,26 @@ if not "%BuildRunner%" == "MyGet" (
 	set MSBuildSDKsPath=%WD%Source
 )
 
-REM Set Vars
+REM Set Params
 set SolutionFile=%WD%MSBuild-Sdks.sln
 
-if "%Configuration%" == "" (
-	set Configuration=Release
-)
+if "%Configuration%" == "" set Configuration=Release
 
 set BuildVersion=
 if not "%BuildCounter%" == "" (
 	REM Remove Leading Zeros from BuildCounter
 	for /F "tokens=* delims=0" %%A in ("%BuildCounter%") do set BuildCounter=%%A
 	REM Set Version
-	set BuildVersion=;VersionMeta=dev.%BuildCounter%
+	set VersionMeta=dev.%BuildCounter%
 )
 
 REM Build
-call msbuild %SolutionFile% /p:Configuration=%Configuration%%BuildVersion%
+call msbuild %SolutionFile%
 
 REM Check MyGet
 if not "%BuildRunner%" == "MyGet" (
 	REM Push Package
 	if "%BuildCounter%" == "" call nuget push %PackageDir%\%Configuration%\*.nupkg -Source Local
 )
+
+REM Done

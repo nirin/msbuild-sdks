@@ -1,5 +1,16 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
-	<Import Project="Microsoft.Common.tasks"/>
+	<PropertyGroup>
+		<MicrosoftLegacyTasks>Microsoft.Common.tasks</MicrosoftLegacyTasks>
+		<!--<MicrosoftLegacyTasks Condition="'$(MSBuildProjectExtension)' == '.csproj'">Microsoft.CSharp.tasks</MicrosoftLegacyTasks>
+		<MicrosoftLegacyTasks Condition="'$(MSBuildProjectExtension)' == '.fsproj'">Microsoft.FSharp.tasks</MicrosoftLegacyTasks>
+		<MicrosoftLegacyTasks Condition="'$(MSBuildProjectExtension)' == '.vbproj'">Microsoft.VisualBasic.tasks</MicrosoftLegacyTasks>-->
+	</PropertyGroup>
+
+	<Import Project="$(MicrosoftLegacyTasks)"/>
+
+	<PropertyGroup>
+		<ImportedMicrosoftLegacyTasks>true</ImportedMicrosoftLegacyTasks>
+	</PropertyGroup>
 
 </Project>

@@ -2,14 +2,10 @@
 
 	<Import Project="MSBuild.NET.ProjectCore.props"/>
 
-	<Import Project="$(MicrosoftNETSdkBuildPath)Microsoft.NET.PackTool.props"/>
+	<Import Sdk="Microsoft.NET.Sdk" Project="..\targets\Microsoft.NET.PackTool.props"/>
 
 	<PropertyGroup>
 		<ImportedMSBuildNETSdkProps>true</ImportedMSBuildNETSdkProps>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(MSBuildVersion)' == '' OR '$(MSBuildVersion)' &lt; '16.0'">
-		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
 	</PropertyGroup>
 
 </Project>

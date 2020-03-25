@@ -1,0 +1,15 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+	<PropertyGroup Condition="'$(PublishName)' == ''">
+		<PublishName>$(MSBuildSolutionName)</PublishName>
+		<PublishName Condition="'$(AssemblyName)' != ''">$(AssemblyName)</PublishName>
+		<PublishName Condition="'$(SolutionName)' != ''">$(SolutionName)</PublishName>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(AppendSolutionMetaToPublishName)' == 'true'">
+		<PublishName Condition="'$(Version)' != ''">$(PublishName)_$(Version)</PublishName>
+		<PublishName Condition="'$(Platform)' != 'AnyCPU'">$(PublishName)_$(Platform)</PublishName>
+		<PublishName Condition="'$(Configuration)' != 'Release'">$(PublishName)_$(Configuration)</PublishName>
+	</PropertyGroup>
+
+</Project>

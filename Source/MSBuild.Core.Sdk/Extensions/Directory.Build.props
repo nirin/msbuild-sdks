@@ -1,8 +1,8 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
 	<!--
-		Determine the path to the directory build props file if the user did not disable $(ImportDirectoryBuildProps) and
-		they did not already specify an absolute path to use via $(DirectoryBuildProps)
+		Determine the path to the directory build props file if the user did not disable `ImportDirectoryBuildProps` and
+		they did not already specify an absolute path to use via `DirectoryBuildProps`
 	-->
 	<PropertyGroup Condition="'$(DirectoryBuildProps)' == ''">
 		<DirectoryBuildPropsFile Condition="'$(DirectoryBuildPropsFile)' == ''">Directory.Build.props</DirectoryBuildPropsFile>
@@ -11,10 +11,5 @@
 	</PropertyGroup>
 
 	<Import Project="$(DirectoryBuildProps)" Condition="Exists('$(DirectoryBuildProps)')"/>
-
-	<PropertyGroup Condition="'$(MSBuildVersion)' == '' OR '$(MSBuildVersion)' &lt; '16.0'">
-		<MSBuildAllProjects Condition="Exists('$(DirectoryBuildProps)')">$(MSBuildAllProjects);$(DirectoryBuildProps)</MSBuildAllProjects>
-		<MSBuildAllProjects Condition="!Exists('$(DirectoryBuildProps)')">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
-	</PropertyGroup>
 
 </Project>

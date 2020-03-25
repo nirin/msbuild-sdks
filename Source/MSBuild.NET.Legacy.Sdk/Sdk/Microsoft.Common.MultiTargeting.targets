@@ -1,6 +1,11 @@
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
-	<Import Project="$(CustomBeforeMicrosoftCommonCrossTargetingTargets)" Condition="Exists('$(CustomBeforeMicrosoftCommonCrossTargetingTargets)')"/>
+	<!-- TODO: Remove when no longer needed! -->
+	<PropertyGroup Condition="'$(CustomBeforeMicrosoftCommonCrossTargetingTargets)' != ''">
+		<CustomBeforeMicrosoftCommonMultiTargetingTargets>$(CustomBeforeMicrosoftCommonCrossTargetingTargets)</CustomBeforeMicrosoftCommonMultiTargetingTargets>
+	</PropertyGroup>
+
+	<Import Project="$(CustomBeforeMicrosoftCommonMultiTargetingTargets)" Condition="Exists('$(CustomBeforeMicrosoftCommonMultiTargetingTargets)')"/>
 
 	<PropertyGroup>
 		<BuildInParallel Condition="'$(BuildInParallel)' == ''">true</BuildInParallel>
@@ -23,7 +28,9 @@
 
 	<Target Name="_ComputeTargetFrameworkItems" Returns="@(InnerOutput)">
 		<ItemGroup>
-			<_TargetFramework Include="$(TargetFrameworks)"/>
+			<_TargetFrameworkRaw Include="$(TargetFrameworks)"/>
+			<!-- Make normalization explicit: Trim; Deduplicate by keeping first occurence, case insensitive -->
+			<_TargetFramework Include="@(_TargetFrameworkRaw->Trim()->Distinct())"/>
 			<_InnerBuildProjects Include="$(MSBuildProjectFile)">
 				<AdditionalProperties>TargetFramework=%(_TargetFramework.Identity)</AdditionalProperties>
 			</_InnerBuildProjects>
@@ -85,7 +92,6 @@
 		</PropertyGroup>
 	</Target>
 
-
 	<!--
 	============================================================
 							Clean
@@ -116,8 +122,13 @@
 	-->
 	<Target Name="Rebuild" DependsOnTargets="Clean;Build"/>
 
-	<Import Project="NuGet.Common.targets"/>
+	<Import Project="NuGet.Restore.targets"/>
 
-	<Import Project="$(CustomAfterMicrosoftCommonCrossTargetingTargets)" Condition="Exists('$(CustomAfterMicrosoftCommonCrossTargetingTargets)')"/>
+	<!-- TODO: Remove when no longer needed! -->
+	<PropertyGroup Condition="'$(CustomAfterMicrosoftCommonCrossTargetingTargets)' != ''">
+		<CustomAfterMicrosoftCommonMultiTargetingTargets>$(CustomAfterMicrosoftCommonCrossTargetingTargets)</CustomAfterMicrosoftCommonMultiTargetingTargets>
+	</PropertyGroup>
+
+	<Import Project="$(CustomAfterMicrosoftCommonMultiTargetingTargets)" Condition="Exists('$(CustomAfterMicrosoftCommonMultiTargetingTargets)')"/>
 
 </Project>

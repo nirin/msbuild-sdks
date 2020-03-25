@@ -1,0 +1,12 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+	<PropertyGroup>
+		<ImportSdkBundledTools Condition="'$(ImportSdkBundledTools)' == ''">true</ImportSdkBundledTools>
+		<ImportSdkBundledVersions Condition="'$(ImportSdkBundledVersions)' == ''">true</ImportSdkBundledVersions>
+	</PropertyGroup>
+
+	<Import Project="..\Extensions\MSBuild.BundledTools.props" Condition="'$(ImportSdkBundledTools)' == 'true'"/>
+
+	<Import Project="..\Extensions\MSBuild.BundledVersions.props" Condition="'$(ImportSdkBundledVersions)' == 'true'"/>
+
+</Project>
