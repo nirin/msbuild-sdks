@@ -1,11 +1,6 @@
 <Project DefaultTargets="Build">
 
-	<!-- TODO: Remove when no longer needed! -->
-	<PropertyGroup Condition="'$(CustomBeforeMicrosoftCommonCrossTargetingTargets)' != ''">
-		<CustomBeforeMicrosoftCommonMultiTargetingTargets>$(CustomBeforeMicrosoftCommonCrossTargetingTargets)</CustomBeforeMicrosoftCommonMultiTargetingTargets>
-	</PropertyGroup>
-
-	<Import Project="$(CustomBeforeMicrosoftCommonMultiTargetingTargets)" Condition="Exists('$(CustomBeforeMicrosoftCommonMultiTargetingTargets)')"/>
+	<Import Project="$(CustomBeforeMicrosoftCommonCrossTargetingTargets)" Condition="Exists('$(CustomBeforeMicrosoftCommonCrossTargetingTargets)')"/>
 
 	<PropertyGroup>
 		<BuildInParallel Condition="'$(BuildInParallel)' == ''">true</BuildInParallel>
@@ -120,11 +115,6 @@
 	-->
 	<Target Name="Rebuild" DependsOnTargets="Clean;Build"/>
 
-	<!-- TODO: Remove when no longer needed! -->
-	<PropertyGroup Condition="'$(CustomAfterMicrosoftCommonCrossTargetingTargets)' != ''">
-		<CustomAfterMicrosoftCommonMultiTargetingTargets>$(CustomAfterMicrosoftCommonCrossTargetingTargets)</CustomAfterMicrosoftCommonMultiTargetingTargets>
-	</PropertyGroup>
-
-	<Import Project="$(CustomAfterMicrosoftCommonMultiTargetingTargets)" Condition="Exists('$(CustomAfterMicrosoftCommonMultiTargetingTargets)')"/>
+	<Import Project="$(CustomAfterMicrosoftCommonCrossTargetingTargets)" Condition="Exists('$(CustomAfterMicrosoftCommonCrossTargetingTargets)')"/>
 
 </Project>
