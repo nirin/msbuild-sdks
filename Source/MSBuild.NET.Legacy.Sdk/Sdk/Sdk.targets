@@ -2,14 +2,7 @@
 
 	<Import Sdk="MSBuild.Core.Sdk" Project="Sdk.Core.targets"/>
 
-	<PropertyGroup>
-		<MicrosoftLegacyTargets>Microsoft.Common.targets</MicrosoftLegacyTargets>
-		<MicrosoftLegacyTargets Condition="'$(MSBuildProjectExtension)' == '.csproj'">Microsoft.CSharp.targets</MicrosoftLegacyTargets>
-		<MicrosoftLegacyTargets Condition="'$(MSBuildProjectExtension)' == '.fsproj'">Microsoft.FSharp.targets</MicrosoftLegacyTargets>
-		<MicrosoftLegacyTargets Condition="'$(MSBuildProjectExtension)' == '.vbproj'">Microsoft.VisualBasic.targets</MicrosoftLegacyTargets>
-	</PropertyGroup>
-
-	<Import Project="$(MicrosoftLegacyTargets)"/>
+	<Import Project="Sdk.Core.targets"/>
 
 	<Import Sdk="MSBuild.Core.Sdk" Project="Sdk.Extensions.targets"/>
 

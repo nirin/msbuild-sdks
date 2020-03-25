@@ -2,14 +2,7 @@
 
 	<Import Sdk="MSBuild.Core.Sdk" Project="Sdk.Extensions.props"/>
 
-	<PropertyGroup>
-		<MicrosoftLegacyProps>Microsoft.Common.props</MicrosoftLegacyProps>
-		<MicrosoftLegacyProps Condition="'$(MSBuildProjectExtension)' == '.csproj'">Microsoft.CSharp.props</MicrosoftLegacyProps>
-		<MicrosoftLegacyProps Condition="'$(MSBuildProjectExtension)' == '.fsproj'">Microsoft.FSharp.props</MicrosoftLegacyProps>
-		<MicrosoftLegacyProps Condition="'$(MSBuildProjectExtension)' == '.vbproj'">Microsoft.VisualBasic.props</MicrosoftLegacyProps>
-	</PropertyGroup>
-
-	<Import Project="$(MicrosoftLegacyProps)"/>
+	<Import Project="Sdk.Core.props"/>
 
 	<Import Sdk="MSBuild.Core.Sdk" Project="Sdk.Core.props"/>
 
