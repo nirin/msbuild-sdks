@@ -34,77 +34,69 @@
 	</PropertyGroup>
 
 	<!--
-		Several properties must be set in the main project file, before using this .props file.
+		Several properties must be set in the main project file, before using this .TARGETS file.
 		However, if the properties are not set, we pick some defaults.
+
+		Ensure any and all path property has a trailing slash, so it can be concatenated.
 	-->
 
 	<PropertyGroup>
-		<AssemblyName Condition="'$(AssemblyName)' == ''">$(MSBuildProjectName)</AssemblyName>
-
-		<_OriginalConfiguration>$(Configuration)</_OriginalConfiguration>
-		<_OriginalPlatform>$(Platform)</_OriginalPlatform>
-
 		<!-- Example, Debug -->
+		<_OriginalConfiguration>$(Configuration)</_OriginalConfiguration>
 		<Configuration Condition="'$(Configuration)' == ''">Debug</Configuration>
-		<ConfigurationName Condition="'$(ConfigurationName)' == ''">$(Configuration)</ConfigurationName>
+		<_Configuration Condition="'$(_Configuration)' == ''">$(Configuration)</_Configuration>
 
 		<!-- Example, AnyCPU -->
+		<_OriginalPlatform>$(Platform)</_OriginalPlatform>
 		<Platform Condition="'$(Platform)' == ''">AnyCPU</Platform>
-		<PlatformName Condition="'$(PlatformName)' == ''">$(Platform)</PlatformName>
+		<_Platform Condition="'$(_Platform)' == ''">$(Platform)</_Platform>
+	</PropertyGroup>
 
+	<PropertyGroup>
 		<OutputType Condition="'$(TargetType)' != ''">$(TargetType)</OutputType>
 		<OutputType Condition="'$(TargetType)' == 'Container' OR '$(TargetType)' == 'DocumentContainer'">library</OutputType>
 		<OutputType Condition="'$(OutputType)' == ''">exe</OutputType>
 
-		<DebugSymbols Condition="'$(ConfigurationName)' == 'Debug' AND '$(DebugSymbols)' == '' AND '$(DebugType)' == ''">true</DebugSymbols>
+		<DebugSymbols Condition="'$(_Configuration)' == 'Debug' AND '$(DebugSymbols)' == '' AND '$(DebugType)' == ''">true</DebugSymbols>
 
 		<!-- Whether or not a .pdb file is produced. -->
 		<DebugType Condition="'$(DebugType)' == ''">portable</DebugType>
+
+		<!-- Whether or not a .xml file is produced. -->
+		<DocumentationFile Condition="'$(DocumentationFile)' == ''">false</DocumentationFile>
 
 		<!-- Whether or not a reference assembly is produced. -->
 		<ProduceReferenceAssembly Condition="'$(ProduceReferenceAssembly)' == ''">false</ProduceReferenceAssembly>
 	</PropertyGroup>
 
-	<!--
-		IDE Macros available from both integrated builds and from command line builds.
-		The following properties are 'macros' that are available via IDE for
-		pre and post build steps.
-	-->
-	<PropertyGroup>
-		<TargetExt Condition="'$(TargetExt)' == '' AND '$(OutputType)' == 'exe'">.exe</TargetExt>
-		<TargetExt Condition="'$(TargetExt)' == '' AND '$(OutputType)' == 'winexe'">.exe</TargetExt>
-		<TargetExt Condition="'$(TargetExt)' == '' AND '$(OutputType)' == 'appcontainerexe'">.exe</TargetExt>
-		<TargetExt Condition="'$(TargetExt)' == '' AND '$(OutputType)' == 'library'">.dll</TargetExt>
-		<TargetExt Condition="'$(TargetExt)' == '' AND '$(OutputType)' == 'module'">.netmodule</TargetExt>
-		<TargetExt Condition="'$(TargetExt)' == '' AND '$(OutputType)' == 'winmdobj'">.winmdobj</TargetExt>
+	<PropertyGroup Condition="'$(_OriginalConfiguration)' == '' OR '$(_OriginalPlatform)' == ''">
+		<!--
+			A blank Configuration/Platform at this point means that the user passed in an invalid Configuration/Platform
+			combination.  Whether this is considered an error or a warning depends on the value of
+			$(SkipInvalidConfigurations).
+		-->
+		<_InvalidConfigurationError Condition="'$(SkipInvalidConfigurations)' != 'true'">true</_InvalidConfigurationError>
+		<_InvalidConfigurationWarning Condition="'$(SkipInvalidConfigurations)' == 'true'">true</_InvalidConfigurationWarning>
 	</PropertyGroup>
 
 	<PropertyGroup>
-		<!-- Example, MyProject -->
-		<ProjectName Condition="'$(ProjectName)' == ''">$(MSBuildProjectName)</ProjectName>
-
-		<!-- Example, c:\MyProjects\MyProject\ -->
-		<ProjectDir Condition="'$(ProjectDir)' == ''">$(MSBuildProjectDirectory)\</ProjectDir>
-
-		<!-- Example, c:\MyProjects\MyProject\MyProject.csproj -->
-		<ProjectPath Condition="'$(ProjectPath)' == ''">$(ProjectDir)$(ProjectFileName)</ProjectPath>
-
 		<!-- Example, MyAssembly -->
-		<TargetName Condition="'$(TargetName)' == '' AND '$(OutputType)' == 'winmdobj' AND '$(RootNamespace)' != ''">$(RootNamespace)</TargetName>
-		<TargetName Condition="'$(TargetName)' == ''">$(AssemblyName)</TargetName>
-
+		<AssemblyName Condition="'$(AssemblyName)' == ''">$(MSBuildProjectName)</AssemblyName>
 		<!-- Example, MyProject.csproj -->
 		<ProjectFileName Condition="'$(ProjectFileName)' == ''">$(MSBuildProjectFile)</ProjectFileName>
-
+		<!-- Example, MyProject -->
+		<ProjectName Condition="'$(ProjectName)' == ''">$(MSBuildProjectName)</ProjectName>
 		<!-- Example, .csproj -->
 		<ProjectExt Condition="'$(ProjectExt)' == ''">$(MSBuildProjectExtension)</ProjectExt>
+		<!-- Example, C:\MyProjects\MyProject\ -->
+		<ProjectDir Condition="'$(ProjectDir)' == ''">$(MSBuildProjectDirectory)\</ProjectDir>
+		<!-- Example, C:\MyProjects\MyProject\MyProject.csproj -->
+		<ProjectPath Condition="'$(ProjectPath)' == ''">$(MSBuildProjectFullPath)</ProjectPath>
+		<ProjectPath Condition="'$(ProjectPath)' == ''">$(ProjectDir)$(ProjectFileName)</ProjectPath>
+	</PropertyGroup>
 
-		<!-- Example, MyAssembly.winmd -->
-		<WinMDExpOutputWindowsMetadataFilename Condition="'$(WinMDExpOutputWindowsMetadataFilename)' == '' AND '$(OutputType)' == 'winmdobj'">$(TargetName).winmd</WinMDExpOutputWindowsMetadataFilename>
-		<TargetFileName Condition="'$(TargetFileName)' == '' AND '$(OutputType)' == 'winmdobj'">$(WinMDExpOutputWindowsMetadataFilename)</TargetFileName>
-
-		<!-- Example, MyAssembly.dll -->
-		<TargetFileName Condition="'$(TargetFileName)' == ''">$(TargetName)$(TargetExt)</TargetFileName>
+	<PropertyGroup>
+		<MaxTargetPath Condition="'$(MaxTargetPath)' == ''">100</MaxTargetPath>
 	</PropertyGroup>
 
 	<PropertyGroup>
@@ -116,6 +108,19 @@
 		<FallbackCulture Condition="'$(UICulture)' != '' AND '$(FallbackCulture)' == ''">$(UICulture)</FallbackCulture>
 	</PropertyGroup>
 
+	<ItemGroup>
+		<!-- Not used any more-->
+		<_OutputPathItem Include="$(OutDir)"/>
+
+		<_UnmanagedRegistrationCache Include="$(BaseIntermediateOutputPath)$(MSBuildProjectFile).UnmanagedRegistration.cache"/>
+		<_ResolveComReferenceCache Include="$(IntermediateOutputPath)$(MSBuildProjectFile).ResolveComReference.cache"/>
+	</ItemGroup>
+
+	<ItemGroup>
+		<!-- This is not used here but remains for backwards compatibility -->
+		<AppConfigFileDestination Include="$(OutDir)$(TargetFileName).config"/>
+	</ItemGroup>
+
 	<!--
 		IDE Macros available only from integrated builds.
 		The following properties are 'macros' that are available via IDE for
@@ -124,31 +129,26 @@
 	-->
 	<PropertyGroup>
 		<DevEnvDir Condition="'$(DevEnvDir)' == ''">*Undefined*</DevEnvDir>
-		<SolutionName Condition="'$(SolutionName)' == ''">*Undefined*</SolutionName>
 		<!-- Example, MySolution -->
-		<SolutionFileName Condition="'$(SolutionFileName)' == ''">*Undefined*</SolutionFileName>
+		<SolutionName Condition="'$(SolutionName)' == ''">*Undefined*</SolutionName>
 		<!-- Example, MySolution.sln -->
+		<SolutionFileName Condition="'$(SolutionFileName)' == ''">*Undefined*</SolutionFileName>
+		<!-- Example, F:\MySolutions\MySolution\MySolution.sln -->
 		<SolutionPath Condition="'$(SolutionPath)' == ''">*Undefined*</SolutionPath>
-		<!-- Example, f:\MySolutions\MySolution\MySolution.sln -->
+		<!-- Example, F:\MySolutions\MySolution\ -->
 		<SolutionDir Condition="'$(SolutionDir)' == ''">*Undefined*</SolutionDir>
-		<!-- Example, f:\MySolutions\MySolution\ -->
-		<SolutionExt Condition="'$(SolutionExt)' == ''">*Undefined*</SolutionExt>
 		<!-- Example, .sln -->
+		<SolutionExt Condition="'$(SolutionExt)' == ''">*Undefined*</SolutionExt>
 	</PropertyGroup>
 
 	<PropertyGroup>
-		<GenerateBindingRedirectsOutputType Condition="'$(OutputType)' == 'exe' OR '$(OutputType)' == 'winexe'">true</GenerateBindingRedirectsOutputType>
 		<!-- It would be a breaking change to automatically turn on binding redirects for existing projects, so turn them on only when opting into a new framework. -->
 		<AutoGenerateBindingRedirects Condition="'$(AutoGenerateBindingRedirects)' == ''">true</AutoGenerateBindingRedirects>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(AutoUnifyAssemblyReferences)' == ''">
-		<AutoUnifyAssemblyReferences>true</AutoUnifyAssemblyReferences>
-		<AutoUnifyAssemblyReferences Condition="'$(GenerateBindingRedirectsOutputType)' == 'true' AND '$(AutoGenerateBindingRedirects)' != 'true'">false</AutoUnifyAssemblyReferences>
+		<AutoUnifyAssemblyReferences Condition="'$(AutoUnifyAssemblyReferences)' == ''">true</AutoUnifyAssemblyReferences>
 	</PropertyGroup>
 
 	<PropertyGroup>
-		<CleanFile Condition="'$(CleanFile)' == ''">Project.FileListAbsolute.txt</CleanFile>
+		<CleanFile Condition="'$(CleanFile)' == ''">$(MSBuildProjectFile).FileListAbsolute.txt</CleanFile>
 		<!-- During DesignTime Builds, skip project reference build as Design time is only queueing information.-->
 		<BuildProjectReferences Condition="'$(BuildProjectReferences)' == '' AND '$(DesignTimeBuild)' == 'true'">false</BuildProjectReferences>
 		<!-- By default we will build (and if applicable, clean) all project references. But this can be used to disable that-->
@@ -160,9 +160,56 @@
 		<ComReferenceNoClassMembers Condition="'$(ComReferenceNoClassMembers)' == ''">false</ComReferenceNoClassMembers>
 	</PropertyGroup>
 
-	<PropertyGroup>
-		<_GenerateBindingRedirectsIntermediateAppConfig>$(TargetFileName).config</_GenerateBindingRedirectsIntermediateAppConfig>
-	</PropertyGroup>
+	<ItemGroup>
+		<IntermediateAssembly Include="$(IntermediateOutputPath)$(TargetName)$(TargetExt)"/>
+		<FinalDocFile Include="@(DocFileItem->'$(OutDir)%(Filename)%(Extension)')"/>
+		<CopyUpToDateMarker Include="$([MSBuild]::NormalizePath('$(MSBuildProjectDirectory)', '$(IntermediateOutputPath)', '$(MSBuildProjectFile).CopyComplete'))"/>
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(ProduceReferenceAssembly)' == 'true'">
+		<IntermediateRefAssembly Include="$(IntermediateOutputPath)ref\$(TargetName)$(TargetExt)" Condition="'@(IntermediateRefAssembly)' == ''"/>
+		<CreateDirectory Include="@(IntermediateRefAssembly->'%(RootDir)%(Directory)')"/>
+		<CreateDirectory Include="$(OutDir)ref"/>
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(_DebugSymbolsProduced)' == 'true'">
+		<_DebugSymbolsIntermediatePath Include="$(IntermediateOutputPath)$(TargetName).compile.pdb" Condition="'$(OutputType)' == 'winmdobj' AND '@(_DebugSymbolsIntermediatePath)' == ''"/>
+		<_DebugSymbolsIntermediatePath Include="$(IntermediateOutputPath)$(TargetName).pdb" Condition="'$(OutputType)' != 'winmdobj' AND '@(_DebugSymbolsIntermediatePath)' == ''"/>
+		<_DebugSymbolsOutputPath Include="@(_DebugSymbolsIntermediatePath->'$(OutDir)%(Filename)%(Extension)')"/>
+	</ItemGroup>
+
+	<ItemGroup>
+		<!-- Create an item for entry point of the ClickOnce application (Example: WindowsApplication1.exe) -->
+		<_DeploymentManifestEntryPoint Include="@(IntermediateAssembly)">
+			<TargetPath>$(TargetFileName)</TargetPath>
+		</_DeploymentManifestEntryPoint>
+
+		<!-- Create an item for the application icon if one exists in the project (Example: app.ico) -->
+		<!-- NOTE: The item Include and the Exists function are operating relative to the PROJECT (.csproj, .vbproj etc.) directory in this case -->
+		<_DeploymentManifestIconFile Include="$(ApplicationIcon)" Condition="Exists('$(ApplicationIcon)')">
+			<TargetPath>$(ApplicationIcon)</TargetPath>
+		</_DeploymentManifestIconFile>
+
+		<!-- Create an item for the output application manifest (Example: WindowsApplication1.exe.manifeset) -->
+		<ApplicationManifest Include="$(IntermediateOutputPath)$(_DeploymentTargetApplicationManifestFileName)">
+			<TargetPath>$(_DeploymentTargetApplicationManifestFileName)</TargetPath>
+		</ApplicationManifest>
+
+		<!-- Create an item for the final application manifest (Example: WindowsApplication1.exe.manifeset)
+				This item represents the final output application manifest used for project-to-project
+				references and for copying to the publish output location. -->
+		<_ApplicationManifestFinal Include="$(OutDir)$(_DeploymentTargetApplicationManifestFileName)">
+			<TargetPath>$(_DeploymentTargetApplicationManifestFileName)</TargetPath>
+		</_ApplicationManifestFinal>
+
+		<!-- Create an item for the output deploy manifest (Example: WindowsApplication1.application) -->
+		<DeployManifest Include="$(IntermediateOutputPath)$(TargetDeployManifestFileName)">
+			<TargetPath>$(TargetDeployManifestFileName)</TargetPath>
+		</DeployManifest>
+
+		<!-- Create an item for the intermediate trust info file -->
+		<_DeploymentIntermediateTrustInfoFile Include="$(IntermediateOutputPath)$(TargetName).TrustInfo.xml" Condition="'$(TargetZone)' != ''"/>
+	</ItemGroup>
 
 	<!--
 		ProcessorArchitecture is the target processor architecture.
@@ -205,8 +252,11 @@
 	</PropertyGroup>
 
 
-	<!-- Sensible defaults for the most-commonly-desired MSBuildRuntime and MSBuildArchitecture values -->
-	<PropertyGroup Condition="'$(DisableOutOfProcTaskHost)' == ''">
+		<!--
+			Sensible defaults for the most-commonly-desired MSBuildRuntime and MSBuildArchitecture values. The Core and Mono runtimes do not currently support specifying task architecture or runtime.
+			If support for out-of-proc task execution is added on other runtimes, make sure each task's logic is checked against the current state of support.
+		-->
+	<PropertyGroup Condition="'$(DisableOutOfProcTaskHost)' == '' and '$(MSBuildRuntimeType)' == 'Full'">
 		<TargetFrameworkAsMSBuildRuntime Condition="'$(TargetFrameworkVersion)' == 'v2.0' OR '$(TargetFrameworkVersion)' == 'v3.0' OR '$(TargetFrameworkVersion)' == 'v3.5'">CLR2</TargetFrameworkAsMSBuildRuntime>
 		<TargetFrameworkAsMSBuildRuntime Condition="'$(TargetFrameworkVersion)' == 'v4.0' OR '$(TargetFrameworkVersion)' == 'v4.5'">CLR4</TargetFrameworkAsMSBuildRuntime>
 		<TargetFrameworkAsMSBuildRuntime Condition="'$(TargetFrameworkAsMSBuildRuntime)' == ''">CurrentRuntime</TargetFrameworkAsMSBuildRuntime>
@@ -232,7 +282,7 @@
 	-->
 	<PropertyGroup>
 		<DelaySign Condition="'$(SignAssembly)' != 'true'">false</DelaySign>
-		<DelaySign Condition="'$(DelaySign)' != 'true'"></DelaySign>
+		<DelaySign Condition="'$(DelaySign)' != 'true'"/>
 	</PropertyGroup>
 
 	<!-- These properties control web reference proxy generation. -->
@@ -247,6 +297,39 @@
 		assemblies in the assembly resolution tasks.
 	-->
 	<PropertyGroup>
+		<AssemblyFoldersSuffix Condition="'$(AssemblyFoldersSuffix)' == ''">AssemblyFoldersEx</AssemblyFoldersSuffix>
+		<FrameworkRegistryBase Condition="'$(FrameworkRegistryBase)' == ''">Software\Microsoft\$(TargetFrameworkIdentifier)</FrameworkRegistryBase>
+		<TargetPlatformRegistryBase Condition="'$(TargetPlatformRegistryBase)' == ''">Software\Microsoft\Microsoft SDKs\$(TargetPlatformIdentifier)</TargetPlatformRegistryBase>
+		<AssemblyFoldersConfigFile Condition="'$(AssemblyFoldersConfigFile)' == ''">$(MSBuildToolsPath32)\AssemblyFolders.config</AssemblyFoldersConfigFile>
+		<AssemblyFoldersConfigFileSearchPath Condition="Exists('$(AssemblyFoldersConfigFile)')">{AssemblyFoldersFromConfig:$(AssemblyFoldersConfigFile),$(TargetFrameworkVersion)};</AssemblyFoldersConfigFileSearchPath>
+		<!--
+			The SearchPaths property is set to find assemblies in the following order:
+
+				(1) Files from current project - indicated by {CandidateAssemblyFiles}
+				(2) $(ReferencePath) - the reference path property, which comes from the .USER file.
+				(3) The hintpath from the referenced item itself, indicated by {HintPathFromItem}.
+				(4) The directory of MSBuild's "target" runtime from GetFrameworkPath.
+					The "target" runtime folder is the folder of the runtime that MSBuild is a part of.
+				(5) Registered assembly folders, indicated by {Registry:*,*,*}
+				(6) Assembly folders from AssemblyFolders.config file (provided by Visual Studio Dev15+).
+				(7) Legacy registered assembly folders, indicated by {AssemblyFolders}
+				(8) Resolve to the GAC.
+				(9) Treat the reference's Include as if it were a real file name.
+				(10) Look in the application's output folder (like bin\debug)
+		-->
+		<AssemblySearchPaths Condition="'$(AssemblySearchPaths)' == ''">
+			{CandidateAssemblyFiles};
+			$(ReferencePath);
+			{HintPathFromItem};
+			{TargetFrameworkDirectory};
+			$(AssemblyFoldersConfigFileSearchPath)
+			{Registry:$(FrameworkRegistryBase),$(TargetFrameworkVersion),$(AssemblyFoldersSuffix)$(AssemblyFoldersExConditions)};
+			{AssemblyFolders};
+			{GAC};
+			{RawFileName};
+			$(OutDir)
+		</AssemblySearchPaths>
+
 		<!--
 			These are the extensions that assembly reference resolution will consider for resolution.
 			Add new extensions here if you want to add new file types to consider (for example, .metadata_dll).
@@ -293,8 +376,8 @@
 		<PropertyPageSchema Include="$(CommonXamlResourcesDirectory)ProjectItemsSchema.xaml"/>
 
 		<PropertyPageSchema Include="
-							$(CommonXamlResourcesDirectory)General.xaml;
-							$(CommonXamlResourcesDirectory)Debugger_General.xaml">
+			$(CommonXamlResourcesDirectory)General.xaml;
+			$(CommonXamlResourcesDirectory)Debugger_General.xaml">
 			<Context>Project</Context>
 		</PropertyPageSchema>
 

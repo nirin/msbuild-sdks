@@ -9,8 +9,6 @@
 		<MicrosoftLegacyTargets Condition="'$(MSBuildProjectExtension)' == '.vbproj'">Microsoft.VisualBasic.targets</MicrosoftLegacyTargets>
 	</PropertyGroup>
 
-	<!--<Import Project="Sdk.tasks" Condition="'$(ImportedMicrosoftLegacyTasks)' != 'true'"/>-->
-
 	<Import Project="$(MicrosoftLegacyTargets)"/>
 
 	<Import Sdk="MSBuild.Core.Sdk" Project="Sdk.Extensions.targets"/>
