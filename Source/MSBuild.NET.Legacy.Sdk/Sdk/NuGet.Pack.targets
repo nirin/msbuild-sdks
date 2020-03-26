@@ -1,0 +1,20 @@
+<Project>
+
+	<PropertyGroup>
+		<ImportNuGetPackTargetsFromSdk Condition="'$(ImportNuGetPackTargetsFromSdk)' == ''">true</ImportNuGetPackTargetsFromSdk>
+	</PropertyGroup>
+
+	<!-- Import `NuGet.targets` (required for `PackTask` and used for Pack functionality) -->
+	<PropertyGroup Condition="'$(ImportNuGetPackTargetsFromSdk)' == 'false'">
+		<MSBuildSdksPath Condition="'$(MSBuildSdksPath)' == ''">$(MSBuildExtensionsPath32)\Sdks</MSBuildSdksPath>
+		<MSBuildSdksPath Condition="'$(MSBuildSdksPath)' == '' AND !Exists('$(MSBuildSdksPath)')">$(MSBuildExtensionsPath)\Sdks</MSBuildSdksPath>
+		<NuGetPackTargets Condition="'$(IsOuterBuild)' != 'true'">$(MSBuildSdksPath)\NuGet.Build.Tasks.Pack\build\NuGet.Build.Tasks.Pack.targets</NuGetPackTargets>
+		<NuGetPackTargets Condition="'$(IsOuterBuild)' == 'true'">$(MSBuildSdksPath)\NuGet.Build.Tasks.Pack\buildCrossTargeting\NuGet.Build.Tasks.Pack.targets</NuGetPackTargets>
+	</PropertyGroup>
+
+	<!-- This will import NuGet pack targets. We need pack to work after all the build artifacts are produced. -->
+	<Import Project="$(NuGetPackTargets)" Condition="Exists('$(NuGetPackTargets)') AND '$(ImportNuGetPackTargetsFromSdk)' == 'false'"/>
+
+	<Import Project="Sdk.Pack.targets" Sdk="NuGet.Packaging.Sdk" Condition="'$(ImportNuGetPackTargetsFromSdk)' == 'true'"/>
+
+</Project>
