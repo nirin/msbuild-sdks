@@ -13,7 +13,7 @@
 	</PropertyGroup>
 
 	<!-- This will import NuGet pack targets. We need pack to work after all the build artifacts are produced. -->
-	<Import Project="$(NuGetPackTargets)" Condition="Exists('$(NuGetPackTargets)') AND '$(ImportNuGetPackTargetsFromSdk)' == 'false'"/>
+	<Import Project="$(NuGetPackTargets)" Condition="'$(ImportNuGetPackTargetsFromSdk)' == 'false' AND Exists('$(NuGetPackTargets)')"/>
 
 	<Import Project="Sdk.Pack.targets" Sdk="NuGet.Packaging.Sdk" Condition="'$(ImportNuGetPackTargetsFromSdk)' == 'true'"/>
 
