@@ -5,7 +5,7 @@
 	-->
 	<PropertyGroup Label="NuGet">
 		<RestoreOutputPath Condition="'$(RestoreOutputPath)' == ''">$(MSBuildProjectExtensionsPath)</RestoreOutputPath>
-		<NuspecOutputPath Condition="'$(NuspecOutputPath)' == ''">$(BuildPath)$(Configuration)\</NuspecOutputPath>
+		<NuspecOutputPath Condition="'$(NuspecOutputPath)' == ''">$(FinalOutputPath)$(Configuration)\</NuspecOutputPath>
 		<PackageOutputPath Condition="'$(PackageOutputPath)' == ''">$(PublishPath)$(Configuration)\</PackageOutputPath>
 	</PropertyGroup>
 
