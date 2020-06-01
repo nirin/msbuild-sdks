@@ -6,7 +6,6 @@
 	</PropertyGroup>
 
 	<Import Project="..\Extensions\MSBuild.BundledTools.props" Condition="'$(ImportSdkBundledTools)' == 'true'"/>
-
 	<Import Project="..\Extensions\MSBuild.BundledPacks.props" Condition="'$(ImportSdkBundledPacks)' == 'true'"/>
 
 </Project>

@@ -1,24 +1,12 @@
 <Project>
 
-	<Import Project="MSBuild.NET.MonoTargeting.Before.targets"/>
+	<Import Project="$(MSBuildThisFileName).Before.targets"/>
 
-	<!--
-		If `LanguageTargets` isn't otherwise set, then just import the Common targets from the Legacy SDK.
-		This should allow the restore target to run, which could bring in NuGet packages that sets the `LanguageTargets`.
-		This means support for different languages could either be supplied via an SDK or via a NuGet package.
-	-->
-	<ImportGroup Condition="'$(LanguageTargets)' != ''">
-		<!-- Currently the FSharp and PHP SDKs uses this hook -->
-		<Import Project="$(LanguageTargets)"/>
-		<!-- Checks for the `BuildPath` and `MSBuildProjectExtensionsPath` mismatch, only when using the inbox targets, as it uses `IntermediateOutputPath` instead -->
-		<Import Project="..\Core\MSBuild.OutputPaths.Check.targets"/>
-	</ImportGroup>
-
-	<Import Sdk="MSBuild.NET.Legacy.Sdk" Project="Sdk.Core.targets" Condition="'$(LanguageTargets)' == ''"/>
+	<Import Sdk="MSBuild.NET.Legacy.Sdk" Project="Microsoft.$(SourceLanguageName).targets"/>
 
 	<Import Project="MSBuild.NET.BuildTargeting.targets"/>
 
-	<Import Project="MSBuild.NET.MonoTargeting.After.targets"/>
+	<Import Project="$(MSBuildThisFileName).After.targets"/>
 
 	<PropertyGroup>
 		<DisableStandardFrameworkResolution Condition="'$(DisableStandardFrameworkResolution)' == ''">$(_IsNETCoreOrNETStandard)</DisableStandardFrameworkResolution>
