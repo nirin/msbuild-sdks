@@ -1539,7 +1539,7 @@
 		<!-- Break the project list into two lists: those that exist on disk and those that don't. -->
 		<ItemGroup>
 			<_MSBuildProjectReferenceExistent Include="@(_MSBuildProjectReference)" Condition="Exists('%(Identity)')"/>
-			<_MSBuildProjectReferenceNonexistent Include="@(_MSBuildProjectReference)" Condition="!Exists('%(Identity)')"/>
+			<_MSBuildProjectReferenceNonExistent Include="@(_MSBuildProjectReference)" Condition="!Exists('%(Identity)')"/>
 		</ItemGroup>
 
 	</Target>
@@ -1825,9 +1825,8 @@
 
 		<!-- Issue a warning for each non-existent project. -->
 		<Warning
-			Text="The referenced project '%(_MSBuildProjectReferenceNonexistent.Identity)' does not exist."
-			Condition="'@(ProjectReferenceWithConfiguration)' != '' AND '@(_MSBuildProjectReferenceNonexistent)' != ''"/>
-
+			Text="The referenced project '%(_MSBuildProjectReferenceNonExistent.Identity)' does not exist."
+			Condition="'@(ProjectReferenceWithConfiguration)' != '' AND '@(_MSBuildProjectReferenceNonExistent)' != ''"/>
 	</Target>
 
 	<Target
@@ -1846,9 +1845,9 @@
 	</Target>
 
 	<Target
-	Name="ExpandSDKReferencesDesignTime"
-	Returns="@(ReferencesFromSDK)"
-	DependsOnTargets="ExpandSDKReferences"/>
+		Name="ExpandSDKReferencesDesignTime"
+		Returns="@(ReferencesFromSDK)"
+		DependsOnTargets="ExpandSDKReferences"/>
 
 	<!--
 		============================================================
