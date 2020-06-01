@@ -20,4 +20,22 @@
 		<BuildContext>$(BuildContext)$(Platform)</BuildContext>
 	</PropertyGroup>
 
+	<Target Name="Summary">
+		<Message Importance="High" Text="%(ProjectItem.FullPath) (%(Configuration)|%(Platform))" />
+	</Target>
+
+	<Target Name="Restore" DependsOnTargets="$(RestoreDependsOn)"/>
+
+	<Target Name="Build" DependsOnTargets="$(BuildDependsOn)"/>
+
+	<Target Name="Clean" DependsOnTargets="$(CleanDependsOn)"/>
+
+	<Target Name="Rebuild" DependsOnTargets="$(RebuildDependsOn)"/>
+
+	<Target Name="Test" DependsOnTargets="$(TestDependsOn)"/>
+
+	<Target Name="Publish" DependsOnTargets="$(PublishDependsOn)"/>
+
+	<Target Name="Pack" DependsOnTargets="$(PackDependsOn)"/>
+
 </Project>
