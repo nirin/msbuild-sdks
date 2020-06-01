@@ -1,0 +1,14 @@
+<Project>
+
+	<!-- Load `NuGet.Build.Tasks.Pack.dll`, this can be overridden to use a different version with `NuGetPackTaskAssembly` -->
+	<PropertyGroup Condition="$(NuGetPackTaskAssembly) == ''">
+		<NuGetPackTaskAssembly>$(MSBuildThisFileDirectory)$(MSBuildRuntimeType)\NuGet.Build.Tasks.Pack.dll</NuGetPackTaskAssembly>
+	</PropertyGroup>
+
+	<UsingTask TaskName="NuGet.Build.Tasks.Pack.PackTask" AssemblyFile="$(NuGetPackTaskAssembly)"/>
+	<UsingTask TaskName="NuGet.Build.Tasks.Pack.GetPackOutputItemsTask" AssemblyFile="$(NuGetPackTaskAssembly)"/>
+	<UsingTask TaskName="NuGet.Build.Tasks.GetProjectTargetFrameworksTask" AssemblyFile="$(NuGetPackTaskAssembly)"/>
+	<UsingTask TaskName="NuGet.Build.Tasks.Pack.GetProjectReferencesFromAssetsFileTask" AssemblyFile="$(NuGetPackTaskAssembly)"/>
+	<UsingTask TaskName="NuGet.Build.Tasks.Pack.IsPackableFalseWarningTask" AssemblyFile="$(NuGetPackTaskAssembly)"/>
+
+</Project>

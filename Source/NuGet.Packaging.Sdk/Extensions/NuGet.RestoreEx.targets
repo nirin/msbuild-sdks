@@ -3,7 +3,7 @@
 	<UsingTask TaskName="NuGet.Build.Tasks.RestoreTaskEx" AssemblyFile="$(NuGetRestoreTaskAssembly)"/>
 
 	<Target Name="Restore">
-		<!-- Call restore -->
+		<!-- Call Restore -->
 		<RestoreTaskEx
 			DisableParallel="$(RestoreDisableParallel)"
 			Force="$(RestoreForce)"
