@@ -1,7 +1,7 @@
 <Project>
 
 	<!--
-		We need to initialize `BuildFolder` separately and before the `MSBuild.OutputPaths.targets` import,
+		We need to initialize `BuildPath` separately and before the `MSBuild.OutputPaths.targets` import,
 		since `MSBuildSolutionExtensionsPath` uses it to import custom props from Package Managers and Tools.
 	-->
 	<PropertyGroup Label="Build">

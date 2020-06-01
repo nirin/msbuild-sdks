@@ -1,9 +1,9 @@
 <Project>
 
 	<PropertyGroup>
-		<ProjectName Condition="'$(ProjectName)' != ''">$(MSBuildProjectName)</ProjectName>
-		<AssemblyName Condition="'$(AssemblyName)' != ''">$(ProjectName)</AssemblyName>
-		<RootNamespace Condition="'$(RootNamespace)' != ''">$(ProjectName)</RootNamespace>
+		<ProjectName Condition="'$(ProjectName)' == ''">$(MSBuildProjectName)</ProjectName>
+		<AssemblyName Condition="'$(AssemblyName)' == ''">$(ProjectName)</AssemblyName>
+		<RootNamespace Condition="'$(RootNamespace)' == ''">$(ProjectName)</RootNamespace>
 	</PropertyGroup>
 
 	<PropertyGroup>

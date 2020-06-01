@@ -4,8 +4,6 @@
 
 	<Import Project="MSBuild.Defaults.Items.targets"/>
 
-	<Import Project="MSBuild.OutputPaths.targets" Condition="'$(UseNewOutputPaths)' == 'true'"/>
-
-	<Import Project="MSBuild.OutputPaths.Legacy.targets" Condition="'$(UseNewOutputPaths)' != 'true'"/>
+	<Import Project="MSBuild.OutputPaths.targets"/>
 
 </Project>
