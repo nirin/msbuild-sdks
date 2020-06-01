@@ -1,0 +1,21 @@
+<Project>
+
+	<PropertyGroup Condition="'$(TargetMachine)' == ''">
+		<TargetMachine>nil</TargetMachine>
+		<_IsInvalidTargetMachine>true</_IsInvalidTargetMachine>
+	</PropertyGroup>
+
+	<Target Name="_CheckForInvalidTargetMachine"
+		BeforeTargets="_CheckForInvalidConfigurationAndPlatform;Restore;CollectPackageReferences"
+		Condition="'$(_IsInvalidTargetMachine)' == 'true'">
+
+		<NETSdkError Condition="'$(TargetMachine)' != ''"
+			ResourceName="CannotResolveTargetMachine"
+			FormatArguments="$([MSBuild]::Escape('$(TargetMachine)'))"/>
+
+		<NETSdkError Condition="'$(TargetMachine)' == ''"
+			ResourceName="EmptyTargetMachine"
+			FormatArguments="$([MSBuild]::Escape('$(TargetMachine)'))"/>
+	</Target>
+
+</Project>

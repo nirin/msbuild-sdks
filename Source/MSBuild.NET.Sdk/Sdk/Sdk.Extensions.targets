@@ -5,6 +5,8 @@
 	</PropertyGroup>
 
 	<ImportGroup Condition="'$(ImportNuGetBuildTargets)' == 'true'">
+		<Import Project="..\Extensions\NuGet.OfflineCache.targets"/>
+		<Import Project="..\Extensions\NuGet.OutputPaths.targets"/>
 		<Import Sdk="NuGet.Packaging.Sdk" Project="Sdk.Restore.targets"/>
 		<Import Sdk="NuGet.Packaging.Sdk" Project="Sdk.Pack.targets"/>
 	</ImportGroup>

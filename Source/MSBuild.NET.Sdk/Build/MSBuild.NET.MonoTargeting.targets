@@ -1,13 +1,6 @@
 <Project>
 
-	<Import Project="MSBuild.NET.MonoTargeting.BeforeLegacy.targets"/>
-
-	<!--
-		TODO: Remove once you made it independent of 'TargetFramework'!
-		Sets 'RestoreAdditionalProjectSources' or 'RestoreAdditionalProjectFallbackFolders'
-		to the SDK Offline Cache based on the 'TargetFramework'.
-	-->
-	<Import Project="..\Extensions\NuGet.OfflineCache.targets"/>
+	<Import Project="MSBuild.NET.MonoTargeting.Before.targets"/>
 
 	<!--
 		If `LanguageTargets` isn't otherwise set, then just import the Common targets from the Legacy SDK.
@@ -23,7 +16,9 @@
 
 	<Import Sdk="MSBuild.NET.Legacy.Sdk" Project="Sdk.Core.targets" Condition="'$(LanguageTargets)' == ''"/>
 
-	<Import Project="MSBuild.NET.MonoTargeting.AfterLegacy.targets"/>
+	<Import Project="MSBuild.NET.BuildTargeting.targets"/>
+
+	<Import Project="MSBuild.NET.MonoTargeting.After.targets"/>
 
 	<PropertyGroup>
 		<DisableStandardFrameworkResolution Condition="'$(DisableStandardFrameworkResolution)' == ''">$(_IsNETCoreOrNETStandard)</DisableStandardFrameworkResolution>
