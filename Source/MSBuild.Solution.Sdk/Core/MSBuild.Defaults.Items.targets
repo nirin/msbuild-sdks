@@ -3,6 +3,8 @@
 	<PropertyGroup>
 		<EnableDefaultItems Condition="'$(EnableDefaultItems)' == ''">true</EnableDefaultItems>
 		<EnableDefaultNoneItems Condition="'$(EnableDefaultNoneItems)' == ''">true</EnableDefaultNoneItems>
+		<EnableDefaultProjectItems Condition="'$(EnableDefaultProjectItems)' == ''">true</EnableDefaultProjectItems>
+		<EnableDefaultSolutionItems Condition="'$(EnableDefaultSolutionItems)' == ''">true</EnableDefaultSolutionItems>
 		<ExcludeDefaultBuildFiles Condition="'$(ExcludeDefaultBuildFiles)' == ''">false</ExcludeDefaultBuildFiles>
 	</PropertyGroup>
 
