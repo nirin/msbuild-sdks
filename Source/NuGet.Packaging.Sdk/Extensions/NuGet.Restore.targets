@@ -34,7 +34,7 @@
 		<HideWarningsAndErrors Condition="'$(HideWarningsAndErrors)' == ''">false</HideWarningsAndErrors>
 		<!-- Recurse by default -->
 		<RestoreRecursive Condition="'$(RestoreRecursive)' == ''">true</RestoreRecursive>
-		<RestoreUseSkipNonexistentTargets Condition="'$(RestoreUseSkipNonexistentTargets)' == ''">true</RestoreUseSkipNonexistentTargets>
+		<RestoreUseSkipNonExistentTargets Condition="'$(RestoreUseSkipNonExistentTargets)' == ''">true</RestoreUseSkipNonExistentTargets>
 		<!-- RuntimeIdentifier compatibility check -->
 		<ValidateRuntimeIdentifierCompatibility Condition="'$(ValidateRuntimeIdentifierCompatibility)' == ''">false</ValidateRuntimeIdentifierCompatibility>
 		<!-- Error handling while walking projects -->
@@ -64,10 +64,9 @@
 			$(_GenerateRestoreGraphProjectEntryInputProperties);
 			NuGetRestoreTargets=$(MSBuildThisFileFullPath);
 			RestoreUseCustomAfterTargets=$(RestoreUseCustomAfterTargets);
-			CustomAfterMicrosoftCommonMultiTargetingTargets=$(MSBuildThisFileFullPath);
-			<!-- TODO: Remove when no longer needed! -->
-			CustomAfterMicrosoftCommonCrossTargetingTargets=$(MSBuildThisFileFullPath);
 			CustomAfterMicrosoftCommonTargets=$(MSBuildThisFileFullPath);
+			<!-- TODO: Rename to 'MultiTargeting' if possible! -->
+			CustomAfterMicrosoftCommonCrossTargetingTargets=$(MSBuildThisFileFullPath);
 		</_GenerateRestoreGraphProjectEntryInputProperties>
 
 		<!-- Include SolutionDir and SolutionName for solution restores and persist these properties during the walk. -->
@@ -203,12 +202,12 @@
 			Returns="@(FilteredRestoreGraphProjectInputItems)">
 
 		<PropertyGroup>
-			<RestoreProjectFilterMode Condition="'$(RestoreProjectFilterMode)' == ''">exclusionlist</RestoreProjectFilterMode>
+			<RestoreProjectFilterMode Condition="'$(RestoreProjectFilterMode)' == ''">exclusion-list</RestoreProjectFilterMode>
 		</PropertyGroup>
 
 		<!-- Filter to a list of known supported types -->
-		<ItemGroup Condition="'$(RestoreProjectFilterMode)' == 'inclusionlist'">
-			<_FilteredRestoreGraphProjectInputItemsTmp
+		<ItemGroup Condition="'$(RestoreProjectFilterMode)' == 'inclusion-list'">
+			<_FilteredRestoreGraphProjectInputItems
 			Include="@(RestoreGraphProjectInputItems)"
 			Condition="'%(RestoreGraphProjectInputItems.Extension)' == '.proj' OR
 				'%(RestoreGraphProjectInputItems.Extension)' == '.msbuildproj' OR
@@ -220,8 +219,8 @@
 		</ItemGroup>
 
 		<!-- Filter out disallowed types -->
-		<ItemGroup Condition="'$(RestoreProjectFilterMode)' == 'exclusionlist'">
-			<_FilteredRestoreGraphProjectInputItemsTmp
+		<ItemGroup Condition="'$(RestoreProjectFilterMode)' == 'exclusion-list'">
+			<_FilteredRestoreGraphProjectInputItems
 			Include="@(RestoreGraphProjectInputItems)"
 			Condition="'%(RestoreGraphProjectInputItems.Extension)' != '.shproj' AND
 				'%(RestoreGraphProjectInputItems.Extension)' != '.metaproj' AND
@@ -230,22 +229,27 @@
 		</ItemGroup>
 
 		<!-- No filtering -->
-		<ItemGroup Condition="'$(RestoreProjectFilterMode)' != 'exclusionlist' AND '$(RestoreProjectFilterMode)' != 'inclusionlist'">
-			<_FilteredRestoreGraphProjectInputItemsTmp
+		<ItemGroup Condition="'$(RestoreProjectFilterMode)' != 'exclusion-list' AND '$(RestoreProjectFilterMode)' != 'inclusion-list'">
+			<_FilteredRestoreGraphProjectInputItems
 				Include="@(RestoreGraphProjectInputItems)"/>
 		</ItemGroup>
 
 		<!-- Remove duplicates -->
 		<RemoveDuplicates
-			Inputs="@(_FilteredRestoreGraphProjectInputItemsTmp)">
+			Inputs="@(_FilteredRestoreGraphProjectInputItems)">
 			<Output
 				TaskParameter="Filtered"
 				ItemName="FilteredRestoreGraphProjectInputItemsWithoutDuplicates"/>
 		</RemoveDuplicates>
 
+		<!-- Clean-up temporary variable -->
+		<ItemGroup>
+			<_FilteredRestoreGraphProjectInputItems/>
+		</ItemGroup>
+
 		<!-- Remove projects that do not support restore. -->
-		<!-- With SkipNonexistentTargets support -->
-		<MSBuild Condition=" '$(RestoreUseSkipNonexistentTargets)' == 'true' "
+		<!-- With SkipNonExistentTargets support -->
+		<MSBuild Condition=" '$(RestoreUseSkipNonExistentTargets)' == 'true' "
 			BuildInParallel="$(RestoreBuildInParallel)"
 			Projects="@(FilteredRestoreGraphProjectInputItemsWithoutDuplicates)"
 			Targets="_IsProjectRestoreSupported"
@@ -257,8 +261,8 @@
 				ItemName="FilteredRestoreGraphProjectInputItems"/>
 		</MSBuild>
 
-		<!-- Without SkipNonexistentTargets support -->
-		<MSBuild Condition="'$(RestoreUseSkipNonexistentTargets)' != 'true'"
+		<!-- Without SkipNonExistentTargets support -->
+		<MSBuild Condition="'$(RestoreUseSkipNonExistentTargets)' != 'true'"
 			Projects="@(FilteredRestoreGraphProjectInputItemsWithoutDuplicates)"
 			Targets="_IsProjectRestoreSupported"
 			ContinueOnError="$(RestoreContinueOnError)"
@@ -458,7 +462,7 @@
 			Returns="@(_RestoreTargetFrameworksOutputFiltered)">
 
 		<PropertyGroup>
-			<_RestoreProjectFramework></_RestoreProjectFramework>
+			<_RestoreProjectFramework/>
 		</PropertyGroup>
 
 		<!-- For project.json projects target frameworks will be read from project.json. -->
@@ -667,11 +671,9 @@
 				<PackagesPath>$(_OutputPackagesPath)</PackagesPath>
 				<ProjectStyle>$(RestoreProjectStyle)</ProjectStyle>
 				<OutputPath>$(RestoreOutputAbsolutePath)</OutputPath>
-				<TargetFrameworks>@(_RestoreTargetFrameworksOutputFiltered)</TargetFrameworks>
 				<RuntimeIdentifiers>$(RuntimeIdentifiers);$(RuntimeIdentifier)</RuntimeIdentifiers>
 				<RuntimeSupports>$(RuntimeSupports)</RuntimeSupports>
-				<MultiTargeting>$(_RestoreMultiTargeting)</MultiTargeting>
-				<!-- TODO: Remove when no longer needed! -->
+				<!-- TODO: Rename to 'MultiTargeting' if possible! -->
 				<CrossTargeting>$(_RestoreMultiTargeting)</CrossTargeting>
 				<RestoreLegacyPackagesDirectory>$(RestoreLegacyPackagesDirectory)</RestoreLegacyPackagesDirectory>
 				<ValidateRuntimeAssets>$(ValidateRuntimeIdentifierCompatibility)</ValidateRuntimeAssets>
@@ -747,7 +749,6 @@
 	<Target Name="_GenerateProjectRestoreGraph"
 			DependsOnTargets="
 				_GetRestoreProjectStyle;
-				_GetRestoreTargetFrameworksOutput;
 				_GenerateRestoreProjectSpec;
 				_GenerateRestoreDependencies"
 		Returns="@(_RestoreGraphEntry)">
@@ -862,28 +863,23 @@
 				ItemName="_RestoreGraphEntry"/>
 		</GetRestoreFrameworkReferencesTask>
 
-		<!-- Write out the TargetFramework specific properties -->
-		<ItemGroup Condition="'$(PackageReferenceCompatibleProjectStyle)' == 'true' AND '$(RuntimeIdentifierGraphPath)' != ''">
-			<_RestoreGraphEntry Include="$([System.Guid]::NewGuid())">
-				<Type>TargetFrameworkProperties</Type>
-				<ProjectUniqueName>$(MSBuildProjectFullPath)</ProjectUniqueName>
-				<TargetFramework>$(TargetFramework)</TargetFramework>
-				<RuntimeIdentifierGraphPath>$(RuntimeIdentifierGraphPath)</RuntimeIdentifierGraphPath>
-			</_RestoreGraphEntry>
-		</ItemGroup>
-
-		<PropertyGroup>
-			<_CombinedFallbacks>$(PackageTargetFallback);$(AssetTargetFallback)</_CombinedFallbacks>
-		</PropertyGroup>
-
 		<!-- Write out target framework information -->
-		<ItemGroup Condition="'$(PackageReferenceCompatibleProjectStyle)' == 'true' AND '$(_CombinedFallbacks)' != ''">
+		<ItemGroup Condition="'$(PackageReferenceCompatibleProjectStyle)' == 'true'">
 			<_RestoreGraphEntry Include="$([System.Guid]::NewGuid())">
 				<Type>TargetFrameworkInformation</Type>
 				<ProjectUniqueName>$(MSBuildProjectFullPath)</ProjectUniqueName>
 				<PackageTargetFallback>$(PackageTargetFallback)</PackageTargetFallback>
 				<AssetTargetFallback>$(AssetTargetFallback)</AssetTargetFallback>
 				<TargetFramework>$(TargetFramework)</TargetFramework>
+				<TargetFrameworkIdentifier>$(TargetFrameworkIdentifier)</TargetFrameworkIdentifier>
+				<TargetFrameworkVersion>$(TargetFrameworkVersion)</TargetFrameworkVersion>
+				<TargetFrameworkMoniker>$(TargetFrameworkMoniker)</TargetFrameworkMoniker>
+				<TargetFrameworkProfile>$(TargetFrameworkProfile)</TargetFrameworkProfile>
+				<TargetPlatformMoniker>$(TargetPlatformMoniker)</TargetPlatformMoniker>
+				<TargetPlatformIdentifier>$(TargetPlatformIdentifier)</TargetPlatformIdentifier>
+				<TargetPlatformVersion>$(TargetPlatformVersion)</TargetPlatformVersion>
+				<TargetPlatformMinVersion>$(TargetPlatformMinVersion)</TargetPlatformMinVersion>
+				<RuntimeIdentifierGraphPath>$(RuntimeIdentifierGraphPath)</RuntimeIdentifierGraphPath>
 			</_RestoreGraphEntry>
 		</ItemGroup>
 	</Target>
@@ -949,9 +945,9 @@
 			Returns="@(_RestoreProjectPathItems)">
 
 		<!-- Get all project references for the current project  -->
-		<!-- With SkipNonexistentTargets support -->
+		<!-- With SkipNonExistentTargets support -->
 		<MSBuild
-			Condition="'$(RestoreUseSkipNonexistentTargets)' == 'true'"
+			Condition="'$(RestoreUseSkipNonExistentTargets)' == 'true'"
 			BuildInParallel="$(RestoreBuildInParallel)"
 			Projects="$(MSBuildProjectFullPath)"
 			Targets="_GenerateRestoreProjectPathItemsPerFramework"
@@ -965,9 +961,9 @@
 				ItemName="_RestoreProjectPathItems"/>
 		</MSBuild>
 
-		<!-- Without SkipNonexistentTargets support -->
+		<!-- Without SkipNonExistentTargets support -->
 		<MSBuild
-			Condition="'$(RestoreUseSkipNonexistentTargets)' != 'true'"
+			Condition="'$(RestoreUseSkipNonExistentTargets)' != 'true'"
 			Projects="$(MSBuildProjectFullPath)"
 			Targets="_GenerateRestoreProjectPathItemsPerFramework"
 			ContinueOnError="$(RestoreContinueOnError)"
@@ -991,9 +987,9 @@
 			Returns="@(_RestoreProjectPathItems)">
 
 		<!-- Walk project references  -->
-		<!-- With SkipNonexistentTargets -->
+		<!-- With SkipNonExistentTargets -->
 		<MSBuild
-			Condition="'$(RestoreUseSkipNonexistentTargets)' == 'true'"
+			Condition="'$(RestoreUseSkipNonExistentTargets)' == 'true'"
 			BuildInParallel="$(RestoreBuildInParallel)"
 			Projects="@(_CurrentRestoreProjectPathItems)"
 			Targets="_GenerateRestoreProjectPathWalk"
@@ -1006,9 +1002,9 @@
 				ItemName="_GenerateRestoreProjectPathWalkOutputs"/>
 		</MSBuild>
 
-		<!-- Without SkipNonexistentTargets -->
+		<!-- Without SkipNonExistentTargets -->
 		<MSBuild
-			Condition="'$(RestoreUseSkipNonexistentTargets)' != 'true'"
+			Condition="'$(RestoreUseSkipNonExistentTargets)' != 'true'"
 			Projects="@(_CurrentRestoreProjectPathItems)"
 			Targets="_GenerateRestoreProjectPathWalk"
 			ContinueOnError="$(RestoreContinueOnError)"
@@ -1045,9 +1041,9 @@
 			Returns="@(_RestoreProjectPathItems)">
 
 		<!-- Walk projects -->
-		<!-- With SkipNonexistentTargets -->
+		<!-- With SkipNonExistentTargets -->
 		<MSBuild
-			Condition="'$(RestoreUseSkipNonexistentTargets)' == 'true'"
+			Condition="'$(RestoreUseSkipNonExistentTargets)' == 'true'"
 			BuildInParallel="$(RestoreBuildInParallel)"
 			Projects="@(FilteredRestoreGraphProjectInputItems)"
 			Targets="_GenerateRestoreProjectPathWalk"
@@ -1060,9 +1056,9 @@
 				ItemName="_RestoreProjectPathItemsOutputs"/>
 		</MSBuild>
 
-		<!-- Without SkipNonexistentTargets -->
+		<!-- Without SkipNonExistentTargets -->
 		<MSBuild
-			Condition="'$(RestoreUseSkipNonexistentTargets)' != 'true'"
+			Condition="'$(RestoreUseSkipNonExistentTargets)' != 'true'"
 			Projects="@(FilteredRestoreGraphProjectInputItems)"
 			Targets="_GenerateRestoreProjectPathWalk"
 			ContinueOnError="$(RestoreContinueOnError)"
@@ -1082,9 +1078,9 @@
 		</RemoveDuplicates>
 
 		<!-- Remove projects that do not support restore. -->
-		<!-- With SkipNonexistentTargets -->
+		<!-- With SkipNonExistentTargets -->
 		<MSBuild
-			Condition="'$(RestoreUseSkipNonexistentTargets)' == 'true'"
+			Condition="'$(RestoreUseSkipNonExistentTargets)' == 'true'"
 			BuildInParallel="$(RestoreBuildInParallel)"
 			Projects="@(_RestoreProjectPathItemsWithoutDupes)"
 			Targets="_IsProjectRestoreSupported"
@@ -1097,9 +1093,9 @@
 				ItemName="_RestoreProjectPathItems"/>
 		</MSBuild>
 
-		<!-- Without SkipNonexistentTargets -->
+		<!-- Without SkipNonExistentTargets -->
 		<MSBuild
-			Condition="'$(RestoreUseSkipNonexistentTargets)' != 'true'"
+			Condition="'$(RestoreUseSkipNonExistentTargets)' != 'true'"
 			Projects="@(_RestoreProjectPathItemsWithoutDupes)"
 			Targets="_IsProjectRestoreSupported"
 			ContinueOnError="$(RestoreContinueOnError)"
@@ -1121,7 +1117,7 @@
 		============================================================
 	-->
 	<Target Name="_GetRestoreSettingsOverrides"
-			Returns="$(_RestorePackagesPathOverride);$(_RestoreSourcesOverride);$(_RestoreFallbackFoldersOverride)">
+			Returns="$(_RestorePackagesPathOverride);$(_RestoreRepositoryPathOverride);$(_RestoreSourcesOverride);$(_RestoreFallbackFoldersOverride)">
 
 		<!-- RestorePackagesPathOverride -->
 		<MSBuild
@@ -1236,14 +1232,14 @@
 
 	<!--
 		============================================================
-		Import NuGet.RestoreEx.targets if the MSBuild property 'RestoreEnableStaticGraph'
+		Import 'NuGet.RestoreEx.targets' if the MSBuild property 'RestoreUseStaticGraphEvaluation'
 		is 'true'.  This file overrides the Restore target to use MSBuild Static Graph
 		to load and evaluate projects which is much faster.
 
-		This feature is not supported for NuGet.exe scenarios and NuGet.RestoreEx.targets
+		This feature is not supported for NuGet.exe scenarios and 'NuGet.RestoreEx.targets'
 		won't exist in that case.
 		============================================================
 	-->
-	<Import Project="NuGet.RestoreEx.targets" Condition="'$(RestoreUsingStaticGraphEvaluation)' == 'true'"/>
+	<Import Project="NuGet.RestoreEx.targets" Condition="'$(RestoreUseStaticGraphEvaluation)' == 'true'"/>
 
 </Project>

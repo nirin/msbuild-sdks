@@ -3,7 +3,7 @@
 	<UsingTask TaskName="NuGet.Build.Tasks.RestoreTaskEx" AssemblyFile="$(NuGetRestoreTaskAssembly)"/>
 
 	<Target Name="Restore">
-		<!-- Call Restore -->
+		<!-- Restore using MSBuild's Static Graph Evaluation -->
 		<RestoreTaskEx
 			DisableParallel="$(RestoreDisableParallel)"
 			Force="$(RestoreForce)"
