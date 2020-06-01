@@ -7,7 +7,7 @@
 
 	<!--
 		Import design time targets for Roslyn Project System. These are only available if Visual Studio is installed.
-		Import design time targets before 'Microsoft.Common.MultiTargeting.targets', which import targets from NuGet packages
+		Import design time targets before 'Microsoft.Common.CrossTargeting.targets', which import targets from NuGet packages
 	-->
 	<PropertyGroup Condition="'$(DesignTimeLanguageTargets)' == ''">
 		<DesignTimeLanguageTargets>$(MSBuildExtensionsPath)\Microsoft\VisualStudio\Managed\Microsoft.CSharp.DesignTime.targets</DesignTimeLanguageTargets>
@@ -15,6 +15,6 @@
 
 	<Import Project="$(DesignTimeLanguageTargets)" Condition="Exists('$(DesignTimeLanguageTargets)')"/>
 
-	<Import Project="Microsoft.Common.MultiTargeting.targets"/>
+	<Import Project="Microsoft.Common.CrossTargeting.targets"/>
 
 </Project>

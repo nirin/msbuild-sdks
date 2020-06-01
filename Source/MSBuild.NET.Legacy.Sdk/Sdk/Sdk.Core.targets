@@ -9,4 +9,6 @@
 
 	<Import Project="$(MicrosoftLegacyTargets)"/>
 
+	<Import Project="NuGet.Restore.targets" Condition="'$(IsRestoreTargetsFileLoaded)' != 'true'"/>
+
 </Project>

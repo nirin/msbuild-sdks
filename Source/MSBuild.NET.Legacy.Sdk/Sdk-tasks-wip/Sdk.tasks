@@ -2,9 +2,9 @@
 
 	<PropertyGroup>
 		<MicrosoftLegacyTasks>Microsoft.Common.tasks</MicrosoftLegacyTasks>
-		<!--<MicrosoftLegacyTasks Condition="'$(MSBuildProjectExtension)' == '.csproj'">Microsoft.CSharp.tasks</MicrosoftLegacyTasks>
+		<MicrosoftLegacyTasks Condition="'$(MSBuildProjectExtension)' == '.csproj'">Microsoft.CSharp.tasks</MicrosoftLegacyTasks>
 		<MicrosoftLegacyTasks Condition="'$(MSBuildProjectExtension)' == '.fsproj'">Microsoft.FSharp.tasks</MicrosoftLegacyTasks>
-		<MicrosoftLegacyTasks Condition="'$(MSBuildProjectExtension)' == '.vbproj'">Microsoft.VisualBasic.tasks</MicrosoftLegacyTasks>-->
+		<MicrosoftLegacyTasks Condition="'$(MSBuildProjectExtension)' == '.vbproj'">Microsoft.VisualBasic.tasks</MicrosoftLegacyTasks>
 	</PropertyGroup>
 
 	<Import Project="$(MicrosoftLegacyTasks)"/>

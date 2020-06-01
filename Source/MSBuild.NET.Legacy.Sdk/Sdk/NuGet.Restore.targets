@@ -13,7 +13,7 @@
 	</PropertyGroup>
 
 	<!-- This will import NuGet restore targets. We need restore to work before any package assets are available. -->
-	<Import Project="$(NuGetRestoreTargets)" Condition="Exists('$(NuGetRestoreTargets)') AND '$(ImportNuGetRestoreTargetsFromSdk)' == 'false'"/>
+	<Import Project="$(NuGetRestoreTargets)" Condition="'$(ImportNuGetRestoreTargetsFromSdk)' == 'false' AND Exists('$(NuGetRestoreTargets)')"/>
 
 	<Import Project="Sdk.Restore.targets" Sdk="NuGet.Packaging.Sdk" Condition="'$(ImportNuGetRestoreTargetsFromSdk)' == 'true'"/>
 

@@ -2,9 +2,11 @@
 
 	<!-- This file lists all the tasks that ship by default with MSBuild -->
 
-	<!-- NOTE: Listing a <UsingTask> tag in a *.tasks file like this one rather than in a project or targets file
-		 can give a significant performance advantage in a large build, because every time a <UsingTask> tag
-		 is encountered, it will cause the task to be rediscovered next time the task is used. -->
+	<!--
+		NOTE: Listing a <UsingTask> tag in a *.tasks file like this one rather than in a project or targets file
+		can give a significant performance advantage in a large build, because every time a <UsingTask> tag
+		is encountered, it will cause the task to be rediscovered next time the task is used.
+	-->
 
 	<!-- NOTE: Using the fully qualified class name in a <UsingTask> tag is faster than using a partially qualified name. -->
 
@@ -13,90 +15,90 @@
 		<MSBuildLegacyTasksAssembly>$(MSBuildLegacyTasksPath)Microsoft.Build.Tasks.Core.dll</MSBuildLegacyTasksAssembly>
 	</PropertyGroup>
 
-	<UsingTask TaskName="Microsoft.Build.Tasks.AL"                                    AssemblyFile="$(MSBuildLegacyTasksAssembly)"/>
-	<UsingTask TaskName="Microsoft.Build.Tasks.AspNetCompiler"                        AssemblyFile="$(MSBuildLegacyTasksAssembly)"/>
-	<UsingTask TaskName="Microsoft.Build.Tasks.AssignCulture"                         AssemblyFile="$(MSBuildLegacyTasksAssembly)"/>
-	<UsingTask TaskName="Microsoft.Build.Tasks.AssignLinkMetadata"                    AssemblyFile="$(MSBuildLegacyTasksAssembly)"/>
-	<UsingTask TaskName="Microsoft.Build.Tasks.AssignProjectConfiguration"            AssemblyFile="$(MSBuildLegacyTasksAssembly)"/>
-	<UsingTask TaskName="Microsoft.Build.Tasks.AssignTargetPath"                      AssemblyFile="$(MSBuildLegacyTasksAssembly)"/>
-	<UsingTask TaskName="Microsoft.Build.Tasks.CallTarget"                            AssemblyFile="$(MSBuildLegacyTasksAssembly)"/>
-	<UsingTask TaskName="Microsoft.Build.Tasks.CombinePath"                           AssemblyFile="$(MSBuildLegacyTasksAssembly)"/>
-	<UsingTask TaskName="Microsoft.Build.Tasks.ConvertToAbsolutePath"                 AssemblyFile="$(MSBuildLegacyTasksAssembly)"/>
-	<UsingTask TaskName="Microsoft.Build.Tasks.Copy"                                  AssemblyFile="$(MSBuildLegacyTasksAssembly)"/>
-	<UsingTask TaskName="Microsoft.Build.Tasks.CreateCSharpManifestResourceName"      AssemblyFile="$(MSBuildLegacyTasksAssembly)"/>
-	<UsingTask TaskName="Microsoft.Build.Tasks.CreateItem"                            AssemblyFile="$(MSBuildLegacyTasksAssembly)"/>
-	<UsingTask TaskName="Microsoft.Build.Tasks.CreateProperty"                        AssemblyFile="$(MSBuildLegacyTasksAssembly)"/>
-	<UsingTask TaskName="Microsoft.Build.Tasks.CreateVisualBasicManifestResourceName" AssemblyFile="$(MSBuildLegacyTasksAssembly)"/>
-	<UsingTask TaskName="Microsoft.Build.Tasks.Delete"                                AssemblyFile="$(MSBuildLegacyTasksAssembly)"/>
-	<UsingTask TaskName="Microsoft.Build.Tasks.DownloadFile"                          AssemblyFile="$(MSBuildLegacyTasksAssembly)"/>
-	<UsingTask TaskName="Microsoft.Build.Tasks.Error"                                 AssemblyFile="$(MSBuildLegacyTasksAssembly)"/>
-	<UsingTask TaskName="Microsoft.Build.Tasks.ErrorFromResources"                    AssemblyFile="$(MSBuildLegacyTasksAssembly)"/>
-	<UsingTask TaskName="Microsoft.Build.Tasks.Exec"                                  AssemblyFile="$(MSBuildLegacyTasksAssembly)"/>
-	<UsingTask TaskName="Microsoft.Build.Tasks.FindAppConfigFile"                     AssemblyFile="$(MSBuildLegacyTasksAssembly)"/>
-	<UsingTask TaskName="Microsoft.Build.Tasks.FindInList"                            AssemblyFile="$(MSBuildLegacyTasksAssembly)"/>
-	<UsingTask TaskName="Microsoft.Build.Tasks.FindInvalidProjectReferences"          AssemblyFile="$(MSBuildLegacyTasksAssembly)"/>
+	<UsingTask AssemblyFile="$(MSBuildLegacyTasksAssembly)" TaskName="Microsoft.Build.Tasks.AL"/>
+	<UsingTask AssemblyFile="$(MSBuildLegacyTasksAssembly)" TaskName="Microsoft.Build.Tasks.AspNetCompiler"/>
+	<UsingTask AssemblyFile="$(MSBuildLegacyTasksAssembly)" TaskName="Microsoft.Build.Tasks.AssignCulture"/>
+	<UsingTask AssemblyFile="$(MSBuildLegacyTasksAssembly)" TaskName="Microsoft.Build.Tasks.AssignLinkMetadata"/>
+	<UsingTask AssemblyFile="$(MSBuildLegacyTasksAssembly)" TaskName="Microsoft.Build.Tasks.AssignProjectConfiguration"/>
+	<UsingTask AssemblyFile="$(MSBuildLegacyTasksAssembly)" TaskName="Microsoft.Build.Tasks.AssignTargetPath"/>
+	<UsingTask AssemblyFile="$(MSBuildLegacyTasksAssembly)" TaskName="Microsoft.Build.Tasks.CallTarget"/>
+	<UsingTask AssemblyFile="$(MSBuildLegacyTasksAssembly)" TaskName="Microsoft.Build.Tasks.CombinePath"/>
+	<UsingTask AssemblyFile="$(MSBuildLegacyTasksAssembly)" TaskName="Microsoft.Build.Tasks.ConvertToAbsolutePath"/>
+	<UsingTask AssemblyFile="$(MSBuildLegacyTasksAssembly)" TaskName="Microsoft.Build.Tasks.Copy"/>
+	<UsingTask AssemblyFile="$(MSBuildLegacyTasksAssembly)" TaskName="Microsoft.Build.Tasks.CreateCSharpManifestResourceName"/>
+	<UsingTask AssemblyFile="$(MSBuildLegacyTasksAssembly)" TaskName="Microsoft.Build.Tasks.CreateItem"/>
+	<UsingTask AssemblyFile="$(MSBuildLegacyTasksAssembly)" TaskName="Microsoft.Build.Tasks.CreateProperty"/>
+	<UsingTask AssemblyFile="$(MSBuildLegacyTasksAssembly)" TaskName="Microsoft.Build.Tasks.CreateVisualBasicManifestResourceName"/>
+	<UsingTask AssemblyFile="$(MSBuildLegacyTasksAssembly)" TaskName="Microsoft.Build.Tasks.Delete"/>
+	<UsingTask AssemblyFile="$(MSBuildLegacyTasksAssembly)" TaskName="Microsoft.Build.Tasks.DownloadFile"/>
+	<UsingTask AssemblyFile="$(MSBuildLegacyTasksAssembly)" TaskName="Microsoft.Build.Tasks.Error"/>
+	<UsingTask AssemblyFile="$(MSBuildLegacyTasksAssembly)" TaskName="Microsoft.Build.Tasks.ErrorFromResources"/>
+	<UsingTask AssemblyFile="$(MSBuildLegacyTasksAssembly)" TaskName="Microsoft.Build.Tasks.Exec"/>
+	<UsingTask AssemblyFile="$(MSBuildLegacyTasksAssembly)" TaskName="Microsoft.Build.Tasks.FindAppConfigFile"/>
+	<UsingTask AssemblyFile="$(MSBuildLegacyTasksAssembly)" TaskName="Microsoft.Build.Tasks.FindInList"/>
+	<UsingTask AssemblyFile="$(MSBuildLegacyTasksAssembly)" TaskName="Microsoft.Build.Tasks.FindInvalidProjectReferences"/>
 
-	<UsingTask TaskName="Microsoft.Build.Tasks.FindUnderPath"                         AssemblyFile="$(MSBuildLegacyTasksAssembly)"/>
-	<UsingTask TaskName="Microsoft.Build.Tasks.FormatUrl"                             AssemblyFile="$(MSBuildLegacyTasksAssembly)"/>
-	<UsingTask TaskName="Microsoft.Build.Tasks.FormatVersion"                         AssemblyFile="$(MSBuildLegacyTasksAssembly)"/>
-	<UsingTask TaskName="Microsoft.Build.Tasks.GenerateApplicationManifest"           AssemblyFile="$(MSBuildLegacyTasksAssembly)"/>
-	<UsingTask TaskName="Microsoft.Build.Tasks.GenerateBindingRedirects"              AssemblyFile="$(MSBuildLegacyTasksAssembly)"/>
-	<UsingTask TaskName="Microsoft.Build.Tasks.GenerateBootstrapper"                  AssemblyFile="$(MSBuildLegacyTasksAssembly)"/>
-	<UsingTask TaskName="Microsoft.Build.Tasks.GenerateDeploymentManifest"            AssemblyFile="$(MSBuildLegacyTasksAssembly)"/>
+	<UsingTask AssemblyFile="$(MSBuildLegacyTasksAssembly)" TaskName="Microsoft.Build.Tasks.FindUnderPath"/>
+	<UsingTask AssemblyFile="$(MSBuildLegacyTasksAssembly)" TaskName="Microsoft.Build.Tasks.FormatUrl"/>
+	<UsingTask AssemblyFile="$(MSBuildLegacyTasksAssembly)" TaskName="Microsoft.Build.Tasks.FormatVersion"/>
+	<UsingTask AssemblyFile="$(MSBuildLegacyTasksAssembly)" TaskName="Microsoft.Build.Tasks.GenerateApplicationManifest"/>
+	<UsingTask AssemblyFile="$(MSBuildLegacyTasksAssembly)" TaskName="Microsoft.Build.Tasks.GenerateBindingRedirects"/>
+	<UsingTask AssemblyFile="$(MSBuildLegacyTasksAssembly)" TaskName="Microsoft.Build.Tasks.GenerateBootstrapper"/>
+	<UsingTask AssemblyFile="$(MSBuildLegacyTasksAssembly)" TaskName="Microsoft.Build.Tasks.GenerateDeploymentManifest"/>
 
-	<UsingTask TaskName="Microsoft.Build.Tasks.GenerateResource"                      AssemblyFile="$(MSBuildLegacyTasksAssembly)"/>
+	<UsingTask AssemblyFile="$(MSBuildLegacyTasksAssembly)" TaskName="Microsoft.Build.Tasks.GenerateResource"/>
 
-	<UsingTask TaskName="Microsoft.Build.Tasks.GenerateTrustInfo"                     AssemblyFile="$(MSBuildLegacyTasksAssembly)"/>
-	<UsingTask TaskName="Microsoft.Build.Tasks.GetFileHash"                           AssemblyFile="$(MSBuildLegacyTasksAssembly)"/>
-	<UsingTask TaskName="Microsoft.Build.Tasks.GetAssemblyIdentity"                   AssemblyFile="$(MSBuildLegacyTasksAssembly)"/>
-	<UsingTask TaskName="Microsoft.Build.Tasks.GetFrameworkPath"                      AssemblyFile="$(MSBuildLegacyTasksAssembly)"/>
-	<UsingTask TaskName="Microsoft.Build.Tasks.GetFrameworkSdkPath"                   AssemblyFile="$(MSBuildLegacyTasksAssembly)"/>
-	<UsingTask TaskName="Microsoft.Build.Tasks.GetReferenceAssemblyPaths"             AssemblyFile="$(MSBuildLegacyTasksAssembly)"/>
-	<UsingTask TaskName="Microsoft.Build.Tasks.Hash"                                  AssemblyFile="$(MSBuildLegacyTasksAssembly)"/>
-	<UsingTask TaskName="Microsoft.Build.Tasks.LC"                                    AssemblyFile="$(MSBuildLegacyTasksAssembly)"/>
-	<UsingTask TaskName="Microsoft.Build.Tasks.MakeDir"                               AssemblyFile="$(MSBuildLegacyTasksAssembly)"/>
-	<UsingTask TaskName="Microsoft.Build.Tasks.Message"                               AssemblyFile="$(MSBuildLegacyTasksAssembly)"/>
-	<UsingTask TaskName="Microsoft.Build.Tasks.Move"                                  AssemblyFile="$(MSBuildLegacyTasksAssembly)"/>
-	<UsingTask TaskName="Microsoft.Build.Tasks.MSBuild"                               AssemblyFile="$(MSBuildLegacyTasksAssembly)"/>
-	<UsingTask TaskName="Microsoft.Build.Tasks.ReadLinesFromFile"                     AssemblyFile="$(MSBuildLegacyTasksAssembly)"/>
+	<UsingTask AssemblyFile="$(MSBuildLegacyTasksAssembly)" TaskName="Microsoft.Build.Tasks.GenerateTrustInfo"/>
+	<UsingTask AssemblyFile="$(MSBuildLegacyTasksAssembly)" TaskName="Microsoft.Build.Tasks.GetFileHash"/>
+	<UsingTask AssemblyFile="$(MSBuildLegacyTasksAssembly)" TaskName="Microsoft.Build.Tasks.GetAssemblyIdentity"/>
+	<UsingTask AssemblyFile="$(MSBuildLegacyTasksAssembly)" TaskName="Microsoft.Build.Tasks.GetFrameworkPath"/>
+	<UsingTask AssemblyFile="$(MSBuildLegacyTasksAssembly)" TaskName="Microsoft.Build.Tasks.GetFrameworkSdkPath"/>
+	<UsingTask AssemblyFile="$(MSBuildLegacyTasksAssembly)" TaskName="Microsoft.Build.Tasks.GetReferenceAssemblyPaths"/>
+	<UsingTask AssemblyFile="$(MSBuildLegacyTasksAssembly)" TaskName="Microsoft.Build.Tasks.Hash"/>
+	<UsingTask AssemblyFile="$(MSBuildLegacyTasksAssembly)" TaskName="Microsoft.Build.Tasks.LC"/>
+	<UsingTask AssemblyFile="$(MSBuildLegacyTasksAssembly)" TaskName="Microsoft.Build.Tasks.MakeDir"/>
+	<UsingTask AssemblyFile="$(MSBuildLegacyTasksAssembly)" TaskName="Microsoft.Build.Tasks.Message"/>
+	<UsingTask AssemblyFile="$(MSBuildLegacyTasksAssembly)" TaskName="Microsoft.Build.Tasks.Move"/>
+	<UsingTask AssemblyFile="$(MSBuildLegacyTasksAssembly)" TaskName="Microsoft.Build.Tasks.MSBuild"/>
+	<UsingTask AssemblyFile="$(MSBuildLegacyTasksAssembly)" TaskName="Microsoft.Build.Tasks.ReadLinesFromFile"/>
 
-	<UsingTask TaskName="Microsoft.Build.Tasks.RegisterAssembly"                      AssemblyFile="$(MSBuildLegacyTasksAssembly)"/>
+	<UsingTask AssemblyFile="$(MSBuildLegacyTasksAssembly)" TaskName="Microsoft.Build.Tasks.RegisterAssembly"/>
 
-	<UsingTask TaskName="Microsoft.Build.Tasks.RemoveDir"                             AssemblyFile="$(MSBuildLegacyTasksAssembly)"/>
-	<UsingTask TaskName="Microsoft.Build.Tasks.RemoveDuplicates"                      AssemblyFile="$(MSBuildLegacyTasksAssembly)"/>
-	<UsingTask TaskName="Microsoft.Build.Tasks.RequiresFramework35SP1Assembly"        AssemblyFile="$(MSBuildLegacyTasksAssembly)"/>
-	<UsingTask TaskName="Microsoft.Build.Tasks.ResolveAssemblyReference"              AssemblyFile="$(MSBuildLegacyTasksAssembly)"/>
-	<UsingTask TaskName="Microsoft.Build.Tasks.ResolveCodeAnalysisRuleSet"            AssemblyFile="$(MSBuildLegacyTasksAssembly)"/>
-	<UsingTask TaskName="Microsoft.Build.Tasks.ResolveSDKReference"                   AssemblyFile="$(MSBuildLegacyTasksAssembly)"/>
-	<UsingTask TaskName="Microsoft.Build.Tasks.GetInstalledSDKLocations"              AssemblyFile="$(MSBuildLegacyTasksAssembly)"/>
-	<UsingTask TaskName="Microsoft.Build.Tasks.GetSDKReferenceFiles"                  AssemblyFile="$(MSBuildLegacyTasksAssembly)"/>
-	<UsingTask TaskName="Microsoft.Build.Tasks.ResolveComReference"                   AssemblyFile="$(MSBuildLegacyTasksAssembly)"/>
-	<UsingTask TaskName="Microsoft.Build.Tasks.ResolveKeySource"                      AssemblyFile="$(MSBuildLegacyTasksAssembly)"/>
-	<UsingTask TaskName="Microsoft.Build.Tasks.ResolveManifestFiles"                  AssemblyFile="$(MSBuildLegacyTasksAssembly)"/>
-	<UsingTask TaskName="Microsoft.Build.Tasks.ResolveNativeReference"                AssemblyFile="$(MSBuildLegacyTasksAssembly)"/>
-	<UsingTask TaskName="Microsoft.Build.Tasks.ResolveNonMSBuildProjectOutput"        AssemblyFile="$(MSBuildLegacyTasksAssembly)"/>
-	<UsingTask TaskName="Microsoft.Build.Tasks.SGen"                                  AssemblyFile="$(MSBuildLegacyTasksAssembly)"/>
-	<UsingTask TaskName="Microsoft.Build.Tasks.SignFile"                              AssemblyFile="$(MSBuildLegacyTasksAssembly)"/>
-	<UsingTask TaskName="Microsoft.Build.Tasks.Telemetry"                             AssemblyFile="$(MSBuildLegacyTasksAssembly)"/>
-	<UsingTask TaskName="Microsoft.Build.Tasks.Touch"                                 AssemblyFile="$(MSBuildLegacyTasksAssembly)"/>
+	<UsingTask AssemblyFile="$(MSBuildLegacyTasksAssembly)" TaskName="Microsoft.Build.Tasks.RemoveDir"/>
+	<UsingTask AssemblyFile="$(MSBuildLegacyTasksAssembly)" TaskName="Microsoft.Build.Tasks.RemoveDuplicates"/>
+	<UsingTask AssemblyFile="$(MSBuildLegacyTasksAssembly)" TaskName="Microsoft.Build.Tasks.RequiresFramework35SP1Assembly"/>
+	<UsingTask AssemblyFile="$(MSBuildLegacyTasksAssembly)" TaskName="Microsoft.Build.Tasks.ResolveAssemblyReference"/>
+	<UsingTask AssemblyFile="$(MSBuildLegacyTasksAssembly)" TaskName="Microsoft.Build.Tasks.ResolveCodeAnalysisRuleSet"/>
+	<UsingTask AssemblyFile="$(MSBuildLegacyTasksAssembly)" TaskName="Microsoft.Build.Tasks.ResolveSDKReference"/>
+	<UsingTask AssemblyFile="$(MSBuildLegacyTasksAssembly)" TaskName="Microsoft.Build.Tasks.GetInstalledSDKLocations"/>
+	<UsingTask AssemblyFile="$(MSBuildLegacyTasksAssembly)" TaskName="Microsoft.Build.Tasks.GetSDKReferenceFiles"/>
+	<UsingTask AssemblyFile="$(MSBuildLegacyTasksAssembly)" TaskName="Microsoft.Build.Tasks.ResolveComReference"/>
+	<UsingTask AssemblyFile="$(MSBuildLegacyTasksAssembly)" TaskName="Microsoft.Build.Tasks.ResolveKeySource"/>
+	<UsingTask AssemblyFile="$(MSBuildLegacyTasksAssembly)" TaskName="Microsoft.Build.Tasks.ResolveManifestFiles"/>
+	<UsingTask AssemblyFile="$(MSBuildLegacyTasksAssembly)" TaskName="Microsoft.Build.Tasks.ResolveNativeReference"/>
+	<UsingTask AssemblyFile="$(MSBuildLegacyTasksAssembly)" TaskName="Microsoft.Build.Tasks.ResolveNonMSBuildProjectOutput"/>
+	<UsingTask AssemblyFile="$(MSBuildLegacyTasksAssembly)" TaskName="Microsoft.Build.Tasks.SGen"/>
+	<UsingTask AssemblyFile="$(MSBuildLegacyTasksAssembly)" TaskName="Microsoft.Build.Tasks.SignFile"/>
+	<UsingTask AssemblyFile="$(MSBuildLegacyTasksAssembly)" TaskName="Microsoft.Build.Tasks.Telemetry"/>
+	<UsingTask AssemblyFile="$(MSBuildLegacyTasksAssembly)" TaskName="Microsoft.Build.Tasks.Touch"/>
 
-	<UsingTask TaskName="Microsoft.Build.Tasks.UnregisterAssembly"                    AssemblyFile="$(MSBuildLegacyTasksAssembly)"/>
+	<UsingTask AssemblyFile="$(MSBuildLegacyTasksAssembly)" TaskName="Microsoft.Build.Tasks.UnregisterAssembly"/>
 
-	<UsingTask TaskName="Microsoft.Build.Tasks.UpdateManifest"                        AssemblyFile="$(MSBuildLegacyTasksAssembly)"/>
-	<UsingTask TaskName="Microsoft.Build.Tasks.Unzip"                                 AssemblyFile="$(MSBuildLegacyTasksAssembly)"/>
-	<UsingTask TaskName="Microsoft.Build.Tasks.VerifyFileHash"                        AssemblyFile="$(MSBuildLegacyTasksAssembly)"/>
-	<UsingTask TaskName="Microsoft.Build.Tasks.Warning"                               AssemblyFile="$(MSBuildLegacyTasksAssembly)"/>
-	<UsingTask TaskName="Microsoft.Build.Tasks.WriteCodeFragment"                     AssemblyFile="$(MSBuildLegacyTasksAssembly)"/>
-	<UsingTask TaskName="Microsoft.Build.Tasks.WriteLinesToFile"                      AssemblyFile="$(MSBuildLegacyTasksAssembly)"/>
-	<UsingTask TaskName="Microsoft.Build.Tasks.XmlPeek"                               AssemblyFile="$(MSBuildLegacyTasksAssembly)"/>
-	<UsingTask TaskName="Microsoft.Build.Tasks.XmlPoke"                               AssemblyFile="$(MSBuildLegacyTasksAssembly)"/>
-	<UsingTask TaskName="Microsoft.Build.Tasks.XslTransformation"                     AssemblyFile="$(MSBuildLegacyTasksAssembly)"/>
-	<UsingTask TaskName="Microsoft.Build.Tasks.WinMDExp"                              AssemblyFile="$(MSBuildLegacyTasksAssembly)"/>
-	<UsingTask TaskName="Microsoft.Build.Tasks.ZipDirectory"                          AssemblyFile="$(MSBuildLegacyTasksAssembly)"/>
+	<UsingTask AssemblyFile="$(MSBuildLegacyTasksAssembly)" TaskName="Microsoft.Build.Tasks.UpdateManifest"/>
+	<UsingTask AssemblyFile="$(MSBuildLegacyTasksAssembly)" TaskName="Microsoft.Build.Tasks.Unzip"/>
+	<UsingTask AssemblyFile="$(MSBuildLegacyTasksAssembly)" TaskName="Microsoft.Build.Tasks.VerifyFileHash"/>
+	<UsingTask AssemblyFile="$(MSBuildLegacyTasksAssembly)" TaskName="Microsoft.Build.Tasks.Warning"/>
+	<UsingTask AssemblyFile="$(MSBuildLegacyTasksAssembly)" TaskName="Microsoft.Build.Tasks.WriteCodeFragment"/>
+	<UsingTask AssemblyFile="$(MSBuildLegacyTasksAssembly)" TaskName="Microsoft.Build.Tasks.WriteLinesToFile"/>
+	<UsingTask AssemblyFile="$(MSBuildLegacyTasksAssembly)" TaskName="Microsoft.Build.Tasks.XmlPeek"/>
+	<UsingTask AssemblyFile="$(MSBuildLegacyTasksAssembly)" TaskName="Microsoft.Build.Tasks.XmlPoke"/>
+	<UsingTask AssemblyFile="$(MSBuildLegacyTasksAssembly)" TaskName="Microsoft.Build.Tasks.XslTransformation"/>
+	<UsingTask AssemblyFile="$(MSBuildLegacyTasksAssembly)" TaskName="Microsoft.Build.Tasks.WinMDExp"/>
+	<UsingTask AssemblyFile="$(MSBuildLegacyTasksAssembly)" TaskName="Microsoft.Build.Tasks.ZipDirectory"/>
 
 	<!-- Managed Compiler tasks -->
-	<UsingTask TaskName="Microsoft.Build.Tasks.Csc"                                   AssemblyFile="$(MSBuildLegacyTasksAssembly)"/>
-	<UsingTask TaskName="Microsoft.Build.Tasks.Vbc"                                   AssemblyFile="$(MSBuildLegacyTasksAssembly)"/>
+	<UsingTask AssemblyFile="$(MSBuildLegacyTasksAssembly)" TaskName="Microsoft.Build.Tasks.Csc"/>
+	<UsingTask AssemblyFile="$(MSBuildLegacyTasksAssembly)" TaskName="Microsoft.Build.Tasks.Vbc"/>
 
 	<!-- TODO: Remove when no longet needed! -->
 	<PropertyGroup>
@@ -109,8 +111,8 @@
 	</PropertyGroup>
 
 	<!-- Roslyn tasks are now in an assembly owned and shipped by Roslyn -->
-	<UsingTask TaskName="Microsoft.CodeAnalysis.BuildTasks.Csc"                       AssemblyFile="$(RoslynBuildTasksAssembly)"/>
-	<UsingTask TaskName="Microsoft.CodeAnalysis.BuildTasks.Vbc"                       AssemblyFile="$(RoslynBuildTasksAssembly)"/>
-	<UsingTask TaskName="Microsoft.CodeAnalysis.BuildTasks.CopyRefAssembly"           AssemblyFile="$(RoslynBuildTasksAssembly)"/>
+	<UsingTask AssemblyFile="$(RoslynBuildTasksAssembly)" TaskName="Microsoft.CodeAnalysis.BuildTasks.Csc"/>
+	<UsingTask AssemblyFile="$(RoslynBuildTasksAssembly)" TaskName="Microsoft.CodeAnalysis.BuildTasks.Vbc"/>
+	<UsingTask AssemblyFile="$(RoslynBuildTasksAssembly)" TaskName="Microsoft.CodeAnalysis.BuildTasks.CopyRefAssembly"/>
 
 </Project>
