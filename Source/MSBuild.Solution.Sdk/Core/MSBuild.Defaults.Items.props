@@ -1,12 +1,6 @@
 <Project>
 
-	<ItemDefinitionGroup>
-		<ProjectItem>
-			<AdditionalProperties>$(AdditionalProperties)</AdditionalProperties>
-			<Configuration>$(Configuration)</Configuration>
-			<Platform>$(Platform)</Platform>
-		</ProjectItem>
-	</ItemDefinitionGroup>
+	<Import Project="..\ProjectSystem\MSBuild.ItemDefinitions.props"/>
 
 	<ItemGroup Condition="'$(EnableDefaultItems)' == 'true' AND '$(EnableDefaultProjectItems)' == 'true'">
 		<ProjectItem Include="**\*.*proj" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInSolutionFolder)"/>

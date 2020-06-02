@@ -1,0 +1,18 @@
+<Project>
+
+	<!-- Generic Item types -->
+	<ItemDefinitionGroup>
+		<ProjectItem>
+			<ItemType>File</ItemType>
+			<FileType>Project</FileType>
+			<Platform>$(Platform)</Platform>
+			<Configuration>$(Configuration)</Configuration>
+			<AdditionalProperties>$(AdditionalProperties)</AdditionalProperties>
+		</ProjectItem>
+		<SolutionItem>
+			<ItemType>File</ItemType>
+			<FileType>Text</FileType>
+		</SolutionItem>
+	</ItemDefinitionGroup>
+
+</Project>
