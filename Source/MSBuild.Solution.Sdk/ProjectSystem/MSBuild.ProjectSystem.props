@@ -1,7 +1,11 @@
 <Project>
 
+	<!-- Default IDE project system properties -->
 	<PropertyGroup>
-
+		<ReadOnlySolution Condition="'$(ReadOnlySolution)' == ''">false</ReadOnlySolution>
+		<HideSolutionNode Condition="'$(HideSolutionNode)' == ''">false</HideSolutionNode>
+		<EnableSolutionExtensibility Condition="'$(EnableSolutionExtensibility)' == ''">true</EnableSolutionExtensibility>
+		<ReplaceWildcardsInSolutionItems Condition="'$(ReplaceWildcardsInSolutionItems)' == ''">true</ReplaceWildcardsInSolutionItems>
 	</PropertyGroup>
 
 </Project>
