@@ -1,8 +1,8 @@
 <Project DefaultTargets="Restore;Build">
 
 	<PropertyGroup>
-		<SolutionName Condition="'$(SolutionName)' != ''">$(MSBuildSolutionName)</SolutionName>
-		<RootNamespace Condition="'$(RootNamespace)' != ''">$(SolutionName)</RootNamespace>
+		<SolutionName Condition="'$(SolutionName)' == ''">$(MSBuildSolutionName)</SolutionName>
+		<RootNamespace Condition="'$(RootNamespace)' == ''">$(SolutionName)</RootNamespace>
 	</PropertyGroup>
 
 	<PropertyGroup>
