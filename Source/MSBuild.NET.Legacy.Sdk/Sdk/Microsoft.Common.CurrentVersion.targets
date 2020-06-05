@@ -6089,7 +6089,7 @@
 	</PropertyGroup>
 
 	<PropertyGroup>
-		<CodeAnalysisTargets Condition="'$(CodeAnalysisTargets)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\CodeAnalysis\Microsoft.CodeAnalysis.targets</CodeAnalysisTargets>
+		<CodeAnalysisTargets Condition="'$(CodeAnalysisTargets)' == ''">$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\CodeAnalysis\Microsoft.CodeAnalysis.targets</CodeAnalysisTargets>
 	</PropertyGroup>
 
 	<Import Project="$(CodeAnalysisTargets)" Condition="Exists('$(CodeAnalysisTargets)')"/>
@@ -6119,7 +6119,7 @@
 	<Import Project="Microsoft.WorkflowBuildExtensions.targets" Condition="'$(TargetFrameworkVersion.TrimStart(vV))' >= '4.5' AND Exists('Microsoft.WorkflowBuildExtensions.targets')"/>
 
 	<PropertyGroup>
-		<MSTestToolsTargets Condition="'$(MSTestToolsTargets)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TeamTest\Microsoft.TeamTest.targets</MSTestToolsTargets>
+		<MSTestToolsTargets Condition="'$(MSTestToolsTargets)' == ''">$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TeamTest\Microsoft.TeamTest.targets</MSTestToolsTargets>
 	</PropertyGroup>
 
 	<Import Project="$(MSTestToolsTargets)" Condition="Exists('$(MSTestToolsTargets)')"/>
@@ -6135,7 +6135,7 @@
 	<Target Name="GetPackagingOutputs"/>
 
 	<PropertyGroup>
-		<MSAppxPackageTargets Condition="'$(MSAppxPackageTargets)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\AppxPackage\Microsoft.AppXPackage.Targets</MSAppxPackageTargets>
+		<MSAppxPackageTargets Condition="'$(MSAppxPackageTargets)' == ''">$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\AppxPackage\Microsoft.AppXPackage.Targets</MSAppxPackageTargets>
 	</PropertyGroup>
 
 	<Import Project="$(MSAppxPackageTargets)" Condition="'$(WindowsAppContainer)' == 'true' AND Exists('$(MSAppxPackageTargets)')"/>

@@ -11,7 +11,7 @@
 	-->
 	<PropertyGroup Condition="'$(FSharpToolsPath)' == ''">
 		<FSharpToolsPath Condition="'$(MSBuildRuntimeType)' == 'Core'">$(MSBuildToolsPath)\FSharp</FSharpToolsPath>
-		<FSharpToolsPath Condition="'$(MSBuildRuntimeType)' == 'Full'">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\FSharp</FSharpToolsPath>
+		<FSharpToolsPath Condition="'$(MSBuildRuntimeType)' == 'Full'">$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\FSharp</FSharpToolsPath>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(UseFSharpNETSdk)' == 'true'">
