@@ -7,8 +7,9 @@
 	<Import Project="..\$(MSBuildThisFile)"/>
 
 	<PropertyGroup Condition="'$(IsCloudBuild)' == ''">
+		<IsCloudBuild>$(TF_BUILD)</IsCloudBuild>
+		<IsCloudBuild Condition="'$(APPVEYOR)' != ''">true</IsCloudBuild>
 		<IsCloudBuild Condition="'$(BuildRunner)' == 'MyGet'">true</IsCloudBuild>
-		<IsCloudBuild Condition="'$(APPVEYOR)' != '' OR '$(TF_BUILD)' == 'true'">true</IsCloudBuild>
 		<IsCloudBuild Condition="'$(IsCloudBuild)' == ''">false</IsCloudBuild>
 	</PropertyGroup>
 
