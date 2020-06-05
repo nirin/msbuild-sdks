@@ -2,4 +2,8 @@
 
 	<Import Project="..\Packaging\NuGet.Build.Packaging.targets"/>
 
+	<Target Name="Restore">
+		<Message Importance="High" Text="Restore is not currently supported for NuGet packaging projects (i.e. MSBuild projects with file extension 'nuproj')."/>
+	</Target>
+
 </Project>
