@@ -10,7 +10,7 @@
 	</ItemGroup>
 
 	<PropertyGroup>
-		<CleanDependsOn>$(CleanDependsOn);_CleanReferenceAssemblyIntermediateOutputs</CleanDependsOn>
+		<CleanDependsOn>$(CleanDependsOn);_CleanReferenceAssemblyInterimOutputs</CleanDependsOn>
 	</PropertyGroup>
 
 	<Target Name="_GetReferenceAssemblyTargetPaths"
@@ -29,7 +29,7 @@
 
 		<GetApiIntersectTargetPaths
 			Frameworks="%(ReferenceAssemblyFramework.Identity)"
-			RootOutputDirectory="$(IntermediateOutputPath)"
+			RootOutputDirectory="$(InterimOutputPath)"
 			Assemblies="@(IntersectionAssembly)">
 			<Output TaskParameter="TargetPaths" ItemName="_ReferenceAssemblyTargetPath"/>
 		</GetApiIntersectTargetPaths>
@@ -62,7 +62,7 @@
 
 		<ApiIntersect
 			Framework="%(ReferenceAssemblyFramework.Identity)"
-			RootOutputDirectory="$(IntermediateOutputPath)"
+			RootOutputDirectory="$(InterimOutputPath)"
 			IntersectionAssembly="@(IntersectionAssembly)"
 			ReferencePath="@(_IntersectionReferencePath)"
 			ExcludeType="$(IntersectionExcludeType)"
@@ -88,20 +88,20 @@
 				TargetFrameworkVersion=%(_ReferenceAssemblyBuildInfo.TargetFrameworkVersion);
 				TargetFrameworkProfile=%(_ReferenceAssemblyBuildInfo.TargetFrameworkProfile);
 				SrcDir=%(_ReferenceAssemblyBuildInfo.FullPath);
-				OutputPath=%(_ReferenceAssemblyBuildInfo.FullPath)$(OutputFolder)\;
-				IntermediateOutputPath=%(_ReferenceAssemblyBuildInfo.FullPath)$(IntermediateOutputFolder)\"/>
+				FinalOutputPath=%(_ReferenceAssemblyBuildInfo.FullPath)$(FinalOutputFolder)\;
+				InterimOutputPath=%(_ReferenceAssemblyBuildInfo.FullPath)$(InterimOutputFolder)\"/>
 	</Target>
 
-	<Target Name="_CleanReferenceAssemblyIntermediateOutputs" Condition="'@(ReferenceAssemblyFramework)' != '' AND Exists('$(IntermediateOutputPath)')">
+	<Target Name="_CleanReferenceAssemblyInterimOutputs" Condition="'@(ReferenceAssemblyFramework)' != '' AND Exists('$(InterimOutputPath)')">
 		<PropertyGroup>
-			<_ReferenceAssemblyIntermediateOutputDirectories>$([System.IO.Directory]::GetDirectories('$(IntermediateOutputPath)'))</_ReferenceAssemblyIntermediateOutputDirectories>
+			<_ReferenceAssemblyInterimOutputDirectories>$([System.IO.Directory]::GetDirectories('$(InterimOutputPath)'))</_ReferenceAssemblyInterimOutputDirectories>
 		</PropertyGroup>
 
 		<ItemGroup>
-			<_ReferenceAssemblyIntermediateOutputDirectory Include="$(_ReferenceAssemblyIntermediateOutputDirectories)"/>
+			<_ReferenceAssemblyInterimOutputDirectory Include="$(_ReferenceAssemblyInterimOutputDirectories)"/>
 		</ItemGroup>
 
-		<RemoveDir Directories="@(_ReferenceAssemblyIntermediateOutputDirectory)"/>
+		<RemoveDir Directories="@(_ReferenceAssemblyInterimOutputDirectory)"/>
 	</Target>
 
 </Project>

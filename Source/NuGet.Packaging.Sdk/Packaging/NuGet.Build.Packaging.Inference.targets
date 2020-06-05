@@ -25,11 +25,6 @@
 	</PropertyGroup>
 
 	<PropertyGroup>
-		<_OutputFullPath Condition="$([System.IO.Path]::IsPathRooted('$(OutputPath)'))">$(OutputPath)</_OutputFullPath>
-		<_OutputFullPath Condition="'$(_OutputFullPath)' == ''">$(MSBuildProjectDirectory)\$(OutputPath)</_OutputFullPath>
-	</PropertyGroup>
-
-	<PropertyGroup>
 		<GetPackageContentsDependsOn>
 			$(GetPackageContentsDependsOn);
 			_PrimaryOutputFrameworkSpecific;
@@ -67,6 +62,11 @@
 	</Target>
 
 	<Target Name="InferPackageContents" DependsOnTargets="$(InferPackageContentsDependsOn)" Returns="@(PackageFile)">
+
+		<PropertyGroup>
+			<_FinalOutputPath Condition="!$([System.IO.Path]::IsPathRooted('$(FinalOutputPath)'))">$(MSBuildProjectDirectory)\$(FinalOutputPath)</_FinalOutputPath>
+		</PropertyGroup>
+
 		<!-- Ensure TargetPath -->
 		<AssignTargetPath Files="@(Content)" RootFolder="$(MSBuildProjectDirectory)"
 			Condition="'%(Content.Pack)' == 'true' OR '%(Content.Kind)' != '' OR ('$(IncludeContentInPackage)' == 'true' AND '%(Content.Pack)' != 'false')">
@@ -86,12 +86,6 @@
 				<FrameworkSpecific>$(PrimaryOutputFrameworkSpecific)</FrameworkSpecific>
 			</_InferredPackageFile>
 
-			<!-- Remove when https://github.com/Microsoft/msbuild/pull/1076 ships -->
-			<_DocumentationProjectOutputGroupOutput Include="@(DocumentationProjectOutputGroupOutput)"
-				Condition="'$(IncludeOutputsInPackage)' == 'true'">
-				<FinalOutputPath Condition="!$([System.IO.Path]::IsPathRooted('%(FinalOutputPath)'))">$(MSBuildProjectDirectory)\%(FinalOutputPath)</FinalOutputPath>
-			</_DocumentationProjectOutputGroupOutput>
-
 			<_InferredPackageFile Include="@(_DocumentationProjectOutputGroupOutput->'%(FinalOutputPath)')"
 				Condition="'$(IncludeOutputsInPackage)' == 'true' AND '$(IsPackagingProject)' != 'true'">
 				<!-- Packaging projects don't contribute primary docs -->
@@ -106,18 +100,16 @@
 				<FrameworkSpecific>$(PrimaryOutputFrameworkSpecific)</FrameworkSpecific>
 			</_InferredPackageFile>
 
-			<!-- Change to %(FinalOutputPath) when https://github.com/Microsoft/msbuild/pull/1115 ships -->
-			<_InferredPackageFile Include="@(SatelliteDllsProjectOutputGroupOutput->'%(FullPath)')"
+			<_InferredPackageFile Include="@(SatelliteDllsProjectOutputGroupOutput->'%(FinalOutputPath)')"
 				Condition="'$(IncludeOutputsInPackage)' == 'true' AND '$(IsPackagingProject)' != 'true'">
 				<!-- Packaging projects don't contribute satellite dlls -->
 				<Kind>$(PrimaryOutputKind)</Kind>
 				<FrameworkSpecific>$(PrimaryOutputFrameworkSpecific)</FrameworkSpecific>
 			</_InferredPackageFile>
 
-
 			<!-- NOTE: Content is opt-out (must have Pack=false to exclude if IncludeContentInPackage=true) -->
 			<!-- Stuff that is copied to output should be included from that output location -->
-			<_InferredPackageFile Include="@(_ContentToInfer->'$(_OutputFullPath)\%(TargetPath)')"
+			<_InferredPackageFile Include="@(_ContentToInfer->'$(_FinalOutputPath)\%(TargetPath)')"
 				Condition="'%(_ContentToInfer.CopyToOutputDirectory)' != '' AND '%(_ContentToInfer.CopyToOutputDirectory)' != 'Never'">
 				<Kind Condition="'%(_ContentToInfer.Kind)' == ''">$(PrimaryOutputKind)</Kind>
 			</_InferredPackageFile>
@@ -130,7 +122,7 @@
 
 			<!-- NOTE: None is also opt-out (must have Pack=false to exclude if IncludeNoneInPackage=true, but this property defaults to false) -->
 			<!-- Likewise, include from target path if it's copied, from source path otherwise -->
-			<_InferredPackageFile Include="@(_NoneToInfer->'$(_OutputFullPath)\%(TargetPath)')"
+			<_InferredPackageFile Include="@(_NoneToInfer->'$(_FinalOutputPath)\%(TargetPath)')"
 				Condition="'%(_NoneToInfer.CopyToOutputDirectory)' != '' AND '%(_NoneToInfer.CopyToOutputDirectory)' != 'Never'">
 				<Kind Condition="'%(_NoneToInfer.Kind)' == ''">$(PrimaryOutputKind)</Kind>
 			</_InferredPackageFile>

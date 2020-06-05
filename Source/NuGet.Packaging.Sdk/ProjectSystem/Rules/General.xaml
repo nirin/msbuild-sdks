@@ -207,8 +207,8 @@
 		</BoolProperty.DataSource>
 	</BoolProperty>
 
-	<StringProperty Name="OutputPath" DisplayName="Output path"
-					Description="The directory to write the NuPkg to."
+	<StringProperty Name="PublishPath" DisplayName="Publish path"
+					Description="The directory to write the NuGet Package."
 					Category="Build">
 		<StringProperty.DataSource>
 			<DataSource Persistence="ProjectFile" Label="Configuration" HasConfigurationCondition="false"/>
