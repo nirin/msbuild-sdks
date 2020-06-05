@@ -8,7 +8,7 @@
 		├───<Builds>
 		│	├───<Final>
 		│	│	├───Release
-		│	│	└───Debug-x64
+		│	│	└───Debug-Windows
 		│	└───<Interim>
 		|		|•••
 		└───<Publish>
@@ -19,7 +19,7 @@
 		│	├───Project.1
 		│	│	├───<Final>
 		│	│	│	├───Release
-		│	│	│	└───Debug-x64
+		│	│	│	└───Debug-Windows
 		│	│	└───<Interim>
 		|	|		|•••
 		│	├───Project.2

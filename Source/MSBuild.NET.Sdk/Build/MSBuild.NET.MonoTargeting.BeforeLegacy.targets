@@ -66,7 +66,7 @@
 	<PropertyGroup>
 		<!-- ensure the PublishDir is RID specific-->
 		<PublishDirName Condition="'$(IsRuntimeIdentifierAppendable)' == 'true'">$(PublishDirName)_$(RuntimeIdentifier)</PublishDirName>
-		<PublishDirName Condition="'$(IsRuntimeIdentifierAppendable)' != 'true' AND '$(Platform)' != 'AnyCPU'">$(PublishDirName)_$(Platform)</PublishDirName>
+		<PublishDirName Condition="'$(IsRuntimeIdentifierAppendable)' != 'true' AND '$(Platform)' != 'Any'">$(PublishDirName)_$(Platform)</PublishDirName>
 		<PublishDirName Condition="'$(Configuration)' != 'Release'">$(PublishDirName)_$(Configuration)</PublishDirName>
 	</PropertyGroup>
 

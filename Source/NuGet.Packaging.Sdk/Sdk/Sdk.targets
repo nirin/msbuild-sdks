@@ -2,6 +2,11 @@
 
 	<Import Sdk="MSBuild.Core.Sdk" Project="Sdk.Core.targets"/>
 
+	<PropertyGroup Label="Legacy">
+		<BaseIntermediateOutputPath>$(InterimOutputPath)</BaseIntermediateOutputPath>
+		<BaseOutputPath>$(FinalOutputPath)</BaseOutputPath>
+	</PropertyGroup>
+
 	<Import Sdk="MSBuild.NET.Legacy.Sdk" Project="Microsoft.Common.targets"/>
 
 	<Import Project="..\Build\NuGet.Packaging.Sdk.targets"/>
