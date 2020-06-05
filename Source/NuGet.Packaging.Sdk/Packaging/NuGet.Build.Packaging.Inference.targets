@@ -79,7 +79,7 @@
 		</AssignTargetPath>
 
 		<ItemGroup>
-			<_InferredPackageFile Include="@(BuiltProjectOutputGroupOutput -> '%(FinalOutputPath)');@(BuiltProjectOutputGroupKeyOutput -> '%(FinalOutputPath)')"
+			<_InferredPackageFile Include="@(BuiltProjectOutputGroupOutput->'%(FinalOutputPath)');@(BuiltProjectOutputGroupKeyOutput->'%(FinalOutputPath)')"
 				Condition="'$(IncludeOutputsInPackage)' == 'true' AND '$(IsPackagingProject)' != 'true'">
 				<!-- Packaging projects don't contribute primary output -->
 				<Kind>$(PrimaryOutputKind)</Kind>
@@ -92,14 +92,14 @@
 				<FinalOutputPath Condition="!$([System.IO.Path]::IsPathRooted('%(FinalOutputPath)'))">$(MSBuildProjectDirectory)\%(FinalOutputPath)</FinalOutputPath>
 			</_DocumentationProjectOutputGroupOutput>
 
-			<_InferredPackageFile Include="@(_DocumentationProjectOutputGroupOutput -> '%(FinalOutputPath)')"
+			<_InferredPackageFile Include="@(_DocumentationProjectOutputGroupOutput->'%(FinalOutputPath)')"
 				Condition="'$(IncludeOutputsInPackage)' == 'true' AND '$(IsPackagingProject)' != 'true'">
 				<!-- Packaging projects don't contribute primary docs -->
 				<Kind>$(PrimaryOutputKind)</Kind>
 				<FrameworkSpecific>$(PrimaryOutputFrameworkSpecific)</FrameworkSpecific>
 			</_InferredPackageFile>
 
-			<_InferredPackageFile Include="@(DebugSymbolsProjectOutputGroupOutput -> '%(FinalOutputPath)')"
+			<_InferredPackageFile Include="@(DebugSymbolsProjectOutputGroupOutput->'%(FinalOutputPath)')"
 				Condition="'$(IncludeOutputsInPackage)' == 'true' AND '$(IncludeSymbolsInPackage)' == 'true' AND '$(IsPackagingProject)' != 'true'">
 				<!-- Packaging projects don't contribute primary symbols -->
 				<Kind>$(PrimaryOutputKind)</Kind>
@@ -107,7 +107,7 @@
 			</_InferredPackageFile>
 
 			<!-- Change to %(FinalOutputPath) when https://github.com/Microsoft/msbuild/pull/1115 ships -->
-			<_InferredPackageFile Include="@(SatelliteDllsProjectOutputGroupOutput -> '%(FullPath)')"
+			<_InferredPackageFile Include="@(SatelliteDllsProjectOutputGroupOutput->'%(FullPath)')"
 				Condition="'$(IncludeOutputsInPackage)' == 'true' AND '$(IsPackagingProject)' != 'true'">
 				<!-- Packaging projects don't contribute satellite dlls -->
 				<Kind>$(PrimaryOutputKind)</Kind>
@@ -148,9 +148,11 @@
 				<Kind>Dependency</Kind>
 			</_InferredPackageFile>
 
-			<!-- We can't use %(FrameworkFile)==true because it's not defined for raw file references and
-			     it also includes mscorlib which we don't need
-			     TBD: maybe include ResolvedFrom=ImplicitlyExpandDesignTimeFacades too? -->
+			<!--
+				We can't use %(FrameworkFile)==true because it's not defined for raw file references.
+				It also includes mscorlib which we don't need
+				TBD: maybe include ResolvedFrom=ImplicitlyExpandDesignTimeFacades too?
+			-->
 			<_InferredPackageFile Include="@(ReferencePath->'%(OriginalItemSpec)')"
 				Condition="'$(IncludeFrameworkReferencesInPackage)' == 'true' AND '%(ReferencePath.ResolvedFrom)' == '{TargetFrameworkDirectory}'">
 				<Kind>FrameworkReference</Kind>
@@ -163,7 +165,7 @@
 				NOTE: if PackageId is empty, we won't generate a manifest and it means the files need to be packed with the
 				current project.
 			-->
-			<PackageFile Include="@(_InferredPackageFile -> Distinct())">
+			<PackageFile Include="@(_InferredPackageFile->Distinct())">
 				<Source>Implicit</Source>
 				<PackageId Condition="'$(IsPackable)' == 'true'">$(PackageId)</PackageId>
 				<Platform>$(Platform)</Platform>
@@ -185,11 +187,11 @@
 			Returns="@(_InferredPackageFile)"
 			DependsOnTargets="_CollectPrimaryOutputRelatedFiles">
 		<ItemGroup>
-			<_NuGetPackageId Include="@(_PrimaryOutputRelatedFile -> '%(NuGetPackageId)')" Condition="'%(NuGetPackageId)' != 'NETStandard.Library'"/>
+			<_NuGetPackageId Include="@(_PrimaryOutputRelatedFile->'%(NuGetPackageId)')" Condition="'%(NuGetPackageId)' != 'NETStandard.Library'"/>
 		</ItemGroup>
 
 		<PropertyGroup>
-			<_NuGetPackageId>@(_NuGetPackageId -> Distinct())</_NuGetPackageId>
+			<_NuGetPackageId>@(_NuGetPackageId->Distinct())</_NuGetPackageId>
 		</PropertyGroup>
 
 		<ItemGroup>
@@ -197,7 +199,7 @@
 		</ItemGroup>
 
 		<PropertyGroup>
-			<_PrivateAssets>@(_PrimaryPackageReference -> '%(PrivateAssets)')</_PrivateAssets>
+			<_PrivateAssets>@(_PrimaryPackageReference->'%(PrivateAssets)')</_PrivateAssets>
 			<_ShouldIncludeAssetsRegex>$(_NuGetPackageId)\\.+\\$(_PrivateAssets)\\.*</_ShouldIncludeAssetsRegex>
 		</PropertyGroup>
 
@@ -209,9 +211,11 @@
 		</ItemGroup>
 
 		<ItemGroup Condition="'$(_PrivateAssets)' != 'all' AND '$(_PrivateAssets)' != 'none' AND '$(_PrivateAssets)' != ''">
-			<!-- In this case, we only add files that have a matching path to the private assets value.
-				 i.e. for Mono.Options, PrivateAssets=lib, we'll include the file if its full path contains
-				 'Mono.Options\*\lib\*', meaning the file is a lib. -->
+			<!--
+				In this case, we only add files that have a matching path to the private assets value.
+				i.e. for Mono.Options, PrivateAssets=lib, we'll include the file if its full path contains
+				'Mono.Options\*\lib\*', meaning the file is a lib.
+			-->
 			<_InferredPackageFile Include="@(_PrimaryOutputRelatedFile)" Condition="$([System.Text.RegularExpressions.Regex]::IsMatch('%(_PrimaryOutputRelatedFile.FullPath)', '$(_ShouldIncludeAssetsRegex)', 'RegexOptions.IgnoreCase')) == 'true'">
 				<Kind>$(PrimaryOutputKind)</Kind>
 				<FrameworkSpecific>$(PrimaryOutputFrameworkSpecific)</FrameworkSpecific>
