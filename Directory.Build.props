@@ -5,6 +5,7 @@
 		<PublishFolder>~Publish</PublishFolder>
 		<FinalOutputFolder>Finals</FinalOutputFolder>
 		<InterimOutputFolder>Interims</InterimOutputFolder>
+		<ProjectExtensionsFolder>Extensions</ProjectExtensionsFolder>
 	</PropertyGroup>
 
 	<PropertyGroup Label="Output.Paths">
