@@ -1,6 +1,6 @@
-/MaxCPUCount
-/BinaryLogger
-/DetailedSummary
-/Verbosity:minimal
-/NodeReuse:false
-/Restore
+-NoLogo
+-Restore
+-MaxCPUCount
+-BinaryLogger
+-NodeReuse:False
+-Verbosity:Minimal
