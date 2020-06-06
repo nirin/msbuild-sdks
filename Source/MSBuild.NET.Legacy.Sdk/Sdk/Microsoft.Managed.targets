@@ -1,20 +1,5 @@
 <Project>
 
-	<!--
-		We are doing a multi-targeting build if there is no list of target frameworks specified
-		nor is there a current target framework being built individually.
-		This is used to import/use only tasks/targets that are relevant in the multi-targeting context.
-	-->
-	<PropertyGroup Condition="'$(TargetFrameworks)' != '' AND '$(TargetFramework)' == ''">
-		<IsOuterBuild>true</IsOuterBuild>
-	</PropertyGroup>
-
-	<!-- Define multi-targeting for static graph, so it can identify inner and outer build graph nodes -->
-	<PropertyGroup Condition="'$(IsGraphBuild)' == 'true'">
-		<InnerBuildProperty>TargetFramework</InnerBuildProperty>
-		<InnerBuildPropertyValues>TargetFrameworks</InnerBuildPropertyValues>
-	</PropertyGroup>
-
 	<PropertyGroup Condition="'$(UsingMicrosoftNETSdk)' == 'true' AND '$(IsGraphBuild)' == 'true'">
 		<!--
 			The .NET Sdk targets ('Microsoft.NET.Sdk') adds all transitive project references to 'ProjectReference'.

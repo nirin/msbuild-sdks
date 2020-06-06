@@ -2,7 +2,7 @@
 
 	<Import Project="Microsoft.Common.props"/>
 
-	<!--<Import Project="Microsoft.Managed.props"/>-->
+	<Import Project="Microsoft.Managed.props"/>
 
 	<!--
 		***************************************************************************************************************
