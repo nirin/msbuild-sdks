@@ -10,7 +10,7 @@
 	</PropertyGroup>
 
 	<!-- Define multi-targeting for static graph, so it can identify inner and outer build graph nodes -->
-	<PropertyGroup>
+	<PropertyGroup Condition="'$(IsGraphBuild)' == 'true'">
 		<InnerBuildProperty>TargetProfile</InnerBuildProperty>
 		<OuterBuildProperty>TargetProfiles</OuterBuildProperty>
 	</PropertyGroup>
