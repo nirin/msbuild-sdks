@@ -1,13 +1,24 @@
 <Project>
 
+	<!-- Basic Reference types -->
+	<ItemDefinitionGroup>
+		<ProjectReference>
+			<InSolution>true</InSolution>
+			<Platform>$(Platform)</Platform>
+			<Configuration>$(Configuration)</Configuration>
+			<AdditionalProperties>$(AdditionalProperties)</AdditionalProperties>
+		</ProjectReference>
+		<PackageReference>
+			<InSolution>true</InSolution>
+			<Platform>$(Platform)</Platform>
+		</PackageReference>
+	</ItemDefinitionGroup>
+
 	<!-- Generic Item types -->
 	<ItemDefinitionGroup>
 		<ProjectItem>
 			<ItemType>File</ItemType>
 			<FileType>Project</FileType>
-			<Platform>$(Platform)</Platform>
-			<Configuration>$(Configuration)</Configuration>
-			<AdditionalProperties>$(AdditionalProperties)</AdditionalProperties>
 		</ProjectItem>
 		<SolutionItem>
 			<ItemType>File</ItemType>
