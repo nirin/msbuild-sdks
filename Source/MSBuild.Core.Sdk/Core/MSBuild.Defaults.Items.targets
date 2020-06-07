@@ -3,6 +3,8 @@
 	<PropertyGroup>
 		<EnableDefaultItems Condition="'$(EnableDefaultItems)' == ''">true</EnableDefaultItems>
 		<EnableDefaultNoneItems Condition="'$(EnableDefaultNoneItems)' == ''">true</EnableDefaultNoneItems>
+		<EnableDefaultContentItems Condition="'$(EnableDefaultContentItems)' == ''">false</EnableDefaultContentItems>
+		<EnableDefaultResourceItems Condition="'$(EnableDefaultResourceItems)' == ''">false</EnableDefaultResourceItems>
 		<ExcludeDefaultBuildFiles Condition="'$(ExcludeDefaultBuildFiles)' == ''">true</ExcludeDefaultBuildFiles>
 	</PropertyGroup>
 
@@ -43,6 +45,8 @@
 	<ItemGroup Condition="'$(EnableDefaultItems)' == 'true' AND '$(EnableDefaultNoneItems)' == 'true'">
 		<None Remove="@(File)" Condition="'@(File)' != ''"/>
 		<None Remove="@(Folder)" Condition="'@(Folder)' != ''"/>
+		<None Remove="@(Content)" Condition="'@(Content)' != ''"/>
+		<None Remove="@(Resource)" Condition="'@(Resource)' != ''"/>
 	</ItemGroup>
 
 </Project>
