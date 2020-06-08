@@ -3,7 +3,7 @@
 	<!-- Import `NuGet.Restore.targets` (required for `GetReferenceNearestTargetFrameworkTask` and used for Restore functionality) -->
 	<PropertyGroup>
 		<ImportNuGetRestoreTargets Condition="'$(ImportNuGetRestoreTargets)' == ''">true</ImportNuGetRestoreTargets>
-		<NuGetRestoreTargets>$(MSBuildThisFileDirectory)..\Extensions\NuGet.Restore.targets</NuGetRestoreTargets>
+		<NuGetRestoreTargets Condition="'$(NuGetRestoreTargets)' == ''">..\Extensions\NuGet.Restore.targets</NuGetRestoreTargets>
 	</PropertyGroup>
 
 	<!-- This will import NuGet restore targets. We need restore to work before any package assets are available. -->
