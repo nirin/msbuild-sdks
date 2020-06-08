@@ -9,4 +9,6 @@
 
 	<Import Project="$(MicrosoftLegacyProps)"/>
 
+	<Import Project="NuGet.Common.props"/>
+
 </Project>

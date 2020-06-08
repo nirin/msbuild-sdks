@@ -3,10 +3,11 @@
 	<PropertyGroup>
 		<ImportSdkBundledTools Condition="'$(ImportSdkBundledTools)' == ''">true</ImportSdkBundledTools>
 		<ImportSdkBundledVersions Condition="'$(ImportSdkBundledVersions)' == ''">true</ImportSdkBundledVersions>
+		<ImportNuGetBuildProps Condition="'$(ImportNuGetBuildProps)' == ''">true</ImportNuGetBuildProps>
 	</PropertyGroup>
 
 	<Import Project="..\Extensions\MSBuild.BundledTools.props" Condition="'$(ImportSdkBundledTools)' == 'true'"/>
-
 	<Import Project="..\Extensions\MSBuild.BundledVersions.props" Condition="'$(ImportSdkBundledVersions)' == 'true'"/>
+	<Import Sdk="NuGet.Packaging.Sdk" Project="Sdk.Extensions.props" Condition="'$(ImportNuGetBuildProps)' == 'true'"/>
 
 </Project>
