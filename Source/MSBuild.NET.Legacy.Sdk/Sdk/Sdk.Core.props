@@ -9,6 +9,6 @@
 
 	<Import Project="$(MicrosoftLegacyProps)"/>
 
-	<Import Project="NuGet.Common.props"/>
+	<Import Project="NuGet.Common.props" Condition="'$(CentralPackageVersionsFileImported)' != 'true'"/>
 
 </Project>
