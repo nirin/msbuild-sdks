@@ -11,14 +11,14 @@
 	</PropertyGroup>
 
 	<!-- Append `BuildContext` with the properties that's used in multi-targeting to identify targeted builds -->
-	<PropertyGroup Condition="'$(Configuration)' != ''">
-		<BuildContext Condition="!$(BuildContext.EndsWith('-'))">$(BuildContext)-</BuildContext>
-		<BuildContext>$(BuildContext)$(Configuration)</BuildContext>
-	</PropertyGroup>
-
 	<PropertyGroup Condition="'$(Platform)' != '' AND '$(Platform)' != 'Any'">
 		<BuildContext Condition="!$(BuildContext.EndsWith('-'))">$(BuildContext)-</BuildContext>
 		<BuildContext>$(BuildContext)$(Platform)</BuildContext>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)' != ''">
+		<BuildContext Condition="!$(BuildContext.EndsWith('-'))">$(BuildContext)-</BuildContext>
+		<BuildContext>$(BuildContext)$(Configuration)</BuildContext>
 	</PropertyGroup>
 
 </Project>
