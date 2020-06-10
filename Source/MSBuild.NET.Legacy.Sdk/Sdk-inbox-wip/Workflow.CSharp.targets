@@ -1,8 +1,7 @@
 <Project>
 
 	<UsingTask TaskName="System.Workflow.ComponentModel.Compiler.CompileWorkflowTask" AssemblyName="System.Workflow.ComponentModel, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35"/>
-	<UsingTask TaskName="System.Workflow.ComponentModel.Compiler.CreateWorkflowManifestResourceNameForVB" AssemblyName="System.Workflow.ComponentModel, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35"/>
-	<UsingTask TaskName="System.Workflow.ComponentModel.Compiler.CompileWorkflowCleanupTask" AssemblyName="System.Workflow.ComponentModel, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35"/>
+	<UsingTask TaskName="System.Workflow.ComponentModel.Compiler.CreateWorkflowManifestResourceNameForCSharp" AssemblyName="System.Workflow.ComponentModel, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35"/>
 
 	<PropertyGroup>
 		<WinWFTempFiles/>
@@ -52,21 +51,21 @@
 
 		<!-- Create WF specific resource names for non-culture non-resx files. -->
 
-		<CreateWorkflowManifestResourceNameForVB
+		<CreateWorkflowManifestResourceNameForCSharp
 			Condition="'@(WFNonResxWithNoCulture)' != ''"
 			ResourceFiles="@(WFNonResxWithNoCulture)"
 			RootNamespace="$(RootNamespace)">
 
 			<Output TaskParameter="ResourceFilesWithManifestResourceNames" ItemName="EmbeddedResource"/>
-		</CreateWorkflowManifestResourceNameForVB>
+		</CreateWorkflowManifestResourceNameForCSharp>
 
-		<CreateWorkflowManifestResourceNameForVB
+		<CreateWorkflowManifestResourceNameForCSharp
 			Condition="'@(WFNonResxWithCulture)' != ''"
 			ResourceFiles="@(WFNonResxWithCulture)"
 			RootNamespace="$(RootNamespace)">
 
 			<Output TaskParameter="ResourceFilesWithManifestResourceNames" ItemName="EmbeddedResource"/>
-		</CreateWorkflowManifestResourceNameForVB>
+		</CreateWorkflowManifestResourceNameForCSharp>
 	</Target>
 
 	<!--
@@ -85,18 +84,18 @@
 	<Target Name="WorkflowCompilation"
 			DependsOnTargets="$(WorkflowCompilationDependsOn)"
 			Inputs="$(MSBuildAllProjects);
-			@(Compile);
-			@(Content);
-			@(EmbeddedResource);
-			$(ApplicationIcon);
-			$(AssemblyOriginatorKeyFile);
-			@(ManifestNonResxWithNoCultureOnDisk);
-			@(ReferencePath);
-			$(TargetFrameworkMoniker);
-			@(CompiledLicenseFile)"
-			Outputs="$(DocFile);
-			@(IntermediateAssembly);
-			$(NonExistentFile)">
+				@(Compile);
+				@(Content);
+				@(EmbeddedResource);
+				$(ApplicationIcon);
+				$(AssemblyOriginatorKeyFile);
+				@(ManifestNonResxWithNoCultureOnDisk);
+				@(ReferencePath);
+				$(TargetFrameworkMoniker);
+				@(CompiledLicenseFile)"
+				Outputs="$(DocFile);
+				@(IntermediateAssembly);
+				$(NonExistentFile)">
 
 		<ItemGroup>
 			<WFCompilationResourcesWithNoCulture Include="@(EmbeddedResource)"
@@ -118,32 +117,6 @@
 		<ItemGroup>
 			<WFCompilationOptions Include="define" Condition="'$(DefineConstants)' != ''">
 				<Value>$(DefineConstants)</Value>
-				<Delimiter>:</Delimiter>
-			</WFCompilationOptions>
-			<WFCompilationOptions Include="optioninfer" Condition="'$(OptionInfer)' == 'On'">
-				<Value>+</Value>
-			</WFCompilationOptions>
-			<WFCompilationOptions Include="optioninfer" Condition="'$(OptionInfer)' == 'Off'">
-				<Value>-</Value>
-			</WFCompilationOptions>
-			<WFCompilationOptions Include="optionexplicit" Condition="'$(OptionExplicit)' == 'On'">
-				<Value>+</Value>
-			</WFCompilationOptions>
-			<WFCompilationOptions Include="optionexplicit" Condition="'$(OptionExplicit)' == 'Off'">
-				<Value>-</Value>
-			</WFCompilationOptions>
-			<WFCompilationOptions Include="optionstrict" Condition="'$(OptionStrict)' == 'On'">
-				<Value>+</Value>
-			</WFCompilationOptions>
-			<WFCompilationOptions Include="optionstrict" Condition="'$(OptionStrict)' == 'Off'">
-				<Value>-</Value>
-			</WFCompilationOptions>
-			<WFCompilationOptions Include="optioncompare" Condition="'$(OptionStrict)' == 'Binary'">
-				<Value>binary</Value>
-				<Delimiter>:</Delimiter>
-			</WFCompilationOptions>
-			<WFCompilationOptions Include="optioncompare" Condition="'$(OptionStrict)' == 'Text'">
-				<Value>text</Value>
 				<Delimiter>:</Delimiter>
 			</WFCompilationOptions>
 			<WFCompilationOptions Include="nowarn" Condition="'$(NoWarn)' != ''">
@@ -176,7 +149,7 @@
 	</Target>
 
 	<Target Name="WorkflowCompilationCleanup" Condition="'@(KeepWinWFTempFiles)' == 'False'">
-		<CompileWorkflowCleanupTask TemporaryFiles="@(WinWFTempFiles)" Condition="'@(WinWFTempFiles)' != ''"/>
+		<Delete Files="@(WinWFTempFiles)" Condition="'@(WinWFTempFiles)' != ''"/>
 	</Target>
 
 </Project>

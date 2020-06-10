@@ -32,8 +32,7 @@
 	</ItemGroup>
 
 	<!--
-		The CreateManifestResourceNames target create the manifest resource names from the .RESX
-		files.
+		The CreateManifestResourceNames target create the manifest resource names from the .RESX files.
 
 			[IN]
 			@(EmbeddedResource) - The list of EmbeddedResource items that have been pre-processed to add metadata about resource type
@@ -51,9 +50,11 @@
 
 		For other project systems, this transformation may be different.
 	-->
+
 	<PropertyGroup>
 		<CreateManifestResourceNamesDependsOn/>
 	</PropertyGroup>
+
 	<Target
 		Name="CreateManifestResourceNames"
 		Condition="'@(EmbeddedResource)' != ''"
@@ -71,7 +72,6 @@
 			Condition="'%(EmbeddedResource.ManifestResourceName)' == '' AND ('%(EmbeddedResource.WithCulture)' == 'false' OR '%(EmbeddedResource.Type)' == 'Resx')">
 
 			<Output TaskParameter="ResourceFilesWithManifestResourceNames" ItemName="_Temporary"/>
-
 		</CreateVisualBasicManifestResourceName>
 
 		<!-- Create manifest names for all culture non-resx resources -->
@@ -83,7 +83,6 @@
 			Condition="'%(EmbeddedResource.ManifestResourceName)' == '' AND '%(EmbeddedResource.WithCulture)' == 'true' AND '%(EmbeddedResource.Type)' == 'Non-Resx'">
 
 			<Output TaskParameter="ResourceFilesWithManifestResourceNames" ItemName="_Temporary"/>
-
 		</CreateVisualBasicManifestResourceName>
 
 		<ItemGroup>
@@ -91,7 +90,6 @@
 			<EmbeddedResource Include="@(_Temporary)"/>
 			<_Temporary Remove="@(_Temporary)"/>
 		</ItemGroup>
-
 	</Target>
 
 	<Target
@@ -104,9 +102,7 @@
 			MSBuildProjectDirectory="$(MSBuildProjectDirectory)">
 
 			<Output TaskParameter="ResolvedCodeAnalysisRuleSet" PropertyName="ResolvedCodeAnalysisRuleSet"/>
-
 		</ResolveCodeAnalysisRuleSet>
-
 	</Target>
 
 	<PropertyGroup>
@@ -118,7 +114,7 @@
 		<FinalDefineConstants Condition="'$(Platform)' == ''">$(FinalDefineConstants),PLATFORM=&quot;AnyCPU&quot;</FinalDefineConstants>
 		<FinalDefineConstants Condition="'$(DefineConstants)' != ''">$(FinalDefineConstants),$(DefineConstants)</FinalDefineConstants>
 
-		<!-- Provide a facility to override UseHostCompilerIfAvailable-->
+		<!-- Provide a facility to override UseHostCompilerIfAvailable -->
 		<UseHostCompilerIfAvailable Condition="'$(UseHostCompilerIfAvailable)' == ''">true</UseHostCompilerIfAvailable>
 	</PropertyGroup>
 
@@ -167,6 +163,7 @@
 		Returns=""
 		DependsOnTargets="$(CoreCompileDependsOn)"
 		Condition="'@(Page)' != '' OR '@(ApplicationDefinition)' != ''">
+
 		<PropertyGroup>
 			<_NoWarnings Condition="'$(WarningLevel)' == '0'">true</_NoWarnings>
 			<_NoWarnings Condition="'$(WarningLevel)' == '1'">false</_NoWarnings>
@@ -194,8 +191,6 @@
 		</ItemGroup>
 
 		<!-- Don't run analyzers for Vbc task on XamlPrecompile pass, we only want to run them on core compile. -->
-		<!-- Analyzers="@(Analyzer)" -->
-
 		<PropertyGroup Condition="'$(UseSharedCompilation)' == ''">
 			<UseSharedCompilation>true</UseSharedCompilation>
 		</PropertyGroup>
@@ -292,9 +287,11 @@
 	<PropertyGroup>
 		<VisualBasicDesignTimeTargetsPath Condition="'$(VisualBasicDesignTimeTargetsPath)'==''">$(MSBuildExtensionsPath)\Microsoft\VisualStudio\Managed\Microsoft.VisualBasic.DesignTime.targets</VisualBasicDesignTimeTargetsPath>
 	</PropertyGroup>
+
 	<Import Project="$(VisualBasicDesignTimeTargetsPath)" Condition="'$(VisualBasicDesignTimeTargetsPath)' != '' AND Exists('$(VisualBasicDesignTimeTargetsPath)')"/>
 
 	<Import Project="Microsoft.Common.CurrentVersion.targets"/>
+
 	<Import Project="Microsoft.ServiceModel.targets" Condition="'$(TargetFrameworkVersion.TrimStart(vV))' >= '4.0' AND Exists('Microsoft.ServiceModel.targets')"/>
 
 	<Target Name="_SetTargetFrameworkMonikerAttribute" BeforeTargets="GenerateTargetFrameworkMonikerAttribute">
@@ -314,7 +311,6 @@
 
 	<PropertyGroup>
 		<Utf8Output Condition="'$(Utf8Output)' == ''">true</Utf8Output>
-
 		<!--
 			NoCompilerStandardLib maps to the compiler's /nostdlib option. By default we always
 			want that switch to be passed to the compiler so that either we or the user
@@ -323,13 +319,14 @@
 			so only if NoStdLib isn't set to true, will we provide the standard references
 		-->
 		<NoCompilerStandardLib Condition="'$(NoCompilerStandardLib)' == ''">true</NoCompilerStandardLib>
-
 		<!-- When building inside VS, by default use the same language for compiler messages as VS itself does. -->
 		<PreferredUILang Condition="'$(BuildingInsideVisualStudio)' == 'true' AND '$(PreferredUILang)' == ''">$([System.Globalization.CultureInfo]::CurrentUICulture.Name)</PreferredUILang>
 	</PropertyGroup>
 
-	<!-- Add any "automatic" compiler references that need to be resolved when NoCompilerStandardLib is set
-		 but the user hasn't told us to not include standard references -->
+	<!--
+		Add any "automatic" compiler references that need to be resolved when NoCompilerStandardLib is set
+		but the user hasn't told us to not include standard references
+	-->
 	<ItemGroup Condition="'$(NoCompilerStandardLib)' == 'true' AND '$(NoStdLib)' != 'true'">
 		<!--
 			Note that unlike C#, VB gets its mscorlib.dll path from the $(FrameworkPathOverride) property

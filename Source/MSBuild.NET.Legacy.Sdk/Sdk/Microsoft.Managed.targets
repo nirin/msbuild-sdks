@@ -1,20 +1,20 @@
 <Project>
 
+	<!--
+		The .NET Sdk targets ('Microsoft.NET.Sdk') adds all transitive project references to 'ProjectReference'.
+		It does this at build time via a target. If we are not building transitive project references,
+		then MSBuild will not add those in the static graph and subsequently will not build them.
+	-->
 	<PropertyGroup Condition="'$(UsingMicrosoftNETSdk)' == 'true' AND '$(IsGraphBuild)' == 'true'">
-		<!--
-			The .NET Sdk targets ('Microsoft.NET.Sdk') adds all transitive project references to 'ProjectReference'.
-			It does this at build time via a target. If we are not building transitive project references,
-			then MSBuild will not add those in the static graph and subsequently will not build them.
-		-->
 		<AddTransitiveProjectReferencesInStaticGraph Condition="'$(AddTransitiveProjectReferencesInStaticGraph)' == '' AND '$(DisableTransitiveProjectReferences)' != 'true'">true</AddTransitiveProjectReferencesInStaticGraph>
 	</PropertyGroup>
 
+	<!--
+		WPF projects generate a project with a random name at build time and then build the project via the 'IBuildEngine' callbacks.
+		Detect WPF, and exclude the generated project from static graph isolation constraint checking.
+		Escape the item to avoid eager evaluation of the wildcards.
+	-->
 	<ItemGroup Condition="'$(IsGraphBuild)' == 'true'">
-		<!--
-			WPF projects generate a project with a random name at build time and then build the project via the 'IBuildEngine' callbacks.
-			Detect WPF, and exclude the generated project from static graph isolation constraint checking.
-			Escape the item to avoid eager evaluation of the wildcards.
-		-->
 		<GraphIsolationExemptReference
 			Condition="'$(UseWPF)' == 'true' OR '@(Page)' != '' OR '@(ApplicationDefinition)' != '' OR '@(XamlPage)' != '' OR '@(XamlAppDef)' != ''"
 			Include="$([MSBuild]::Escape('$(MSBuildProjectDirectory)\$(MSBuildProjectName)*_wpftmp$(MSBuildProjectExtension)'))"/>

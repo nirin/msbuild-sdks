@@ -65,7 +65,6 @@
 		This does not need to be a target since all of the values are availiable at project evaluation time.
 		============================================================
 	-->
-
 	<PropertyGroup>
 		<TargetingClr2Framework Condition="'$(TargetFrameworkVersion)' == 'v2.0' OR '$(TargetFrameworkVersion)' == 'v3.0' OR '$(TargetFrameworkVersion)' == 'v3.5'">true</TargetingClr2Framework>
 

@@ -4,98 +4,90 @@
 		TaskName="Microsoft.Build.Tasks.Xsd.XsdTypeImporterTask"
 		AssemblyName="XsdBuildTask, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL"/>
 
-
 	<!-- sub build target, preceeding XsdCodeGen -->
 	<Target
 		Name="PreXsdCodeGen"
 		BeforeTargets="CoreCompile">
 
 		<ItemGroup>
-			<XsdCodeGenInputXsdFiles Include="@(None)" Condition=" '%(None.Extension)' == '.xsd' and '%(None.Generator)' == '' " />
+			<XsdCodeGenInputXsdFiles Include="@(None)" Condition="'%(None.Extension)' == '.xsd' AND '%(None.Generator)' == ''"/>
 		</ItemGroup>
 
 		<PropertyGroup>
 			<XsdCodeGenPreCondition>False</XsdCodeGenPreCondition>
-			<XsdCodeGenPreCondition Condition="'$(TargetFrameworkVersion)' != 'v2.0' and '$(TargetFrameworkVersion)' != 'v3.0' and '$(TargetFrameworkVersion)' != 'v3.5' and '$(TargetFrameworkVersion)' != 'v4.0' and ( '$(TargetFrameworkIdentifier)' == '.NETFramework' or '$(TargetFrameworkIdentifier)' == 'Silverlight' ) and '$(XsdCodeGenEnabled)' == 'True' and '@(XsdCodeGenInputXsdFiles)' != '' ">True</XsdCodeGenPreCondition>
+			<XsdCodeGenPreCondition Condition="'$(TargetFrameworkVersion)' != 'v2.0' AND '$(TargetFrameworkVersion)' != 'v3.0' AND '$(TargetFrameworkVersion)' != 'v3.5' AND '$(TargetFrameworkVersion)' != 'v4.0' AND ('$(TargetFrameworkIdentifier)' == '.NETFramework' OR '$(TargetFrameworkIdentifier)' == 'Silverlight') AND '$(XsdCodeGenEnabled)' == 'True' AND '@(XsdCodeGenInputXsdFiles)' != ''">True</XsdCodeGenPreCondition>
 		</PropertyGroup>
 
-		<CallTarget Targets="CleanXsdCodeGen" Condition=" '$(XsdCodeGenPreCondition)' != 'True' " >
-		</CallTarget>
+		<CallTarget Targets="CleanXsdCodeGen" Condition="'$(XsdCodeGenPreCondition)' != 'True'"/>
 	</Target>
-
 
 	<!-- main build target -->
 	<Target
 		Name="XsdCodeGen"
 		DependsOnTargets="ResolveReferences"
 		AfterTargets="PreXsdCodeGen"
-		Condition=" '$(XsdCodeGenPreCondition)' == 'True' ">
+		Condition="'$(XsdCodeGenPreCondition)' == 'True'">
 
 		<!-- will show in VS output window, for discoverability -->
-		<Message Importance="high" Text="Generating code from XSD: InputXsdFiles=@(XsdCodeGenInputXsdFiles)"/>
+		<Message Importance="High" Text="Generating code from XSD: InputXsdFiles=@(XsdCodeGenInputXsdFiles)"/>
 
 		<PropertyGroup>
 			<!-- assign default values -->
-
-			<XsdCodeGenSerializerMode Condition=" '$(XsdCodeGenSerializerMode)' == '' " >XmlSerializer</XsdCodeGenSerializerMode>
-			<XsdCodeGenReuseTypesFlag Condition=" '$(XsdCodeGenReuseTypesFlag)' == '' " >True</XsdCodeGenReuseTypesFlag>
-			<XsdCodeGenReuseTypesMode Condition=" '$(XsdCodeGenReuseTypesMode)' == '' " >All</XsdCodeGenReuseTypesMode>
-			<XsdCodeGenNamespaceMappings Condition=" '$(XsdCodeGenNamespaceMappings)' == '' and '$(Language)' == 'C#' and '$(RootNamespace)' != '' " >*, $(RootNamespace).ContractTypes</XsdCodeGenNamespaceMappings>
-			<XsdCodeGenNamespaceMappings Condition=" '$(XsdCodeGenNamespaceMappings)' == '' " >*, ContractTypes</XsdCodeGenNamespaceMappings>
-			<XsdCodeGenCollectionTypes Condition=" '$(XsdCodeGenCollectionTypes)' == '' " >System.Array;System.Collections.Generic.Dictionary`2</XsdCodeGenCollectionTypes>
-			<XsdCodeGenImportXmlTypes Condition=" '$(XsdCodeGenImportXmlTypes)' == '' " >True</XsdCodeGenImportXmlTypes>
-			<XsdCodeGenGenerateSerializableTypes Condition=" '$(XsdCodeGenGenerateSerializableTypes)' == '' " >True</XsdCodeGenGenerateSerializableTypes>
-			<XsdCodeGenGenerateDataTypesOnly Condition=" '$(XsdCodeGenGenerateDataTypesOnly)' == '' " >False</XsdCodeGenGenerateDataTypesOnly>
-			<XsdCodeGenGenerateInternalTypes Condition=" '$(XsdCodeGenGenerateInternalTypes)' == '' " >False</XsdCodeGenGenerateInternalTypes>
-			<XsdCodeGenEnableDataBinding Condition=" '$(XsdCodeGenEnableDataBinding)' == '' " >False</XsdCodeGenEnableDataBinding>
+			<XsdCodeGenSerializerMode Condition="'$(XsdCodeGenSerializerMode)' == ''">XmlSerializer</XsdCodeGenSerializerMode>
+			<XsdCodeGenReuseTypesFlag Condition="'$(XsdCodeGenReuseTypesFlag)' == ''">True</XsdCodeGenReuseTypesFlag>
+			<XsdCodeGenReuseTypesMode Condition="'$(XsdCodeGenReuseTypesMode)' == ''">All</XsdCodeGenReuseTypesMode>
+			<XsdCodeGenNamespaceMappings Condition="'$(XsdCodeGenNamespaceMappings)' == '' AND '$(Language)' == 'C#' AND '$(RootNamespace)' != ''">*, $(RootNamespace).ContractTypes</XsdCodeGenNamespaceMappings>
+			<XsdCodeGenNamespaceMappings Condition="'$(XsdCodeGenNamespaceMappings)' == ''">*, ContractTypes</XsdCodeGenNamespaceMappings>
+			<XsdCodeGenCollectionTypes Condition="'$(XsdCodeGenCollectionTypes)' == ''">System.Array;System.Collections.Generic.Dictionary`2</XsdCodeGenCollectionTypes>
+			<XsdCodeGenImportXmlTypes Condition="'$(XsdCodeGenImportXmlTypes)' == ''">True</XsdCodeGenImportXmlTypes>
+			<XsdCodeGenGenerateSerializableTypes Condition="'$(XsdCodeGenGenerateSerializableTypes)' == ''">True</XsdCodeGenGenerateSerializableTypes>
+			<XsdCodeGenGenerateDataTypesOnly Condition="'$(XsdCodeGenGenerateDataTypesOnly)' == ''">False</XsdCodeGenGenerateDataTypesOnly>
+			<XsdCodeGenGenerateInternalTypes Condition="'$(XsdCodeGenGenerateInternalTypes)' == ''">False</XsdCodeGenGenerateInternalTypes>
+			<XsdCodeGenEnableDataBinding Condition="'$(XsdCodeGenEnableDataBinding)' == ''">False</XsdCodeGenEnableDataBinding>
 
 			<!-- calc dynamic values -->
-
-			<XsdCodeGenSupportFx35DataTypes Condition="'$(XsdCodeGenSupportFx35DataTypes)' == '' and '$(TargetFrameworkVersion)' == 'v2.0'">False</XsdCodeGenSupportFx35DataTypes>
-			<XsdCodeGenSupportFx35DataTypes Condition="'$(XsdCodeGenSupportFx35DataTypes)' == '' and '$(TargetFrameworkVersion)' == 'v3.0'">False</XsdCodeGenSupportFx35DataTypes>
+			<XsdCodeGenSupportFx35DataTypes Condition="'$(XsdCodeGenSupportFx35DataTypes)' == '' AND '$(TargetFrameworkVersion)' == 'v2.0'">False</XsdCodeGenSupportFx35DataTypes>
+			<XsdCodeGenSupportFx35DataTypes Condition="'$(XsdCodeGenSupportFx35DataTypes)' == '' AND '$(TargetFrameworkVersion)' == 'v3.0'">False</XsdCodeGenSupportFx35DataTypes>
 			<XsdCodeGenSupportFx35DataTypes Condition="'$(XsdCodeGenSupportFx35DataTypes)' == ''">True</XsdCodeGenSupportFx35DataTypes>
-
 		</PropertyGroup>
 
 		<!-- calc references for type reusing, resolve their paths from @(ReferencePath) from 'ResolveReferences' build target -->
-
 		<ItemGroup>
-			<XsdCodeGenReferencesResolved Include="@(ReferencePath)" Condition=" '$(XsdCodeGenReuseTypesFlag)' == 'True' and '$(XsdCodeGenReuseTypesMode)' == 'All' " />
+			<XsdCodeGenReferencesResolved Include="@(ReferencePath)" Condition="'$(XsdCodeGenReuseTypesFlag)' == 'True' AND '$(XsdCodeGenReuseTypesMode)' == 'All'"/>
 		</ItemGroup>
 
-		<CallTarget Targets="XsdResolveReferencePath" Condition=" '$(XsdCodeGenReuseTypesFlag)' == 'True' and '$(XsdCodeGenReuseTypesMode)' != 'All' " >
-			<Output ItemName="XsdCodeGenReferencesResolved" TaskParameter="TargetOutputs" />
+		<CallTarget Targets="XsdResolveReferencePath" Condition="'$(XsdCodeGenReuseTypesFlag)' == 'True' AND '$(XsdCodeGenReuseTypesMode)' != 'All'">
+			<Output ItemName="XsdCodeGenReferencesResolved" TaskParameter="TargetOutputs"/>
 		</CallTarget>
 
 		<!-- will show in VS output window, for discoverability -->
-		<Message Importance="high" Text="Generating code from XSD: References=@(XsdCodeGenReferencesResolved)" />
+		<Message Importance="High" Text="Generating code from XSD: References=@(XsdCodeGenReferencesResolved)"/>
 
 		<!-- set property <MSBuildTargetsVerbose>True</MSBuildTargetsVerbose> to see following messages -->
+		<Message Text="Generating code from XSD: OutputDirectory=$(IntermediateOutputPath)\XsdGeneratedCode"/>
+		<Message Text="Generating code from XSD: Language=$(Language)"/>
+		<Message Text="Generating code from XSD: NamespaceMappings=$(XsdCodeGenNamespaceMappings)"/>
+		<Message Text="Generating code from XSD: SerializerMode=$(XsdCodeGenSerializerMode)"/>
+		<Message Text="Generating code from XSD: CollectionTypes=$(XsdCodeGenCollectionTypes)"/>
+		<Message Text="Generating code from XSD: ExcludedTypes=$(XsdCodeGenExcludedTypes)"/>
+		<Message Text="Generating code from XSD: ImportXmlTypes=$(XsdCodeGenImportXmlTypes)"/>
+		<Message Text="Generating code from XSD: GenerateSerializableTypes=$(XsdCodeGenGenerateSerializableTypes)"/>
+		<Message Text="Generating code from XSD: GenerateInternalTypes=$(XsdCodeGenGenerateInternalTypes)"/>
+		<Message Text="Generating code from XSD: EnableDataBinding=$(XsdCodeGenEnableDataBinding)"/>
+		<Message Text="Generating code from XSD: SupportFx35DataTypes=$(XsdCodeGenSupportFx35DataTypes)"/>
 
-		<Message Text="Generating code from XSD: OutputDirectory=$(IntermediateOutputPath)\XsdGeneratedCode" />
-		<Message Text="Generating code from XSD: Language=$(Language)" />
-		<Message Text="Generating code from XSD: NamespaceMappings=$(XsdCodeGenNamespaceMappings)" />
-		<Message Text="Generating code from XSD: SerializerMode=$(XsdCodeGenSerializerMode)" />
-		<Message Text="Generating code from XSD: CollectionTypes=$(XsdCodeGenCollectionTypes)" />
-		<Message Text="Generating code from XSD: ExcludedTypes=$(XsdCodeGenExcludedTypes)" />
-		<Message Text="Generating code from XSD: ImportXmlTypes=$(XsdCodeGenImportXmlTypes)" />
-		<Message Text="Generating code from XSD: GenerateSerializableTypes=$(XsdCodeGenGenerateSerializableTypes)" />
-		<Message Text="Generating code from XSD: GenerateInternalTypes=$(XsdCodeGenGenerateInternalTypes)" />
-		<Message Text="Generating code from XSD: EnableDataBinding=$(XsdCodeGenEnableDataBinding)" />
-		<Message Text="Generating code from XSD: SupportFx35DataTypes=$(XsdCodeGenSupportFx35DataTypes)" />
-
-		<MakeDir Directories="$(IntermediateOutputPath)\XsdGeneratedCode" />
+		<MakeDir Directories="$(IntermediateOutputPath)\XsdGeneratedCode"/>
 
 		<ItemGroup>
-			<XsdCodeGenGeneratedFile Condition=" '@(XsdCodeGenGeneratedFile)' == '' And '$(Language)' == 'C#' " Include="$(IntermediateOutputPath)\XsdGeneratedCode\GeneratedXsdTypes.cs" />
-			<XsdCodeGenGeneratedFile Condition=" '@(XsdCodeGenGeneratedFile)' == '' And '$(Language)' == 'VB' " Include="$(IntermediateOutputPath)\XsdGeneratedCode\GeneratedXsdTypes.vb" />
+			<XsdCodeGenGeneratedFile Condition="'@(XsdCodeGenGeneratedFile)' == '' AND '$(Language)' == 'C#'" Include="$(IntermediateOutputPath)\XsdGeneratedCode\GeneratedXsdTypes.cs"/>
+			<XsdCodeGenGeneratedFile Condition="'@(XsdCodeGenGeneratedFile)' == '' AND '$(Language)' == 'VB'" Include="$(IntermediateOutputPath)\XsdGeneratedCode\GeneratedXsdTypes.vb"/>
 		</ItemGroup>
 
-		<Touch Files="@(XsdCodeGenGeneratedFile)" AlwaysCreate="true" />
+		<Touch Files="@(XsdCodeGenGeneratedFile)" AlwaysCreate="true"/>
 
 		<ItemGroup>
-			<Compile Include="@(XsdCodeGenGeneratedFile)" />
-			<FileWrites Include="@(XsdCodeGenGeneratedFile)" />
+			<Compile Include="@(XsdCodeGenGeneratedFile)"/>
+			<FileWrites Include="@(XsdCodeGenGeneratedFile)"/>
 		</ItemGroup>
 
 		<XsdTypeImporterTask
@@ -115,36 +107,35 @@
 		</XsdTypeImporterTask>
 
 		<!-- will show in VS output window, for discoverability -->
-		<Message Importance="high" Text="Generated code from XSD: GeneratedFile=@(XsdCodeGenGeneratedFile)"/>
-
+		<Message Importance="High" Text="Generated code from XSD: GeneratedFile=@(XsdCodeGenGeneratedFile)"/>
 	</Target>
-
 
 	<!-- sub build target, called by XsdCodeGen -->
 	<Target Name="XsdResolveReferencePath" Outputs="@(XsdCodeGenReferencesResolved)">
 
 		<!-- filter @(ReferencePath) (full file path) by $(XsdCodeGenReferences) (file name without extension) -->
+		<WriteLinesToFile File="$(IntermediateOutputPath)\XsdCodeGenTempA.txt" Lines="@(ReferencePath)" Overwrite="True"/>
+		<WriteLinesToFile File="$(IntermediateOutputPath)\XsdCodeGenTempB.txt" Lines="$(XsdCodeGenReferences.Split(';'))" Overwrite="True"/>
 
-		<WriteLinesToFile File="$(IntermediateOutputPath)\XsdCodeGenTempA.txt" Lines="@(ReferencePath)" Overwrite="True" />
-		<WriteLinesToFile File="$(IntermediateOutputPath)\XsdCodeGenTempB.txt" Lines="$(XsdCodeGenReferences.Split(';'))" Overwrite="True" />
-		<Delete Files="$(IntermediateOutputPath)\XsdCodeGenTempC.txt" />
-		<!-- for /f "tokens=*" %%a in ($(IntermediateOutputPath)\XsdCodeGenTempA.txt) do ( for /f "tokens=*" %%b in ($(IntermediateOutputPath)\XsdCodeGenTempB.txt) do ( if /i "%%~na" EQU "%%~b" ( echo %%a>>"$(IntermediateOutputPath)\XsdCodeGenTempC.txt" ) ) ) -->
-		<Exec Command="for /f %22tokens=*%22 %%a in ($(IntermediateOutputPath)\XsdCodeGenTempA.txt) do ( for /f %22tokens=*%22 %%b in ($(IntermediateOutputPath)\XsdCodeGenTempB.txt) do ( if /i %22%%~na%22 EQU %22%%~b%22 ( echo %%a>>%22$(IntermediateOutputPath)\XsdCodeGenTempC.txt%22 ) ) )" />
-		<ReadLinesFromFile File="$(IntermediateOutputPath)\XsdCodeGenTempC.txt" >
-			<Output ItemName="XsdCodeGenReferencesResolved" TaskParameter="Lines" />
+		<Delete Files="$(IntermediateOutputPath)\XsdCodeGenTempC.txt"/>
+
+		<!-- for /f "tokens=*" %%a in ('$(IntermediateOutputPath)\XsdCodeGenTempA.txt') do ( for /f "tokens=*" %%b in ('$(IntermediateOutputPath)\XsdCodeGenTempB.txt') do ( if /i "%%~na" EQU "%%~b" ( echo %%a>>"$(IntermediateOutputPath)\XsdCodeGenTempC.txt" ) ) ) -->
+		<Exec Command="for /f %22tokens=*%22 %%a in ('$(IntermediateOutputPath)\XsdCodeGenTempA.txt') do ( for /f %22tokens=*%22 %%b in ('$(IntermediateOutputPath)\XsdCodeGenTempB.txt') do ( if /i %22%%~na%22 EQU %22%%~b%22 ( echo %%a>>%22$(IntermediateOutputPath)\XsdCodeGenTempC.txt%22 ) ) )"/>
+
+		<ReadLinesFromFile File="$(IntermediateOutputPath)\XsdCodeGenTempC.txt">
+			<Output ItemName="XsdCodeGenReferencesResolved" TaskParameter="Lines"/>
 		</ReadLinesFromFile>
-		<Delete Files="$(IntermediateOutputPath)\XsdCodeGenTempA.txt;$(IntermediateOutputPath)\XsdCodeGenTempB.txt;$(IntermediateOutputPath)\XsdCodeGenTempC.txt" />
 
+		<Delete Files="$(IntermediateOutputPath)\XsdCodeGenTempA.txt;$(IntermediateOutputPath)\XsdCodeGenTempB.txt;$(IntermediateOutputPath)\XsdCodeGenTempC.txt"/>
 	</Target>
-
 
 	<!-- clean build target for XsdCodeGen -->
 	<Target Name="CleanXsdCodeGen" AfterTargets="Clean">
 		<ItemGroup>
-			<CleanXsdCodeGenFiles Include="$(IntermediateOutputPath)\XsdGeneratedCode\*" />
+			<CleanXsdCodeGenFiles Include="$(IntermediateOutputPath)\XsdGeneratedCode\*"/>
 		</ItemGroup>
 
-		<Delete Files="@(CleanXsdCodeGenFiles)" />
+		<Delete Files="@(CleanXsdCodeGenFiles)"/>
 	</Target>
 
 </Project>

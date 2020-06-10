@@ -226,7 +226,7 @@
 			If Processor architecture is not set and PlatformTarget is a known target translate the
 			PlatformTarget into something ResolveAssemblyReference knows about
 		-->
-		<ProcessorArchitecture Condition="'$(PlatformTarget)' == 'AnyCpu'">msil</ProcessorArchitecture>
+		<ProcessorArchitecture Condition="'$(PlatformTarget)' == 'AnyCPU'">msil</ProcessorArchitecture>
 		<ProcessorArchitecture Condition="'$(PlatformTarget)' == 'x64'">amd64</ProcessorArchitecture>
 		<ProcessorArchitecture Condition="'$(PlatformTarget)' == 'Itanium'">ia64</ProcessorArchitecture>
 		<ProcessorArchitecture Condition="'$(PlatformTarget)' == 'x86'">x86</ProcessorArchitecture>
@@ -240,7 +240,7 @@
 	<PropertyGroup Condition="'$(ProcessorArchitecture)' == '' AND '$(ConsiderPlatformAsProcessorArchitecture)' == 'true'">
 		<!-- We need to do this here because if we were to just compare against platform visual would parse them out as available platforms which may not be the case -->
 		<ProcessorArchitectureAsPlatform>$(Platform)</ProcessorArchitectureAsPlatform>
-		<ProcessorArchitecture Condition="'$(ProcessorArchitectureAsPlatform)' == 'AnyCpu' OR '$(ProcessorArchitectureAsPlatform)' == 'Any Cpu'">msil</ProcessorArchitecture>
+		<ProcessorArchitecture Condition="'$(ProcessorArchitectureAsPlatform)' == 'AnyCPU' OR '$(ProcessorArchitectureAsPlatform)' == 'Any CPU'">msil</ProcessorArchitecture>
 		<ProcessorArchitecture Condition="'$(ProcessorArchitectureAsPlatform)' == 'x64' OR '$(ProcessorArchitectureAsPlatform)' == 'amd64'">amd64</ProcessorArchitecture>
 		<ProcessorArchitecture Condition="'$(ProcessorArchitectureAsPlatform)' == 'Itanium'">ia64</ProcessorArchitecture>
 		<ProcessorArchitecture Condition="'$(ProcessorArchitectureAsPlatform)' == 'x86' OR '$(ProcessorArchitectureAsPlatform)' == 'win32'">x86</ProcessorArchitecture>
