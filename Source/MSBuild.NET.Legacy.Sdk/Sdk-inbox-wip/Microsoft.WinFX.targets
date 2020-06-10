@@ -1,28 +1,42 @@
 <Project>
 
+	<!-- Load `PresentationBuildTasks.dll`, this can be overridden to use a different version with `PresentationBuildTasksAssembly` properties -->
 	<PropertyGroup>
-		<BuildSystem>MSBuild</BuildSystem>
-		<TaskVersion Condition="'$(TargetFrameworkVersion)' == 'v3.0' OR '$(TargetFrameworkVersion)' == 'v3.5'">3.0.0.0</TaskVersion>
-		<TaskVersion Condition="'$(TargetFrameworkIdentifier)' == 'Silverlight'">4.0.0.0</TaskVersion>
-		<TaskVersion Condition="'$(TaskVersion)' == ''">4.0.0.0</TaskVersion>
-		<TaskKeyToken>31bf3856ad364e35</TaskKeyToken>
-		<BuildTaskAssembly Condition="'$(BuildTaskAssembly)' == ''">PresentationBuildTasks, Version=$(TaskVersion), Culture=neutral, PublicKeyToken=$(TaskKeyToken)</BuildTaskAssembly>
+		<PresentationBuildTasksAssemblyVersion>4.0.0.0</PresentationBuildTasksAssemblyVersion>
+		<PresentationBuildTasksAssemblyVersion Condition="'$(TargetFrameworkIdentifier)' == '.NETFramework' AND ('$(TargetFrameworkVersion)' == 'v3.0' OR '$(TargetFrameworkVersion)' == 'v3.5')">3.0.0.0</PresentationBuildTasksAssemblyVersion>
+		<PresentationBuildTasksAssemblyFile Condition="'$(PresentationBuildTasksAssemblyFile)' == ''">$([System.IO.Path]::Combine('$(MSBuildFrameworkToolsPath)', 'PresentationBuildTasks.dll'))</PresentationBuildTasksAssemblyFile>
+		<PresentationBuildTasksAssemblyName Condition="'$(PresentationBuildTasksAssemblyName)' == ''">PresentationBuildTasks, Version=$(PresentationBuildTasksAssemblyVersion), Culture=neutral, PublicKeyToken=31bf3856ad364e35</PresentationBuildTasksAssemblyName>
 	</PropertyGroup>
+
+	<UsingTask AssemblyFile="$(PresentationBuildTasksAssemblyFile)" Condition="'$(ResolveTasksFromAssemblyName)' != 'true'" TaskName="Microsoft.Build.Tasks.Windows.UidManager"/>
+	<UsingTask AssemblyName="$(PresentationBuildTasksAssemblyName)" Condition="'$(ResolveTasksFromAssemblyName)' == 'true'" TaskName="Microsoft.Build.Tasks.Windows.UidManager"/>
+
+	<UsingTask AssemblyName="$(PresentationBuildTasksAssemblyFile)" Condition="'$(ResolveTasksFromAssemblyName)' != 'true'" TaskName="Microsoft.Build.Tasks.Windows.GetWinFXPath"/>
+	<UsingTask AssemblyName="$(PresentationBuildTasksAssemblyName)" Condition="'$(ResolveTasksFromAssemblyName)' == 'true'" TaskName="Microsoft.Build.Tasks.Windows.GetWinFXPath"/>
+
+	<UsingTask AssemblyFile="$(PresentationBuildTasksAssemblyFile)" Condition="'$(ResolveTasksFromAssemblyName)' != 'true'" TaskName="Microsoft.Build.Tasks.Windows.FileClassifier"/>
+	<UsingTask AssemblyName="$(PresentationBuildTasksAssemblyName)" Condition="'$(ResolveTasksFromAssemblyName)' == 'true'" TaskName="Microsoft.Build.Tasks.Windows.FileClassifier"/>
+
+	<UsingTask AssemblyFile="$(PresentationBuildTasksAssemblyFile)" Condition="'$(ResolveTasksFromAssemblyName)' != 'true'" TaskName="Microsoft.Build.Tasks.Windows.ResourcesGenerator"/>
+	<UsingTask AssemblyName="$(PresentationBuildTasksAssemblyName)" Condition="'$(ResolveTasksFromAssemblyName)' == 'true'" TaskName="Microsoft.Build.Tasks.Windows.ResourcesGenerator"/>
+
+	<UsingTask AssemblyFile="$(PresentationBuildTasksAssemblyFile)" Condition="'$(ResolveTasksFromAssemblyName)' != 'true'" TaskName="Microsoft.Build.Tasks.Windows.MarkupCompilePass1"/>
+	<UsingTask AssemblyName="$(PresentationBuildTasksAssemblyName)" Condition="'$(ResolveTasksFromAssemblyName)' == 'true'" TaskName="Microsoft.Build.Tasks.Windows.MarkupCompilePass1"/>
+
+	<UsingTask AssemblyFile="$(PresentationBuildTasksAssemblyFile)" Condition="'$(ResolveTasksFromAssemblyName)' != 'true'" TaskName="Microsoft.Build.Tasks.Windows.MarkupCompilePass2"/>
+	<UsingTask AssemblyName="$(PresentationBuildTasksAssemblyName)" Condition="'$(ResolveTasksFromAssemblyName)' == 'true'" TaskName="Microsoft.Build.Tasks.Windows.MarkupCompilePass2"/>
+
+	<UsingTask AssemblyFile="$(PresentationBuildTasksAssemblyFile)" Condition="'$(ResolveTasksFromAssemblyName)' != 'true'" TaskName="Microsoft.Build.Tasks.Windows.MergeLocalizationDirectives"/>
+	<UsingTask AssemblyName="$(PresentationBuildTasksAssemblyName)" Condition="'$(ResolveTasksFromAssemblyName)' == 'true'" TaskName="Microsoft.Build.Tasks.Windows.MergeLocalizationDirectives"/>
+
+	<UsingTask AssemblyFile="$(PresentationBuildTasksAssemblyFile)" Condition="'$(ResolveTasksFromAssemblyName)' != 'true'" TaskName="Microsoft.Build.Tasks.Windows.GenerateTemporaryTargetAssembly"/>
+	<UsingTask AssemblyName="$(PresentationBuildTasksAssemblyName)" Condition="'$(ResolveTasksFromAssemblyName)' == 'true'" TaskName="Microsoft.Build.Tasks.Windows.GenerateTemporaryTargetAssembly"/>
 
 	<PropertyGroup>
 		<AlwaysCompileMarkupFilesInSeparateDomain Condition="'$(AlwaysCompileMarkupFilesInSeparateDomain)' == '' AND '$(BuildingInsideVisualStudio)' == 'true'">true</AlwaysCompileMarkupFilesInSeparateDomain>
 		<AlwaysCompileMarkupFilesInSeparateDomain Condition="'$(AlwaysCompileMarkupFilesInSeparateDomain)' == ''">true</AlwaysCompileMarkupFilesInSeparateDomain>
 		<LocalizationDirectivesToLocFile Condition="'$(LocalizationDirectivesToLocFile)' == ''">None</LocalizationDirectivesToLocFile>
 	</PropertyGroup>
-
-	<UsingTask TaskName="Microsoft.Build.Tasks.Windows.MarkupCompilePass1" AssemblyName="$(BuildTaskAssembly)"/>
-	<UsingTask TaskName="Microsoft.Build.Tasks.Windows.UidManager" AssemblyName="$(BuildTaskAssembly)"/>
-	<UsingTask TaskName="Microsoft.Build.Tasks.Windows.ResourcesGenerator" AssemblyName="$(BuildTaskAssembly)"/>
-	<UsingTask TaskName="Microsoft.Build.Tasks.Windows.FileClassifier" AssemblyName="$(BuildTaskAssembly)"/>
-	<UsingTask TaskName="Microsoft.Build.Tasks.Windows.MarkupCompilePass2" AssemblyName="$(BuildTaskAssembly)"/>
-	<UsingTask TaskName="Microsoft.Build.Tasks.Windows.GenerateTemporaryTargetAssembly" AssemblyName="$(BuildTaskAssembly)"/>
-	<UsingTask TaskName="Microsoft.Build.Tasks.Windows.MergeLocalizationDirectives" AssemblyName="$(BuildTaskAssembly)"/>
-	<UsingTask TaskName="Microsoft.Build.Tasks.Windows.GetWinFXPath" AssemblyName="$(BuildTaskAssembly)"/>
 
 	<!-- Some Default Settings -->
 	<PropertyGroup>
@@ -91,7 +105,7 @@
 
 	<Target Name="DesignTimeMarkupCompilation">
 		<!-- Only if we are not actually performing a compile i.e. we are in design mode -->
-		<CallTarget Condition="'$(BuildingProject)' != 'true'"
+		<CallTarget Condition="'$(BuildingProject)' != 'true' OR $(DesignTimeBuild) == 'true'"
 					Targets="MarkupCompilePass1"/>
 	</Target>
 
@@ -153,7 +167,7 @@
 		</_AfterCompileWinFXInternalDependsOn>
 	</PropertyGroup>
 
-	<!-- Work that we want to be done after the "Compile" target in Microsoft.Common.targets -->
+	<!-- Work that we want to be done after the "Compile" target in 'Microsoft.Common.targets' -->
 	<Target Name="_AfterCompileWinFXInternal" DependsOnTargets="$(_AfterCompileWinFXInternalDependsOn)"/>
 
 	<!--
@@ -304,6 +318,23 @@
 
 	<!--
 		================================================================
+						_CompileTemporaryAssembly
+		================================================================
+	-->
+
+	<PropertyGroup>
+		<_CompileTemporaryAssemblyDependsOn>
+			BuildOnlySettings;
+			ResolveKeySource;
+			ResolveProjectReferences;
+			CoreCompile
+		</_CompileTemporaryAssemblyDependsOn>
+	</PropertyGroup>
+
+	<Target Name="_CompileTemporaryAssembly" DependsOnTargets="$(_CompileTemporaryAssemblyDependsOn)"/>
+
+	<!--
+		================================================================
 						MarkupCompilePass2ForMainAssembly
 
 		Name : MarkupCompilePass2ForMainAssembly
@@ -320,10 +351,7 @@
 			AfterMarkupCompilePass2;
 			CleanupTemporaryTargetAssembly
 		</MarkupCompilePass2ForMainAssemblyDependsOn>
-		<_CompileTargetNameForLocalType Condition="'$(_CompileTargetNameForLocalType)' == ''">_CompileTemporaryAssembly</_CompileTargetNameForLocalType>
 	</PropertyGroup>
-
-	<Target Name="_CompileTemporaryAssembly" DependsOnTargets="BuildOnlySettings;ResolveKeySource;CoreCompile"/>
 
 	<Target Name="MarkupCompilePass2ForMainAssembly"
 			Condition="'$(_RequireMCPass2ForMainAssembly)' == 'true'"
@@ -335,6 +363,10 @@
 			GenerateTemporaryTargetAssembly
 		==========================================
 	-->
+	<PropertyGroup>
+		<_CompileTargetNameForLocalType Condition="'$(_CompileTargetNameForLocalType)' == ''">_CompileTemporaryAssembly</_CompileTargetNameForLocalType>
+	</PropertyGroup>
+
 	<Target Name="GenerateTemporaryTargetAssembly"
 			Condition="'$(_RequireMCPass2ForMainAssembly)' == 'true'">
 
@@ -427,7 +459,7 @@
 			we set default value 'Internet' here.
 		-->
 		<TargetZone Condition="'$(TargetZone)' == ''">Internet</TargetZone>
-		<!-- Overwrite below properties which have been set in Microsoft.Common.targets. -->
+		<!-- Overwrite below properties which have been set in 'Microsoft.Common.targets'. -->
 		<TargetUrl Condition="'$(TargetUrl)' != ''">$(TargetUrl)/$(TargetDeployManifestFileName)</TargetUrl>
 		<StartURL Condition="'$(StartURL)' == ''">$(MSBuildProjectDirectory)\bin\$(Configuration)\$(TargetDeployManifestFileName)</StartURL>
 		<StartArguments Condition="'$(StartArguments)' == ''">-debug "$(StartURL)"</StartArguments>
@@ -439,7 +471,7 @@
 
 		WinFX.targets should care about the property setting for Browser application only.
 
-		For a regular ClickOnce application, Microsoft.Common.targets is responsible for
+		For a regular ClickOnce application, 'Microsoft.Common.targets' is responsible for
 		the setting validation.
 	-->
 	<Target Name="HostInBrowserValidation" Condition="'$(HostInBrowser)' == 'true'">
@@ -458,7 +490,9 @@
 	</Target>
 
 	<Target Name="SplashScreenValidation" Condition="'@(SplashScreen)' != ''">
-		<Error Condition="'$(TargetFrameworkVersion)' == 'v3.0'" Text="The SplashScreen Build Action is not supported in the selected Target Framework."/>
+		<Error Condition="'$(TargetFrameworkIdentifier)' == '.NETFramework' AND
+						'$(TargetFrameworkVersion)' == 'v3.0'"
+			Text="The SplashScreen Build Action is not supported on $(TargetFrameworkIdentifier) $(TargetFrameworkVersion)."/>
 	</Target>
 
 	<!--
@@ -636,7 +670,7 @@
 	<!-- Overwrite some target and properties for Publish support -->
 
 	<!--
-		PublishBuildDependsOn property is defined in Microsoft.Common.targets, but it doesn't handle WinFX
+		PublishBuildDependsOn property is defined in 'Microsoft.Common.targets', but it doesn't handle WinFX
 		resx file, since this resx file is not set into project file, but is generated at build time.
 
 		For Publish Build, we need to make sure the $(Target).g.$(UICulture).resources is handled correctly.
@@ -656,11 +690,11 @@
 	</PropertyGroup>
 
 	<!--
-		SatelliteDllsProjectOutputGroup target is implemented in Microsoft.Common.targets, but it doesn't handle WinFX
+		SatelliteDllsProjectOutputGroup target is implemented in 'Microsoft.Common.targets', but it doesn't handle WinFX
 		satellite assembly, since for WinFX, the $(targetname).g.$(UICulture).resx is not set into project file, but is generated
 		at build time after Xaml file is compiled, (for some case, it is generated after the main dll is compiled).
 
-		So overwrite this target, copy the content from Microsoft.Common.targets and inject the part for our UICulture support.
+		So overwrite this target, copy the content from 'Microsoft.Common.targets' and inject the part for our UICulture support.
 	-->
 
 	<!--
@@ -768,7 +802,7 @@
 	<!-- End of other targets -->
 
 	<!--
-		This is similar to AssignTargetPaths target in Microsoft.Common.targets.
+		This is similar to AssignTargetPaths target in 'Microsoft.Common.targets'.
 		But it handles only the generated WinFXEmbeddedResource item type.
 
 		After this target is done, SplitResourceByCulture target can take the right input
@@ -805,9 +839,11 @@
 		This target has been kept for compatibility with other targets or projects which override GetWinFXNativePath or GetWinFXWowPath.
 		This target and the properties are deprecated because multi-targeting for reference assemblies is handled in the framework specific targets
 	-->
-	<Target Name="GetWinFXPath" Condition="('@(Page)' != '' OR '@(ApplicationDefinition)' != '' OR '@(Resource)' != '') AND ('$(GetWinFXNativePath)' != '' OR '$(GetWinFXWoWPath)' != '')">
+	<Target Name="GetWinFXPath"
+			Condition="('@(Page)' != '' OR '@(ApplicationDefinition)' != '' OR '@(Resource)' != '') AND ('$(GetWinFXNativePath)' != '' OR '$(GetWinFXWoWPath)' != '')">
 
-		<GetWinFXPath WinFXNativePath="$(WinFXNativePath)"
+		<GetWinFXPath
+			WinFXNativePath="$(WinFXNativePath)"
 			WinFXWowPath="$(WinFXWowPath)">
 			<Output TaskParameter="WinFXPath" PropertyName="WinFXAssemblyDirectory" Condition="'$(ReferenceWinFXAssemblyFromGAC)' != 'true'"/>
 		</GetWinFXPath>

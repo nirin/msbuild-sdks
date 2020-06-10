@@ -1,9 +1,14 @@
 <Project>
 
-	<!-- This .targets file can be used by updating Microsoft.Common.targets to
-				 include the line below (as the last import element just before the end project tag)
-			<Import Project="$(MSBuildBinPath)\Microsoft.Data.Entity.targets" Condition="Exists('$(MSBuildBinPath)\Microsoft.Data.Entity.targets')"/>
-			-->
+	<!-- Load `Microsoft.Data.Entity.Build.Tasks.dll`, this can be overridden to use a different version with `DataEntityBuildTasksAssembly` property -->
+	<PropertyGroup Condition="'$(DataEntityBuildTasksAssembly)' == ''">
+		<DataEntityBuildTasksAssembly>$([System.IO.Path]::Combine('$(MSBuildFrameworkToolsPath)', 'Microsoft.Data.Entity.Build.Tasks.dll'))</DataEntityBuildTasksAssembly>
+	</PropertyGroup>
+
+	<UsingTask AssemblyFile="$(DataEntityBuildTasksAssembly)" TaskName="EntityClean"/>
+	<UsingTask AssemblyFile="$(DataEntityBuildTasksAssembly)" TaskName="EntityDeploy"/>
+	<UsingTask AssemblyFile="$(DataEntityBuildTasksAssembly)" TaskName="EntityDeploySplit"/>
+	<UsingTask AssemblyFile="$(DataEntityBuildTasksAssembly)" TaskName="EntityDeploySetLogicalNames"/>
 
 	<!-- The below ensures that "EntityDeploy" is available in the VS Build Action dropdown -->
 	<ItemGroup>
@@ -14,19 +19,6 @@
 		<!-- EntityDeployIntermediateResourcePath is the path used to store resources generated from the EDMX file before they are embedded in the build target -->
 		<EntityDeployIntermediateResourcePath>$(IntermediateOutputPath)edmxResourcesToEmbed\</EntityDeployIntermediateResourcePath>
 	</PropertyGroup>
-
-
-	<UsingTask TaskName="EntityDeploySplit"
-						 AssemblyFile="Microsoft.Data.Entity.Build.Tasks.dll" />
-
-	<UsingTask TaskName="EntityDeploy"
-						 AssemblyFile="Microsoft.Data.Entity.Build.Tasks.dll" />
-
-	<UsingTask TaskName="EntityDeploySetLogicalNames"
-						 AssemblyFile="Microsoft.Data.Entity.Build.Tasks.dll" />
-
-	<UsingTask TaskName="EntityClean"
-						 AssemblyFile="Microsoft.Data.Entity.Build.Tasks.dll" />
 
 	<PropertyGroup>
 		<!-- EntityDeployDependsOn deliberately left empty so others can override this -->

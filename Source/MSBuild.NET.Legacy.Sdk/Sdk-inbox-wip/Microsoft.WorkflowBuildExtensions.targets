@@ -1,5 +1,20 @@
 <Project>
 
+	<!-- Load `Microsoft.Activities.Build.dll`, this can be overridden to use a different version with `WorkflowBuildExtensionAssembly` properties -->
+	<PropertyGroup>
+		<WorkflowBuildExtensionAssemblyFile Condition="'$(WorkflowBuildExtensionAssemblyFile)' == ''">$([System.IO.Path]::Combine('$(MSBuildFrameworkToolsPath)', 'Microsoft.Activities.Build.dll'))</WorkflowBuildExtensionAssemblyFile>
+		<WorkflowBuildExtensionAssemblyName Condition="'$(WorkflowBuildExtensionAssemblyName)' == ''">Microsoft.Activities.Build, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35</WorkflowBuildExtensionAssemblyName>
+	</PropertyGroup>
+
+	<UsingTask AssemblyFile="$(WorkflowBuildExtensionAssemblyFile)" Condition="'$(ResolveTasksFromAssemblyName)' != 'true'" TaskName="DeferredValidationTask"/>
+	<UsingTask AssemblyName="$(WorkflowBuildExtensionAssemblyName)" Condition="'$(ResolveTasksFromAssemblyName)' == 'true'" TaskName="DeferredValidationTask"/>
+
+	<UsingTask AssemblyFile="$(WorkflowBuildExtensionAssemblyFile)" Condition="'$(ResolveTasksFromAssemblyName)' != 'true'" TaskName="WorkflowBuildMessageTask"/>
+	<UsingTask AssemblyName="$(WorkflowBuildExtensionAssemblyName)" Condition="'$(ResolveTasksFromAssemblyName)' == 'true'" TaskName="WorkflowBuildMessageTask"/>
+
+	<UsingTask AssemblyFile="$(WorkflowBuildExtensionAssemblyFile)" Condition="'$(ResolveTasksFromAssemblyName)' != 'true'" TaskName="ReportDeferredValidationErrorsTask"/>
+	<UsingTask AssemblyName="$(WorkflowBuildExtensionAssemblyName)" Condition="'$(ResolveTasksFromAssemblyName)' == 'true'" TaskName="ReportDeferredValidationErrorsTask"/>
+
 	<PropertyGroup>
 		<PrepareResourcesDependsOn>
 			ValidationExtension;
@@ -14,22 +29,6 @@
 			$(CoreCompileDependsOn)
 		</CoreCompileDependsOn>
 	</PropertyGroup>
-
-	<PropertyGroup>
-		<WorkflowBuildExtensionVersion Condition="'$(WorkflowBuildExtensionVersion)'==''">4.0.0.0</WorkflowBuildExtensionVersion>
-		<WorkflowBuildExtensionKeyToken Condition="'$(WorkflowBuildExtensionKeyToken)'==''">31bf3856ad364e35</WorkflowBuildExtensionKeyToken>
-		<WorkflowBuildExtensionAssemblyName Condition="'$(WorkflowBuildExtensionAssemblyName)'==''">Microsoft.Activities.Build, Version=$(WorkflowBuildExtensionVersion), Culture=neutral, PublicKeyToken=$(WorkflowBuildExtensionKeyToken)</WorkflowBuildExtensionAssemblyName>
-
-		<GenerateCompiledExpressionsTempFilePathForEditing Condition="'$(MSBuildProjectExtension)' == '.csproj'">$(IntermediateOutputPath)\TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs</GenerateCompiledExpressionsTempFilePathForEditing>
-		<GenerateCompiledExpressionsTempFilePathForValidation Condition="'$(MSBuildProjectExtension)' == '.csproj'">$(IntermediateOutputPath)\TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs</GenerateCompiledExpressionsTempFilePathForValidation>
-		<GenerateCompiledExpressionsTempFilePathForTypeInfer Condition="'$(MSBuildProjectExtension)' == '.csproj'">$(IntermediateOutputPath)\TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs</GenerateCompiledExpressionsTempFilePathForTypeInfer>
-
-		<DeferredValidationErrorsFileName>$(IntermediateOutputPath)\AC2C1ABA-CCF6-44D4-8127-588FD4D0A860-DeferredValidationErrors.xml</DeferredValidationErrorsFileName>
-	</PropertyGroup>
-
-	<UsingTask TaskName="WorkflowBuildMessageTask" AssemblyName="$(WorkflowBuildExtensionAssemblyName)" />
-	<UsingTask TaskName="ReportDeferredValidationErrorsTask" AssemblyName="$(WorkflowBuildExtensionAssemblyName)" />
-	<UsingTask TaskName="DeferredValidationTask" AssemblyName="$(WorkflowBuildExtensionAssemblyName)" />
 
 	<ItemGroup>
 		<XamlBuildTaskTypeGenerationExtensionName Include="Microsoft.Activities.Build.BeforeInitializeComponentExtension">
@@ -69,15 +68,25 @@
 		</ItemGroup>
 	</Target>
 
-	<Target Name="GenerateCompiledExpressionsTempFile"
-			Condition="'$(GenerateCompiledExpressionsTempFilePathForEditing)' != ''">
+	<Target Name="GenerateCompiledExpressionsTempFile">
 
-		<WriteLinesToFile
-			File="$(GenerateCompiledExpressionsTempFilePathForEditing)" Condition="!Exists('$(GenerateCompiledExpressionsTempFilePathForEditing)')"/>
-		<WriteLinesToFile
-			File="$(GenerateCompiledExpressionsTempFilePathForValidation)" Condition="!Exists('$(GenerateCompiledExpressionsTempFilePathForValidation)')"/>
-		<WriteLinesToFile
-			File="$(GenerateCompiledExpressionsTempFilePathForTypeInfer)" Condition="!Exists('$(GenerateCompiledExpressionsTempFilePathForTypeInfer)')"/>
+		<!-- Determine the source language extension from the project file's extension -->
+		<PropertyGroup>
+			<_LanguageExtension Condition="'$(MSBuildProjectExtension)' == '.csproj'">cs</_LanguageExtension>
+			<_LanguageExtension Condition="'$(MSBuildProjectExtension)' == '.fsproj'">fs</_LanguageExtension>
+			<_LanguageExtension Condition="'$(MSBuildProjectExtension)' == '.vbproj'">vb</_LanguageExtension>
+		</PropertyGroup>
+
+		<!-- Temporary Generated files for Compiled Expressions -->
+		<PropertyGroup Condition="'$(_LanguageExtension)' != ''">
+			<GenerateCompiledExpressionsTempFilePathForEditing>$(IntermediateOutputPath)\TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.$(_LanguageExtension)</GenerateCompiledExpressionsTempFilePathForEditing>
+			<GenerateCompiledExpressionsTempFilePathForValidation>$(IntermediateOutputPath)\TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.$(_LanguageExtension)</GenerateCompiledExpressionsTempFilePathForValidation>
+			<GenerateCompiledExpressionsTempFilePathForTypeInfer>$(IntermediateOutputPath)\TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.$(_LanguageExtension)</GenerateCompiledExpressionsTempFilePathForTypeInfer>
+		</PropertyGroup>
+
+		<WriteLinesToFile File="$(GenerateCompiledExpressionsTempFilePathForEditing)" Condition="!Exists('$(GenerateCompiledExpressionsTempFilePathForEditing)')"/>
+		<WriteLinesToFile File="$(GenerateCompiledExpressionsTempFilePathForValidation)" Condition="!Exists('$(GenerateCompiledExpressionsTempFilePathForValidation)')"/>
+		<WriteLinesToFile File="$(GenerateCompiledExpressionsTempFilePathForTypeInfer)" Condition="!Exists('$(GenerateCompiledExpressionsTempFilePathForTypeInfer)')"/>
 
 		<ItemGroup>
 			<Compile Include="$(GenerateCompiledExpressionsTempFilePathForEditing)"/>
@@ -86,9 +95,14 @@
 		</ItemGroup>
 	</Target>
 
-	<Target Name="AddDeferredValidationErrorsFileToFileWrites" AfterTargets="XamlMarkupCompilePass2" Condition="Exists('$(DeferredValidationErrorsFileName)')">
+	<PropertyGroup>
+		<DeferredValidationErrorsFileName>AC2C1ABA-CCF6-44D4-8127-588FD4D0A860-DeferredValidationErrors.xml</DeferredValidationErrorsFileName>
+		<DeferredValidationErrorsFilePath>$(IntermediateOutputPath)\$(DeferredValidationErrorsFileName)</DeferredValidationErrorsFilePath>
+	</PropertyGroup>
+
+	<Target Name="AddDeferredValidationErrorsFileToFileWrites" AfterTargets="XamlMarkupCompilePass2" Condition="Exists('$(DeferredValidationErrorsFilePath)')">
 		<ItemGroup>
-			<FileWrites Include="$(DeferredValidationErrorsFileName)"/>
+			<FileWrites Include="$(DeferredValidationErrorsFilePath)"/>
 		</ItemGroup>
 	</Target>
 
@@ -100,7 +114,7 @@
 	================================================================
 	-->
 	<Target Name="ReportValidationBuildExtensionErrors" AfterTargets="XamlMarkupCompilePass2" Condition="'$(SkipWorkflowValidation)' != 'true' AND ('@(XamlPage)' != '' OR '@(XamlAppDef)' != '')">
-		<ReportDeferredValidationErrorsTask DeferredValidationErrorsFilePath="$(DeferredValidationErrorsFileName)"/>
+		<ReportDeferredValidationErrorsTask DeferredValidationErrorsFilePath="$(DeferredValidationErrorsFilePath)"/>
 	</Target>
 
 	<!--
@@ -112,7 +126,7 @@
 	==================================================================
 	-->
 	<Target Name="DeferredValidation" AfterTargets="Compile" Condition="'$(SkipWorkflowValidation)' != 'true' AND ('@(XamlPage)' != '' OR '@(XamlAppDef)' != '')">
-		<DeferredValidationTask DeferredValidationErrorsFilePath="$(DeferredValidationErrorsFileName)"/>
+		<DeferredValidationTask DeferredValidationErrorsFilePath="$(DeferredValidationErrorsFilePath)"/>
 	</Target>
 
 </Project>

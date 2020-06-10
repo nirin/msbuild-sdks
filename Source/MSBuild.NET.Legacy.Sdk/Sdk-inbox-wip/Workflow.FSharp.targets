@@ -3,39 +3,39 @@
 	<!-- Import Workflow common targets -->
 	<Import Project="Workflow.Common.targets"/>
 
-	<UsingTask AssemblyFile="$(WorkflowBuildComponentAssemblyFile)" Condition="'$(ResolveTasksFromAssemblyName)' != 'true'" TaskName="System.Workflow.ComponentModel.Compiler.CreateWorkflowManifestResourceNameForCSharp"/>
-	<UsingTask AssemblyName="$(WorkflowBuildComponentAssemblyName)" Condition="'$(ResolveTasksFromAssemblyName)' == 'true'" TaskName="System.Workflow.ComponentModel.Compiler.CreateWorkflowManifestResourceNameForCSharp"/>
+	<UsingTask AssemblyFile="$(WorkflowBuildComponentAssemblyFile)" Condition="'$(ResolveTasksFromAssemblyName)' != 'true'" TaskName="System.Workflow.ComponentModel.Compiler.CreateWorkflowManifestResourceNameForFSharp"/>
+	<UsingTask AssemblyName="$(WorkflowBuildComponentAssemblyName)" Condition="'$(ResolveTasksFromAssemblyName)' == 'true'" TaskName="System.Workflow.ComponentModel.Compiler.CreateWorkflowManifestResourceNameForFSharp"/>
 
 	<Target Name="CreateWorkflowManifestResourceNames"
 			DependsOnTargets="$(CreateWorkflowManifestResourceNamesDependsOn)">
 
 		<!-- Create WF specific resource names for non-culture non-resx files. -->
 
-		<CreateWorkflowManifestResourceNameForCSharp
+		<CreateWorkflowManifestResourceNameForFSharp
 			Condition="'@(WFNonResxWithNoCulture)' != ''"
 			ResourceFiles="@(WFNonResxWithNoCulture)"
 			RootNamespace="$(RootNamespace)">
 
 			<Output TaskParameter="ResourceFilesWithManifestResourceNames" ItemName="EmbeddedResource"/>
-		</CreateWorkflowManifestResourceNameForCSharp>
+		</CreateWorkflowManifestResourceNameForFSharp>
 
-		<CreateWorkflowManifestResourceNameForCSharp
+		<CreateWorkflowManifestResourceNameForFSharp
 			Condition="'@(WFNonResxWithCulture)' != ''"
 			ResourceFiles="@(WFNonResxWithCulture)"
 			RootNamespace="$(RootNamespace)">
 
 			<Output TaskParameter="ResourceFilesWithManifestResourceNames" ItemName="EmbeddedResource"/>
-		</CreateWorkflowManifestResourceNameForCSharp>
+		</CreateWorkflowManifestResourceNameForFSharp>
 	</Target>
 
-	<Target Name="GetWFCompilationOptionsForCSharp"
+	<Target Name="GetWFCompilationOptionsForFSharp"
 			BeforeTargets="WorkflowCompilation"
 			DependsOnTargets="GetWFCompilationOptions">
 
-		<!-- The common options for CSharp compiler are 'Define' and 'NoWarn' which we get from the Workflow Common targets -->
+		<!-- The common options for FSharp compiler are 'Define' and 'NoWarn' which we get from the Workflow Common targets -->
 		<ItemGroup>
 			<!--
-				Add CSharp specific compiler options here using 'WFCompilationOptions'
+				Add FSharp specific compiler options here using 'WFCompilationOptions'
 				Use the metadata 'Value' to specify one or more values with an optional separator
 				Use the metadata 'Delimiter' to specify a separator between the key and its values
 				For Example:

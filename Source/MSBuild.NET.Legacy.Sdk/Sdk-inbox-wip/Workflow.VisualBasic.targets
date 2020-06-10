@@ -1,51 +1,10 @@
 <Project>
 
-	<UsingTask TaskName="System.Workflow.ComponentModel.Compiler.CompileWorkflowTask" AssemblyName="System.Workflow.ComponentModel, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35"/>
-	<UsingTask TaskName="System.Workflow.ComponentModel.Compiler.CreateWorkflowManifestResourceNameForVB" AssemblyName="System.Workflow.ComponentModel, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35"/>
-	<UsingTask TaskName="System.Workflow.ComponentModel.Compiler.CompileWorkflowCleanupTask" AssemblyName="System.Workflow.ComponentModel, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35"/>
+	<!-- Import Workflow common targets -->
+	<Import Project="Workflow.Common.targets"/>
 
-	<PropertyGroup>
-		<WinWFTempFiles/>
-		<KeepWinWFTempFiles/>
-	</PropertyGroup>
-
-	<PropertyGroup>
-		<CoreCompileDependsOn>$(CoreCompileDependsOn);WorkflowCompilation</CoreCompileDependsOn>
-		<CoreBuildDependsOn>$(CoreBuildDependsOn);WorkflowCompilationCleanup</CoreBuildDependsOn>
-	</PropertyGroup>
-
-	<PropertyGroup>
-		<CreateManifestResourceNamesDependsOn>
-			$(CreateManifestResourceNamesDependsOn);PrepareWorkflowResources
-		</CreateManifestResourceNamesDependsOn>
-		<CreateCustomManifestResourceNamesDependsOn>
-			$(CreateCustomManifestResourceNamesDependsOn);CreateWorkflowManifestResourceNames
-		</CreateCustomManifestResourceNamesDependsOn>
-		<CreateWorkflowManifestResourceNamesDependsOn>
-			$(CreateWorkflowManifestResourceNamesDependsOn)
-		</CreateWorkflowManifestResourceNamesDependsOn>
-	</PropertyGroup>
-
-	<Target Name="PrepareWorkflowResources"
-			DependsOnTargets="$(CreateWorkflowManifestResourceNamesDependsOn)">
-
-		<ItemGroup>
-			<WFNonResxWithNoCulture Include="@(EmbeddedResource)"
-				Condition="'%(EmbeddedResource.Extension)' == '.layout' AND '%(EmbeddedResource.WithCulture)' == 'false'"/>
-
-			<WFNonResxWithNoCulture Include="@(EmbeddedResource)"
-				Condition="'%(EmbeddedResource.Extension)' == '.rules' AND '%(EmbeddedResource.WithCulture)' == 'false'"/>
-
-			<WFNonResxWithCulture Include="@(EmbeddedResource)"
-				Condition="'%(EmbeddedResource.Extension)' == '.layout' AND '%(EmbeddedResource.WithCulture)' == 'true'"/>
-
-			<WFNonResxWithCulture Include="@(EmbeddedResource)"
-				Condition="'%(EmbeddedResource.Extension)' == '.rules' AND '%(EmbeddedResource.WithCulture)' == 'true'"/>
-
-			<EmbeddedResource Remove="@(WFNonResxWithNoCulture)"/>
-			<EmbeddedResource Remove="@(WFNonResxWithCulture)"/>
-		</ItemGroup>
-	</Target>
+	<UsingTask AssemblyFile="$(WorkflowBuildComponentAssemblyFile)" Condition="'$(ResolveTasksFromAssemblyName)' != 'true'" TaskName="System.Workflow.ComponentModel.Compiler.CreateWorkflowManifestResourceNameForVB"/>
+	<UsingTask AssemblyName="$(WorkflowBuildComponentAssemblyName)" Condition="'$(ResolveTasksFromAssemblyName)' == 'true'" TaskName="System.Workflow.ComponentModel.Compiler.CreateWorkflowManifestResourceNameForVB"/>
 
 	<Target Name="CreateWorkflowManifestResourceNames"
 			DependsOnTargets="$(CreateWorkflowManifestResourceNamesDependsOn)">
@@ -69,57 +28,12 @@
 		</CreateWorkflowManifestResourceNameForVB>
 	</Target>
 
-	<!--
-		Note: The inputs and outputs of the "WorkflowCompilation" target
-		match those of "Compile" target in CSharp/VisualBasic targets
-		except that "WorkflowCompilation" have @(Content) also as the inputs
-		because .xaml files are represented as content items in the project files.
+	<Target Name="GetWFCompilationOptionsForVB"
+			BeforeTargets="WorkflowCompilation"
+			DependsOnTargets="GetWFCompilationOptions">
 
-		The inputs/outputs are evaluated at build time to determine if
-		the target's tasks need to be executed.
-	-->
-	<PropertyGroup>
-		<WorkflowCompilationDependsOn>CreateWorkflowManifestResourceNames</WorkflowCompilationDependsOn>
-	</PropertyGroup>
-
-	<Target Name="WorkflowCompilation"
-			DependsOnTargets="$(WorkflowCompilationDependsOn)"
-			Inputs="$(MSBuildAllProjects);
-			@(Compile);
-			@(Content);
-			@(EmbeddedResource);
-			$(ApplicationIcon);
-			$(AssemblyOriginatorKeyFile);
-			@(ManifestNonResxWithNoCultureOnDisk);
-			@(ReferencePath);
-			$(TargetFrameworkMoniker);
-			@(CompiledLicenseFile)"
-			Outputs="$(DocFile);
-			@(IntermediateAssembly);
-			$(NonExistentFile)">
-
+		<!-- The common options for VB compiler are 'Define' and 'NoWarn' which we get from the Workflow Common targets -->
 		<ItemGroup>
-			<WFCompilationResourcesWithNoCulture Include="@(EmbeddedResource)"
-				Condition="'%(EmbeddedResource.Type)' != 'resx' AND '%(EmbeddedResource.WithCulture)' == 'false'"/>
-
-			<WFCompilationResourcesWithNoCulture Include="$(IntermediateOutputPath)%(EmbeddedResource.ManifestResourceName).resources"
-				Condition="'%(EmbeddedResource.Type)' == 'resx' AND '%(EmbeddedResource.WithCulture)' == 'false'"/>
-
-			<WFCompilationResourcesWithUnknownCulture Include="@(EmbeddedResource)"
-				Condition="'%(EmbeddedResource.Type)' != 'resx' AND '%(EmbeddedResource.WithCulture)' == ''"/>
-
-			<WFCompilationResourcesWithUnknownCulture Include="$(IntermediateOutputPath)%(EmbeddedResource.ManifestResourceName).resources"
-				Condition="'%(EmbeddedResource.Type)' == 'resx' AND '%(EmbeddedResource.WithCulture)' == ''"/>
-
-			<WFCompilationResourcesWithNoCulture Include="@(WFCompilationResourcesWithUnknownCulture)"
-				Condition="'@(WFCompilationResourcesWithNoCulture)' == '' AND '@(WFCompilationResourcesWithUnknownCulture)' != ''"/>
-		</ItemGroup>
-
-		<ItemGroup>
-			<WFCompilationOptions Include="define" Condition="'$(DefineConstants)' != ''">
-				<Value>$(DefineConstants)</Value>
-				<Delimiter>:</Delimiter>
-			</WFCompilationOptions>
 			<WFCompilationOptions Include="optioninfer" Condition="'$(OptionInfer)' == 'On'">
 				<Value>+</Value>
 			</WFCompilationOptions>
@@ -146,37 +60,7 @@
 				<Value>text</Value>
 				<Delimiter>:</Delimiter>
 			</WFCompilationOptions>
-			<WFCompilationOptions Include="nowarn" Condition="'$(NoWarn)' != ''">
-				<Value>$(NoWarn)</Value>
-				<Delimiter>:</Delimiter>
-			</WFCompilationOptions>
 		</ItemGroup>
-
-		<CompileWorkflowTask
-			Imports="@(Import)"
-			RootNamespace="$(RootNamespace)"
-			AssemblyName="$(AssemblyName)"
-			ProjectDirectory="$(MSBuildProjectDirectory)"
-			ProjectExtension="$(MSBuildProjectExtension)"
-			ResourceFiles="@(WFCompilationResourcesWithNoCulture);@(CompiledLicenseFile)"
-			ReferenceFiles="@(ReferencePath)"
-			SourceCodeFiles="@(Compile)"
-			WorkflowMarkupFiles="@(Content)"
-			CompilationOptions="@(WFCompilationOptions)"
-			DelaySign="$(DelaySign)"
-			TargetFramework="$(TargetFrameworkMoniker)"
-			KeyContainer="$(KeyContainerName)"
-			KeyFile="$(KeyOriginatorFile)"
-			BuildingProject="$(BuildingProject)">
-
-			<Output TaskParameter="OutputFiles" ItemName="Compile"/>
-			<Output TaskParameter="TemporaryFiles" ItemName="WinWFTempFiles"/>
-			<Output TaskParameter="KeepTemporaryFiles" ItemName="KeepWinWFTempFiles"/>
-		</CompileWorkflowTask>
-	</Target>
-
-	<Target Name="WorkflowCompilationCleanup" Condition="'@(KeepWinWFTempFiles)' == 'False'">
-		<CompileWorkflowCleanupTask TemporaryFiles="@(WinWFTempFiles)" Condition="'@(WinWFTempFiles)' != ''"/>
 	</Target>
 
 </Project>

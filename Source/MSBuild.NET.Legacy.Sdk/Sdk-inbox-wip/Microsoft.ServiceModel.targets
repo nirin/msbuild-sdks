@@ -1,8 +1,13 @@
 <Project>
 
-	<UsingTask
-		TaskName="Microsoft.Build.Tasks.Xsd.XsdTypeImporterTask"
-		AssemblyName="XsdBuildTask, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL"/>
+	<!-- Load `XsdBuildTask.dll`, this can be overridden to use a different version with `XsdBuildTaskAssembly` properties -->
+	<PropertyGroup>
+		<XsdBuildTaskAssemblyFile Condition="'$(XsdBuildTaskAssemblyFile)' == ''">$([System.IO.Path]::Combine('$(MSBuildFrameworkToolsPath)', 'XsdBuildTask.dll'))</XsdBuildTaskAssemblyFile>
+		<XsdBuildTaskAssemblyName Condition="'$(XsdBuildTaskAssemblyName)' == ''">XsdBuildTask, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35</XsdBuildTaskAssemblyName>
+	</PropertyGroup>
+
+	<UsingTask AssemblyFile="$(XsdBuildTaskAssemblyFile)" Condition="'$(ResolveTasksFromAssemblyName)' != 'true'" TaskName="Microsoft.Build.Tasks.Xsd.XsdTypeImporterTask"/>
+	<UsingTask AssemblyName="$(XsdBuildTaskAssemblyName)" Condition="'$(ResolveTasksFromAssemblyName)' == 'true'" TaskName="Microsoft.Build.Tasks.Xsd.XsdTypeImporterTask"/>
 
 	<!-- sub build target, preceeding XsdCodeGen -->
 	<Target
@@ -119,7 +124,19 @@
 
 		<Delete Files="$(IntermediateOutputPath)\XsdCodeGenTempC.txt"/>
 
-		<!-- for /f "tokens=*" %%a in ('$(IntermediateOutputPath)\XsdCodeGenTempA.txt') do ( for /f "tokens=*" %%b in ('$(IntermediateOutputPath)\XsdCodeGenTempB.txt') do ( if /i "%%~na" EQU "%%~b" ( echo %%a>>"$(IntermediateOutputPath)\XsdCodeGenTempC.txt" ) ) ) -->
+		<!--
+			batch script to execute:
+			for /f "tokens=*" %%a in ('$(IntermediateOutputPath)\XsdCodeGenTempA.txt') do
+			(
+				for /f "tokens=*" %%b in ('$(IntermediateOutputPath)\XsdCodeGenTempB.txt') do
+				(
+					if /i "%%~na" EQU "%%~b"
+					(
+						echo %%a>>"$(IntermediateOutputPath)\XsdCodeGenTempC.txt"
+					)
+				)
+			)
+		-->
 		<Exec Command="for /f %22tokens=*%22 %%a in ('$(IntermediateOutputPath)\XsdCodeGenTempA.txt') do ( for /f %22tokens=*%22 %%b in ('$(IntermediateOutputPath)\XsdCodeGenTempB.txt') do ( if /i %22%%~na%22 EQU %22%%~b%22 ( echo %%a>>%22$(IntermediateOutputPath)\XsdCodeGenTempC.txt%22 ) ) )"/>
 
 		<ReadLinesFromFile File="$(IntermediateOutputPath)\XsdCodeGenTempC.txt">

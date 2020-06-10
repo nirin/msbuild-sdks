@@ -3,6 +3,10 @@
 	<Import Project="$(CustomBeforeMicrosoftCommonProps)" Condition="Exists('$(CustomBeforeMicrosoftCommonProps)')"/>
 
 	<PropertyGroup>
+		<BuildSystem>MSBuild</BuildSystem>
+	</PropertyGroup>
+
+	<PropertyGroup>
 		<Configuration Condition="'$(Configuration)' == '' AND '$(DefaultProjectConfiguration)' != ''">$(DefaultProjectConfiguration)</Configuration>
 		<Platform Condition="'$(Platform)' == '' AND '$(DefaultProjectPlatform)' != ''">$(DefaultProjectPlatform)</Platform>
 	</PropertyGroup>

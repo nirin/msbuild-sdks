@@ -1,0 +1,20 @@
+<Project>
+
+	<PropertyGroup>
+		<MicrosoftWorkflowTargets>Workflow.Common.targets</MicrosoftWorkflowTargets>
+		<MicrosoftWorkflowTargets Condition="'$(MSBuildProjectExtension)' == '.csproj'">Workflow.CSharp.targets</MicrosoftWorkflowTargets>
+		<MicrosoftWorkflowTargets Condition="'$(MSBuildProjectExtension)' == '.fsproj'">Workflow.FSharp.targets</MicrosoftWorkflowTargets>
+		<MicrosoftWorkflowTargets Condition="'$(MSBuildProjectExtension)' == '.vbproj'">Workflow.VisualBasic.targets</MicrosoftWorkflowTargets>
+	</PropertyGroup>
+
+	<!-- Import language specific Workflow targets -->
+	<Import Project="$(MicrosoftWorkflowTargets)"/>
+
+	<Target Name="WorkflowCompilationCleanup" Condition="'$(KeepWinWFTempFiles)' == 'False'">
+		<Delete Files="@(WinWFTempFiles)" Condition="'@(WinWFTempFiles)' != ''"/>
+	</Target>
+
+	<!-- Import Workflow Build Extensions -->
+	<Import Project="Microsoft.WorkflowBuildExtensions.targets"/>
+
+</Project>
