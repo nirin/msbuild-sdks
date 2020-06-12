@@ -7,11 +7,11 @@
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(EnableDefaultItems)' == 'true' AND '$(EnableDefaultSolutionItems)' == 'true'">
-		<SolutionItem Include="**\*.*" Exclude="$(DefaultItemExcludes);**\*.*proj;$(DefaultExcludesInSolutionFolder)"/>
+		<SolutionItem Include="**\*.*" Exclude="$(DefaultItemExcludes);@(ProjectItem->'%(RecursiveDir)**\*');$(DefaultExcludesInSolutionFolder)"/>
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(EnableDefaultItems)' == 'true' AND '$(EnableDefaultNoneItems)' == 'true'">
-		<None Include="**\*" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInSolutionFolder)"/>
+		<None Include="**\*" Exclude="$(DefaultItemExcludes);@(ProjectItem->'%(RecursiveDir)**\*');$(DefaultExcludesInSolutionFolder)"/>
 	</ItemGroup>
 
 </Project>
