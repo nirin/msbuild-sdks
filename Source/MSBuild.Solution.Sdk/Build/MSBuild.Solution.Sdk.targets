@@ -4,4 +4,6 @@
 
 	<Import Project="..\Core\MSBuild.Core.targets"/>
 
+	<Import Project="..\ProjectSystem\MSBuild.ProjectSystem.targets"/>
+
 </Project>

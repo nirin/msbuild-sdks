@@ -11,6 +11,8 @@
 
 	<Import Project="..\Core\MSBuild.Core.props"/>
 
+	<Import Project="..\ProjectSystem\MSBuild.ProjectSystem.props"/>
+
 	<Import Project="Microsoft.VisualStudio.props"/>
 
 </Project>
