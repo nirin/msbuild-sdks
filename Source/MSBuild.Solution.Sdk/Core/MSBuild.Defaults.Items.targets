@@ -16,6 +16,7 @@
 	<PropertyGroup>
 		<DefaultItemExcludes>$(DefaultItemExcludes);**\*.slnx</DefaultItemExcludes>
 		<DefaultItemExcludes>$(DefaultItemExcludes);**\*.user</DefaultItemExcludes>
+		<DefaultItemExcludes>$(DefaultItemExcludes);**\*.binlog</DefaultItemExcludes>
 	</PropertyGroup>
 
 	<!-- Legacy files, not used anymore -->
