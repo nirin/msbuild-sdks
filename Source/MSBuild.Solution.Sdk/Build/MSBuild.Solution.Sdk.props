@@ -1,14 +1,5 @@
 <Project>
 
-	<PropertyGroup>
-		<MSBuildSolutionFile>$(MSBuildProjectFile)</MSBuildSolutionFile>
-		<MSBuildSolutionName>$(MSBuildProjectName)</MSBuildSolutionName>
-		<MSBuildSolutionExtension>$(MSBuildProjectExtension)</MSBuildSolutionExtension>
-		<MSBuildSolutionFullPath>$(MSBuildProjectFullPath)</MSBuildSolutionFullPath>
-		<MSBuildSolutionDirectory>$(MSBuildProjectDirectory)</MSBuildSolutionDirectory>
-		<MSBuildSolutionDirectoryNoRoot>$(MSBuildProjectDirectoryNoRoot)</MSBuildSolutionDirectoryNoRoot>
-	</PropertyGroup>
-
 	<Import Project="..\Core\MSBuild.Core.props"/>
 
 	<Import Project="..\ProjectSystem\MSBuild.ProjectSystem.props"/>

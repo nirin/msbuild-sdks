@@ -1,5 +1,19 @@
 <Project>
 
+	<!--
+		Right now, MSBuild doesn't support project file based solutions.
+		Hence, the new *Solution* properties are based on *Project* properties.
+		Since, the new Solution file `slnx` is essentially an MSBuild project file.
+	-->
+	<PropertyGroup>
+		<MSBuildSolutionFile>$(MSBuildProjectFile)</MSBuildSolutionFile>
+		<MSBuildSolutionName>$(MSBuildProjectName)</MSBuildSolutionName>
+		<MSBuildSolutionExtension>$(MSBuildProjectExtension)</MSBuildSolutionExtension>
+		<MSBuildSolutionFullPath>$(MSBuildProjectFullPath)</MSBuildSolutionFullPath>
+		<MSBuildSolutionDirectory>$(MSBuildProjectDirectory)</MSBuildSolutionDirectory>
+		<MSBuildSolutionDirectoryNoRoot>$(MSBuildProjectDirectoryNoRoot)</MSBuildSolutionDirectoryNoRoot>
+	</PropertyGroup>
+
 	<Import Project="Sdk.Extensions.props"/>
 
 	<Import Project="Sdk.Core.props"/>
