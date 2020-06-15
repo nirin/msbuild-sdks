@@ -14,6 +14,16 @@
 		<MSBuildSolutionDirectoryNoRoot>$(MSBuildProjectDirectoryNoRoot)</MSBuildSolutionDirectoryNoRoot>
 	</PropertyGroup>
 
+	<!--
+		With MSBuild solution files, there is no restriction on what file extension it could use.
+		But MSBuild recommends a pattern (`*proj`) to identify what kind of MSBuild file it is.
+	-->
+	<PropertyGroup>
+		<MSBuildSolutionType>$(MSBuildSolutionExtension.TrimStart('.'))</MSBuildSolutionType>
+		<MSBuildSolutionType Condition="$(MSBuildSolutionType.EndsWith('proj'))">$(MSBuildSolutionType.Substring(0, $(MSBuildSolutionType.LastIndexOf('proj'))))</MSBuildSolutionType>
+		<MSBuildSolutionType Condition="'$(MSBuildSolutionType)' == ''">slnx</MSBuildSolutionType>
+	</PropertyGroup>
+
 	<Import Project="Sdk.Extensions.props"/>
 
 	<Import Project="Sdk.Core.props"/>

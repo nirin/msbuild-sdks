@@ -14,6 +14,16 @@
 		<MSBuildSolutionDirectoryNoRoot>$([MSBuild]::MakeRelative('$([System.IO.Path]::GetPathRoot($(SolutionDir)))', '$(SolutionDir)'))</MSBuildSolutionDirectoryNoRoot>
 	</PropertyGroup>
 
+	<!--
+		With MSBuild project files, there is no restriction on what file extension it could use.
+		But MSBuild recommends a pattern (`*proj`) to identify what kind of MSBuild file it is.
+	-->
+	<PropertyGroup>
+		<MSBuildProjectType>$(MSBuildProjectExtension.TrimStart('.'))</MSBuildProjectType>
+		<MSBuildProjectType Condition="$(MSBuildProjectType.EndsWith('proj'))">$(MSBuildProjectType.Substring(0, $(MSBuildProjectType.LastIndexOf('proj'))))</MSBuildProjectType>
+		<MSBuildProjectType Condition="'$(MSBuildProjectType)' == ''">core</MSBuildProjectType>
+	</PropertyGroup>
+
 	<Import Project="Sdk.Extensions.props"/>
 
 	<Import Project="Sdk.Core.props"/>
