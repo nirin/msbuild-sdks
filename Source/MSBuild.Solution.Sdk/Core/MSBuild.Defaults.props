@@ -14,9 +14,11 @@
 		<Platform Condition="'$(Platform)' == ''">Any</Platform>
 	</PropertyGroup>
 
-	<!-- Default solution and project properties -->
+	<!-- Default solution-level project properties -->
 	<PropertyGroup>
 		<BuildInParallel Condition="'$(BuildInParallel)' == ''">true</BuildInParallel>
+		<ContinueOnError Condition="'$(ContinueOnError)' == ''">false</ContinueOnError>
+		<StopOnFirstFailure Condition="'$(StopOnFirstFailure)' == ''">true</StopOnFirstFailure>
 		<SkipNonExistentTargets Condition="'$(SkipNonExistentTargets)' == ''">true</SkipNonExistentTargets>
 		<SkipNonExistentProjects Condition="'$(SkipNonExistentProjects)' == ''">true</SkipNonExistentProjects>
 		<RestoreProjectStyle Condition="'$(RestoreProjectStyle)' == ''">PackageReference</RestoreProjectStyle>
