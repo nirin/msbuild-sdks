@@ -4,13 +4,13 @@
 	<ItemDefinitionGroup>
 		<ProjectReference>
 			<InSolution>true</InSolution>
-			<Platform>$(Platform)</Platform>
-			<Configuration>$(Configuration)</Configuration>
-			<AdditionalProperties>$(AdditionalProperties)</AdditionalProperties>
+			<Platform Condition="'$(Platform)' != ''">$(Platform)</Platform>
+			<Configuration Condition="'$(Configuration)' != ''">$(Configuration)</Configuration>
+			<AdditionalProperties Condition="'$(AdditionalProperties)' != ''">$(AdditionalProperties)</AdditionalProperties>
 		</ProjectReference>
 		<PackageReference>
 			<InSolution>true</InSolution>
-			<Platform>$(Platform)</Platform>
+			<Platform Condition="'$(Platform)' != ''">$(Platform)</Platform>
 		</PackageReference>
 	</ItemDefinitionGroup>
 
