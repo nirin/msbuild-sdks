@@ -68,15 +68,15 @@
 			RootNamespace="$(RootNamespace)">
 
 			<Output TaskParameter="ResourceFilesWithManifestResourceNames" ItemName="EmbeddedResource"/>
-		</CreateWorkflowManifestResourceNameFor>
+		</CreateWorkflowManifestResourceName>
 
-		<CreateWorkflowManifestResourceNameFor
+		<CreateWorkflowManifestResourceName
 			Condition="'@(WFNonResxWithCulture)' != ''"
 			ResourceFiles="@(WFNonResxWithCulture)"
 			RootNamespace="$(RootNamespace)">
 
 			<Output TaskParameter="ResourceFilesWithManifestResourceNames" ItemName="EmbeddedResource"/>
-		</CreateWorkflowManifestResourceNameFor>
+		</CreateWorkflowManifestResourceName>
 	</Target>
 
 	<!--
