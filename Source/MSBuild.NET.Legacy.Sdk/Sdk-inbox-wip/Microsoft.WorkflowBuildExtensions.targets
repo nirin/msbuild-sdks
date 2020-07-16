@@ -68,20 +68,29 @@
 		</ItemGroup>
 	</Target>
 
-	<Target Name="GenerateCompiledExpressionsTempFile">
-
-		<!-- Determine the source language extension from the project file's extension -->
-		<PropertyGroup>
-			<_LanguageExtension Condition="'$(MSBuildProjectExtension)' == '.csproj'">cs</_LanguageExtension>
-			<_LanguageExtension Condition="'$(MSBuildProjectExtension)' == '.fsproj'">fs</_LanguageExtension>
-			<_LanguageExtension Condition="'$(MSBuildProjectExtension)' == '.vbproj'">vb</_LanguageExtension>
+	<Target Name="GetSourceLanguageExtension">
+		<!-- Determine the source language extension from the language targets -->
+		<PropertyGroup Condition="'$(SourceLanguageExtension)' == ''">
+			<SourceLanguageExtension Condition="'$(DefaultLanguageSourceExtension)' != ''">$(DefaultLanguageSourceExtension.TrimStart('.'))</SourceLanguageExtension>
 		</PropertyGroup>
 
-		<!-- Temporary Generated files for Compiled Expressions -->
-		<PropertyGroup Condition="'$(_LanguageExtension)' != ''">
-			<GenerateCompiledExpressionsTempFilePathForEditing>$(IntermediateOutputPath)\TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.$(_LanguageExtension)</GenerateCompiledExpressionsTempFilePathForEditing>
-			<GenerateCompiledExpressionsTempFilePathForValidation>$(IntermediateOutputPath)\TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.$(_LanguageExtension)</GenerateCompiledExpressionsTempFilePathForValidation>
-			<GenerateCompiledExpressionsTempFilePathForTypeInfer>$(IntermediateOutputPath)\TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.$(_LanguageExtension)</GenerateCompiledExpressionsTempFilePathForTypeInfer>
+		<!-- Determine the source language extension from the project file's extension -->
+		<PropertyGroup Condition="'$(SourceLanguageExtension)' == ''">
+			<SourceLanguageExtension Condition="'$(MSBuildProjectExtension)' == '.csproj'">cs</SourceLanguageExtension>
+			<SourceLanguageExtension Condition="'$(MSBuildProjectExtension)' == '.fsproj'">fs</SourceLanguageExtension>
+			<SourceLanguageExtension Condition="'$(MSBuildProjectExtension)' == '.vbproj'">vb</SourceLanguageExtension>
+		</PropertyGroup>
+	</Target>
+
+	<Target Name="GenerateCompiledExpressionsTempFile" DependsOnTargets="GetSourceLanguageExtension" Condition="'$(SourceLanguageExtension)' != ''">
+		<!-- Temporary Generated Source files for Compiled Expressions -->
+		<PropertyGroup>
+			<!-- IDE Editing GUID: {E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3} -->
+			<GenerateCompiledExpressionsTempFilePathForEditing>$(IntermediateOutputPath)\TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.$(SourceLanguageExtension)</GenerateCompiledExpressionsTempFilePathForEditing>
+			<!-- IDE Validation GUID: {036C0B5B-1481-4323-8D20-8F5ADCB23D92} -->
+			<GenerateCompiledExpressionsTempFilePathForValidation>$(IntermediateOutputPath)\TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.$(SourceLanguageExtension)</GenerateCompiledExpressionsTempFilePathForValidation>
+			<!-- IDE Type Inference GUID: {5937A670-0E60-4077-877B-F7221DA3DDA1} -->
+			<GenerateCompiledExpressionsTempFilePathForTypeInfer>$(IntermediateOutputPath)\TemporaryGeneratedFile_5937A670-0E60-4077-877B-F7221DA3DDA1.$(SourceLanguageExtension)</GenerateCompiledExpressionsTempFilePathForTypeInfer>
 		</PropertyGroup>
 
 		<WriteLinesToFile File="$(GenerateCompiledExpressionsTempFilePathForEditing)" Condition="!Exists('$(GenerateCompiledExpressionsTempFilePathForEditing)')"/>
