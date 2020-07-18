@@ -1,0 +1,121 @@
+<Project>
+
+	<!-- 'TargetFramework' should not be empty when entering here -->
+
+	<!--
+		Note that this file is only included when 'TargetFramework' is set and so we do not need to check that here.
+
+		Common targets require that 'TargetFrameworkIdentifier' AND 'TargetFrameworkVersion' are set by static evaluation
+		before they are imported. In common cases, we infer them from the short names given via 'TargetFramework'
+		to allow for terseness and lack of duplication in project files. For other cases, the user must supply them manually.
+
+		For cases where inference is supported, the user need only specify the targets in 'TargetFrameworks', e.g:
+
+		<PropertyGroup>
+			<TargetFrameworks>net4.7.2;netstandard2.0;net5.0</TargetFrameworks>
+		</PropertyGroup>
+
+		For cases where inference is not supported, identifier and version can be specified explicitly as follows:
+
+		<PropertyGroup>
+			<TargetFrameworks>net5.0;xyz1.0</TargetFrameworks>
+		<PropertyGroup>
+
+		<PropertyGroup Condition="'$(TargetFramework)' == 'xyz1.0'">
+			<TargetFrameworkIdentifier>Xyz</TargetFrameworkIdentifier>
+		<PropertyGroup>
+
+		Note in the xyz1.0 case, which is meant to demonstrate a framework we don't yet recognize, we can still
+		infer the version of 1.0. The user can also override it as always we honor a value that is already set.
+	-->
+
+	<PropertyGroup>
+		<_IsInvalidTargetFramework Condition="$(TargetFramework.Contains(','))">true</_IsInvalidTargetFramework>
+		<_IsInvalidTargetFramework Condition="$(TargetFramework.Contains('+'))">true</_IsInvalidTargetFramework>
+		<_IsInvalidTargetFramework Condition="$(TargetFramework.Contains('~'))">true</_IsInvalidTargetFramework>
+	</PropertyGroup>
+
+	<!--
+		$(TargetFramework) = $(_ShortFrameworkIdentifier)$(_ShortFrameworkVersion)
+	-->
+
+	<!-- if version-less framework is specified then default to the highest version supported by the SDK -->
+	<PropertyGroup>
+		<TargetFramework Condition="'$(TargetFramework)' == 'net'">net5.0</TargetFramework>
+		<TargetFramework Condition="'$(TargetFramework)' == 'netcoreapp'">netcoreapp3.1</TargetFramework>
+		<TargetFramework Condition="'$(TargetFramework)' == 'netstandard'">netstandard2.1</TargetFramework>
+	</PropertyGroup>
+
+	<!--
+		Split 'TargetFramework' into short identifier, version.
+		For Example: 'net5.0' into 'net', '5.0'
+	-->
+	<PropertyGroup>
+		<_ShortFrameworkIdentifier>$(TargetFramework.TrimEnd('.0123456789'))</_ShortFrameworkIdentifier>
+		<_ShortFrameworkVersion>$(TargetFramework.Substring($(_ShortFrameworkIdentifier.Length)))</_ShortFrameworkVersion>
+	</PropertyGroup>
+
+	<!-- Map short name to long name -->
+	<PropertyGroup Condition="'$(TargetFrameworkIdentifier)' == ''">
+		<TargetFrameworkIdentifier Condition="'$(_ShortFrameworkIdentifier)' == 'net'">.NETFramework</TargetFrameworkIdentifier>
+		<TargetFrameworkIdentifier Condition="'$(_ShortFrameworkIdentifier)' == 'netcoreapp'">.NETCoreApp</TargetFrameworkIdentifier>
+		<TargetFrameworkIdentifier Condition="'$(_ShortFrameworkIdentifier)' == 'netstandard'">.NETStandard</TargetFrameworkIdentifier>
+	</PropertyGroup>
+
+	<!-- Versions with dots are taken as is -->
+	<PropertyGroup Condition="'$(TargetFrameworkVersion)' == ''">
+		<TargetFrameworkVersion Condition="$(_ShortFrameworkVersion.Contains('.'))">$(_ShortFrameworkVersion)</TargetFrameworkVersion>
+	</PropertyGroup>
+
+	<!--
+		The framework identifier for short name, 'net', now depends on the version.
+			If the version is less than '5.0', the identifier is '.NETFramework' which uses netfx and netclr.
+			If the version is greater than or equal to '5.0', the identifier is '.NETCoreApp' which uses corefx and coreclr.
+	-->
+	<PropertyGroup Condition="'$(_ShortFrameworkIdentifier)' == 'net' OR '$(TargetFrameworkIdentifier)' == '.NETFramework'">
+		<TargetFrameworkIdentifier Condition="$([MSBuild]::VersionGreaterThan($(TargetFrameworkVersion), '5.0'))">.NETCoreApp</TargetFrameworkIdentifier>
+		<TargetFrameworkIdentifier Condition="$([MSBuild]::VersionEquals($(TargetFrameworkVersion), '5.0'))">.NETAnnex</TargetFrameworkIdentifier>
+		<TargetFrameworkIdentifier Condition="$([MSBuild]::VersionLessThan($(TargetFrameworkVersion), '5.0'))">.NETFramework</TargetFrameworkIdentifier>
+	</PropertyGroup>
+
+	<!--
+		Trigger an error if we're unable to infer the framework identifier and version.
+
+		We have to evaluate this here and not in the target because by the time the target runs,
+		It will have defaulted to '.NETFramework' & '5.0'.
+	-->
+	<PropertyGroup Condition="'$(TargetFrameworkIdentifier)' == '' OR '$(TargetFrameworkVersion)' == ''">
+		<_IsUnsupportedTargetFramework>true</_IsUnsupportedTargetFramework>
+	</PropertyGroup>
+
+	<!-- Used for importing framework props/targets. -->
+	<PropertyGroup Condition="'$(TargetFrameworkIdentifier)' != ''">
+		<_TargetFrameworkName>$(TargetFrameworkIdentifier)</_TargetFrameworkName>
+		<_TargetFrameworkName Condition="$(_TargetFrameworkName.StartsWith('.'))">$(_TargetFrameworkName.TrimStart('.'))</_TargetFrameworkName>
+	</PropertyGroup>
+
+	<!--
+		Don't leave 'TargetFrameworkVersion' empty if it still hasn't been determined. We will trigger the error above,
+		but we need this to be a valid version so that our error message does not get pre-empted by failure to interpret
+		version comparison expressions, which is currently unrecoverable in VS.
+
+		Also don't leave 'TargetFrameworkIdentifier' unset as it will be defaulted to '.NETFramework' by common targets, which
+		can cause restore (which we cannot block, see above) to silently succeed for empty 'TargetFramework'.
+	-->
+	<PropertyGroup>
+		<TargetFrameworkIdentifier Condition="'$(TargetFrameworkIdentifier)' == ''">NIL</TargetFrameworkIdentifier>
+		<TargetFrameworkVersion Condition="'$(TargetFrameworkVersion)' == ''">0.0</TargetFrameworkVersion>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<_ResolvedTargetFramework>true</_ResolvedTargetFramework>
+	</PropertyGroup>
+
+	<!-- HACK: Temporary shim to be compatible with the older targets, remove once we change the behavioral value of 'TargetFrameworkVersion' -->
+	<PropertyGroup Condition="'$(UsingMicrosoftNETSdk)' == 'true'">
+		<_TargetFrameworkVersionWithoutV>$(TargetFrameworkVersion)</_TargetFrameworkVersionWithoutV>
+		<_TargetFrameworkVersionWithV>v$(TargetFrameworkVersion)</_TargetFrameworkVersionWithV>
+		<TargetFrameworkVersion>$(_TargetFrameworkVersionWithV)</TargetFrameworkVersion>
+	</PropertyGroup>
+
+</Project>

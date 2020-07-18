@@ -1,27 +1,18 @@
 <Project>
 
-	<!-- We need to init _SdkFrameworkName, _SdkPlatformName properties! -->
-	<PropertyGroup>
-		<_SdkFrameworkName Condition="$(TargetFrameworkIdentifier.StartsWith('.NET'))">$(TargetFrameworkIdentifier.TrimStart('.'))</_SdkFrameworkName>
-		<_SdkFrameworkName Condition="$(TargetFrameworkIdentifier.StartsWith('Mono'))">NETMono</_SdkFrameworkName>
-		<_SdkFrameworkName Condition="'$(_SdkFrameworkName)' == ''"/>
-
-		<_SdkPlatformName Condition="$(TargetFrameworkIdentifier.StartsWith('Windows')) OR $(TargetPlatformIdentifier.StartsWith('Windows'))">Windows</_SdkPlatformName>
-		<_SdkPlatformName Condition="$(TargetFrameworkIdentifier.StartsWith('Xamarin')) OR $(TargetPlatformIdentifier.StartsWith('Mac'))">Apple</_SdkPlatformName>
-		<_SdkPlatformName Condition="$(TargetFrameworkIdentifier.StartsWith('Xamarin')) OR $(TargetPlatformIdentifier.StartsWith('Android'))">Android</_SdkPlatformName>
-		<_SdkPlatformName Condition="$(TargetFrameworkIdentifier.StartsWith('Tizen')) OR $(TargetPlatformIdentifier.StartsWith('Tizen'))">Tizen</_SdkPlatformName>
-		<_SdkPlatformName Condition="$(TargetPlatformIdentifier.StartsWith('Linux'))">Linux</_SdkPlatformName>
-		<_SdkPlatformName Condition="'$(_SdkPlatformName)' == ''"/>
-	</PropertyGroup>
-
-	<ImportGroup Condition="'$(_SdkFrameworkName)' != ''">
-		<Import Project="Frameworks\MSBuild.$(_SdkFrameworkName).props"/>
-		<Import Project="Frameworks\MSBuild.$(_SdkFrameworkName).targets"/>
+	<ImportGroup Condition="'$(SourceLanguageName)' != ''">
+		<Import Project="..\Core\Languages\MSBuild.$(SourceLanguageName).props" Condition="'$(_ImportedSdkLanguageProps)' != 'true'"/>
+		<Import Project="..\Core\Languages\MSBuild.$(SourceLanguageName).targets"/>
 	</ImportGroup>
 
-	<ImportGroup Condition="'$(_SdkPlatformName)' != ''">
-		<Import Project="Platforms\MSBuild.$(_SdkPlatformName).props"/>
-		<Import Project="Platforms\MSBuild.$(_SdkPlatformName).targets"/>
+	<ImportGroup Condition="'$(_TargetFrameworkName)' != ''">
+		<Import Project="..\Core\Frameworks\MSBuild.$(_TargetFrameworkName).props" Condition="'$(_ImportedSdkFrameworkProps)' != 'true'"/>
+		<Import Project="..\Core\Frameworks\MSBuild.$(_TargetFrameworkName).targets"/>
+	</ImportGroup>
+
+	<ImportGroup Condition="'$(_TargetPlatformName)' != ''">
+		<Import Project="..\Core\Platforms\MSBuild.$(_TargetPlatformName).props" Condition="'$(_ImportedSdkPlatformProps)' != 'true'"/>
+		<Import Project="..\Core\Platforms\MSBuild.$(_TargetPlatformName).targets"/>
 	</ImportGroup>
 
 </Project>

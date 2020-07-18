@@ -1,70 +1,7 @@
 <Project>
 
-	<PropertyGroup Condition="'$(ImplicitFrameworkPackageName)' == ''">
-		<ImplicitFrameworkPackageName>Microsoft.NETCore.UniversalWindowsPlatform</ImplicitFrameworkPackageName>
+	<PropertyGroup>
+
 	</PropertyGroup>
-
-	<!--
-		Set the default versions of the Microsoft.NETCore.UniversalWindowsPlatform packages to reference.
-		The implicit package references are defined in MSBuild.NET.Sdk.props, so that they can be overridden in the project file.
-	-->
-
-	<!--
-		Determine the ImplicitFrameworkPackageVersion when targeting .NET Core for UWP
-
-		When targeting .NET Core for UWP, the TargetPlatformMinVersion is generally used to specify which version of the runtime to use.
-
-		In order to target a specific patch version, or to float the version number (6.0-*), the ImplicitFrameworkPackageVersion
-		property can be used.
-
-		The framework version that is written to the runtimeconfig.json file is based on the actual resolved package version
-		of Microsoft.NETCore.UniversalWindowsPlatform. This is to allow floating the verion number.
-
-		If ImplicitFrameworkPackageVersion is not specified, the following logic applies:
-
-		- When targeting .NET Core for UWP 5.0 or higher (Windows 10):
-		- Apps uses the latest of the first publically avaialble major version.
-
-		- When targeting .NET Core for UWP 4.5.x (Windows 8.x):
-		- Apps don't have UWP Packages since it comes from the SDK.
-	-->
-	<Choose>
-		<!-- If the ImplicitFrameworkPackageVersion is already set, do nothing -->
-		<When Condition="'$(ImplicitFrameworkPackageVersion)' != ''"/>
-
-		<When Condition="$(_TargetFrameworkVersionWithoutV.StartsWith('4.5'))">
-			<PropertyGroup>
-				<DisableImplicitFrameworkReferences>true</DisableImplicitFrameworkReferences>
-			</PropertyGroup>
-		</When>
-		<When Condition="'$(_TargetFrameworkVersionWithoutV)' == '5.0'">
-			<PropertyGroup Condition="'$(TargetPlatformBuildVersion)' != ''">
-				<ImplicitFrameworkPackageVersion Condition="'$(TargetPlatformBuildVersion)' >= '10150'">5.0.*</ImplicitFrameworkPackageVersion>
-				<ImplicitFrameworkPackageVersion Condition="'$(TargetPlatformBuildVersion)' >= '10150'">5.1.*</ImplicitFrameworkPackageVersion>
-				<ImplicitFrameworkPackageVersion Condition="'$(TargetPlatformBuildVersion)' >= '10150'">5.2.*</ImplicitFrameworkPackageVersion>
-				<ImplicitFrameworkPackageVersion Condition="'$(TargetPlatformBuildVersion)' >= '10150'">5.3.*</ImplicitFrameworkPackageVersion>
-				<ImplicitFrameworkPackageVersion Condition="'$(TargetPlatformBuildVersion)' >= '10150'">5.4.*</ImplicitFrameworkPackageVersion>
-				<ImplicitFrameworkPackageVersion Condition="'$(TargetPlatformBuildVersion)' >= '15138'">6.0.*</ImplicitFrameworkPackageVersion>
-				<ImplicitFrameworkPackageVersion Condition="'$(TargetPlatformBuildVersion)' >= '16300'">6.1.*</ImplicitFrameworkPackageVersion>
-			</PropertyGroup>
-
-			<PropertyGroup Condition="'$(DotNetNativeToolsVersion)' != ''">
-				<ImplicitFrameworkPackageVersion Condition="'$(DotNetNativeToolsVersion)' >= '1.3'">5.0.*</ImplicitFrameworkPackageVersion>
-				<ImplicitFrameworkPackageVersion Condition="'$(DotNetNativeToolsVersion)' >= '1.4'">5.1.*</ImplicitFrameworkPackageVersion>
-				<ImplicitFrameworkPackageVersion Condition="'$(DotNetNativeToolsVersion)' >= '1.5'">5.2.*</ImplicitFrameworkPackageVersion>
-				<ImplicitFrameworkPackageVersion Condition="'$(DotNetNativeToolsVersion)' >= '1.6'">5.3.*</ImplicitFrameworkPackageVersion>
-				<ImplicitFrameworkPackageVersion Condition="'$(DotNetNativeToolsVersion)' >= '1.7'">5.4.*</ImplicitFrameworkPackageVersion>
-				<ImplicitFrameworkPackageVersion Condition="'$(DotNetNativeToolsVersion)' >= '2.0'">6.0.*</ImplicitFrameworkPackageVersion>
-				<ImplicitFrameworkPackageVersion Condition="'$(DotNetNativeToolsVersion)' >= '2.1'">6.1.*</ImplicitFrameworkPackageVersion>
-			</PropertyGroup>
-		</When>
-
-		<!-- If not covered by the previous cases, use the target framework version for the ImplicitFrameworkPackageVersion -->
-		<Otherwise>
-			<PropertyGroup>
-				<ImplicitFrameworkPackageVersion>$(_TargetFrameworkVersionWithoutV)</ImplicitFrameworkPackageVersion>
-			</PropertyGroup>
-		</Otherwise>
-	</Choose>
 
 </Project>

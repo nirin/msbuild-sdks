@@ -1,0 +1,101 @@
+<Project>
+
+	<PropertyGroup Condition="'$(TargetPlatform)' == ''">
+		<TargetPlatform>nil</TargetPlatform>
+		<_IsInvalidTargetPlatform>true</_IsInvalidTargetPlatform>
+	</PropertyGroup>
+
+	<Target Name="_CheckForInvalidTargetPlatform"
+		BeforeTargets="_CheckForInvalidConfigurationAndPlatform;Restore;CollectPackageReferences"
+		Condition="'$(_IsInvalidTargetPlatform)' == 'true'">
+
+		<NETSdkError Condition="'$(TargetPlatform)' != ''"
+			ResourceName="CannotResolveTargetPlatform"
+			FormatArguments="$([MSBuild]::Escape('$(TargetPlatform)'))"/>
+
+		<NETSdkError Condition="'$(TargetPlatform)' == ''"
+			ResourceName="EmptyTargetPlatform"
+			FormatArguments="$([MSBuild]::Escape('$(TargetPlatform)'))"/>
+	</Target>
+
+	<!--
+		NOTE:
+		We must not validate the 'TargetPlatform' before restore target runs as it prevents adding
+		additional 'TargetPlatform' support from being provided by a package such as 'MSBuild.NET.Extras.Sdk'.
+
+		We run before 'RunResolvePackageDependencies' and 'GetReferenceAssemblyPaths' so that design-time builds
+		which do not currently invoke '_CheckForInvalidConfigurationAndPlatform', will not trigger spurious
+		errors that are only consequences of the root cause identified here.
+	-->
+	<Target Name="_CheckForUnsupportedTargetPlatform"
+		BeforeTargets="_CheckForInvalidConfigurationAndPlatform;RunResolvePackageDependencies;GetReferenceAssemblyPaths"
+		Condition="'$(_IsUnsupportedTargetPlatform)' == 'true' AND '$(_IsInvalidTargetPlatform)' != 'true'">
+
+		<NETSdkError Condition="!$(TargetPlatform.Contains(';'))"
+			ResourceName="CannotInferTargetPlatformIdentiferAndVersion"
+			FormatArguments="$([MSBuild]::Escape('$(TargetPlatform)'))"/>
+
+		<NETSdkError Condition="$(TargetPlatform.Contains(';'))"
+			ResourceName="TargetPlatformWithSemicolon"
+			FormatArguments="$([MSBuild]::Escape('$(TargetPlatform)'))"/>
+	</Target>
+
+	<!-- Get the maximum version supported by the SDK for the given platform. -->
+	<Target Name="_GetSupportedTargetPlatforms">
+
+		<PropertyGroup Condition="'$(TargetPlatformIdentifier)' == 'Windows'">
+			<TargetPlatformDisplayName>Windows</TargetPlatformDisplayName>
+			<TargetPlatformMaxVersion>10.0</TargetPlatformMaxVersion>
+		</PropertyGroup>
+
+		<PropertyGroup Condition="'$(TargetPlatformIdentifier)' == 'Android'">
+			<TargetPlatformDisplayName>Android</TargetPlatformDisplayName>
+			<TargetPlatformMaxVersion>10.0</TargetPlatformMaxVersion>
+		</PropertyGroup>
+
+		<PropertyGroup Condition="'$(TargetPlatformIdentifier)' == 'MacOS'">
+			<TargetPlatformDisplayName>Mac OS</TargetPlatformDisplayName>
+			<TargetPlatformMaxVersion>10.14</TargetPlatformMaxVersion>
+		</PropertyGroup>
+
+		<PropertyGroup Condition="'$(TargetPlatformIdentifier)' == 'iOS'">
+			<TargetPlatformDisplayName>iOS (iPhone + iPad)</TargetPlatformDisplayName>
+			<TargetPlatformMaxVersion>14.0</TargetPlatformMaxVersion>
+		</PropertyGroup>
+
+		<PropertyGroup Condition="'$(TargetPlatformIdentifier)' == 'Tizen'">
+			<TargetPlatformDisplayName>Tizen</TargetPlatformDisplayName>
+			<TargetPlatformMaxVersion>6.0</TargetPlatformMaxVersion>
+		</PropertyGroup>
+
+	</Target>
+
+	<!-- Trigger an error if targeting a higher version of 'TargetPlatform' than the one supported by the current SDK. -->
+	<Target Name="_CheckForUnsupportedTargetPlatformVersion"
+		BeforeTargets="_CheckForInvalidConfigurationAndPlatform;Restore;CollectPackageReferences"
+		DependsOnTargets="_GetSupportedTargetPlatforms"
+		Condition="'$(TargetPlatformIdentifier)' != 'NIL' AND '$(TargetPlatformMaxVersion)' != ''">
+
+		<NETSdkError ResourceName="UnsupportedTargetPlatformVersion"
+			FormatArguments="$(TargetPlatformDisplayName);$(TargetPlatformVersion);$(TargetPlatformMaxVersion)"
+			Condition="'$(TargetPlatformVersion)' > '$(TargetPlatformMaxVersion)'"/>
+	</Target>
+
+	<Target Name="_CheckForUnsupportedTargetPlatformAndFeatureCombination"
+		BeforeTargets="_CheckForInvalidConfigurationAndPlatform;Restore;CollectPackageReferences"
+		Condition="'$(TargetPlatformIdentifier)' == 'Linux'">
+
+		<NETSdkError ResourceName="WithoutUsingSdkPlatformDefaults"
+			Condition="'$(UsingSdkPlatformDefaults)' != 'true'"/>
+	</Target>
+
+	<!-- Trigger an error if C++ project targeting .NET Core, targets platform other than Windows 7 and above. -->
+	<Target Name="_CheckForUnsupportedCppPlatform"
+		BeforeTargets="_CheckForInvalidConfigurationAndPlatform;Restore;CollectPackageReferences"
+		Condition="'$(Language)' == 'C++'">
+
+		<NETSdkError ResourceName="CppRequiresMinWindows7"
+			Condition="!('$(TargetPlatformIdentifier)' == 'Windows' AND $([MSBuild]::VersionGreaterThanOrEquals($(TargetPlatformVersion), '7.0')))"/>
+	</Target>
+
+</Project>

@@ -1,0 +1,85 @@
+<Project>
+
+	<!-- 'TargetMachine' should not be empty when entering here -->
+
+	<PropertyGroup>
+		<_IsInvalidTargetMachine Condition="$(TargetMachine.Contains(','))">true</_IsInvalidTargetMachine>
+		<_IsInvalidTargetMachine Condition="$(TargetMachine.Contains('+'))">true</_IsInvalidTargetMachine>
+		<_IsInvalidTargetMachine Condition="$(TargetMachine.Contains('~'))">true</_IsInvalidTargetMachine>
+	</PropertyGroup>
+
+	<!--
+		$(TargetMachine) = $(_ShortMachineIdentifier)-$(_ShortMachineCompiler)
+	-->
+
+	<!-- if compiler-less machine is specified then default to the portable compiler supported by the SDK -->
+	<PropertyGroup>
+		<TargetMachine Condition="'$(TargetMachine)' == 'x32'">x32-jit</TargetMachine>
+		<TargetMachine Condition="'$(TargetMachine)' == 'x64'">x64-jit</TargetMachine>
+		<TargetMachine Condition="'$(TargetMachine)' == 'arm'">arm32-aot</TargetMachine>
+		<TargetMachine Condition="'$(TargetMachine)' == 'arm32'">arm32-aot</TargetMachine>
+		<TargetMachine Condition="'$(TargetMachine)' == 'arm64'">arm64-aot</TargetMachine>
+	</PropertyGroup>
+
+	<!--
+		Split 'TargetMachine' into short identifier, compiler
+		For Example: 'x64-aot' into 'x64', 'aot'
+	-->
+	<Choose>
+		<!-- Handle short machine ids with profiles -->
+		<When Condition="$(TargetPlatform.Contains('-'))">
+			<PropertyGroup>
+				<_ShortMachineIdentifier>$(TargetMachine.Split('-')[0])</_ShortMachineIdentifier>
+				<_ShortMachineCompiler>$(TargetMachine.Split('-')[1])</_ShortMachineCompiler>
+			</PropertyGroup>
+		</When>
+
+		<!-- Handle short machine ids without profiles -->
+		<Otherwise>
+			<PropertyGroup>
+				<_ShortMachineIdentifier>$(TargetMachine)</_ShortMachineIdentifier>
+				<_ShortMachineCompiler Condition="!$(_ShortMachineIdentifier.StartsWith('arm'))">jit</_ShortMachineCompiler>
+				<_ShortMachineCompiler Condition="$(_ShortMachineIdentifier.StartsWith('arm'))">aot</_ShortMachineCompiler>
+			</PropertyGroup>
+		</Otherwise>
+	</Choose>
+
+	<!-- Map short name to long name -->
+	<PropertyGroup Condition="'$(TargetMachineIdentifier)' == ''">
+		<TargetMachineIdentifier Condition="'$(_ShortMachineIdentifier)' == 'x32'">X32</TargetMachineIdentifier>
+		<TargetMachineIdentifier Condition="'$(_ShortMachineIdentifier)' == 'x64'">X64</TargetMachineIdentifier>
+		<TargetMachineIdentifier Condition="'$(_ShortMachineIdentifier)' == 'arm32'">ARM32</TargetMachineIdentifier>
+		<TargetMachineIdentifier Condition="'$(_ShortMachineIdentifier)' == 'arm64'">ARM64</TargetMachineIdentifier>
+	</PropertyGroup>
+
+	<!-- Legacy ISA names but if specified, we point to new names -->
+	<PropertyGroup Condition="'$(TargetMachineIdentifier)' == ''">
+		<TargetMachineIdentifier Condition="'$(_ShortMachineIdentifier)' == 'i386'">X32</TargetMachineIdentifier>
+		<TargetMachineIdentifier Condition="'$(_ShortMachineIdentifier)' == 'i686'">X32</TargetMachineIdentifier>
+		<TargetMachineIdentifier Condition="'$(_ShortMachineIdentifier)' == 'x86'">X32</TargetMachineIdentifier>
+		<TargetMachineIdentifier Condition="'$(_ShortMachineIdentifier)' == 'x86_32'">X32</TargetMachineIdentifier>
+		<TargetMachineIdentifier Condition="'$(_ShortMachineIdentifier)' == 'x86_64'">x64</TargetMachineIdentifier>
+		<TargetMachineIdentifier Condition="'$(_ShortMachineIdentifier)' == 'ia64'">X64</TargetMachineIdentifier>
+		<TargetMachineIdentifier Condition="'$(_ShortMachineIdentifier)' == 'amd64'">X64</TargetMachineIdentifier>
+		<TargetMachineIdentifier Condition="'$(_ShortMachineIdentifier)' == 'arm'">ARM32</TargetMachineIdentifier>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(TargetMachineCompiler)' == ''">
+		<TargetMachineCompiler Condition="'$(_ShortMachineCompiler)' == 'aot'">AOT</TargetMachineCompiler>
+		<TargetMachineCompiler Condition="'$(_ShortMachineCompiler)' == 'jit'">JIT</TargetMachineCompiler>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(TargetMachineIdentifier)' == '' OR '$(TargetMachineCompiler)' == ''">
+		<_IsUnsupportedTargetMachine>true</_IsUnsupportedTargetMachine>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<TargetMachineIdentifier Condition="'$(TargetMachineIdentifier)' == ''">NIL</TargetMachineIdentifier>
+		<TargetMachineCompiler Condition="'$(TargetMachineCompiler)' == ''">NIL</TargetMachineCompiler>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<_ResolvedTargetMachine>true</_ResolvedTargetMachine>
+	</PropertyGroup>
+
+</Project>

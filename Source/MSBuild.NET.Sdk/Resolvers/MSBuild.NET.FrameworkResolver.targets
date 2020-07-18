@@ -1,0 +1,96 @@
+<Project>
+
+	<PropertyGroup Condition="'$(TargetFramework)' == ''">
+		<TargetFramework>nil</TargetFramework>
+		<_IsInvalidTargetFramework>true</_IsInvalidTargetFramework>
+	</PropertyGroup>
+
+	<Target Name="_CheckForInvalidTargetFramework"
+		BeforeTargets="_CheckForInvalidConfigurationAndPlatform;Restore;CollectPackageReferences"
+		Condition="'$(_IsInvalidTargetFramework)' == 'true'">
+
+		<NETSdkError Condition="'$(TargetFramework)' != ''"
+			ResourceName="CannotResolveTargetFramework"
+			FormatArguments="$([MSBuild]::Escape('$(TargetFramework)'))"/>
+
+		<NETSdkError Condition="'$(TargetFramework)' == ''"
+			ResourceName="EmptyTargetFramework"
+			FormatArguments="$([MSBuild]::Escape('$(TargetFramework)'))"/>
+	</Target>
+
+	<!--
+		NOTE:
+		We must not validate the 'TargetFramework' before restore target runs as it prevents adding
+		additional 'TargetFramework' support from being provided by a package such as 'MSBuild.NET.Extras.Sdk'.
+
+		We run before 'RunResolvePackageDependencies' and 'GetReferenceAssemblyPaths' so that design-time builds
+		which do not currently invoke '_CheckForInvalidConfigurationAndPlatform', will not trigger spurious
+		errors that are only consequences of the root cause identified here.
+	-->
+	<Target Name="_CheckForUnsupportedTargetFramework"
+		BeforeTargets="_CheckForInvalidConfigurationAndPlatform;RunResolvePackageDependencies;GetReferenceAssemblyPaths"
+		Condition="'$(_IsUnsupportedTargetFramework)' == 'true' AND '$(_IsInvalidTargetFramework)' != 'true'">
+
+		<NETSdkError Condition="!$(TargetFramework.Contains(';'))"
+			ResourceName="CannotInferTargetFrameworkIdentiferAndVersion"
+			FormatArguments="$([MSBuild]::Escape('$(TargetFramework)'))"/>
+
+		<NETSdkError Condition="$(TargetFramework.Contains(';'))"
+			ResourceName="TargetFrameworkWithSemicolon"
+			FormatArguments="$([MSBuild]::Escape('$(TargetFramework)'))"/>
+	</Target>
+
+	<!-- Get the maximum version supported by the SDK for the given framework. -->
+	<Target Name="_GetSupportedTargetFrameworks">
+
+		<PropertyGroup Condition="'$(TargetFrameworkIdentifier)' == '.NETFramework'">
+			<TargetFrameworkDisplayName>.NET Framework (Windows Desktop)</TargetFrameworkDisplayName>
+			<TargetFrameworkMaxVersion>4.8</TargetFrameworkMaxVersion>
+		</PropertyGroup>
+
+		<PropertyGroup Condition="'$(TargetFrameworkIdentifier)' == '.NETCoreApp'">
+			<TargetFrameworkDisplayName>.NET Core (Cross Platform)</TargetFrameworkDisplayName>
+			<TargetFrameworkMaxVersion>3.1</TargetFrameworkMaxVersion>
+		</PropertyGroup>
+
+		<PropertyGroup Condition="'$(TargetFrameworkIdentifier)' == '.NETStandard'">
+			<TargetFrameworkDisplayName>.NET Standard (Portable API Set)</TargetFrameworkDisplayName>
+			<TargetFrameworkMaxVersion>2.1</TargetFrameworkMaxVersion>
+		</PropertyGroup>
+
+		<PropertyGroup Condition="'$(TargetFrameworkIdentifier)' == '.NETAnnex'">
+			<TargetFrameworkDisplayName>.NET Framework (Cross Platform)</TargetFrameworkDisplayName>
+			<TargetFrameworkMaxVersion>5.0</TargetFrameworkMaxVersion>
+		</PropertyGroup>
+
+	</Target>
+
+	<!-- Trigger an error if targeting a higher version of 'TargetFramework' than the one supported by the current SDK. -->
+	<Target Name="_CheckForUnsupportedTargetFrameworkVersion"
+		BeforeTargets="_CheckForInvalidConfigurationAndPlatform;Restore;CollectPackageReferences"
+		DependsOnTargets="_GetSupportedTargetFrameworks"
+		Condition="'$(TargetFrameworkIdentifier)' != 'NIL' AND '$(TargetFrameworkMaxVersion)' != ''">
+
+		<NETSdkError ResourceName="UnsupportedTargetFrameworkVersion"
+			FormatArguments="$(TargetFrameworkDisplayName);$(TargetFrameworkVersion);$(TargetFrameworkMaxVersion)"
+			Condition="'$(TargetFrameworkVersion)' > '$(TargetFrameworkMaxVersion)'"/>
+	</Target>
+
+	<Target Name="_CheckForUnsupportedTargetFrameworkAndFeatureCombination"
+		BeforeTargets="_CheckForInvalidConfigurationAndPlatform;Restore;CollectPackageReferences"
+		Condition="'$(TargetFrameworkIdentifier)' == '.NETFramework'">
+
+		<NETSdkError ResourceName="NETFrameworkWithoutUsingNETSdkDefaults"
+			Condition="'$(UsingNETSdkDefaults)' != 'true'"/>
+	</Target>
+
+	<!-- Trigger an error if C++ project targeting .NET Core with version less than '3.1'. -->
+	<Target Name="_CheckForUnsupportedCppFramework"
+		BeforeTargets="_CheckForInvalidConfigurationAndPlatform;Restore;CollectPackageReferences"
+		Condition="'$(Language)' == 'C++'">
+
+		<NETSdkError ResourceName="CppRequiresTFMVersion31"
+			Condition="'$(TargetFrameworkIdentifier)' == '.NETCoreApp' AND '$(TargetFrameworkVersion)' &lt; '3.1'"/>
+	</Target>
+
+</Project>

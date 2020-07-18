@@ -1,0 +1,10 @@
+<Project>
+
+	<!-- Import design time targets for the Roslyn Project System. These are only available if Visual Studio is installed. -->
+	<PropertyGroup>
+		<DesignTimeLanguageTargets Condition="'$(DesignTimeLanguageTargets)'==''">$(MSBuildExtensionsPath)\Microsoft\VisualStudio\Managed\Microsoft.$(SourceLanguageName).DesignTime.targets</DesignTimeLanguageTargets>
+	</PropertyGroup>
+
+	<Import Project="$(DesignTimeLanguageTargets)" Condition="'$(DesignTimeLanguageTargets)' != '' AND Exists('$(DesignTimeLanguageTargets)')"/>
+
+</Project>

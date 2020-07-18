@@ -4,7 +4,8 @@
 		Expand TargetFramework to TargetFrameworkIdentifier and TargetFrameworkVersion,
 		and adjust intermediate and output paths to include it.
 	-->
-	<Import Project="Resolvers\MSBuild.NET.FrameworkInference.targets"/>
+	<Import Project="..\Resolvers\MSBuild.NET.FrameworkResolver.props"/>
+	<Import Project="..\Resolvers\MSBuild.NET.FrameworkResolver.targets"/>
 
 	<PropertyGroup>
 		<_IsExecutable Condition="'$(OutputType)' == 'Exe' OR '$(OutputType)'=='WinExe'">true</_IsExecutable>
@@ -19,7 +20,7 @@
 		Use RuntimeIdentifier to determine PlatformTarget.
 		Also, enforce that RuntimeIdentifier is always specified for .NETFramework executables.
 	-->
-	<Import Project="Resolvers\MSBuild.NET.RuntimeInference.targets"/>
+	<Import Sdk="Microsoft.NET.Sdk" Project="..\targets\Microsoft.NET.RuntimeIdentifierInference.targets"/>
 
 	<PropertyGroup Condition="'$(_IsNETCoreOrNETStandard)' == ''">
 		<_IsNETCoreOrNETStandard Condition="'$(TargetFrameworkIdentifier)' == '.NETStandard' OR '$(TargetFrameworkIdentifier)' == '.NETCoreApp'">true</_IsNETCoreOrNETStandard>

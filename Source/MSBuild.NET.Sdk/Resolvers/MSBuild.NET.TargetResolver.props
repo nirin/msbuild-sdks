@@ -1,0 +1,50 @@
+<Project>
+
+	<!-- 'TargetProfile' should not be empty when entering here -->
+
+	<!--
+		$(TargetProfile) = $(TargetFramework)~$(TargetPlatform)~$(TargetMachine)
+		$(TargetProfile) = $(TargetFramework)~$(TargetRuntime)
+		$(TargetRuntime) = $(TargetPlatform)~$(TargetMachine)
+	-->
+	<Choose>
+		<When Condition="$(TargetProfile.StartsWith('~')) OR $(TargetProfile.EndsWith('~'))">
+			<PropertyGroup>
+				<_IsInvalidTargetProfile>true</_IsInvalidTargetProfile>
+			</PropertyGroup>
+		</When>
+
+		<When Condition="$(TargetProfile.Contains('~'))">
+
+			<PropertyGroup>
+				<_TargetProfileCount>$(TargetProfile.Split('~').Length)</_TargetProfileCount>
+			</PropertyGroup>
+
+			<Choose>
+				<When Condition="$(_TargetProfileCount) &gt; 1 AND $(_TargetProfileCount) &lt; 4">
+					<PropertyGroup>
+						<TargetFramework>$(TargetProfile.Split('~')[0])</TargetFramework>
+						<TargetPlatform Condition="$(_TargetProfileCount) == 2">$(TargetProfile.Split('~')[1])</TargetPlatform>
+						<TargetMachine Condition="$(_TargetProfileCount) == 3">$(TargetProfile.Split('~')[2])</TargetMachine>
+					</PropertyGroup>
+				</When>
+				<Otherwise>
+					<PropertyGroup>
+						<_IsInvalidTargetProfile>true</_IsInvalidTargetProfile>
+					</PropertyGroup>
+				</Otherwise>
+			</Choose>
+		</When>
+
+		<Otherwise>
+			<PropertyGroup>
+				<TargetFramework>$(TargetProfile)</TargetFramework>
+			</PropertyGroup>
+		</Otherwise>
+	</Choose>
+
+	<PropertyGroup>
+		<_ResolvedTargetProfile>true</_ResolvedTargetProfile>
+	</PropertyGroup>
+
+</Project>

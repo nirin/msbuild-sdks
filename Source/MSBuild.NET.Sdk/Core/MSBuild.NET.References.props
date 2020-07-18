@@ -1,0 +1,19 @@
+<Project>
+
+	<ItemGroup Condition="'$(DisableTargetFrameworkReference)' != 'true'">
+		<FrameworkReference
+			Include="$(TargetFrameworkPackageName)"
+			Version="$(TargetFrameworkPackageVersion)"
+			Pack="false" Publish="false"
+			IsImplicitlyDefined="true"/>
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(DisableTargetPlatformReference)' != 'true'">
+		<PlatformReference
+			Include="$(TargetPlatformPackageName)"
+			Version="$(TargetPlatformPackageVersion)"
+			Pack="false" Publish="false"
+			IsImplicitlyDefined="true"/>
+	</ItemGroup>
+
+</Project>

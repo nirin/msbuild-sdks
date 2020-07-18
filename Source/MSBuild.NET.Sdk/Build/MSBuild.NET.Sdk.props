@@ -1,11 +1,13 @@
 <Project>
 
-	<Import Project="MSBuild.NET.ProjectCore.props"/>
+	<Import Project="..\Core\MSBuild.NET.Defaults.props"/>
 
-	<Import Sdk="Microsoft.NET.Sdk" Project="..\targets\Microsoft.NET.PackTool.props"/>
+	<Import Project="..\Core\MSBuild.NET.Defaults.Items.props"/>
 
-	<PropertyGroup>
-		<ImportedMSBuildNETSdkProps>true</ImportedMSBuildNETSdkProps>
-	</PropertyGroup>
+	<Import Project="..\Core\MSBuild.NET.References.props"/>
+
+	<Import Project="..\Core\MSBuild.NET.Specifics.props"/>
+
+	<Import Project="..\ProjectSystem\MSBuild.NET.ProjectSystem.props"/>
 
 </Project>

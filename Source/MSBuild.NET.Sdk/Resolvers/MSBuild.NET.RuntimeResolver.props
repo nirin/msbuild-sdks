@@ -1,0 +1,47 @@
+<Project>
+
+	<!-- 'TargetRuntime' should not be empty when entering here -->
+
+	<!--
+		$(TargetRuntime) = $(TargetPlatform)~$(TargetMachine)
+	-->
+	<Choose>
+		<When Condition="$(TargetRuntime.StartsWith('~')) OR $(TargetRuntime.EndsWith('~'))">
+			<PropertyGroup>
+				<_IsInvalidTargetRuntime>true</_IsInvalidTargetRuntime>
+			</PropertyGroup>
+		</When>
+
+		<When Condition="$(TargetRuntime.Contains('~'))">
+
+			<PropertyGroup>
+				<_TargetRuntimeCount>$(TargetRuntime.Split('~').Length)</_TargetRuntimeCount>
+			</PropertyGroup>
+
+			<Choose>
+				<When Condition="$(_TargetRuntimeCount) == 2">
+					<PropertyGroup>
+						<TargetPlatform>$(TargetRuntime.Split('~')[0])</TargetPlatform>
+						<TargetMachine>$(TargetRuntime.Split('~')[1])</TargetMachine>
+					</PropertyGroup>
+				</When>
+				<Otherwise>
+					<PropertyGroup>
+						<_IsInvalidTargetRuntime>true</_IsInvalidTargetRuntime>
+					</PropertyGroup>
+				</Otherwise>
+			</Choose>
+		</When>
+
+		<Otherwise>
+			<PropertyGroup>
+				<TargetPlatform>$(TargetRuntime)</TargetPlatform>
+			</PropertyGroup>
+		</Otherwise>
+	</Choose>
+
+	<PropertyGroup>
+		<_ResolvedTargetRuntime>true</_ResolvedTargetRuntime>
+	</PropertyGroup>
+
+</Project>

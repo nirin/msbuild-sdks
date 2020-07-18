@@ -1,0 +1,21 @@
+<Project>
+
+	<PropertyGroup Condition="'$(TargetRuntime)' == ''">
+		<TargetRuntime>nil</TargetRuntime>
+		<_IsInvalidTargetRuntime>true</_IsInvalidTargetRuntime>
+	</PropertyGroup>
+
+	<Target Name="_CheckForInvalidTargetRuntime"
+		BeforeTargets="_CheckForInvalidConfigurationAndPlatform;Restore;CollectPackageReferences"
+		Condition="'$(_IsInvalidTargetRuntime)' == 'true'">
+
+		<NETSdkError Condition="'$(TargetRuntime)' != ''"
+			ResourceName="CannotInferTargetPlatformAndTargetMachine"
+			FormatArguments="$([MSBuild]::Escape('$(TargetRuntime)'))"/>
+
+		<NETSdkError Condition="'$(TargetRuntime)' == ''"
+			ResourceName="EmptyTargetRuntime"
+			FormatArguments="$([MSBuild]::Escape('$(TargetRuntime)'))"/>
+	</Target>
+
+</Project>

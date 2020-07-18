@@ -1,0 +1,21 @@
+<Project>
+
+	<PropertyGroup Condition="'$(TargetProfile)' == ''">
+		<TargetProfile>nil</TargetProfile>
+		<_IsInvalidTargetProfile>true</_IsInvalidTargetProfile>
+	</PropertyGroup>
+
+	<Target Name="_CheckForInvalidTargetProfile"
+		BeforeTargets="_CheckForInvalidConfigurationAndPlatform;Restore;CollectPackageReferences"
+		Condition="'$(_IsInvalidTargetProfile)' == 'true'">
+
+		<NETSdkError Condition="'$(TargetProfile)' != ''"
+			ResourceName="CannotResolveTargetProfile"
+			FormatArguments="$([MSBuild]::Escape('$(TargetProfile)'))"/>
+
+		<NETSdkError Condition="'$(TargetProfile)' == ''"
+			ResourceName="EmptyTargetProfile"
+			FormatArguments="$([MSBuild]::Escape('$(TargetProfile)'))"/>
+	</Target>
+
+</Project>

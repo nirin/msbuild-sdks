@@ -1,0 +1,87 @@
+<Project>
+
+	<!-- 'TargetPlatform' should not be empty when entering here -->
+
+	<PropertyGroup>
+		<_IsInvalidTargetPlatform Condition="$(TargetPlatform.Contains(','))">true</_IsInvalidTargetPlatform>
+		<_IsInvalidTargetPlatform Condition="$(TargetPlatform.Contains('+'))">true</_IsInvalidTargetPlatform>
+		<_IsInvalidTargetPlatform Condition="$(TargetPlatform.Contains('~'))">true</_IsInvalidTargetPlatform>
+	</PropertyGroup>
+
+	<!--
+		$(TargetPlatform) = $(_ShortPlatformIdentifier)$(_ShortPlatformVersion)
+	-->
+
+	<!-- if version-less platform is specified then default to the highest version supported by the SDK -->
+	<PropertyGroup>
+		<TargetPlatform Condition="'$(TargetPlatform)' == 'windows'">windows10.0</TargetPlatform>
+		<TargetPlatform Condition="'$(TargetPlatform)' == 'android'">android10.0</TargetPlatform>
+		<TargetPlatform Condition="'$(TargetPlatform)' == 'macos'">macos10.14</TargetPlatform>
+		<TargetPlatform Condition="'$(TargetPlatform)' == 'ios'">ios14.0</TargetPlatform>
+		<TargetPlatform Condition="'$(TargetPlatform)' == 'ipados'">ipados14.0</TargetPlatform>
+		<TargetPlatform Condition="'$(TargetPlatform)' == 'watchos'">watchos5.0</TargetPlatform>
+		<TargetPlatform Condition="'$(TargetPlatform)' == 'tvos'">tvos14.0</TargetPlatform>
+		<TargetPlatform Condition="'$(TargetPlatform)' == 'tizen'">tizen6.0</TargetPlatform>
+		<TargetPlatform Condition="'$(TargetPlatform)' == 'playstation'">playstation5.0</TargetPlatform>
+	</PropertyGroup>
+
+	<!--
+		Split 'TargetPlatform' into short identifier, version and profile list
+		For Example: 'windows10.0' into 'windows', '10.0'
+	-->
+	<PropertyGroup>
+		<_ShortPlatformIdentifier>$(TargetPlatform.TrimEnd('.0123456789'))</_ShortPlatformIdentifier>
+		<_ShortPlatformVersion>$(TargetPlatform.Substring($(_ShortPlatformIdentifier.Length)))</_ShortPlatformVersion>
+	</PropertyGroup>
+
+	<!-- Map short name to long name -->
+	<PropertyGroup Condition="'$(TargetPlatformIdentifier)' == ''">
+		<TargetPlatformIdentifier Condition="'$(_ShortPlatformIdentifier)' == 'windows'">Windows</TargetPlatformIdentifier>
+		<TargetPlatformIdentifier Condition="'$(_ShortPlatformIdentifier)' == 'android'">Android</TargetPlatformIdentifier>
+		<TargetPlatformIdentifier Condition="'$(_ShortPlatformIdentifier)' == 'macos'">MacOS</TargetPlatformIdentifier>
+		<TargetPlatformIdentifier Condition="'$(_ShortPlatformIdentifier)' == 'ios'">iOS</TargetPlatformIdentifier>
+		<TargetPlatformIdentifier Condition="'$(_ShortPlatformIdentifier)' == 'ipados'">iPadOS</TargetPlatformIdentifier>
+		<TargetPlatformIdentifier Condition="'$(_ShortPlatformIdentifier)' == 'watchos'">WatchOS</TargetPlatformIdentifier>
+		<TargetPlatformIdentifier Condition="'$(_ShortPlatformIdentifier)' == 'tvos'">TVOS</TargetPlatformIdentifier>
+		<TargetPlatformIdentifier Condition="'$(_ShortPlatformIdentifier)' == 'tizen'">Tizen</TargetPlatformIdentifier>
+		<TargetPlatformIdentifier Condition="'$(_ShortPlatformIdentifier)' == 'playstation'">PlayStation</TargetPlatformIdentifier>
+	</PropertyGroup>
+
+	<!-- Versions with dots are taken as is -->
+	<PropertyGroup Condition="'$(TargetPlatformVersion)' == ''">
+		<TargetPlatformVersion Condition="$(_ShortPlatformVersion.Contains('.'))">$(_ShortPlatformVersion)</TargetPlatformVersion>
+	</PropertyGroup>
+
+	<!--
+		Trigger an error if we're unable to infer the platform identifier and version.
+
+		We have to evaluate this here and not in the target because by the time the target runs,
+		It will have defaulted to 'Windows' & '10.0'.
+	-->
+	<PropertyGroup Condition="'$(TargetPlatformIdentifier)' == '' OR '$(TargetPlatformVersion)' == ''">
+		<_IsUnsupportedTargetPlatform>true</_IsUnsupportedTargetPlatform>
+	</PropertyGroup>
+
+	<!-- Used for importing platform props/targets. -->
+	<PropertyGroup Condition="'$(TargetPlatformIdentifier)' != ''">
+		<_TargetPlatformName>$(TargetPlatformIdentifier)</_TargetPlatformName>
+	</PropertyGroup>
+
+	<!--
+		Don't leave 'TargetPlatformVersion' empty if it still hasn't been determined. We will trigger the error above,
+		but we need this to be a valid version so that our error message does not get pre-empted by failure to interpret
+		version comparison expressions, which is currently unrecoverable in VS.
+
+		Also don't leave 'TargetPlatformIdentifier' unset as it will be defaulted to 'Windows' by common targets, which
+		can cause restore (which we cannot block, see above) to silently succeed for empty 'TargetPlatform'.
+	-->
+	<PropertyGroup>
+		<TargetPlatformIdentifier Condition="'$(TargetPlatformIdentifier)' == ''">NIL</TargetPlatformIdentifier>
+		<TargetPlatformVersion Condition="'$(TargetPlatformVersion)' == ''">0.0</TargetPlatformVersion>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<_ResolvedTargetPlatform>true</_ResolvedTargetPlatform>
+	</PropertyGroup>
+
+</Project>

@@ -1,0 +1,32 @@
+<Project>
+
+	<!-- 'SourceProfile' should not be empty when entering here -->
+
+	<!--
+		$(SourceProfile) = $(SourceLanguage)~$(TBA)
+	-->
+	<Choose>
+		<When Condition="$(SourceProfile.StartsWith('~')) OR $(SourceProfile.EndsWith('~'))">
+			<PropertyGroup>
+				<_IsInvalidSourceProfile>true</_IsInvalidSourceProfile>
+			</PropertyGroup>
+		</When>
+
+		<When Condition="$(SourceProfile.Contains('~'))">
+			<PropertyGroup>
+				<SourceLanguage>$(SourceProfile.Split('~')[0])</SourceLanguage>
+			</PropertyGroup>
+		</When>
+
+		<Otherwise>
+			<PropertyGroup>
+				<SourceLanguage>$(SourceProfile)</SourceLanguage>
+			</PropertyGroup>
+		</Otherwise>
+	</Choose>
+
+	<PropertyGroup>
+		<_ResolvedSourceProfile>true</_ResolvedSourceProfile>
+	</PropertyGroup>
+
+</Project>
