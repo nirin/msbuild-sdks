@@ -1,17 +1,18 @@
 <Project>
 
-	<PropertyGroup Label="Globals">
-		<RepoRootDir>$(MSBuildThisFileDirectory)</RepoRootDir>
-		<BuildToolsPath>$(RepoRootDir)Tools\</BuildToolsPath>
+	<PropertyGroup Label="Output.Folders">
+		<BuildFolder>~Builds</BuildFolder>
+		<PublishFolder>~Publish</PublishFolder>
+		<FinalOutputFolder>Finals</FinalOutputFolder>
+		<InterimOutputFolder>Interims</InterimOutputFolder>
+		<ProjectExtensionsFolder>Extensions</ProjectExtensionsFolder>
 	</PropertyGroup>
 
-	<PropertyGroup Label="Output">
-		<BuildFolder>~Builds</BuildFolder>
-		<BuildPath>$(RepoRootDir)</BuildPath>
-		<PublishFolder>~Publish</PublishFolder>
-		<PublishPath>$(RepoRootDir)</PublishPath>
-		<OutputFolder>Binaries</OutputFolder>
-		<IntermediateOutputFolder>Objects</IntermediateOutputFolder>
+	<PropertyGroup Label="Output.Paths">
+		<RepositoryDirectory>$(MSBuildThisFileDirectory)</RepositoryDirectory>
+		<BuildToolsPath>$(RepositoryDirectory)Tools\</BuildToolsPath>
+		<PublishPath>$(RepositoryDirectory)</PublishPath>
+		<BuildPath>$(RepositoryDirectory)</BuildPath>
 	</PropertyGroup>
 
 </Project>

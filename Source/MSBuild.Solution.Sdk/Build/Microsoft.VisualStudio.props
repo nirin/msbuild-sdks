@@ -2,7 +2,7 @@
 
 	<PropertyGroup Condition="'$(VisualStudioVersion)' == '' AND !Exists('$(VSToolsPath)')">
 		<MinVisualStudioVersion>10.0</MinVisualStudioVersion>
-		<BaseVSToolsPath>$(MSBuildExtensionsPath32)\Microsoft\VisualStudio</BaseVSToolsPath>
+		<BaseVSToolsPath>$(MSBuildExtensionsPath)\Microsoft\VisualStudio</BaseVSToolsPath>
 
 		<VisualStudioVersion Condition="Exists('$(BaseVSToolsPath)\v$(MinVisualStudioVersion)')">$(MinVisualStudioVersion)</VisualStudioVersion>
 		<VisualStudioVersion Condition="Exists('$(BaseVSToolsPath)\v11.0')">11.0</VisualStudioVersion>

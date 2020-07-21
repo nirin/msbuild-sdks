@@ -102,12 +102,10 @@
 		<!-- Example, Debug -->
 		<_OriginalConfiguration>$(Configuration)</_OriginalConfiguration>
 		<Configuration Condition="'$(Configuration)' == ''">Debug</Configuration>
-		<_Configuration Condition="'$(_Configuration)' == ''">$(Configuration)</_Configuration>
 
-		<!-- Example, AnyCPU -->
+		<!-- Example, Any -->
 		<_OriginalPlatform>$(Platform)</_OriginalPlatform>
-		<Platform Condition="'$(Platform)' == ''">AnyCPU</Platform>
-		<_Platform Condition="'$(_Platform)' == ''">$(Platform)</_Platform>
+		<Platform Condition="'$(Platform)' == ''">Any</Platform>
 	</PropertyGroup>
 
 	<PropertyGroup>
@@ -119,8 +117,8 @@
 	<PropertyGroup>
 		<BaseOutputPath Condition="'$(BaseOutputPath)' == ''">$(BuildPath)bin\</BaseOutputPath>
 		<BaseOutputPath Condition="!HasTrailingSlash('$(BaseOutputPath)')">$(BaseOutputPath)\</BaseOutputPath>
-		<OutputPath Condition="'$(OutputPath)' == '' AND '$(_Platform)' == 'AnyCPU'">$(BaseOutputPath)$(Configuration)\</OutputPath>
-		<OutputPath Condition="'$(OutputPath)' == '' AND '$(_Platform)' != 'AnyCPU'">$(BaseOutputPath)$(_Platform)\$(Configuration)\</OutputPath>
+		<OutputPath Condition="'$(OutputPath)' == '' AND '$(Platform)' == 'Any'">$(BaseOutputPath)$(Configuration)\</OutputPath>
+		<OutputPath Condition="'$(OutputPath)' == '' AND '$(Platform)' != 'Any'">$(BaseOutputPath)$(Platform)\$(Configuration)\</OutputPath>
 		<OutputPath Condition="!HasTrailingSlash('$(OutputPath)')">$(OutputPath)\</OutputPath>
 	</PropertyGroup>
 
@@ -129,7 +127,7 @@
 		<OutputType Condition="'$(TargetType)' == 'Container' OR '$(TargetType)' == 'DocumentContainer'">library</OutputType>
 		<OutputType Condition="'$(OutputType)' == ''">exe</OutputType>
 
-		<DebugSymbols Condition="'$(_Configuration)' == 'Debug' AND '$(DebugSymbols)' == '' AND '$(DebugType)' == ''">true</DebugSymbols>
+		<DebugSymbols Condition="'$(Configuration)' == 'Debug' AND '$(DebugSymbols)' == '' AND '$(DebugType)' == ''">true</DebugSymbols>
 
 		<!-- Whether or not a .pdb file is produced. -->
 		<_DebugSymbolsProduced>false</_DebugSymbolsProduced>
@@ -326,8 +324,8 @@
 	<PropertyGroup>
 		<BaseIntermediateOutputPath Condition="'$(BaseIntermediateOutputPath)' == ''">$(BuildPath)obj\</BaseIntermediateOutputPath>
 		<BaseIntermediateOutputPath Condition="!HasTrailingSlash('$(BaseIntermediateOutputPath)')">$(BaseIntermediateOutputPath)\</BaseIntermediateOutputPath>
-		<IntermediateOutputPath Condition="'$(IntermediateOutputPath)' == '' AND '$(_Platform)' == 'AnyCPU'">$(BaseIntermediateOutputPath)$(Configuration)\</IntermediateOutputPath>
-		<IntermediateOutputPath Condition="'$(IntermediateOutputPath)' == '' AND '$(_Platform)' != 'AnyCPU'">$(BaseIntermediateOutputPath)$(_Platform)\$(Configuration)\</IntermediateOutputPath>
+		<IntermediateOutputPath Condition="'$(IntermediateOutputPath)' == '' AND '$(Platform)' == 'Any'">$(BaseIntermediateOutputPath)$(Configuration)\</IntermediateOutputPath>
+		<IntermediateOutputPath Condition="'$(IntermediateOutputPath)' == '' AND '$(Platform)' != 'Any'">$(BaseIntermediateOutputPath)$(Platform)\$(Configuration)\</IntermediateOutputPath>
 		<IntermediateOutputPath Condition="!HasTrailingSlash('$(IntermediateOutputPath)')">$(IntermediateOutputPath)\</IntermediateOutputPath>
 	</PropertyGroup>
 
@@ -525,7 +523,7 @@
 		<AssemblyFoldersSuffix Condition="'$(AssemblyFoldersSuffix)' == ''">AssemblyFoldersEx</AssemblyFoldersSuffix>
 		<FrameworkRegistryBase Condition="'$(FrameworkRegistryBase)' == ''">Software\Microsoft\$(TargetFrameworkIdentifier)</FrameworkRegistryBase>
 		<TargetPlatformRegistryBase Condition="'$(TargetPlatformRegistryBase)' == ''">Software\Microsoft\Microsoft SDKs\$(TargetPlatformIdentifier)</TargetPlatformRegistryBase>
-		<AssemblyFoldersConfigFile Condition="'$(AssemblyFoldersConfigFile)' == ''">$(MSBuildToolsPath32)\AssemblyFolders.config</AssemblyFoldersConfigFile>
+		<AssemblyFoldersConfigFile Condition="'$(AssemblyFoldersConfigFile)' == ''">$(MSBuildToolsPath)\AssemblyFolders.config</AssemblyFoldersConfigFile>
 		<AssemblyFoldersConfigFileSearchPath Condition="Exists('$(AssemblyFoldersConfigFile)')">{AssemblyFoldersFromConfig:$(AssemblyFoldersConfigFile),$(TargetFrameworkVersion)};</AssemblyFoldersConfigFileSearchPath>
 		<!--
 			The SearchPaths property is set to find assemblies in the following order:
@@ -2275,8 +2273,8 @@
 	</PropertyGroup>
 
 	<PropertyGroup>
-		<TargetedSDKConfiguration Condition="'$(TargetedSDKConfiguration)' == '' AND '$(_Configuration)' == 'Debug'">Debug</TargetedSDKConfiguration>
-		<TargetedSDKConfiguration Condition="'$(TargetedSDKConfiguration)' == '' AND '$(_Configuration)' == 'Release'">Retail</TargetedSDKConfiguration>
+		<TargetedSDKConfiguration Condition="'$(TargetedSDKConfiguration)' == '' AND '$(Configuration)' == 'Debug'">Debug</TargetedSDKConfiguration>
+		<TargetedSDKConfiguration Condition="'$(TargetedSDKConfiguration)' == '' AND '$(Configuration)' == 'Release'">Retail</TargetedSDKConfiguration>
 		<TargetedSDKConfiguration Condition="'$(TargetedSDKConfiguration)' == ''">Retail</TargetedSDKConfiguration>
 		<TargetedSDKArchitecture Condition="'$(TargetedSDKArchitecture)' == ''">$(ProcessorArchitecture)</TargetedSDKArchitecture>
 		<TargetedSDKArchitecture Condition="'$(TargetedSDKArchitecture)' == ''">Neutral</TargetedSDKArchitecture>
@@ -3399,7 +3397,7 @@
 		<_SGenDllCreated>false</_SGenDllCreated>
 		<_SGenGenerateSerializationAssembliesConfig>$(GenerateSerializationAssemblies)</_SGenGenerateSerializationAssembliesConfig>
 		<_SGenGenerateSerializationAssembliesConfig Condition="'$(GenerateSerializationAssemblies)' == ''">Auto</_SGenGenerateSerializationAssembliesConfig>
-		<_SGenGenerateSerializationAssembliesConfig Condition="'$(_Configuration)' == 'Debug' AND '$(_SGenGenerateSerializationAssembliesConfig)' == 'Auto'">Off</_SGenGenerateSerializationAssembliesConfig>
+		<_SGenGenerateSerializationAssembliesConfig Condition="'$(Configuration)' == 'Debug' AND '$(_SGenGenerateSerializationAssembliesConfig)' == 'Auto'">Off</_SGenGenerateSerializationAssembliesConfig>
 		<SGenUseProxyTypes Condition="'$(SGenUseProxyTypes)' == ''">true</SGenUseProxyTypes>
 		<SGenUseKeep Condition="'$(SGenUseKeep)' == ''">false</SGenUseKeep>
 		<SGenShouldGenerateSerializer Condition="'$(SGenShouldGenerateSerializer)' == ''">true</SGenShouldGenerateSerializer>
@@ -5947,7 +5945,7 @@
 	</PropertyGroup>
 
 	<PropertyGroup>
-		<CodeAnalysisTargets Condition="'$(CodeAnalysisTargets)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\CodeAnalysis\Microsoft.CodeAnalysis.targets</CodeAnalysisTargets>
+		<CodeAnalysisTargets Condition="'$(CodeAnalysisTargets)' == ''">$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\CodeAnalysis\Microsoft.CodeAnalysis.targets</CodeAnalysisTargets>
 	</PropertyGroup>
 
 	<Import Project="$(CodeAnalysisTargets)" Condition="Exists('$(CodeAnalysisTargets)')"/>
@@ -5979,7 +5977,7 @@
 	<Import Project="Microsoft.WorkflowBuildExtensions.targets" Condition="'$(TargetFrameworkVersion.TrimStart(vV))' >= '4.5' AND Exists('Microsoft.WorkflowBuildExtensions.targets')"/>
 
 	<PropertyGroup>
-		<MSTestToolsTargets Condition="'$(MSTestToolsTargets)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TeamTest\Microsoft.TeamTest.targets</MSTestToolsTargets>
+		<MSTestToolsTargets Condition="'$(MSTestToolsTargets)' == ''">$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TeamTest\Microsoft.TeamTest.targets</MSTestToolsTargets>
 	</PropertyGroup>
 
 	<Import Project="$(MSTestToolsTargets)" Condition="Exists('$(MSTestToolsTargets)')"/>
@@ -5995,7 +5993,7 @@
 	<Target Name="GetPackagingOutputs"/>
 
 	<PropertyGroup>
-		<MSAppxPackageTargets Condition="'$(MSAppxPackageTargets)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\AppxPackage\Microsoft.AppXPackage.Targets</MSAppxPackageTargets>
+		<MSAppxPackageTargets Condition="'$(MSAppxPackageTargets)' == ''">$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\AppxPackage\Microsoft.AppXPackage.Targets</MSAppxPackageTargets>
 	</PropertyGroup>
 
 	<Import Project="$(MSAppxPackageTargets)" Condition="'$(WindowsAppContainer)' == 'true' AND Exists('$(MSAppxPackageTargets)')"/>

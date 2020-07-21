@@ -31,7 +31,7 @@ Visual Studio 2017 Update 6 (aka _v15.6_) includes support for SDK's resolved fr
     - Adding a `global.json` containing the Sdk name and version.
     - Appending a version info to the `Sdk` attribute value.
 
-4. Then you can edit the `TargetFramework` to a different TFM, or you can rename `TargetFramework` to `TargetFrameworks` and specify multiple TFM's with a `;` separator.
+4. Then you can edit the `TargetFramework` to a different TFM, or you can rename `TargetFramework` to `TargetFrameworks` and specify multiple TFM's with a semi-colon (`;`) separator.
 
 The final project should look like this:
 
@@ -71,11 +71,11 @@ After that, you can use the `Restore`, `Build`, `Pack` targets to restore packag
 
 #### Important to Note
 
-- It will only work with Visual Studio IDE (Windows/Mac) as it requires the desktop `msbuild` and the target Platform SDKs which are not cross platform.
+- It will only work with Visual Studio IDE (Windows/Mac) as it requires the desktop `msbuild` and the target Platform SDKs which are not cross-platform.
 - It might work in Visual Studio Code, but you have to configure build tasks in `launch.json` to use desktop `msbuild` to build.
 - You must install the tools of the platforms you intend to build. For Xamarin, that means the Xamarin Workload; for UWP install those tools as well.
 
-More information on how SDK's are resolved can be found [here](https://docs.microsoft.com/en-us/visualstudio/msbuild/how-to-use-project-sdk#how-project-sdks-are-resolved).
+More information on how SDK's are resolved can be found [here](https://docs.microsoft.com/visualstudio/msbuild/how-to-use-project-sdk#how-project-sdks-are-resolved).
 
 ### Migrate from the old way (VS pre-15.6)
 
@@ -84,7 +84,7 @@ For those who are using in a `PackageReference` style, you can't do that with v1
 1. The same as above, replace the Sdk attribute's value.
 2. Remove the workaround import specified with the old way. The import property should be `MSBuildSdkExtrasDotNet`.
 3. Do a trial build and then compare your project with the templates in the repo's [TestProjects](/TestProjects) folder to troubleshoot any issues if you encounter them.
-4. Please file a issue if you can't troubleshoot on your own. So, that I can help you with the issue you are facing.
+4. Please file an issue if you can't troubleshoot on your own. Then I can help you with the issue you are facing.
 
 Your project diff:
 
@@ -111,7 +111,7 @@ Your project diff:
 + SDK style
 ```
 
-**Note**: If you're using Visual Studio for Mac, currently there's no support for resolving SDKs from NuGet. Until VS for Mac supports it, you can use `PackageReference` style. Also you have to include any UWP or Tizen meta-package manually. If you are already using the package, just update it to get the new fixes.
+**Note**: If you're using Visual Studio for Mac, currently there's no support for resolving SDKs from NuGet. Until VS for Mac supports it, you can use `PackageReference` style. Also, you have to include any UWP or Tizen meta-package manually. If you are already using the package, just update it to get the new fixes.
 
 ## Single or multi-targeting
 
@@ -134,6 +134,6 @@ Once this package is configured, you can now use any supported TFM in your `Targ
 - `xamarin.tvos`
 - `portableNN-`/`portable-` (legacy PCL profiles like `portable-net45+win8+wpa81+wp8`)
 
- For legacy PCL profiles, the order of the TFM's in the list does not matter but the profile must be an exact match to one of the known profiles. If it's not, you'll get a compile error saying it's unknown. You can see the full list of known profiles here: [Portable Library Profiles by Stephen Cleary](https://portablelibraryprofiles.stephencleary.com/).
+ For legacy PCL profiles, the order of the TFM's in the list does not matter, but the profile must be an exact match to one of the known profiles. If it's not, you'll get a compile error saying it's unknown. You can see the full list of known profiles here: [Portable Library Profiles by Stephen Cleary](https://portablelibraryprofiles.stephencleary.com/).
 
  If you try to use a framework that you don't have tools installed for, you'll get an error as well saying to check the tools. In some cases this might mean installing an older version of Visual Studio IDE (_like 2015_) to ensure that the necessary targets are installed on the machine.

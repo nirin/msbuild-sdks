@@ -1,0 +1,19 @@
+<Project>
+
+	<PropertyGroup>
+		<ImportNuGetCommonPropsFromSdk Condition="'$(ImportNuGetCommonPropsFromSdk)' == ''">true</ImportNuGetCommonPropsFromSdk>
+	</PropertyGroup>
+
+	<!-- Import `NuGet.props` (required for `Directory.Packages.props` import and used for Central Packages versioning) -->
+	<PropertyGroup Condition="'$(ImportNuGetCommonPropsFromSdk)' == 'false'">
+		<NuGetToolsPath Condition="'$(NuGetToolsPath)' == '' AND $([MSBuild]::IsRunningFromVisualStudio())">$([MSBuild]::GetVsInstallRoot())\Common7\IDE\CommonExtensions\Microsoft\NuGet</NuGetToolsPath>
+		<NuGetToolsPath Condition="'$(NuGetToolsPath)' == ''">$(MSBuildToolsPath)</NuGetToolsPath>
+		<NuGetCommonProps Condition="'$(NuGetCommonProps)' == ''">$(NuGetToolsPath)\NuGet.props</NuGetCommonProps>
+	</PropertyGroup>
+
+	<!-- This will import NuGet common props which then, will import `Directory.Packages.props` which is used for declaring package versions centrally. -->
+	<Import Project="$(NuGetCommonProps)" Condition="'$(ImportNuGetCommonPropsFromSdk)' == 'false' AND Exists('$(NuGetCommonProps)')"/>
+
+	<Import Project="Sdk.Extensions.targets" Sdk="NuGet.Packaging.Sdk" Condition="'$(ImportNuGetCommonPropsFromSdk)' == 'true'"/>
+
+</Project>

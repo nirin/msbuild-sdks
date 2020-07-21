@@ -5,10 +5,10 @@
 
 	<PropertyGroup Label="Globals">
 		<Configuration Condition="'$(Configuration)' == ''">Debug</Configuration>
-		<Platform Condition="'$(Platform)' == ''">AnyCPU</Platform>
+		<Platform Condition="'$(Platform)' == ''">Any</Platform>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'"/>
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'"/>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|Any'"/>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|Any'"/>
 
 </Project>
