@@ -160,7 +160,7 @@
 			@(CustomAdditionalCompileOutputs)"
 		Condition="'@(Page)' != '' OR '@(ApplicationDefinition)' != ''"
 		Returns=""
-		DependsOnTargets="$(CoreCompileDependsOn)">
+		DependsOnTargets="$(CoreCompileDependsOn);GenerateMSBuildEditorConfigFile">
 
 		<!--
 			These two compiler warnings are raised when a reference is bound to a different version
@@ -200,12 +200,14 @@
 			<AdditionalFiles Include="@(%(AdditionalFileItems.Identity))"/>
 		</ItemGroup>
 
-		<!-- Don't run analyzers for Csc task on XamlPrecompile pass, we only want to run them on core compile. -->
 		<PropertyGroup Condition="'$(UseSharedCompilation)' == ''">
 			<UseSharedCompilation>true</UseSharedCompilation>
 		</PropertyGroup>
 
-		<!-- Condition is to filter out the _CoreCompileResourceInputs so that it doesn't pass in culture resources to the compiler -->
+		<!--
+			Condition is to filter out the _CoreCompileResourceInputs so that it doesn't pass in culture resources to the compiler
+			Don't run analyzers for Csc task on XamlPrecompile pass, we only want to run them on core compile.
+		-->
 		<Csc Condition="'%(_CoreCompileResourceInputs.WithCulture)' != 'true'"
 			AdditionalLibPaths="$(AdditionalLibPaths)"
 			AddModules="@(AddModules)"
@@ -249,6 +251,7 @@
 			ReportAnalyzer="$(ReportAnalyzer)"
 			Resources="@(_CoreCompileResourceInputs);@(CompiledLicenseFile)"
 			ResponseFiles="$(CompilerResponseFile)"
+			SkipAnalyzers="true"
 			Sources="@(Compile)"
 			SubsystemVersion="$(SubsystemVersion)"
 			TargetType="$(OutputType)"
