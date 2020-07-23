@@ -34,7 +34,6 @@
 	<ItemGroup Condition="'$(DisableImplicitFrameworkReferences)' != 'true'">
 		<!-- Set 'Pack=false' on implicit references so they don't get added to NuGet packages as framework assemblies -->
 		<_ImplicitReference Update="@(_ImplicitReference)" Pack="false" Publish="false"/>
-
 		<!--
 			Don't duplicate any references that are explicit in the project file.
 			This means that if you do want to include a framework assembly in your NuGet package,

@@ -23,7 +23,7 @@
 
 	<!-- CSharp is the only language supported for Binding Projects for Now -->
 	<Target Name="ShowAndroidBindingProjectError" Condition="'$(IsBindingProject)' == 'true' AND '$(_TargetPlatformId)' == 'Android' AND '$(_LanguageSourceName)' != 'CSharp'" BeforeTargets="_CheckForUnsupportedTargetFramework">
-		<Error Text="The Binding Project for $(_TargetPlatformId) is only supported with only C#, not with $(_LanguageSourceName). Please change the project to C# to use the Bindings Project.'"/>
+		<Error Code="NETSDK-X11" Text="The Binding Project for $(_TargetPlatformId) is only supported with only C#, not with $(_LanguageSourceName). Please change the project to C# to use the Bindings Project.'"/>
 	</Target>
 
 </Project>

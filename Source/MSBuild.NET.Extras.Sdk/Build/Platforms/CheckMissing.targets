@@ -8,8 +8,8 @@
 	<Import Project="$(_FallbackLanguageTargets)" Condition="Exists('$(_FallbackLanguageTargets)')"/>
 
 	<Target Name="_ShowMissingLanguageTargetsError" BeforeTargets="_CheckForUnsupportedTargetFramework" Condition="'$(_IgnoreMissingLanguageTargetsError)' != 'true'">
-		<Error Condition="'$(_ShortFrameworkIdentifier)' != 'portable'" Text="The specified language targets for $(TargetFramework) is missing. Ensure correct tooling is installed for '$(_ShortFrameworkIdentifier)'"/>
-		<Error Condition="'$(_ShortFrameworkIdentifier)' == 'portable'" Text="The specified '$(TargetFramework)' is not valid. Check that it's a valid combination: https://portablelibraryprofiles.stephencleary.com/"/>
+		<Error Condition="'$(_ShortFrameworkIdentifier)' != 'portable'" Code="NETSDK-X01" Text="The specified language targets for $(TargetFramework) is missing. Ensure correct tooling is installed for '$(_ShortFrameworkIdentifier)'"/>
+		<Error Condition="'$(_ShortFrameworkIdentifier)' == 'portable'" Code="NETSDK-X02" Text="The specified '$(TargetFramework)' is not valid. Check that it's a valid combination: https://portablelibraryprofiles.stephencleary.com/"/>
 	</Target>
 
 </Project>

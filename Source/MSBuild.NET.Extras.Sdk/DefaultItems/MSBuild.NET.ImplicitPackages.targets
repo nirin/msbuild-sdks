@@ -7,7 +7,7 @@
 		<!-- The property `TargetPlatformVersion` has a `<major>.<minor>.<build>.<revision>` pattern. E.g.: `10.0.10240.0` -->
 		<_TargetPlatformBuildVersion>$(TargetPlatformVersion.Split('.')[2])</_TargetPlatformBuildVersion>
 		<_ImplicitPlatformPackageVersion Condition="'$(_TargetPlatformBuildVersion)' >= '10150'">5.4.7</_ImplicitPlatformPackageVersion>
-		<_ImplicitPlatformPackageVersion Condition="'$(_TargetPlatformBuildVersion)' >= '15138'">6.2.9</_ImplicitPlatformPackageVersion>
+		<_ImplicitPlatformPackageVersion Condition="'$(_TargetPlatformBuildVersion)' >= '15138'">6.2.12</_ImplicitPlatformPackageVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(TargetFrameworkIdentifier)' == 'Tizen' AND '$(_ImplicitPlatformPackageVersion)' == ''">

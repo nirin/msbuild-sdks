@@ -1,16 +1,25 @@
 <Project>
 
 	<PropertyGroup Condition="'$(MicrosoftNETSdkTargetsPath)' == ''">
-		<MicrosoftNETSdkTargetsPath>$(MSBuildSdksPath)\Microsoft.NET.Sdk\targets\</MicrosoftNETSdkTargetsPath>
+		<!-- Our .NET SDK patch location -->
+		<MicrosoftNETSdkTargetsPath>$(MSBuildSdksPath)\Microsoft.NET.Sdk\Shims\</MicrosoftNETSdkTargetsPath>
+		<!-- Main .NET SDK location -->
+		<MicrosoftNETSdkTargetsPath Condition="!Exists('$(MicrosoftNETSdkTargetsPath)')">$(MSBuildSdksPath)\Microsoft.NET.Sdk\targets\</MicrosoftNETSdkTargetsPath>
 		<MicrosoftNETSdkTargetsPath Condition="!Exists('$(MicrosoftNETSdkTargetsPath)')">$(MSBuildSdksPath)\Microsoft.NET.Sdk\build\</MicrosoftNETSdkTargetsPath>
-		<MicrosoftNETSdkTargetsPath Condition="!Exists('$(MicrosoftNETSdkTargetsPath)')">$(ToolDepsJsonGeneratorProject.TrimEnd('GenerateDeps\GenerateDeps.proj'))</MicrosoftNETSdkTargetsPath>
-		<MicrosoftNETSdkTargetsPath Condition="!Exists('$(MicrosoftNETSdkTargetsPath)')">$(_NuGetFallbackFolder.TrimEnd('..\..\..\..\NuGetFallbackFolder'))</MicrosoftNETSdkTargetsPath>
-		<MicrosoftNETSdkTargetsPath Condition="!Exists('$(MicrosoftNETSdkTargetsPath)')">$(NETCoreSdkBundledVersionsProps.TrimEnd('..\..\..\Microsoft.NETCoreSdk.BundledVersions.props'))</MicrosoftNETSdkTargetsPath>
+		<!-- MSBuild Sdk is an another MSBuild Extension -->
+		<MicrosoftNETSdkTargetsPath Condition="!Exists('$(MicrosoftNETSdkTargetsPath)')">$(MSBuildExtensionsPath)\Sdks\Microsoft.NET.Sdk\targets\</MicrosoftNETSdkTargetsPath>
+		<MicrosoftNETSdkTargetsPath Condition="!Exists('$(MicrosoftNETSdkTargetsPath)')">$(MSBuildExtensionsPath)\Sdks\Microsoft.NET.Sdk\build\</MicrosoftNETSdkTargetsPath>
+		<!-- Check in Other known paths -->
+		<MicrosoftNETSdkTargetsPath Condition="!Exists('$(MicrosoftNETSdkTargetsPath)')">$(ToolDepsJsonGeneratorProject.Remove('GenerateDeps\GenerateDeps.proj'))</MicrosoftNETSdkTargetsPath>
+		<MicrosoftNETSdkTargetsPath Condition="!Exists('$(MicrosoftNETSdkTargetsPath)')">$(_NuGetFallbackFolder.Remove('..\..\..\..\NuGetFallbackFolder'))</MicrosoftNETSdkTargetsPath>
+		<MicrosoftNETSdkTargetsPath Condition="!Exists('$(MicrosoftNETSdkTargetsPath)')">$(NETCoreSdkBundledVersionsProps.Remove('..\..\..\Microsoft.NETCoreSdk.BundledVersions.props'))</MicrosoftNETSdkTargetsPath>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(_LanguageSourceName)' == 'FSharp' AND '$(_FSharpTargetsPath)' == ''">
 		<_FSharpTargetsPath>$(MicrosoftNETSdkTargetsPath)Microsoft.NET.Sdk.FSharpTargetsShim.targets</_FSharpTargetsPath>
 		<_FSharpTargetsPath Condition="!Exists('$(_FSharpTargetsPath)')">$(MicrosoftNETSdkTargetsPath)Microsoft.NET.Sdk.FSharp.targets</_FSharpTargetsPath>
+		<_FSharpTargetsPath Condition="!Exists('$(_FSharpTargetsPath)')">$(MicrosoftNETSdkTargetsPath)Microsoft.NET.FSharp.targets</_FSharpTargetsPath>
+		<_FSharpTargetsPath Condition="!Exists('$(_FSharpTargetsPath)')">$(MicrosoftNETSdkTargetsPath)Microsoft.FSharp.targets</_FSharpTargetsPath>
 	</PropertyGroup>
 
 	<PropertyGroup>

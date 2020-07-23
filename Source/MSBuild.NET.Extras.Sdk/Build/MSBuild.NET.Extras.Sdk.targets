@@ -9,6 +9,10 @@
 		<AppendTargetFrameworkToOutputPath Condition="'$(TargetFrameworks)' == ''">false</AppendTargetFrameworkToOutputPath>
 	</PropertyGroup>
 
+	<PropertyGroup Condition="'$(AppendRuntimeIdentifierToOutputPath)' == ''">
+		<AppendRuntimeIdentifierToOutputPath Condition="'$(RuntimeIdentifiers)' == ''">false</AppendRuntimeIdentifierToOutputPath>
+	</PropertyGroup>
+
 	<Import Project="..\DefaultItems\MSBuild.NET.DefaultItems.targets"/>
 
 	<Import Project="..\ProjectSystem\MSBuild.NET.ProjectSystem.targets"/>

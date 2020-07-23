@@ -4,7 +4,7 @@
 		<TargetFrameworkVersion Condition="'$(TargetFrameworkVersion)' == ''">v1.0</TargetFrameworkVersion>
 		<iPhoneResourcePrefix Condition="'$(iPhoneResourcePrefix)' == ''">Resources</iPhoneResourcePrefix>
 		<ConsolePause Condition="'$(ConsolePause)' == ''">false</ConsolePause>
-
+		<!-- mTouch options -->
 		<mTouchUseSGen Condition="'$(mTouchUseSGen)' == ''">true</mTouchUseSGen>
 		<mTouchUseRefCounting Condition="'$(mTouchUseRefCounting)' == ''">true</mTouchUseRefCounting>
 	</PropertyGroup>

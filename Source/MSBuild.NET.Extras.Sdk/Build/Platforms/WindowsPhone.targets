@@ -3,6 +3,7 @@
 	<PropertyGroup>
 		<!-- HACK: $(MSBuildExtensionsPath) for VS <= 14.0 -->
 		<_MSBuildExtensionsPath>$(MSBuildProgramFiles32)\MSBuild</_MSBuildExtensionsPath>
+		<_MSBuildExtensionsPath Condition="!Exists('$(_MSBuildExtensionsPath)')">$(MSBuildProgramFiles)\MSBuild</_MSBuildExtensionsPath>
 	</PropertyGroup>
 
 	<PropertyGroup>
