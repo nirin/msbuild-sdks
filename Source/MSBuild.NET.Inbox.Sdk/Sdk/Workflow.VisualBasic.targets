@@ -10,6 +10,7 @@
 		the shim will internally simply redirect to the real copy of the targets file in the .NET Framework.
 	-->
 
+	<!-- The 'Workflow.VisualBasic.targets' is for VB projects. But, the C# variant is not 'Workflow.CSharp.targets', it is 'Workflow.targets' instead. -->
 	<Import Project="$(MSBuildFrameworkToolsPath)\Workflow.VisualBasic.targets"/>
 
 </Project>
