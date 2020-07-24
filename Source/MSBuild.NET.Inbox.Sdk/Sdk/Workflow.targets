@@ -1,0 +1,18 @@
+<Project>
+
+	<PropertyGroup>
+		<MicrosoftWorkflowTargets Condition="'$(MSBuildProjectExtension)' == '.csproj'">Workflow.CSharp.targets</MicrosoftWorkflowTargets>
+		<MicrosoftWorkflowTargets Condition="'$(MSBuildProjectExtension)' == '.vbproj'">Workflow.VisualBasic.targets</MicrosoftWorkflowTargets>
+	</PropertyGroup>
+
+	<!-- Import language specific Workflow targets -->
+	<Import Project="$(MicrosoftWorkflowTargets)" Condition="'$(MicrosoftWorkflowTargets)' != ''"/>
+
+	<Target Name="ValidateWorkflowTargets" Condition="'$(MicrosoftWorkflowTargets)' == ''">
+		<Error Code="NETSDK-I11" Text="Workflow doesn't support project of this ($(MSBuildProjectExtension)) type. Only C# ('.csproj') or VB ('.vbproj') project types are supported. Import the language-specific Workflow targets directly when using a custom project file (e.g.: '.props', '.targets', '.proj', '.msbproj', etc…)."/>
+	</Target>
+
+	<!-- Import Workflow Build Extensions -->
+	<Import Project="Microsoft.WorkflowBuildExtensions.targets"/>
+
+</Project>
