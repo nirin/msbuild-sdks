@@ -65,8 +65,8 @@
 		<TargetPlatformWinMDLocation Condition="'$(TargetPlatformWinMDLocation)' == '' AND Exists('$(TargetPlatformSdkMetadataLocation)')">$(TargetPlatformSdkMetadataLocation)</TargetPlatformWinMDLocation>
 		<UseOSWinMdReferences Condition="'$(UseOSWinMdReferences)' == '' AND ('$(TargetPlatformWinMDLocation)' == '' AND '$(TargetPlatformIdentifier)' == 'Windows' AND '$(TargetPlatformVersion)' > '7.0')">true</UseOSWinMdReferences>
 		<TargetPlatformWinMDLocation Condition="'$(UseOsWinMdReferences)' == 'true'">$(WinDir)\System32\WinMetadata</TargetPlatformWinMDLocation>
-		<TargetPlatformMoniker Condition="'$(TargetPlatformMoniker)' == ''">$(TargetPlatformIdentifier),Version=$(TargetPlatformVersion)</TargetPlatformMoniker>
-		<TargetPlatformDisplayName Condition="'$(TargetPlatformDisplayName)' == ''">$([Microsoft.Build.Utilities.ToolLocationHelper]::GetPlatformSDKDisplayName($(TargetPlatformIdentifier), $(TargetPlatformVersion)))</TargetPlatformDisplayName>
+		<TargetPlatformMoniker Condition="'$(TargetPlatformMoniker)' == '' AND '$(TargetPlatformIdentifier)' != '' AND '$(TargetPlatformVersion)' != ''">$(TargetPlatformIdentifier),Version=$(TargetPlatformVersion)</TargetPlatformMoniker>
+		<TargetPlatformDisplayName Condition="'$(TargetPlatformDisplayName)' == '' AND '$(TargetPlatformIdentifier)' != '' AND '$(TargetPlatformVersion)' != ''">$([Microsoft.Build.Utilities.ToolLocationHelper]::GetPlatformSDKDisplayName($(TargetPlatformIdentifier), $(TargetPlatformVersion)))</TargetPlatformDisplayName>
 	</PropertyGroup>
 
 	<!--

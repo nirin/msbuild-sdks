@@ -9,7 +9,7 @@
 
 	<!-- NuGet's Common Tasks -->
 	<UsingTask TaskName="NuGet.Build.Tasks.WarnForInvalidProjectsTask" AssemblyFile="$(NuGetRestoreTaskAssembly)"/>
-	<UsingTask TaskName="NuGet.Build.Tasks.GetProjectTargetFrameworksTask" AssemblyFile="$(NuGetPackTaskAssembly)"/>
+	<UsingTask TaskName="NuGet.Build.Tasks.GetProjectTargetFrameworksTask" AssemblyFile="$(NuGetRestoreTaskAssembly)"/>
 	<UsingTask TaskName="NuGet.Build.Tasks.GetReferenceNearestTargetFrameworkTask" AssemblyFile="$(NuGetRestoreTaskAssembly)"/>
 
 	<!-- NuGet's Restore specific Tasks -->

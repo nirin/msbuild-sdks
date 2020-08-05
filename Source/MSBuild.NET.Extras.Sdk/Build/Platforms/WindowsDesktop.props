@@ -44,7 +44,7 @@
 		<_ImplicitReference Include="WindowsBase" Condition="'$(EnableImplicitWpfReferences)' == 'true'"/>
 		<_ImplicitReference Include="PresentationCore" Condition="'$(EnableImplicitWpfReferences)' == 'true'"/>
 		<_ImplicitReference Include="PresentationFramework" Condition="'$(EnableImplicitWpfReferences)' == 'true'"/>
-		<_ImplicitReference Include="WindowsFormsIntegration" Condition="'$(EnableImplicitWpfReferences)' == 'true' AND $(EnableImplicitWinFormsReferences)' == 'true'"/>
+		<_ImplicitReference Include="WindowsFormsIntegration" Condition="'$(EnableImplicitWpfReferences)' == 'true' AND '$(EnableImplicitWinFormsReferences)' == 'true'"/>
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(DisableImplicitFrameworkReferences)' != 'true' AND '$(_TargetFrameworkVersionWithoutV)' >= '4.0' AND '$(EnableImplicitWpfReferences)' == 'true'">
@@ -54,7 +54,7 @@
 		<_ImplicitReference Include="UIAutomationTypes" Condition="'$(EnableImplicitUIAutomationReferences)' == 'true'"/>
 	</ItemGroup>
 
-	<ItemGroup Condition="'$(DisableImplicitFrameworkReferences)' != 'true' AND '$(_TargetFrameworkVersionWithoutV)' >= '4.5' AND $(EnableImplicitWpfReferences)' == 'true'">
+	<ItemGroup Condition="'$(DisableImplicitFrameworkReferences)' != 'true' AND '$(_TargetFrameworkVersionWithoutV)' >= '4.5' AND '$(EnableImplicitWpfReferences)' == 'true'">
 		<_ImplicitReference Include="System.Windows.Controls.Ribbon" Condition="'$(EnableImplicitWpfControlReferences)' == 'true'"/>
 	</ItemGroup>
 

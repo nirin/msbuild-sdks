@@ -1,5 +1,18 @@
 <Project>
 
+	<PropertyGroup Label="Globals">
+		<!--
+			Indicate to other targets that 'MSBuild.NET.Extras.Sdk' is being used.
+			This must be set here (as early as possible, before Common props)
+			so that everything that follows can depend on it.
+
+			In particular, 'Directory.Build.props' and 'Directory.Packages.props'
+			are imported by Common props. They need to be able to use the
+			following flag (property) to enable build customization.
+		-->
+		<UsingMSBuildNETExtrasSdk>true</UsingMSBuildNETExtrasSdk>
+	</PropertyGroup>
+
 	<PropertyGroup>
 		<_DotNetWorkaroundsProps>$(MSBuildThisFileDirectory)..\Extensions\MSBuild.NET.Workarounds.props</_DotNetWorkaroundsProps>
 		<CustomBeforeMicrosoftCommonProps>$(_DotNetWorkaroundsProps)</CustomBeforeMicrosoftCommonProps>

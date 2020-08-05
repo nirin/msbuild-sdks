@@ -4,7 +4,7 @@
 		<!-- Version=v0.0 https://github.com/dotnet/sdk/issues/492 -->
 		<_NuGetTargetVersion>v0.0</_NuGetTargetVersion>
 		<_NuGetTargetVersion Condition="'$(EnableTargetFrameworkVersionForNuGet)' == 'true'">$(TargetFrameworkVersion)</_NuGetTargetVersion>
-		<NugetTargetMoniker>$(TargetFrameworkIdentifier),Version=$(_NuGetTargetVersion),Profile=$(TargetFrameworkProfile)</NugetTargetMoniker>
+		<NuGetTargetMoniker>$(TargetFrameworkIdentifier),Version=$(_NuGetTargetVersion),Profile=$(TargetFrameworkProfile)</NuGetTargetMoniker>
 	</PropertyGroup>
 
 	<!-- .NET Portable gets profiles as defines as that's how most people refer to them NET_PORTABLE259, PROFILE259 -->

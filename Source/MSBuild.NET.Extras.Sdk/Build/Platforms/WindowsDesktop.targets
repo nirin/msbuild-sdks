@@ -10,9 +10,9 @@
 		<MicrosoftNETSdkTargetsPath Condition="!Exists('$(MicrosoftNETSdkTargetsPath)')">$(MSBuildExtensionsPath)\Sdks\Microsoft.NET.Sdk\targets\</MicrosoftNETSdkTargetsPath>
 		<MicrosoftNETSdkTargetsPath Condition="!Exists('$(MicrosoftNETSdkTargetsPath)')">$(MSBuildExtensionsPath)\Sdks\Microsoft.NET.Sdk\build\</MicrosoftNETSdkTargetsPath>
 		<!-- Check in Other known paths -->
-		<MicrosoftNETSdkTargetsPath Condition="!Exists('$(MicrosoftNETSdkTargetsPath)')">$(ToolDepsJsonGeneratorProject.Remove('GenerateDeps\GenerateDeps.proj'))</MicrosoftNETSdkTargetsPath>
-		<MicrosoftNETSdkTargetsPath Condition="!Exists('$(MicrosoftNETSdkTargetsPath)')">$(_NuGetFallbackFolder.Remove('..\..\..\..\NuGetFallbackFolder'))</MicrosoftNETSdkTargetsPath>
-		<MicrosoftNETSdkTargetsPath Condition="!Exists('$(MicrosoftNETSdkTargetsPath)')">$(NETCoreSdkBundledVersionsProps.Remove('..\..\..\Microsoft.NETCoreSdk.BundledVersions.props'))</MicrosoftNETSdkTargetsPath>
+		<MicrosoftNETSdkTargetsPath Condition="!Exists('$(MicrosoftNETSdkTargetsPath)')">$(ToolDepsJsonGeneratorProject.Replace('GenerateDeps\GenerateDeps.proj', ''))</MicrosoftNETSdkTargetsPath>
+		<MicrosoftNETSdkTargetsPath Condition="!Exists('$(MicrosoftNETSdkTargetsPath)')">$(_NuGetFallbackFolder.Replace('..\..\..\..\NuGetFallbackFolder', ''))</MicrosoftNETSdkTargetsPath>
+		<MicrosoftNETSdkTargetsPath Condition="!Exists('$(MicrosoftNETSdkTargetsPath)')">$(NETCoreSdkBundledVersionsProps.Replace('..\..\..\Microsoft.NETCoreSdk.BundledVersions.props', ''))</MicrosoftNETSdkTargetsPath>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(_LanguageSourceName)' == 'FSharp' AND '$(_FSharpTargetsPath)' == ''">

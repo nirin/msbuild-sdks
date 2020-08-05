@@ -16,7 +16,6 @@ set SolutionFile=%WD%MSBuild-Sdks.sln
 
 if "%Configuration%" == "" set Configuration=Release
 
-set BuildVersion=
 if not "%BuildCounter%" == "" (
 	REM Remove Leading Zeros from BuildCounter
 	for /F "tokens=* delims=0" %%A in ("%BuildCounter%") do set BuildCounter=%%A

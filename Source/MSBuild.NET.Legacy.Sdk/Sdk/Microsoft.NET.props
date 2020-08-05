@@ -23,7 +23,7 @@
 		Set HighEntropyVA according to the TargetFramework
 		============================================================
 	-->
-	<PropertyGroup Condition="$(TargetFrameworkIdentifier)' == '.NETCoreApp' OR '$(TargetFrameworkIdentifier)' == '.NETStandard'">
+	<PropertyGroup Condition="'$(TargetFrameworkIdentifier)' == '.NETCoreApp' OR '$(TargetFrameworkIdentifier)' == '.NETStandard'">
 		<HighEntropyVA Condition="'$(HighEntropyVA)' == ''">true</HighEntropyVA>
 	</PropertyGroup>
 
