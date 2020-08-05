@@ -1,16 +1,16 @@
 <Project>
 
 	<PropertyGroup>
-		<MicrosoftLegacyTasks>Microsoft.Common.tasks</MicrosoftLegacyTasks>
-		<MicrosoftLegacyTasks Condition="'$(MSBuildProjectExtension)' == '.csproj'">Microsoft.CSharp.tasks</MicrosoftLegacyTasks>
-		<MicrosoftLegacyTasks Condition="'$(MSBuildProjectExtension)' == '.fsproj'">Microsoft.FSharp.tasks</MicrosoftLegacyTasks>
-		<MicrosoftLegacyTasks Condition="'$(MSBuildProjectExtension)' == '.vbproj'">Microsoft.VisualBasic.tasks</MicrosoftLegacyTasks>
+		<MicrosoftLanguageTasks>Microsoft.Common.tasks</MicrosoftLanguageTasks>
+		<MicrosoftLanguageTasks Condition="'$(MSBuildProjectExtension)' == '.csproj'">Microsoft.CSharp.tasks</MicrosoftLanguageTasks>
+		<MicrosoftLanguageTasks Condition="'$(MSBuildProjectExtension)' == '.fsproj'">Microsoft.FSharp.tasks</MicrosoftLanguageTasks>
+		<MicrosoftLanguageTasks Condition="'$(MSBuildProjectExtension)' == '.vbproj'">Microsoft.VisualBasic.tasks</MicrosoftLanguageTasks>
 	</PropertyGroup>
 
-	<Import Project="$(MicrosoftLegacyTasks)"/>
+	<Import Project="$(MicrosoftLanguageTasks)"/>
 
 	<PropertyGroup>
-		<ImportedMicrosoftLegacyTasks>true</ImportedMicrosoftLegacyTasks>
+		<ImportedMicrosoftLanguageTasks>true</ImportedMicrosoftLanguageTasks>
 	</PropertyGroup>
 
 </Project>

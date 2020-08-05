@@ -1,13 +1,13 @@
 <Project>
 
 	<PropertyGroup>
-		<MicrosoftLegacyTargets>Microsoft.Common.targets</MicrosoftLegacyTargets>
-		<MicrosoftLegacyTargets Condition="'$(MSBuildProjectExtension)' == '.csproj'">Microsoft.CSharp.targets</MicrosoftLegacyTargets>
-		<MicrosoftLegacyTargets Condition="'$(MSBuildProjectExtension)' == '.fsproj'">Microsoft.FSharp.targets</MicrosoftLegacyTargets>
-		<MicrosoftLegacyTargets Condition="'$(MSBuildProjectExtension)' == '.vbproj'">Microsoft.VisualBasic.targets</MicrosoftLegacyTargets>
+		<MicrosoftLanguageTargets>Microsoft.Common.targets</MicrosoftLanguageTargets>
+		<MicrosoftLanguageTargets Condition="'$(MSBuildProjectExtension)' == '.csproj'">Microsoft.CSharp.targets</MicrosoftLanguageTargets>
+		<MicrosoftLanguageTargets Condition="'$(MSBuildProjectExtension)' == '.fsproj'">Microsoft.FSharp.targets</MicrosoftLanguageTargets>
+		<MicrosoftLanguageTargets Condition="'$(MSBuildProjectExtension)' == '.vbproj'">Microsoft.VisualBasic.targets</MicrosoftLanguageTargets>
 	</PropertyGroup>
 
-	<Import Project="$(MicrosoftLegacyTargets)"/>
+	<Import Project="$(MicrosoftLanguageTargets)"/>
 
 	<Import Project="NuGet.Restore.targets" Condition="'$(IsRestoreTargetsFileLoaded)' != 'true'"/>
 

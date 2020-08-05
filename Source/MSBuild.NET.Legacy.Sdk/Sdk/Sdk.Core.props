@@ -1,13 +1,13 @@
 <Project>
 
 	<PropertyGroup>
-		<MicrosoftLegacyProps>Microsoft.Common.props</MicrosoftLegacyProps>
-		<MicrosoftLegacyProps Condition="'$(MSBuildProjectExtension)' == '.csproj'">Microsoft.CSharp.props</MicrosoftLegacyProps>
-		<MicrosoftLegacyProps Condition="'$(MSBuildProjectExtension)' == '.fsproj'">Microsoft.FSharp.props</MicrosoftLegacyProps>
-		<MicrosoftLegacyProps Condition="'$(MSBuildProjectExtension)' == '.vbproj'">Microsoft.VisualBasic.props</MicrosoftLegacyProps>
+		<MicrosoftLanguageProps>Microsoft.Common.props</MicrosoftLanguageProps>
+		<MicrosoftLanguageProps Condition="'$(MSBuildProjectExtension)' == '.csproj'">Microsoft.CSharp.props</MicrosoftLanguageProps>
+		<MicrosoftLanguageProps Condition="'$(MSBuildProjectExtension)' == '.fsproj'">Microsoft.FSharp.props</MicrosoftLanguageProps>
+		<MicrosoftLanguageProps Condition="'$(MSBuildProjectExtension)' == '.vbproj'">Microsoft.VisualBasic.props</MicrosoftLanguageProps>
 	</PropertyGroup>
 
-	<Import Project="$(MicrosoftLegacyProps)"/>
+	<Import Project="$(MicrosoftLanguageProps)"/>
 
 	<Import Project="NuGet.Common.props" Condition="'$(CentralPackageVersionsFileImported)' != 'true'"/>
 
