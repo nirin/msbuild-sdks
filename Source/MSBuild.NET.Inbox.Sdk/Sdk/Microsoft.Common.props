@@ -1,5 +1,6 @@
 <Project>
 
+	<!-- Disable MSBuild imports from various extension points -->
 	<Import Project="DisableExtensions\Microsoft.Common.props"/>
 
 	<Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props"/>

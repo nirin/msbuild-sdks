@@ -1,15 +1,16 @@
 <Project>
 
+	<!-- Disable MSBuild imports from various extension points -->
 	<Import Project="DisableExtensions\Microsoft.Common.targets"/>
 	<Import Project="DisableExtensions\Microsoft.NETFramework.props"/>
 	<Import Project="DisableExtensions\Microsoft.NETFramework.targets"/>
 
 	<!--
-		With MSBuild 12, we've changed MSBuildToolsPath to for the first time point to a directory
+		With MSBuild 12, we have changed 'MSBuildToolsPath' to for the first time point to a directory
 		outside of the .NET Framework.  As a result of this, there were several targets files, of which
-		this was one, that were being referenced as out of MSBuildToolsPath that are now no longer there.
+		this was one, that were being referenced as out of 'MSBuildToolsPath' that are now no longer there.
 
-		Thus, we are shimming those targets files so that they do still appear in MSBuildToolsPath, so that
+		Thus, we are shimming those targets files so that they do still appear in 'MSBuildToolsPath', so that
 		consumers of them are not broken, but since the targets files themselves are still part of .NET,
 		the shim will internally simply redirect to the real copy of the targets file in the .NET Framework.
 	-->
@@ -17,8 +18,8 @@
 	<Import Project="$(MSBuildFrameworkToolsPath)\Microsoft.Common.targets"/>
 
 	<!--
-		Fix up FrameworkPathOverride, which is primarily used to determine the location of mscorlib.dll in the (relatively uncommon)
-		situation where the reference assemblies, in which it's usually found, are not installed.
+		Fix up 'FrameworkPathOverride', which is primarily used to determine the location of 'mscorlib.dll'
+		in the (relatively uncommon) situation where the reference assemblies, in which it's usually found, are not installed.
 	-->
 	<PropertyGroup>
 		<FrameworkPathOverride Condition="!Exists('$(FrameworkPathOverride)\mscorlib.dll')">$(MSBuildFrameworkToolsPath)</FrameworkPathOverride>

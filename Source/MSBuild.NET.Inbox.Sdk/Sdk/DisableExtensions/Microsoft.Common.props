@@ -1,5 +1,6 @@
 <Project>
 
+	<!-- Disable MSBuild imports from various extension points -->
 	<PropertyGroup Label="Microsoft.Common.props">
 		<ImportUserLocationsByWildcardBeforeMicrosoftCommonProps>false</ImportUserLocationsByWildcardBeforeMicrosoftCommonProps>
 		<ImportByWildcardBeforeMicrosoftCommonProps>false</ImportByWildcardBeforeMicrosoftCommonProps>

@@ -1,5 +1,6 @@
 <Project>
 
+	<!-- Disable MSBuild imports from various extension points -->
 	<PropertyGroup Label="Microsoft.CSharp.targets">
 		<ImportUserLocationsByWildcardBeforeMicrosoftCSharpTargets>false</ImportUserLocationsByWildcardBeforeMicrosoftCSharpTargets>
 		<ImportByWildcardBeforeMicrosoftCSharpTargets>false</ImportByWildcardBeforeMicrosoftCSharpTargets>
