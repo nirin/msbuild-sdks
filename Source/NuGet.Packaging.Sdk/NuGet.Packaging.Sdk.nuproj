@@ -10,7 +10,7 @@
 		<PackageVersion Condition="'$(PackageVersion)' == ''">1.0.0</PackageVersion>
 		<PackageTags>$(PackageTags);nuget;packaging;pack;restore;dependency-management;reference-support</PackageTags>
 		<Summary>An MSBuild SDK package that provides NuGet package authoring, reference support and dependency management to the projects.</Summary>
-		<Description>$(Summary) You can use this SDK primarily to author NuGet packages. However, you can also use it directly on your project or via the platform SDKs which refer to this SDK internally for NuGet support.</Description>
+		<Description>$(Summary) You use this SDK primarily to author NuGet packages. However, you can also use it directly on your project (_or via the platform SDKs which refer to this SDK internally_) for NuGet Pack and Restore support.</Description>
 	</PropertyGroup>
 
 </Project>

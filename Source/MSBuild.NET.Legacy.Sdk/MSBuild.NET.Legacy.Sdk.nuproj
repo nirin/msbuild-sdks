@@ -10,7 +10,7 @@
 		<PackageVersion Condition="'$(PackageVersion)' == ''">1.0.0</PackageVersion>
 		<PackageTags>$(PackageTags);dotnet;.net;legacy;inbox;windows;desktop;framework</PackageTags>
 		<Summary>An MSBuild SDK package that has updated __legacy__ props and targets that came inbox with .NET Framework.</Summary>
-		<Description>$(Summary) This SDK package is mostly used for testing puposes for compiling exclusively with the X-Platform MSBuild.</Description>
+		<Description>$(Summary) This SDK package is mostly used for testing and for compiling exclusively with the X-Platform MSBuild.</Description>
 	</PropertyGroup>
 
 	<PropertyGroup>
