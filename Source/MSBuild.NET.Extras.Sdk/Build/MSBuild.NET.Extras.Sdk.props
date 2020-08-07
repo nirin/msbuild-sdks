@@ -32,9 +32,4 @@
 
 	<Import Project="..\ProjectSystem\MSBuild.NET.ProjectSystem.props"/>
 
-	<ImportGroup Condition="'$(TargetFramework)' != ''">
-		<Import Project="MSBuild.NET.FrameworkResolver.props"/>
-		<Import Project="MSBuild.NET.Platforms.props" Condition="'$(TargetFrameworkIdentifier)' != ''"/>
-	</ImportGroup>
-
 </Project>
