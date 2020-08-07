@@ -16,7 +16,7 @@ See the [original project](https://github.com/onovotny/MSBuildSdkExtras/) by [Or
 
 ### Getting started (VS 15.6+)
 
-Visual Studio 2017 Update 6 (aka _v15.6_) includes support for SDK's resolved from NuGet. That makes using the custom Sdks much easier.
+Visual Studio 2017 Update 6 (aka _v15.6_) includes support for SDK's resolved from NuGet. That makes using the custom SDKs much easier.
 
 #### Using the SDK
 
@@ -28,7 +28,7 @@ Visual Studio 2017 Update 6 (aka _v15.6_) includes support for SDK's resolved fr
 2. Replace `Microsoft.NET.Sdk` with `MSBuild.NET.Extras.Sdk` to the project's top-level `Sdk` attribute.
 
 3. You have to tell MSBuild that the `Sdk` should resolve from NuGet by
-    - Adding a `global.json` containing the Sdk name and version.
+    - Adding a `global.json` containing the SDK name and version.
     - Appending a version info to the `Sdk` attribute value.
 
 4. Then you can edit the `TargetFramework` to a different TFM, or you can rename `TargetFramework` to `TargetFrameworks` and specify multiple TFM's with a semi-colon (`;`) separator.
@@ -48,7 +48,7 @@ You can put the `global.json` file next to your solution:
 ```json
 {
     "msbuild-sdks": {
-        "MSBuild.NET.Extras.Sdk": "1.2.0"
+        "MSBuild.NET.Extras.Sdk": "1.4.0"
     }
 }
 ```
@@ -59,7 +59,7 @@ This would be a preferred solution for all the projects in your solution.
 Then again, you might want to override the version for just one project _OR_ if you have only one project in your solution (without adding `global.json`), you can do so like this:
 
 ```xml
-<Project Sdk="MSBuild.NET.Extras.Sdk/1.2.0">
+<Project Sdk="MSBuild.NET.Extras.Sdk/1.4.0">
   <PropertyGroup>
     <TargetFrameworks>net46;uap10.0;tizen40</TargetFrameworks>
   </PropertyGroup>
@@ -97,8 +97,9 @@ Your project diff:
   </PropertyGroup>
 
   <ItemGroup>
--    <PackageReference Include="MSBuild.NET.Extras.Sdk" Version="1.2.0" PrivateAssets="All"/>
-  <!-- OTHER PACKAGES/INCLUDES -->
+-    <PackageReference Include="MSBuild.NET.Extras.Sdk" Version="1.0.0" PrivateAssets="All"/>
+    <PackageReference Include="System.ValueTuple" Version="5.0.0"/>
+    <!-- OTHER PACKAGES/INCLUDES -->
   </ItemGroup>
 
 -  <Import Project="$(MSBuildSdkExtrasDotNet)" Condition="Exists('$(MSBuildSdkExtrasDotNet)')"/>

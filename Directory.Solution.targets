@@ -1,0 +1,6 @@
+<Project>
+
+	<!-- Enable Solution-wide Package Restore through our SDK -->
+	<Import Sdk="MSBuild.NET.Legacy.Sdk" Project="NuGet.Restore.targets"/>
+
+</Project>
