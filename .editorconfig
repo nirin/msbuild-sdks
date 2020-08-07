@@ -1,12 +1,22 @@
-# top-most EditorConfig file
+# EditorConfig
 root = true
 
+# All files
 [*]
-end_of_line = crlf
 
-[*]
-indent_style = tab
-indent_size = 4
+#### Core EditorConfig Options ####
+
+# Encoding
+charset = utf-8
+
+# Indentation
 tab_width = 4
-trim_trailing_whitespace = true
+indent_size = 4
+indent_style = tab
+
+# New line and spacing
+end_of_line = unset
 insert_final_newline = false
+trim_trailing_whitespace = true
+
+# END
