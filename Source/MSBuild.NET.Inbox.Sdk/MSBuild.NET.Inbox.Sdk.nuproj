@@ -10,7 +10,7 @@
 		<PackageVersion Condition="'$(PackageVersion)' == ''">1.0.0</PackageVersion>
 		<PackageTags>$(PackageTags);dotnet;.net;legacy;inbox;windows;desktop</PackageTags>
 		<Summary>An MSBuild SDK package that redirects to props and targets that comes __inbox__ with .NET Framework.</Summary>
-		<Description>$(Summary) This SDK package is mostly used for testing puposes for compiling exclusively with the Full Framework MSBuild.</Description>
+		<Description>$(Summary) This SDK package is mostly used for testing and for compiling exclusively with the Full Framework MSBuild.</Description>
 	</PropertyGroup>
 
 </Project>
