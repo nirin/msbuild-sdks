@@ -1,9 +1,5 @@
 <Project>
 
-	<PropertyGroup>
-		<SupportedPlatforms>AnyCPU;x64;x86;ARM;ARM64</SupportedPlatforms>
-	</PropertyGroup>
-
 	<!-- User-facing configuration-agnostic defaults -->
 	<PropertyGroup>
 		<OutputType Condition="'$(OutputType)' == ''">Library</OutputType>
@@ -27,20 +23,16 @@
 
 	<!--
 		We cannot compare against $(Platform) directly as that will give VS cause to instantiate extra
-		configurations, for each combination, which leads to performance problems and clutter in the sln
-		in the common AnyCPU-only case.
+		configurations, for each combination, which leads to performance problems and clutter in the solution.
 
 		We cannot just set $(PlatformTarget) to $(Platform) here because $(Platform) can be set to anything
 		at the solution level, but there are a fixed set valid $(PlatformTarget) values that can be passed
-		to the compiler. It is up to the user to explicitly set PlatformTarget to non-AnyCPU (if desired)
-		outside the 1:1 defaults below.
+		to the compiler. It is up to the user to explicitly set 'PlatformTarget' to specific architecture
+		outside the 1:1 defaults below (in 'SupportedPlatforms').
 	-->
 	<PropertyGroup>
-		<_SdkSupportedPlatforms>;$(SupportedPlatforms);</_SdkSupportedPlatforms>
-		<_SdkPlatformInference Condition="$(_SdkSupportedPlatforms.Contains(';$(Platform);'))">$(Platform)</_SdkPlatformInference>
-		<PlatformTarget Condition="'$(PlatformTarget)' == '' AND '$(_SdkPlatformInference)' != ''">$(_SdkPlatformInference)</PlatformTarget>
-		<_SdkPlatformInference/>
-		<_SdkSupportedPlatforms/>
+		<SupportedPlatforms>Any;x64;x86;ARM;ARM64</SupportedPlatforms>
+		<PlatformTarget Condition="'$(PlatformTarget)' == '' AND $(SupportedPlatforms.Split(';').Contains('$(Platform)'))">$(Platform)</PlatformTarget>
 	</PropertyGroup>
 
 	<!-- Default settings for all projects built with this Sdk package -->

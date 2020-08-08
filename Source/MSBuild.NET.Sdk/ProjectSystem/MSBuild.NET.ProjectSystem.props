@@ -1,0 +1,10 @@
+<Project>
+
+	<!-- Import design time props for the Roslyn Project System. These are only available if Visual Studio is installed. -->
+	<PropertyGroup>
+		<DesignTimeLanguageProps Condition="'$(DesignTimeLanguageProps)'==''">$(MSBuildExtensionsPath)\Microsoft\VisualStudio\Managed\Microsoft.$(SourceLanguageName).DesignTime.props</DesignTimeLanguageProps>
+	</PropertyGroup>
+
+	<Import Project="$(DesignTimeLanguageProps)" Condition="'$(DesignTimeLanguageProps)' != '' AND Exists('$(DesignTimeLanguageProps)')"/>
+
+</Project>

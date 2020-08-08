@@ -1,7 +1,13 @@
 <Project>
 
+	<!--
+		Sets 'RestoreAdditionalProjectSources' or 'RestoreAdditionalProjectFallbackFolders' to the SDK Offline Cache.
+	-->
+
 	<PropertyGroup>
-		<_NuGetFallbackFolder>$(ProgramFiles)\dotnet\sdk\NuGetFallbackFolder</_NuGetFallbackFolder>
+		<DotNET_Install_Dir Condition="'$(DotNET_Install_Dir)' == ''">$(ProgramFiles)</DotNET_Install_Dir>
+		<DotNET_Home Condition="'$(DotNET_Home)' == ''">$(DotNET_Install_Dir)\dotnet</DotNET_Home>
+		<_NuGetFallbackFolder>$(_DotNET_Home)\sdk\NuGetFallbackFolder</_NuGetFallbackFolder>
 		<_IsNETCore1x Condition="'$(TargetFrameworkIdentifier)' == '.NETCoreApp' AND '$(_TargetFrameworkVersionWithoutV)' &lt; '2.0'">true</_IsNETCore1x>
 	</PropertyGroup>
 

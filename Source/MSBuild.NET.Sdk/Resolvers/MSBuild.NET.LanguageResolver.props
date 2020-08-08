@@ -1,7 +1,16 @@
 <Project>
 
+	<!-- 'SourceLanguage' can be empty when entering here -->
+
+	<PropertyGroup Condition="'$(SourceLanguage)' == ''">
+		<SourceLanguage Condition="$(MSBuildProjectExtension.EndsWith('proj'))">$(MSBuildProjectExtension.TrimEnd('proj').TrimStart('.'))</SourceLanguage>
+	</PropertyGroup>
+
+	<!--
+		$(SourceLanguage) = $(LangId)$(LangVersion)
+	-->
 	<Choose>
-		<When Condition="'$(MSBuildProjectExtension)' == '.csproj'">
+		<When Condition="'$(SourceLanguage)' == 'cs'">
 			<PropertyGroup>
 				<SourceLanguageName>CSharp</SourceLanguageName>
 				<SourceLanguageSymbol>C#</SourceLanguageSymbol>
@@ -9,7 +18,7 @@
 			</PropertyGroup>
 		</When>
 
-		<When Condition="'$(MSBuildProjectExtension)' == '.fsproj'">
+		<When Condition="'$(SourceLanguage)' == 'fs'">
 			<PropertyGroup>
 				<SourceLanguageName>FSharp</SourceLanguageName>
 				<SourceLanguageSymbol>F#</SourceLanguageSymbol>
@@ -17,7 +26,7 @@
 			</PropertyGroup>
 		</When>
 
-		<When Condition="'$(MSBuildProjectExtension)' == '.vbproj'">
+		<When Condition="'$(SourceLanguage)' == 'vb'">
 			<PropertyGroup>
 				<SourceLanguageName>VisualBasic</SourceLanguageName>
 				<SourceLanguageSymbol>VB</SourceLanguageSymbol>
@@ -25,7 +34,7 @@
 			</PropertyGroup>
 		</When>
 
-		<When Condition="'$(MSBuildProjectExtension)' == '.ilproj'">
+		<When Condition="'$(SourceLanguage)' == 'il'">
 			<PropertyGroup>
 				<SourceLanguageName>IntermediateLanguage</SourceLanguageName>
 				<SourceLanguageSymbol>IL</SourceLanguageSymbol>
@@ -39,5 +48,9 @@
 			</PropertyGroup>
 		</Otherwise>
 	</Choose>
+
+	<PropertyGroup>
+		<_ResolvedSourceLanguage>true</_ResolvedSourceLanguage>
+	</PropertyGroup>
 
 </Project>

@@ -1,8 +1,12 @@
 <Project>
 
-	<!-- We need to init SourceLanguage* properties! -->
-	<Import Project="..\Build\Resolvers\MSBuild.NET.LanguageInference.props"/>
+	<!-- Resolve Source Language properties -->
+	<Import Project="..\Resolvers\MSBuild.NET.LanguageResolver.props" Condition="'$(_ResolvedSourceLanguage)' != 'true'"/>
 
-	<Import Project="..\Core\Languages\MSBuild.$(SourceLanguageName).props"/>
+	<Import Project="..\Core\Languages\MSBuild.$(SourceLanguageName).props" Condition="'$(SourceLanguageName)' != '' AND '$(_ImportedSdkLanguageProps)' != 'true'"/>
+
+	<Import Project="..\Core\Frameworks\MSBuild.$(_TargetFrameworkName).props" Condition="'$(_TargetFrameworkName)' != '' AND '$(_ImportedSdkFrameworkProps)' != 'true'"/>
+
+	<Import Project="..\Core\Platforms\MSBuild.$(_TargetPlatformName).props" Condition="'$(_TargetPlatformName)' != '' AND '$(_ImportedSdkPlatformProps)' != 'true'"/>
 
 </Project>

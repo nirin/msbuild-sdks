@@ -6,20 +6,7 @@
 		<GenerateResourceMSBuildRuntime Condition="'$(GenerateResourceMSBuildRuntime)' == ''">CurrentRuntime</GenerateResourceMSBuildRuntime>
 	</PropertyGroup>
 
-	<Import Project="MSBuild.NET.BuildTargeting.targets"/>
-
 	<Import Sdk="Microsoft.NET.Sdk" Project="..\targets\Microsoft.PackageDependencyResolution.targets"/>
-
-	<ImportGroup>
-		<Import Project="..\Core\MSBuild.NET.Defaults.targets"/>
-		<Import Project="..\Core\MSBuild.NET.Specifics.targets"/>
-		<Import Project="..\Core\MSBuild.NET.Defaults.Items.targets"/>
-	</ImportGroup>
-
-	<UsingTask TaskName="GenerateDepsFile" AssemblyFile="$(MicrosoftNETBuildTasksAssembly)"/>
-	<UsingTask TaskName="GenerateRuntimeConfigurationFiles" AssemblyFile="$(MicrosoftNETBuildTasksAssembly)"/>
-	<UsingTask TaskName="GetAssemblyVersion" AssemblyFile="$(MicrosoftNETBuildTasksAssembly)"/>
-	<UsingTask TaskName="GenerateSatelliteAssemblies" AssemblyFile="$(MicrosoftNETBuildTasksAssembly)"/>
 
 	<PropertyGroup>
 		<GenerateRuntimeConfigurationFiles Condition="'$(GenerateRuntimeConfigurationFiles)' == '' AND '$(TargetFrameworkIdentifier)' == '.NETCoreApp' AND '$(HasRuntimeOutput)' == 'true'">true</GenerateRuntimeConfigurationFiles>
@@ -86,6 +73,11 @@
 			$(RebuildDependsOn)
 		</RebuildDependsOn>
 	</PropertyGroup>
+
+	<UsingTask TaskName="GenerateDepsFile" AssemblyFile="$(MicrosoftNETBuildTasksAssembly)"/>
+	<UsingTask TaskName="GenerateRuntimeConfigurationFiles" AssemblyFile="$(MicrosoftNETBuildTasksAssembly)"/>
+	<UsingTask TaskName="GetAssemblyVersion" AssemblyFile="$(MicrosoftNETBuildTasksAssembly)"/>
+	<UsingTask TaskName="GenerateSatelliteAssemblies" AssemblyFile="$(MicrosoftNETBuildTasksAssembly)"/>
 
 	<!--
 	============================================================

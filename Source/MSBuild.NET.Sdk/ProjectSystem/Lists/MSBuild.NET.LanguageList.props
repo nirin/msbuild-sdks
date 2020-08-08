@@ -30,8 +30,8 @@
 			<DisplayName>Visual C++ (C++/CLR)</DisplayName>
 			<Versions>2.0|4.0</Versions>
 		</KnownSourceLanguage>
-		<KnownSourceLanguage Include="CIL">
-			<DisplayName>CIL (Common Intermediate Language)</DisplayName>
+		<KnownSourceLanguage Include="IL">
+			<DisplayName>IL (Intermediate Language)</DisplayName>
 			<Versions>2.0|4.0</Versions>
 		</KnownSourceLanguage>
 	</ItemGroup>

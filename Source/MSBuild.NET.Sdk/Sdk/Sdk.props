@@ -1,34 +1,20 @@
 <Project>
 
 	<PropertyGroup Label="Globals">
+		<!-- Indicate whether 'MSBuild.NET.Sdk' is being used. -->
+		<UsingMSBuildNETSdk>true</UsingMSBuildNETSdk>
 		<!--
-			Indicate to other targets that MSBuild.NET.Sdk is being used.
-			This must be set here (as early as possible, before MSBuild.Core.Sdk)
-			so that everything that follows can depend on it.
-			In particular, Directory.Build.props and nuget package props need to be able
-			to use this flag and they are imported by MSBuild.Core.Sdk.
+			Indicate whether the set of SDK defaults that makes SDK style project concise are being used.
+			For example: globbing, generating assembly info, etc...
 		-->
-		<MSBuildSdkVersion>1.0</MSBuildSdkVersion>
-		<MSBuildSdkName>MSBuild.NET.Sdk</MSBuildSdkName>
-		<MSBuildSdk>$(MSBuildSdkName)|$(MSBuildSdkVersion)</MSBuildSdk>
-		<UsingMSBuildSdk>true</UsingMSBuildSdk>
-	</PropertyGroup>
-
-	<!-- TODO: Remove once the migration is done. -->
-	<PropertyGroup Label="Legacy">
-		<!-- This is used by 'Microsoft.NET.Sdk' Package -->
-		<UsingMicrosoftNETSdk>$(UsingMSBuildSdk)</UsingMicrosoftNETSdk>
-
-		<!-- Ease of Access -->
-		<MicrosoftNETSdk>Microsoft.NET.Sdk</MicrosoftNETSdk>
-		<MicrosoftNETSdkPath>$(MSBuildSdksPath)\$(MicrosoftNETSdk)\</MicrosoftNETSdkPath>
+		<UsingNETSdkDefaults>true</UsingNETSdkDefaults>
 	</PropertyGroup>
 
 	<Import Sdk="MSBuild.Core.Sdk" Project="Sdk.Extensions.props"/>
 
 	<Import Project="Sdk.Extensions.props"/>
 
-	<Import Project="..\Build\MSBuild.NET.Sdk.props"/>
+	<Import Project="Sdk.Core.props"/>
 
 	<Import Sdk="MSBuild.Core.Sdk" Project="Sdk.Core.props"/>
 
