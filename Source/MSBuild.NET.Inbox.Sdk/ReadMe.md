@@ -84,7 +84,7 @@ Visual Studio 2017 Update 6 (aka _v15.6_) includes support for SDK's resolved fr
    ```json
    {
        "msbuild-sdks": {
-           "MSBuild.NET.Inbox.Sdk": "1.1.0"
+           "MSBuild.NET.Inbox.Sdk": "1.0.0"
        }
    }
    ```
@@ -95,7 +95,7 @@ Visual Studio 2017 Update 6 (aka _v15.6_) includes support for SDK's resolved fr
    Then again, you might want to override the version for just one project _OR_ if you have only one project in your solution (without adding `global.json`), you can do so like this:
 
    ```xml
-   <Project Sdk="MSBuild.NET.Inbox.Sdk/1.1.0">
+   <Project Sdk="MSBuild.NET.Inbox.Sdk/1.0.0">
 
      <!-- Properties/Items/Targets -->
 

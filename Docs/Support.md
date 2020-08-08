@@ -13,7 +13,7 @@
 - TVOS
 - WatchOS
 
-### .NET Runtime support
+### .NET Platform support
 
 - .NET Framework (Windows):
   - WinForms

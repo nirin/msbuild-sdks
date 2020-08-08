@@ -37,6 +37,7 @@ Supports only .NET Framework (Windows). Contains the original .NET Framework Bui
 
 Supports only .NET Framework (Windows). Redirects to the original MSBuild files that were included as a part of .NET Framework (Windows). This is for our internal projects only.
 
+[![MSBuild.NET.Inbox.Sdk](https://img.shields.io/nuget/v/MSBuild.NET.Inbox.Sdk.svg)](https://nuget.org/packages/MSBuild.NET.Inbox.Sdk)
 [![MSBuild.NET.Inbox.Sdk](https://img.shields.io/myget/msbuild-sdks/v/MSBuild.NET.Inbox.Sdk.svg)](https://myget.org/feed/msbuild-sdks/package/nuget/MSBuild.NET.Inbox.Sdk)
 
 ### [MSBuild.Sharing.Sdk](Source/MSBuild.Sharing.Sdk)
@@ -65,7 +66,7 @@ Supports [Native](Docs/Support.md#native-platform-support) projects that include
 
 ### [MSBuild.NET.Sdk](Source/MSBuild.NET.Sdk)
 
-Supports [.NET](Docs/Support.md#net-runtime-support) projects that include building for .NET Framework (Windows), .NET Core (Windows, Linux, MacOS), Mono (Windows, Linux, MacOS), Xamarin (based on Mono) runtimes.
+Supports [.NET](Docs/Support.md#net-platfrom-support) projects that include building for .NET Framework (Windows), .NET Core (Windows, Linux, MacOS), Mono (Windows, Linux, MacOS), Xamarin (based on Mono) runtimes.
 
 ### [MSBuild.Packaging.Sdk](Source/MSBuild.Packaging.Sdk)
 
