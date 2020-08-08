@@ -8,8 +8,6 @@
 		<MicrosoftLanguageTargets Condition="'$(MSBuildProjectExtension)' == '.vbproj'">Microsoft.VisualBasic.targets</MicrosoftLanguageTargets>
 	</PropertyGroup>
 
-	<!--<Import Project="Sdk.tasks" Condition="'$(ImportedMicrosoftCommonTasks)' != 'true'"/>-->
-
 	<Import Project="$(MicrosoftLanguageTargets)"/>
 
 	<Import Sdk="MSBuild.Core.Sdk" Project="Sdk.Extensions.targets"/>

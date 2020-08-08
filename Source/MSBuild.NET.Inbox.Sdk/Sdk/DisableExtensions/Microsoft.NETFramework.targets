@@ -1,5 +1,6 @@
 <Project>
 
+	<!-- Disable MSBuild imports from various extension points -->
 	<PropertyGroup Label="Microsoft.NETFramework.targets">
 		<ImportUserLocationsByWildcardBeforeMicrosoftNETFrameworkTargets>false</ImportUserLocationsByWildcardBeforeMicrosoftNETFrameworkTargets>
 		<ImportByWildcardBeforeMicrosoftNETFrameworkTargets>false</ImportByWildcardBeforeMicrosoftNETFrameworkTargets>

@@ -1,5 +1,6 @@
 <Project>
 
+	<!-- Disable MSBuild imports from various extension points -->
 	<PropertyGroup Label="Microsoft.VisualBasic.targets">
 		<ImportUserLocationsByWildcardBeforeMicrosoftVisualBasicTargets>false</ImportUserLocationsByWildcardBeforeMicrosoftVisualBasicTargets>
 		<ImportByWildcardBeforeMicrosoftVisualBasicTargets>false</ImportByWildcardBeforeMicrosoftVisualBasicTargets>
