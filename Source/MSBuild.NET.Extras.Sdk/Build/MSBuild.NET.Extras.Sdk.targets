@@ -1,8 +1,9 @@
 <Project>
 
-	<ImportGroup Condition="'$(TargetFramework)' != '' AND '$(_ResolvedTargetFramework)' != 'true'">
+	<!-- TODO: Try to resolve 'TargetFramework' before User's project instead of after! -->
+	<ImportGroup Condition="'$(TargetFramework)' != ''">
 		<Import Project="MSBuild.NET.FrameworkResolver.props"/>
-		<Import Project="MSBuild.NET.Platforms.props" Condition="'$(TargetFrameworkIdentifier)' != ''"/>
+		<Import Project="MSBuild.NET.Platforms.props" Condition="'$(TargetFrameworkIdentifier)' != 'NIL'"/>
 	</ImportGroup>
 
 	<PropertyGroup Condition="'$(AppendTargetFrameworkToOutputPath)' == ''">

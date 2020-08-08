@@ -48,11 +48,13 @@
 
 		<!-- Do not copy local assemblies from lock file via restore -->
 		<CopyLocalLockFileAssemblies Condition="'$(CopyLocalLockFileAssemblies)' == ''">false</CopyLocalLockFileAssemblies>
+
+		<NuGetTargetMoniker>$(TargetPlatformIdentifier),Version=v$(_ShortFrameworkVersion)</NuGetTargetMoniker>
+		<NuGetTargetMoniker Condition="'$(IncludeRevisionInMoniker)' == 'true'">$(TargetPlatformIdentifier),Version=v$(TargetPlatformMinVersion)</NuGetTargetMoniker>
 	</PropertyGroup>
 
-	<PropertyGroup>
+	<PropertyGroup Condition="'$(NuGetTargetMoniker)' == ''">
 		<NuGetTargetMoniker>$(TargetPlatformIdentifier),Version=v$(TargetPlatformVersion)</NuGetTargetMoniker>
-		<NuGetTargetMoniker Condition="$(TargetFramework.StartsWith('uap10.0'))">$(TargetPlatformIdentifier),Version=v$(_ShortFrameworkVersion)</NuGetTargetMoniker>
 	</PropertyGroup>
 
 </Project>
