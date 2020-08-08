@@ -1,5 +1,7 @@
 <Project>
 
+	<Import Sdk="MSBuild.Core.Sdk" Project="Sdk.Core.targets"/>
+
 	<PropertyGroup>
 		<MicrosoftLanguageTargets>Microsoft.Common.targets</MicrosoftLanguageTargets>
 		<MicrosoftLanguageTargets Condition="'$(MSBuildProjectExtension)' == '.csproj'">Microsoft.CSharp.targets</MicrosoftLanguageTargets>
@@ -7,5 +9,7 @@
 	</PropertyGroup>
 
 	<Import Project="$(MicrosoftLanguageTargets)"/>
+
+	<Import Sdk="MSBuild.Core.Sdk" Project="Sdk.Extensions.targets"/>
 
 </Project>

@@ -1,9 +1,13 @@
 <Project>
 
+	<Import Sdk="MSBuild.Core.Sdk" Project="Sdk.Extensions.props"/>
+
 	<PropertyGroup>
 		<MicrosoftLanguageProps>Microsoft.Common.props</MicrosoftLanguageProps>
 	</PropertyGroup>
 
 	<Import Project="$(MicrosoftLanguageProps)"/>
+
+	<Import Sdk="MSBuild.Core.Sdk" Project="Sdk.Core.props"/>
 
 </Project>
