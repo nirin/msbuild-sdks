@@ -14,4 +14,8 @@
 		<VSToolsPath>$(BaseVSToolsPath)\v$(VisualStudioVersion)</VSToolsPath>
 	</PropertyGroup>
 
+	<PropertyGroup Condition="'$(BuildingInsideVisualStudio)' == ''">
+		<BuildingInsideVisualStudio>$([MSBuild]::IsRunningFromVisualStudio())</BuildingInsideVisualStudio>
+	</PropertyGroup>
+
 </Project>

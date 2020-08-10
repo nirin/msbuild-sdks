@@ -1,7 +1,11 @@
 <Project>
 
+	<!-- Default IDE project system properties -->
 	<PropertyGroup>
-
+		<ReadOnlyProject Condition="'$(ReadOnlyProject)' == ''">false</ReadOnlyProject>
+		<HideProjectNode Condition="'$(HideProjectNode)' == ''">false</HideProjectNode>
+		<EnableProjectExtensibility Condition="'$(EnableProjectExtensibility)' == ''">true</EnableProjectExtensibility>
+		<ReplaceWildcardsInProjectItems Condition="'$(ReplaceWildcardsInProjectItems)' == ''">true</ReplaceWildcardsInProjectItems>
 	</PropertyGroup>
 
 </Project>

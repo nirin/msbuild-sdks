@@ -1,5 +1,13 @@
 <Project>
 
+	<ItemGroup Condition="'$(EnableDefaultItems)' == 'true' AND '$(EnableDefaultContentItems)' == 'true'">
+		<Content Include="Content\**\*" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)"/>
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(EnableDefaultItems)' == 'true' AND '$(EnableDefaultResourceItems)' == 'true'">
+		<Resource Include="Resource\**\*" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)"/>
+	</ItemGroup>
+
 	<ItemGroup Condition="'$(EnableDefaultItems)' == 'true' AND '$(EnableDefaultNoneItems)' == 'true'">
 		<None Include="**\*" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)"/>
 	</ItemGroup>

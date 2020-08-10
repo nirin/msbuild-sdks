@@ -3,6 +3,8 @@
 	<PropertyGroup>
 		<EnableDefaultItems Condition="'$(EnableDefaultItems)' == ''">true</EnableDefaultItems>
 		<EnableDefaultNoneItems Condition="'$(EnableDefaultNoneItems)' == ''">true</EnableDefaultNoneItems>
+		<EnableDefaultProjectItems Condition="'$(EnableDefaultProjectItems)' == ''">true</EnableDefaultProjectItems>
+		<EnableDefaultSolutionItems Condition="'$(EnableDefaultSolutionItems)' == ''">true</EnableDefaultSolutionItems>
 		<ExcludeDefaultBuildFiles Condition="'$(ExcludeDefaultBuildFiles)' == ''">false</ExcludeDefaultBuildFiles>
 	</PropertyGroup>
 
@@ -14,6 +16,7 @@
 	<PropertyGroup>
 		<DefaultItemExcludes>$(DefaultItemExcludes);**\*.slnx</DefaultItemExcludes>
 		<DefaultItemExcludes>$(DefaultItemExcludes);**\*.user</DefaultItemExcludes>
+		<DefaultItemExcludes>$(DefaultItemExcludes);**\*.binlog</DefaultItemExcludes>
 	</PropertyGroup>
 
 	<!-- Legacy files, not used anymore -->
@@ -31,12 +34,17 @@
 	</PropertyGroup>
 
 	<!--
-		WARNING: This pattern is there to ignore folders such as .git and .vs, but it will also match items included with a
+		WARNING: This pattern is there to ignore folders such as ".git" and ".vs", but it will also match items included with a
 		relative path outside the solution folder (for example "..\Shared\Shared.cs").  So be sure only to apply it to items
 		that are in the solution folder.
 	-->
 	<PropertyGroup>
 		<DefaultExcludesInSolutionFolder>$(DefaultItemExcludesInSolutionFolder);**\.*\**</DefaultExcludesInSolutionFolder>
 	</PropertyGroup>
+
+	<ItemGroup Condition="'$(EnableDefaultItems)' == 'true' AND '$(EnableDefaultNoneItems)' == 'true'">
+		<None Remove="@(ProjectItem)" Condition="'@(ProjectItem)' != ''"/>
+		<None Remove="@(SolutionItem)" Condition="'@(SolutionItem)' != ''"/>
+	</ItemGroup>
 
 </Project>

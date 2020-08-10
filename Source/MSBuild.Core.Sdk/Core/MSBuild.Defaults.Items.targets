@@ -3,6 +3,8 @@
 	<PropertyGroup>
 		<EnableDefaultItems Condition="'$(EnableDefaultItems)' == ''">true</EnableDefaultItems>
 		<EnableDefaultNoneItems Condition="'$(EnableDefaultNoneItems)' == ''">true</EnableDefaultNoneItems>
+		<EnableDefaultContentItems Condition="'$(EnableDefaultContentItems)' == ''">false</EnableDefaultContentItems>
+		<EnableDefaultResourceItems Condition="'$(EnableDefaultResourceItems)' == ''">false</EnableDefaultResourceItems>
 		<ExcludeDefaultBuildFiles Condition="'$(ExcludeDefaultBuildFiles)' == ''">true</ExcludeDefaultBuildFiles>
 	</PropertyGroup>
 
@@ -15,6 +17,7 @@
 		<DefaultItemExcludes>$(DefaultItemExcludes);**\*.slnx</DefaultItemExcludes>
 		<DefaultItemExcludes>$(DefaultItemExcludes);**\*.user</DefaultItemExcludes>
 		<DefaultItemExcludes>$(DefaultItemExcludes);**\*.*proj</DefaultItemExcludes>
+		<DefaultItemExcludes>$(DefaultItemExcludes);**\*.binlog</DefaultItemExcludes>
 	</PropertyGroup>
 
 	<!-- Legacy files, not used anymore -->
@@ -32,12 +35,19 @@
 	</PropertyGroup>
 
 	<!--
-		WARNING: This pattern is there to ignore folders such as .git and .vs, but it will also match items included with a
+		WARNING: This pattern is there to ignore folders such as ".git" and ".vs", but it will also match items included with a
 		relative path outside the project folder (for example "..\Shared\Shared.cs").  So be sure only to apply it to items
 		that are in the project folder.
 	-->
 	<PropertyGroup>
 		<DefaultExcludesInProjectFolder>$(DefaultItemExcludesInProjectFolder);**\.*\**</DefaultExcludesInProjectFolder>
 	</PropertyGroup>
+
+	<ItemGroup Condition="'$(EnableDefaultItems)' == 'true' AND '$(EnableDefaultNoneItems)' == 'true'">
+		<None Remove="@(File)" Condition="'@(File)' != ''"/>
+		<None Remove="@(Folder)" Condition="'@(Folder)' != ''"/>
+		<None Remove="@(Content)" Condition="'@(Content)' != ''"/>
+		<None Remove="@(Resource)" Condition="'@(Resource)' != ''"/>
+	</ItemGroup>
 
 </Project>
