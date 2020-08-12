@@ -7,24 +7,54 @@
 	<!-- .NET Platforms -->
 	<ItemGroup Label=".NET Platforms">
 		<KnownTargetPlatform Include="Windows">
+			<MinVersion>6.0</MinVersion>
+			<MaxVersion>10.0</MaxVersion>
 			<DisplayName>Windows</DisplayName>
-			<Versions>7.0|8.0|8.1|10.0</Versions>
 		</KnownTargetPlatform>
 		<KnownTargetPlatform Include="Linux">
+			<MinVersion>3.0</MinVersion>
+			<MaxVersion>6.0</MaxVersion>
 			<DisplayName>Linux</DisplayName>
-			<Versions>4.0</Versions>
 		</KnownTargetPlatform>
 		<KnownTargetPlatform Include="Mac">
+			<MinVersion>10.10</MinVersion>
+			<MaxVersion>10.15</MaxVersion>
 			<DisplayName>Mac</DisplayName>
-			<Versions>10.10|10.11|10.12|10.13|10.14</Versions>
 		</KnownTargetPlatform>
 		<KnownTargetPlatform Include="iOS">
-			<DisplayName>iOS</DisplayName>
-			<Versions>7.0|8.0|9.0|10.0|11.0</Versions>
+			<MinVersion>10.0</MinVersion>
+			<MaxVersion>15.0</MaxVersion>
+			<DisplayName>iPhone</DisplayName>
+		</KnownTargetPlatform>
+		<KnownTargetPlatform Include="iPadOS">
+			<MinVersion>10.0</MinVersion>
+			<MaxVersion>15.0</MaxVersion>
+			<DisplayName>iPad</DisplayName>
+		</KnownTargetPlatform>
+		<KnownTargetPlatform Include="TVOS">
+			<MinVersion>10.0</MinVersion>
+			<MaxVersion>15.0</MaxVersion>
+			<DisplayName>Apple TV</DisplayName>
+		</KnownTargetPlatform>
+		<KnownTargetPlatform Include="WatchOS">
+			<MinVersion>1.0</MinVersion>
+			<MaxVersion>7.0</MaxVersion>
+			<DisplayName>Apple Watch</DisplayName>
 		</KnownTargetPlatform>
 		<KnownTargetPlatform Include="Android">
+			<MinVersion>7.0</MinVersion>
+			<MaxVersion>12.0</MaxVersion>
 			<DisplayName>Android</DisplayName>
-			<Versions>15|16|17|18|19|20|21|22|23|24|25</Versions>
+		</KnownTargetPlatform>
+		<KnownTargetPlatform Include="PlayStation">
+			<MinVersion>3.0</MinVersion>
+			<MaxVersion>5.0</MaxVersion>
+			<DisplayName>PlayStation</DisplayName>
+		</KnownTargetPlatform>
+		<KnownTargetPlatform Include="Tizen">
+			<MinVersion>3.0</MinVersion>
+			<MaxVersion>9.0</MaxVersion>
+			<DisplayName>Tizen</DisplayName>
 		</KnownTargetPlatform>
 	</ItemGroup>
 
