@@ -68,11 +68,11 @@
 	</PropertyGroup>
 
 	<!--
-		Don't leave 'TargetPlatformVersion' empty if it still hasn't been determined. We will trigger the error above,
+		Do not leave 'TargetPlatformVersion' empty if it still hasn't been determined. We will trigger the error above,
 		but we need this to be a valid version so that our error message does not get pre-empted by failure to interpret
 		version comparison expressions, which is currently unrecoverable in VS.
 
-		Also don't leave 'TargetPlatformIdentifier' unset as it will be defaulted to 'Windows' by common targets, which
+		Also do not leave 'TargetPlatformIdentifier' unset as it will be defaulted to 'Windows' by common targets, which
 		can cause restore (which we cannot block, see above) to silently succeed for empty 'TargetPlatform'.
 	-->
 	<PropertyGroup>

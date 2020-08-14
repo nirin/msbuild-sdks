@@ -9,8 +9,14 @@
 	<!--
 		$(SourceLanguage) = $(LangId)$(LangVersion)
 	-->
+	<PropertyGroup>
+		<LangId>$(SourceLanguage.TrimEnd('.0123456789'))</LangId>
+		<LangVersion>$(SourceLanguage.Substring('$(LangId.Length)'))</LangVersion>
+		<LangVersion Condition="'$(LangVersion)' == ''">Latest</LangVersion>
+	</PropertyGroup>
+
 	<Choose>
-		<When Condition="'$(SourceLanguage)' == 'cs'">
+		<When Condition="'$(LangId)' == 'cs'">
 			<PropertyGroup>
 				<SourceLanguageName>CSharp</SourceLanguageName>
 				<SourceLanguageSymbol>C#</SourceLanguageSymbol>
@@ -18,7 +24,7 @@
 			</PropertyGroup>
 		</When>
 
-		<When Condition="'$(SourceLanguage)' == 'fs'">
+		<When Condition="'$(LangId)' == 'fs'">
 			<PropertyGroup>
 				<SourceLanguageName>FSharp</SourceLanguageName>
 				<SourceLanguageSymbol>F#</SourceLanguageSymbol>
@@ -26,7 +32,7 @@
 			</PropertyGroup>
 		</When>
 
-		<When Condition="'$(SourceLanguage)' == 'vb'">
+		<When Condition="'$(LangId)' == 'vb'">
 			<PropertyGroup>
 				<SourceLanguageName>VisualBasic</SourceLanguageName>
 				<SourceLanguageSymbol>VB</SourceLanguageSymbol>
@@ -34,7 +40,7 @@
 			</PropertyGroup>
 		</When>
 
-		<When Condition="'$(SourceLanguage)' == 'il'">
+		<When Condition="'$(LangId)' == 'il'">
 			<PropertyGroup>
 				<SourceLanguageName>IntermediateLanguage</SourceLanguageName>
 				<SourceLanguageSymbol>IL</SourceLanguageSymbol>

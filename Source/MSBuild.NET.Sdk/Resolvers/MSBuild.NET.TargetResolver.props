@@ -15,11 +15,11 @@
 		</When>
 
 		<When Condition="$(TargetProfile.Contains('~'))">
-
+			<!-- Split the property and get its count -->
 			<PropertyGroup>
 				<_TargetProfileCount>$(TargetProfile.Split('~').Length)</_TargetProfileCount>
 			</PropertyGroup>
-
+			<!-- Extract into its own properties -->
 			<Choose>
 				<When Condition="$(_TargetProfileCount) &gt; 1 AND $(_TargetProfileCount) &lt; 4">
 					<PropertyGroup>

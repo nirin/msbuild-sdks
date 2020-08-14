@@ -13,11 +13,11 @@
 		</When>
 
 		<When Condition="$(TargetRuntime.Contains('~'))">
-
+			<!-- Split the property and get its count -->
 			<PropertyGroup>
 				<_TargetRuntimeCount>$(TargetRuntime.Split('~').Length)</_TargetRuntimeCount>
 			</PropertyGroup>
-
+			<!-- Extract into its own properties -->
 			<Choose>
 				<When Condition="$(_TargetRuntimeCount) == 2">
 					<PropertyGroup>
