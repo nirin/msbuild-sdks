@@ -38,4 +38,25 @@
 		<PackageReference Include="@(SdkReference)" Type="Sdk"/>
 	</ItemGroup>
 
+	<ItemGroup Condition="'$(DisableImplicitFrameworkReferences)' != 'true'">
+		<!--
+			Don't duplicate any references that are explicit in the project file.
+			This means that if you do want to include a framework assembly manually,
+			you can just add the 'Reference' to your project file.
+		-->
+		<_ImplicitReference Remove="@(Reference)"/>
+
+		<!--
+			Disable 'Pack' on implicit references so they don't get added to packages as reference assemblies.
+			Disable 'Publish' on implicit references so they don't get added to the output/publish folder.
+		-->
+		<_ImplicitReference Update="@(_ImplicitReference)" Pack="false" Publish="false" IsImplicit="true"/>
+
+		<!-- Add the implicit references to 'Reference' -->
+		<Reference Include="@(_ImplicitReference)"/>
+
+		<!-- Clean up the temporary list -->
+		<_ImplicitReference Remove="@(_ImplicitReference)"/>
+	</ItemGroup>
+
 </Project>
