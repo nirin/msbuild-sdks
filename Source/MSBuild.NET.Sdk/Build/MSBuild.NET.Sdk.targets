@@ -1,12 +1,5 @@
 <Project>
 
-	<PropertyGroup Label="Globals">
-		<_SdkBuildMode Condition="'$(TargetFrameworks)' != '' AND '$(TargetFramework)' == ''">Build.Outer</_SdkBuildMode>
-		<_SdkBuildMode Condition="'$(TargetFrameworks)' != '' AND '$(TargetFramework)' != ''">Build.Inner</_SdkBuildMode>
-		<_SdkBuildMode Condition="'$(TargetFrameworks)' == '' AND '$(TargetFramework)' != ''">Build.Mono</_SdkBuildMode>
-		<_SdkBuildMode Condition="'$(TargetFrameworks)' == '' AND '$(TargetFramework)' == ''">Build.None</_SdkBuildMode>
-	</PropertyGroup>
-
 	<Import Project="..\Core\MSBuild.NET.References.targets"/>
 
 	<Import Project="..\Core\MSBuild.NET.Defaults.Items.targets"/>
@@ -20,6 +13,13 @@
 	<Import Project="..\Core\MSBuild.NET.Specifics.targets"/>
 
 	<Import Project="..\ProjectSystem\MSBuild.NET.ProjectSystem.targets"/>
+
+	<PropertyGroup Label="Globals">
+		<_SdkBuildMode Condition="'$(TargetFrameworks)' != '' AND '$(TargetFramework)' == ''">Build.Outer</_SdkBuildMode>
+		<_SdkBuildMode Condition="'$(TargetFrameworks)' != '' AND '$(TargetFramework)' != ''">Build.Inner</_SdkBuildMode>
+		<_SdkBuildMode Condition="'$(TargetFrameworks)' == '' AND '$(TargetFramework)' != ''">Build.Mono</_SdkBuildMode>
+		<_SdkBuildMode Condition="'$(TargetFrameworks)' == '' AND '$(TargetFramework)' == ''">Build.None</_SdkBuildMode>
+	</PropertyGroup>
 
 	<PropertyGroup Label="Globals">
 		<IsOuterBuild Condition="'$(_SdkBuildMode)' == 'Build.Outer'">true</IsOuterBuild>

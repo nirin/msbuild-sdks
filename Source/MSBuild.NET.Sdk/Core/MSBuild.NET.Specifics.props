@@ -1,8 +1,5 @@
 <Project>
 
-	<!-- Resolve Source Language properties -->
-	<Import Project="..\Resolvers\MSBuild.NET.LanguageResolver.props" Condition="'$(_ResolvedSourceLanguage)' != 'true'"/>
-
 	<Import Project="..\Core\Languages\MSBuild.$(SourceLanguageName).props" Condition="'$(SourceLanguageName)' != '' AND '$(_ImportedSdkLanguageProps)' != 'true'"/>
 
 	<Import Project="..\Core\Frameworks\MSBuild.$(_TargetFrameworkName).props" Condition="'$(_TargetFrameworkName)' != '' AND '$(_ImportedSdkFrameworkProps)' != 'true'"/>

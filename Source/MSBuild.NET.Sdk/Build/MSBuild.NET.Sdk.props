@@ -1,10 +1,17 @@
 <Project>
 
+	<!-- Resolve Source Language properties -->
+	<Import Project="..\Resolvers\MSBuild.NET.LanguageResolver.props" Condition="'$(_ResolvedSourceLanguage)' != 'true'"/>
+
 	<Import Project="..\Core\MSBuild.NET.Defaults.props"/>
 
 	<Import Project="..\Core\MSBuild.NET.Defaults.Items.props"/>
 
 	<Import Project="..\Core\MSBuild.NET.References.props"/>
+
+	<Import Project="..\Core\MSBuild.NET.AssemblyInfo.props"/>
+
+	<Import Project="..\Core\MSBuild.NET.OutputPaths.props"/>
 
 	<Import Project="..\Core\MSBuild.NET.Specifics.props"/>
 
