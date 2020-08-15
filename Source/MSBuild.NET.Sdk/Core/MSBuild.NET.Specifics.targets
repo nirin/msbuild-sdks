@@ -5,14 +5,14 @@
 		<Import Project="..\Core\Languages\MSBuild.$(SourceLanguageName).targets"/>
 	</ImportGroup>
 
-	<ImportGroup Condition="'$(_TargetFrameworkName)' != ''">
-		<Import Project="..\Core\Frameworks\MSBuild.$(_TargetFrameworkName).props" Condition="'$(_ImportedSdkFrameworkProps)' != 'true'"/>
-		<Import Project="..\Core\Frameworks\MSBuild.$(_TargetFrameworkName).targets"/>
+	<ImportGroup Condition="'$(TargetFrameworkName)' != ''">
+		<Import Project="..\Core\Frameworks\MSBuild.$(TargetFrameworkName).props" Condition="'$(_ImportedSdkFrameworkProps)' != 'true'"/>
+		<Import Project="..\Core\Frameworks\MSBuild.$(TargetFrameworkName).targets"/>
 	</ImportGroup>
 
-	<ImportGroup Condition="'$(_TargetPlatformName)' != ''">
-		<Import Project="..\Core\Platforms\MSBuild.$(_TargetPlatformName).props" Condition="'$(_ImportedSdkPlatformProps)' != 'true'"/>
-		<Import Project="..\Core\Platforms\MSBuild.$(_TargetPlatformName).targets"/>
+	<ImportGroup Condition="'$(TargetPlatformName)' != ''">
+		<Import Project="..\Core\Platforms\MSBuild.$(TargetPlatformName).props" Condition="'$(_ImportedSdkPlatformProps)' != 'true'"/>
+		<Import Project="..\Core\Platforms\MSBuild.$(TargetPlatformName).targets"/>
 	</ImportGroup>
 
 </Project>

@@ -2,8 +2,8 @@
 
 	<Import Project="..\Core\Languages\MSBuild.$(SourceLanguageName).props" Condition="'$(SourceLanguageName)' != '' AND '$(_ImportedSdkLanguageProps)' != 'true'"/>
 
-	<Import Project="..\Core\Frameworks\MSBuild.$(_TargetFrameworkName).props" Condition="'$(_TargetFrameworkName)' != '' AND '$(_ImportedSdkFrameworkProps)' != 'true'"/>
+	<Import Project="..\Core\Frameworks\MSBuild.$(TargetFrameworkName).props" Condition="'$(TargetFrameworkName)' != '' AND '$(_ImportedSdkFrameworkProps)' != 'true'"/>
 
-	<Import Project="..\Core\Platforms\MSBuild.$(_TargetPlatformName).props" Condition="'$(_TargetPlatformName)' != '' AND '$(_ImportedSdkPlatformProps)' != 'true'"/>
+	<Import Project="..\Core\Platforms\MSBuild.$(TargetPlatformName).props" Condition="'$(TargetPlatformName)' != '' AND '$(_ImportedSdkPlatformProps)' != 'true'"/>
 
 </Project>

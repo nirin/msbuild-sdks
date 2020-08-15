@@ -27,7 +27,7 @@
 	-->
 	<ImportGroup Condition="'$(TargetFramework)' != '' AND '$(_ResolvedTargetFramework)' != 'true'">
 		<Import Project="..\Resolvers\MSBuild.NET.FrameworkResolver.props"/>
-		<Import Project="..\Core\Frameworks\MSBuild.$(_TargetFrameworkName).props" Condition="'$(_TargetFrameworkName)' != ''"/>
+		<Import Project="..\Core\Frameworks\MSBuild.$(TargetFrameworkName).props" Condition="'$(TargetFrameworkName)' != ''"/>
 	</ImportGroup>
 
 	<!--
@@ -40,7 +40,7 @@
 	-->
 	<ImportGroup Condition="'$(TargetPlatform)' != '' AND '$(_ResolvedTargetPlatform)' != 'true'">
 		<Import Project="..\Resolvers\MSBuild.NET.PlatformResolver.props"/>
-		<Import Project="..\Core\Platforms\MSBuild.$(_TargetPlatformName).props" Condition="'$(_TargetPlatformName)' != ''"/>
+		<Import Project="..\Core\Platforms\MSBuild.$(TargetPlatformName).props" Condition="'$(TargetPlatformName)' != ''"/>
 	</ImportGroup>
 
 	<!--
@@ -48,7 +48,7 @@
 	-->
 	<ImportGroup Condition="'$(TargetMachine)' != '' AND '$(_ResolvedTargetMachine)' != 'true'">
 		<Import Project="..\Resolvers\MSBuild.NET.MachineResolver.props"/>
-		<Import Project="..\Core\Machines\MSBuild.$(_TargetMachineName).props" Condition="'$(_TargetMachineName)' != ''"/>
+		<Import Project="..\Core\Machines\MSBuild.$(TargetMachineName).props" Condition="'$(TargetMachineName)' != ''"/>
 	</ImportGroup>
 
 </Project>

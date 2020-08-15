@@ -90,8 +90,8 @@
 
 	<!-- Used for importing framework props/targets. -->
 	<PropertyGroup Condition="'$(TargetFrameworkIdentifier)' != ''">
-		<_TargetFrameworkName>$(TargetFrameworkIdentifier)</_TargetFrameworkName>
-		<_TargetFrameworkName Condition="$(_TargetFrameworkName.StartsWith('.'))">$(_TargetFrameworkName.TrimStart('.'))</_TargetFrameworkName>
+		<TargetFrameworkName>$(TargetFrameworkIdentifier)</TargetFrameworkName>
+		<TargetFrameworkName Condition="$(TargetFrameworkName.StartsWith('.'))">$(TargetFrameworkName.TrimStart('.'))</TargetFrameworkName>
 	</PropertyGroup>
 
 	<!--
