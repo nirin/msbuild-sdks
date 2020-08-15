@@ -1,14 +1,14 @@
 <Project>
 
-	<Import Project="..\Core\MSBuild.NET.References.targets"/>
+	<Import Project="..\Core\MSBuild.NET.Defaults.targets"/>
 
 	<Import Project="..\Core\MSBuild.NET.Defaults.Items.targets"/>
 
-	<Import Project="..\Core\MSBuild.NET.Defaults.targets"/>
-
-	<Import Project="..\Core\MSBuild.NET.OutputPaths.targets"/>
+	<Import Project="..\Core\MSBuild.NET.References.targets"/>
 
 	<Import Project="..\Core\MSBuild.NET.AssemblyInfo.targets"/>
+
+	<Import Project="..\Core\MSBuild.NET.OutputPaths.targets"/>
 
 	<Import Project="..\Core\MSBuild.NET.Specifics.targets"/>
 
