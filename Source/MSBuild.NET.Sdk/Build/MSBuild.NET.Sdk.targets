@@ -15,14 +15,14 @@
 	<Import Project="..\ProjectSystem\MSBuild.NET.ProjectSystem.targets"/>
 
 	<PropertyGroup Label="Globals">
-		<_SdkBuildMode Condition="'$(TargetFrameworks)' != '' AND '$(TargetFramework)' == ''">Build.Outer</_SdkBuildMode>
-		<_SdkBuildMode Condition="'$(TargetFrameworks)' != '' AND '$(TargetFramework)' != ''">Build.Inner</_SdkBuildMode>
-		<_SdkBuildMode Condition="'$(TargetFrameworks)' == '' AND '$(TargetFramework)' != ''">Build.Mono</_SdkBuildMode>
-		<_SdkBuildMode Condition="'$(TargetFrameworks)' == '' AND '$(TargetFramework)' == ''">Build.None</_SdkBuildMode>
+		<SdkBuildMode Condition="'$(TargetFrameworks)' != '' AND '$(TargetFramework)' == ''">Outer</SdkBuildMode>
+		<SdkBuildMode Condition="'$(TargetFrameworks)' != '' AND '$(TargetFramework)' != ''">Inner</SdkBuildMode>
+		<SdkBuildMode Condition="'$(TargetFrameworks)' == '' AND '$(TargetFramework)' != ''">Mono</SdkBuildMode>
+		<SdkBuildMode Condition="'$(TargetFrameworks)' == '' AND '$(TargetFramework)' == ''">None</SdkBuildMode>
 	</PropertyGroup>
 
 	<PropertyGroup Label="Globals">
-		<IsOuterBuild Condition="'$(_SdkBuildMode)' == 'Build.Outer'">true</IsOuterBuild>
+		<IsOuterBuild Condition="'$(SdkBuildMode)' == 'Outer'">true</IsOuterBuild>
 		<IsCrossTargetingBuild>$(IsOuterBuild)</IsCrossTargetingBuild>
 	</PropertyGroup>
 
