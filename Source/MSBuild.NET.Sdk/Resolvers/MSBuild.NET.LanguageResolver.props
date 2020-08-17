@@ -3,7 +3,8 @@
 	<!-- 'SourceLanguage' can be empty when entering here -->
 
 	<PropertyGroup Condition="'$(SourceLanguage)' == ''">
-		<SourceLanguage Condition="$(MSBuildProjectExtension.EndsWith('proj'))">$(MSBuildProjectExtension.TrimEnd('proj').TrimStart('.'))</SourceLanguage>
+		<SourceLanguage>$(MSBuildProjectExtension.TrimStart('.'))</SourceLanguage>
+		<SourceLanguage Condition="$(SourceLanguage.EndsWith('proj'))">$(SourceLanguage.Substring(0, $(SourceLanguage.LastIndexOf('proj'))))</SourceLanguage>
 	</PropertyGroup>
 
 	<!--
@@ -19,7 +20,7 @@
 			<PropertyGroup>
 				<SourceLanguageName>CSharp</SourceLanguageName>
 				<SourceLanguageSymbol>C#</SourceLanguageSymbol>
-				<SourceLanguageExtension>.cs</SourceLanguageExtension>
+				<SourceLanguageExtension>cs</SourceLanguageExtension>
 			</PropertyGroup>
 		</When>
 
@@ -27,7 +28,7 @@
 			<PropertyGroup>
 				<SourceLanguageName>FSharp</SourceLanguageName>
 				<SourceLanguageSymbol>F#</SourceLanguageSymbol>
-				<SourceLanguageExtension>.fs</SourceLanguageExtension>
+				<SourceLanguageExtension>fs</SourceLanguageExtension>
 			</PropertyGroup>
 		</When>
 
@@ -35,7 +36,7 @@
 			<PropertyGroup>
 				<SourceLanguageName>VisualBasic</SourceLanguageName>
 				<SourceLanguageSymbol>VB</SourceLanguageSymbol>
-				<SourceLanguageExtension>.vb</SourceLanguageExtension>
+				<SourceLanguageExtension>vb</SourceLanguageExtension>
 			</PropertyGroup>
 		</When>
 
@@ -43,7 +44,7 @@
 			<PropertyGroup>
 				<SourceLanguageName>IntermediateLanguage</SourceLanguageName>
 				<SourceLanguageSymbol>IL</SourceLanguageSymbol>
-				<SourceLanguageExtension>.il</SourceLanguageExtension>
+				<SourceLanguageExtension>il</SourceLanguageExtension>
 			</PropertyGroup>
 		</When>
 
