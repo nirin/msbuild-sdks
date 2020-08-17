@@ -1,5 +1,7 @@
 <Project>
 
+	<Import Project="..\Resolvers\MSBuild.NET.LanguageResolver.targets"/>
+
 	<Import Project="..\Core\MSBuild.NET.Defaults.targets"/>
 
 	<Import Project="..\Core\MSBuild.NET.Defaults.Items.targets"/>
