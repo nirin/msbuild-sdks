@@ -27,9 +27,9 @@
 	<Import Project="..\Resolvers\MSBuild.NET.FrameworkResolver.props" Condition="'$(TargetFramework)' != '' AND '$(_ResolvedTargetFramework)' != 'true'"/>
 	<Import Project="..\Resolvers\MSBuild.NET.FrameworkResolver.targets"/>
 
-	<ImportGroup Condition="'$(_TargetFrameworkName)' != ''">
-		<Import Project="..\Core\Frameworks\MSBuild.$(_TargetFrameworkName).props" Condition="'$(_ImportedSdkFrameworkProps)' != 'true'"/>
-		<Import Project="..\Core\Frameworks\MSBuild.$(_TargetFrameworkName).targets"/>
+	<ImportGroup Condition="'$(TargetFrameworkName)' != ''">
+		<Import Project="..\Core\Frameworks\MSBuild.$(TargetFrameworkName).props" Condition="'$(_ImportedSdkFrameworkProps)' != 'true'"/>
+		<Import Project="..\Core\Frameworks\MSBuild.$(TargetFrameworkName).targets"/>
 	</ImportGroup>
 
 	<!--
@@ -44,9 +44,9 @@
 	<Import Project="..\Resolvers\MSBuild.NET.PlatformResolver.props" Condition="'$(TargetPlatform)' != '' AND '$(_ResolvedTargetPlatform)' != 'true'"/>
 	<Import Project="..\Resolvers\MSBuild.NET.PlatformResolver.targets"/>
 
-	<ImportGroup Condition="'$(_TargetPlatformName)' != ''">
-		<Import Project="..\Core\Platforms\MSBuild.$(_TargetPlatformName).props" Condition="'$(_ImportedSdkPlatformProps)' != 'true'"/>
-		<Import Project="..\Core\Platforms\MSBuild.$(_TargetPlatformName).targets"/>
+	<ImportGroup Condition="'$(TargetPlatformName)' != ''">
+		<Import Project="..\Core\Platforms\MSBuild.$(TargetPlatformName).props" Condition="'$(_ImportedSdkPlatformProps)' != 'true'"/>
+		<Import Project="..\Core\Platforms\MSBuild.$(TargetPlatformName).targets"/>
 	</ImportGroup>
 
 	<!--
@@ -55,9 +55,9 @@
 	<Import Project="..\Resolvers\MSBuild.NET.MachineResolver.props" Condition="'$(TargetMachine)' != '' AND '$(_ResolvedTargetMachine)' != 'true'"/>
 	<Import Project="..\Resolvers\MSBuild.NET.MachineResolver.targets"/>
 
-	<ImportGroup Condition="'$(_TargetMachineName)' != ''">
-		<Import Project="..\Core\Machines\MSBuild.$(_TargetMachineName).props" Condition="'$(_ImportedSdkMachineProps)' != 'true'"/>
-		<Import Project="..\Core\Machines\MSBuild.$(_TargetMachineName).targets"/>
+	<ImportGroup Condition="'$(TargetMachineName)' != ''">
+		<Import Project="..\Core\Machines\MSBuild.$(TargetMachineName).props" Condition="'$(_ImportedSdkMachineProps)' != 'true'"/>
+		<Import Project="..\Core\Machines\MSBuild.$(TargetMachineName).targets"/>
 	</ImportGroup>
 
 </Project>

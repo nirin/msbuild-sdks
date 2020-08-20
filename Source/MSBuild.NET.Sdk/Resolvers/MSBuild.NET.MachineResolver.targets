@@ -18,4 +18,47 @@
 			FormatArguments="$([MSBuild]::Escape('$(TargetMachine)'))"/>
 	</Target>
 
+	<!-- Determine 'PlatformTarget' from machine identifier resolved from 'TargetMachine'. -->
+	<Choose>
+		<When Condition="'$(TargetMachineIdentifier)' == 'X32'">
+			<PropertyGroup>
+				<Prefer32Bit>true</Prefer32Bit>
+				<PlatformTarget>x86</PlatformTarget>
+				<ProcessorArchitecture>x86</ProcessorArchitecture>
+			</PropertyGroup>
+		</When>
+
+		<When Condition="'$(TargetMachineIdentifier)' == 'X64'">
+			<PropertyGroup>
+				<Prefer32Bit>false</Prefer32Bit>
+				<PlatformTarget>x64</PlatformTarget>
+				<ProcessorArchitecture>x64</ProcessorArchitecture>
+			</PropertyGroup>
+		</When>
+
+		<When Condition="'$(TargetMachineIdentifier)' == 'ARM32'">
+			<PropertyGroup>
+				<Prefer32Bit>true</Prefer32Bit>
+				<PlatformTarget>ARM</PlatformTarget>
+				<ProcessorArchitecture>arm</ProcessorArchitecture>
+			</PropertyGroup>
+		</When>
+
+		<When Condition="'$(TargetMachineIdentifier)' == 'ARM64'">
+			<PropertyGroup>
+				<Prefer32Bit>false</Prefer32Bit>
+				<PlatformTarget>ARM64</PlatformTarget>
+				<ProcessorArchitecture>arm64</ProcessorArchitecture>
+			</PropertyGroup>
+		</When>
+
+		<Otherwise>
+			<PropertyGroup>
+				<Prefer32Bit>false</Prefer32Bit>
+				<PlatformTarget>AnyCPU</PlatformTarget>
+				<ProcessorArchitecture>msil</ProcessorArchitecture>
+			</PropertyGroup>
+		</Otherwise>
+	</Choose>
+
 </Project>

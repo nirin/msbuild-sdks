@@ -12,15 +12,15 @@
 		</KnownTargetFramework>
 		<KnownTargetFramework Include=".NETCore">
 			<DisplayName>.NET Core (Windows Universal)</DisplayName>
-			<Versions>4.5.1|4.5.2|5.0|5.1|5.2|5.3|5.4|6.0|6.1|6.2|6.3</Versions>
+			<Versions>4.5|5.0|5.1|5.2|5.3|5.4|6.0|6.1|6.2|6.3</Versions>
 		</KnownTargetFramework>
 		<KnownTargetFramework Include=".NETCoreApp">
 			<DisplayName>.NET Core</DisplayName>
-			<Versions>1.0|1.1|2.0|2.1|2.2|3.0|3.1</Versions>
+			<Versions>1.0|1.1|2.0|2.1|2.2|3.0|3.1|5.0|6.0|7.0</Versions>
 		</KnownTargetFramework>
 		<KnownTargetFramework Include=".NETFramework">
 			<DisplayName>.NET Framework (Windows Desktop)</DisplayName>
-			<Versions>1.0|1.1|2.0|3.0|3.5|4.0|4.0.3|4.5|4.5.1|4.5.2|4.6|4.6.1|4.6.2|4.7|4.7.1|4.7.2|4.8</Versions>
+			<Versions>1.0|1.1|2.0|3.0|3.5|4.0|4.5|4.6|4.7|4.8|4.9</Versions>
 		</KnownTargetFramework>
 		<KnownTargetFramework Include=".NETPortable">
 			<DisplayName>.NET Portable</DisplayName>
@@ -39,22 +39,50 @@
 
 	<!-- .NET Profiles -->
 	<ItemGroup Label=".NET Profiles">
-		<KnownTargetFrameworkProfile Include="Client">
+		<KnownFrameworkProfile Include="Client">
 			<Versions>3.5|4.0</Versions>
 			<DependUpon>.NETFramework</DependUpon>
-		</KnownTargetFrameworkProfile>
-		<KnownTargetFrameworkProfile Include="CompactFramework">
+		</KnownFrameworkProfile>
+		<KnownFrameworkProfile Include="CompactFramework">
 			<Versions>1.1|2.0|3.5</Versions>
 			<DependUpon>.NETFramework</DependUpon>
-		</KnownTargetFrameworkProfile>
-		<KnownTargetFrameworkProfile Include="WindowsPhone">
+		</KnownFrameworkProfile>
+		<KnownFrameworkProfile Include="WindowsPhone">
 			<Versions>3.0</Versions>
 			<DependUpon>Silverlight</DependUpon>
-		</KnownTargetFrameworkProfile>
-		<KnownTargetFrameworkProfile Include="WindowsPhone71">
+		</KnownFrameworkProfile>
+		<KnownFrameworkProfile Include="WindowsPhone71">
 			<Versions>4.0</Versions>
 			<DependUpon>Silverlight</DependUpon>
-		</KnownTargetFrameworkProfile>
+		</KnownFrameworkProfile>
+	</ItemGroup>
+
+	<!-- .NET Revisions -->
+	<ItemGroup Label=".NET Revisions">
+		<KnownFrameworkRevision Include=".NETFramework:4.0">
+			<Version>4.0</Version>
+			<Revisions>4.0.0|4.0.1|4.0.2|4.0.3</Revisions>
+		</KnownFrameworkRevision>
+		<KnownFrameworkRevision Include=".NETFramework:4.5">
+			<Version>4.5</Version>
+			<Revisions>4.5.0|4.5.1|4.5.2</Revisions>
+		</KnownFrameworkRevision>
+		<KnownFrameworkRevision Include=".NETFramework:4.6">
+			<Version>4.6</Version>
+			<Revisions>4.6.0|4.6.1|4.6.2|4.6.3</Revisions>
+		</KnownFrameworkRevision>
+		<KnownFrameworkRevision Include=".NETFramework:4.7">
+			<Version>4.7</Version>
+			<Revisions>4.7.0|4.7.1|4.7.2</Revisions>
+		</KnownFrameworkRevision>
+		<KnownFrameworkRevision Include=".NETFramework:4.8">
+			<Version>4.8</Version>
+			<Revisions>4.8.0|4.8.1|4.8.2|4.8.3</Revisions>
+		</KnownFrameworkRevision>
+		<KnownFrameworkRevision Include=".NETFramework:4.9">
+			<Version>4.9</Version>
+			<Revisions>4.9.0|4.9.1|4.9.2</Revisions>
+		</KnownFrameworkRevision>
 	</ItemGroup>
 
 	<!-- .NET Platforms -->
@@ -71,13 +99,13 @@
 			<DisplayName>Windows Phone (.NETCore)</DisplayName>
 			<Versions>8.1</Versions>
 		</KnownTargetFramework>
-		<KnownTargetFramework Include="Windows">
+		<KnownTargetFramework Include="WindowsDesktop">
 			<DisplayName>Windows (.NETCore)</DisplayName>
 			<Versions>8.0|8.1|10.0</Versions>
 		</KnownTargetFramework>
 		<KnownTargetFramework Include="Tizen">
 			<DisplayName>Tizen (.NETCore)</DisplayName>
-			<Versions>3.0|4.0|5.0</Versions>
+			<Versions>3.0|4.0|5.0|6.0|7.0|8.0|9.0</Versions>
 		</KnownTargetFramework>
 	</ItemGroup>
 

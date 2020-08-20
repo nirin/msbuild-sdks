@@ -1,0 +1,8 @@
+<Project>
+
+	<PropertyGroup>
+		<AssemblyName Condition="'$(AssemblyName)' == ''">$(ProjectName)</AssemblyName>
+		<RootNamespace Condition="'$(RootNamespace)' == ''">$(ProjectName)</RootNamespace>
+	</PropertyGroup>
+
+</Project>

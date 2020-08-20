@@ -5,7 +5,7 @@
 			Include="$(TargetFrameworkPackageName)"
 			Version="$(TargetFrameworkPackageVersion)"
 			Pack="false" Publish="false"
-			IsImplicitlyDefined="true"/>
+			IsImplicit="true"/>
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(DisableTargetPlatformReference)' != 'true'">
@@ -13,7 +13,34 @@
 			Include="$(TargetPlatformPackageName)"
 			Version="$(TargetPlatformPackageVersion)"
 			Pack="false" Publish="false"
-			IsImplicitlyDefined="true"/>
+			IsImplicit="true"/>
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(DisableImplicitFrameworkReferences)' != 'true'">
+		<!-- Common references for all .NET targets -->
+		<_ImplicitReference Include="System"/>
+		<_ImplicitReference Include="System.Data"/>
+		<_ImplicitReference Include="System.Drawing"/>
+		<_ImplicitReference Include="System.Xml"/>
+
+		<!--
+			When doing greater than/less than comparisons between strings, MSBuild will try to parse the strings as Version objects
+			and compare them as such if the parse succeeds.
+		-->
+
+		<!-- Framework assemblies introduced in .NET 3.5 -->
+		<_ImplicitReference Include="System.Core" Condition="'$(TargetFrameworkVersion)' >= '3.5'"/>
+		<_ImplicitReference Include="System.Runtime.Serialization" Condition="'$(TargetFrameworkVersion)' >= '3.5'"/>
+		<_ImplicitReference Include="System.Xml.Linq" Condition="'$(TargetFrameworkVersion)' >= '3.5'"/>
+
+		<!-- Framework assemblies introduced in .NET 4.0 -->
+		<_ImplicitReference Include="System.Numerics" Condition="'$(TargetFrameworkVersion)' >= '4.0'"/>
+
+		<!-- Framework assemblies introduced in .NET 4.5 -->
+		<_ImplicitReference Include="System.IO.Compression.FileSystem" Condition="'$(TargetFrameworkVersion)' >= '4.5'"/>
+
+		<_ImplicitReference Include="System.IO.Compression" Condition="'$(TargetFrameworkVersion)' >= '4.5'"/>
+		<_ImplicitReference Include="System.Net.Http" Condition="'$(TargetFrameworkVersion)' >= '4.5'"/>
 	</ItemGroup>
 
 </Project>

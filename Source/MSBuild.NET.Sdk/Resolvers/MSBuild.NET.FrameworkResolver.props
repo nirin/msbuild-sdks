@@ -74,7 +74,7 @@
 	-->
 	<PropertyGroup Condition="'$(_ShortFrameworkIdentifier)' == 'net' OR '$(TargetFrameworkIdentifier)' == '.NETFramework'">
 		<TargetFrameworkIdentifier Condition="$([MSBuild]::VersionGreaterThan($(TargetFrameworkVersion), '5.0'))">.NETCoreApp</TargetFrameworkIdentifier>
-		<TargetFrameworkIdentifier Condition="$([MSBuild]::VersionEquals($(TargetFrameworkVersion), '5.0'))">.NETAnnex</TargetFrameworkIdentifier>
+		<TargetFrameworkIdentifier Condition="$([MSBuild]::VersionEquals($(TargetFrameworkVersion), '5.0'))">.NETCoreApp</TargetFrameworkIdentifier>
 		<TargetFrameworkIdentifier Condition="$([MSBuild]::VersionLessThan($(TargetFrameworkVersion), '5.0'))">.NETFramework</TargetFrameworkIdentifier>
 	</PropertyGroup>
 
@@ -82,7 +82,7 @@
 		Trigger an error if we're unable to infer the framework identifier and version.
 
 		We have to evaluate this here and not in the target because by the time the target runs,
-		It will have defaulted to '.NETFramework' & '5.0'.
+		It will have defaulted to '.NETFramework' & '4.0'.
 	-->
 	<PropertyGroup Condition="'$(TargetFrameworkIdentifier)' == '' OR '$(TargetFrameworkVersion)' == ''">
 		<_IsUnsupportedTargetFramework>true</_IsUnsupportedTargetFramework>
@@ -90,16 +90,16 @@
 
 	<!-- Used for importing framework props/targets. -->
 	<PropertyGroup Condition="'$(TargetFrameworkIdentifier)' != ''">
-		<_TargetFrameworkName>$(TargetFrameworkIdentifier)</_TargetFrameworkName>
-		<_TargetFrameworkName Condition="$(_TargetFrameworkName.StartsWith('.'))">$(_TargetFrameworkName.TrimStart('.'))</_TargetFrameworkName>
+		<TargetFrameworkName>$(TargetFrameworkIdentifier)</TargetFrameworkName>
+		<TargetFrameworkName Condition="$(TargetFrameworkName.StartsWith('.'))">$(TargetFrameworkName.TrimStart('.'))</TargetFrameworkName>
 	</PropertyGroup>
 
 	<!--
-		Don't leave 'TargetFrameworkVersion' empty if it still hasn't been determined. We will trigger the error above,
+		Do not leave 'TargetFrameworkVersion' empty if it still hasn't been determined. We will trigger the error above,
 		but we need this to be a valid version so that our error message does not get pre-empted by failure to interpret
 		version comparison expressions, which is currently unrecoverable in VS.
 
-		Also don't leave 'TargetFrameworkIdentifier' unset as it will be defaulted to '.NETFramework' by common targets, which
+		Also do not leave 'TargetFrameworkIdentifier' unset as it will be defaulted to '.NETFramework' by common targets, which
 		can cause restore (which we cannot block, see above) to silently succeed for empty 'TargetFramework'.
 	-->
 	<PropertyGroup>

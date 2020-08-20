@@ -3,42 +3,48 @@
 	<!-- 'SourceLanguage' can be empty when entering here -->
 
 	<PropertyGroup Condition="'$(SourceLanguage)' == ''">
-		<SourceLanguage Condition="$(MSBuildProjectExtension.EndsWith('proj'))">$(MSBuildProjectExtension.TrimEnd('proj').TrimStart('.'))</SourceLanguage>
+		<SourceLanguage>$(MSBuildProjectExtension.TrimStart('.'))</SourceLanguage>
+		<SourceLanguage Condition="$(SourceLanguage.EndsWith('proj'))">$(SourceLanguage.Substring(0, $(SourceLanguage.LastIndexOf('proj'))))</SourceLanguage>
 	</PropertyGroup>
 
 	<!--
-		$(SourceLanguage) = $(LangId)$(LangVersion)
+		$(SourceLanguage) = $(SourceLanguageTag)$(SourceLanguageVersion)
 	-->
+	<PropertyGroup>
+		<SourceLanguageTag>$(SourceLanguage.TrimEnd('.0123456789'))</SourceLanguageTag>
+		<SourceLanguageVersion>$(SourceLanguage.Substring('$(SourceLanguageTag.Length)'))</SourceLanguageVersion>
+	</PropertyGroup>
+
 	<Choose>
-		<When Condition="'$(SourceLanguage)' == 'cs'">
+		<When Condition="'$(SourceLanguageTag)' == 'cs'">
 			<PropertyGroup>
 				<SourceLanguageName>CSharp</SourceLanguageName>
 				<SourceLanguageSymbol>C#</SourceLanguageSymbol>
-				<SourceLanguageExtension>.cs</SourceLanguageExtension>
+				<SourceLanguageExtension>cs</SourceLanguageExtension>
 			</PropertyGroup>
 		</When>
 
-		<When Condition="'$(SourceLanguage)' == 'fs'">
+		<When Condition="'$(SourceLanguageTag)' == 'fs'">
 			<PropertyGroup>
 				<SourceLanguageName>FSharp</SourceLanguageName>
 				<SourceLanguageSymbol>F#</SourceLanguageSymbol>
-				<SourceLanguageExtension>.fs</SourceLanguageExtension>
+				<SourceLanguageExtension>fs</SourceLanguageExtension>
 			</PropertyGroup>
 		</When>
 
-		<When Condition="'$(SourceLanguage)' == 'vb'">
+		<When Condition="'$(SourceLanguageTag)' == 'vb'">
 			<PropertyGroup>
 				<SourceLanguageName>VisualBasic</SourceLanguageName>
 				<SourceLanguageSymbol>VB</SourceLanguageSymbol>
-				<SourceLanguageExtension>.vb</SourceLanguageExtension>
+				<SourceLanguageExtension>vb</SourceLanguageExtension>
 			</PropertyGroup>
 		</When>
 
-		<When Condition="'$(SourceLanguage)' == 'il'">
+		<When Condition="'$(SourceLanguageTag)' == 'il'">
 			<PropertyGroup>
 				<SourceLanguageName>IntermediateLanguage</SourceLanguageName>
 				<SourceLanguageSymbol>IL</SourceLanguageSymbol>
-				<SourceLanguageExtension>.il</SourceLanguageExtension>
+				<SourceLanguageExtension>il</SourceLanguageExtension>
 			</PropertyGroup>
 		</When>
 

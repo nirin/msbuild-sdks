@@ -3,7 +3,7 @@
 	<!-- 'SourceProfile' should not be empty when entering here -->
 
 	<!--
-		$(SourceProfile) = $(SourceLanguage)~$(TBA)
+		$(SourceProfile) = $(SourceLanguage)~$(SourceDialect)
 	-->
 	<Choose>
 		<When Condition="$(SourceProfile.StartsWith('~')) OR $(SourceProfile.EndsWith('~'))">
@@ -13,9 +13,24 @@
 		</When>
 
 		<When Condition="$(SourceProfile.Contains('~'))">
+			<!-- Split the property and get its count -->
 			<PropertyGroup>
-				<SourceLanguage>$(SourceProfile.Split('~')[0])</SourceLanguage>
+				<_SourceProfileCount>$(SourceProfile.Split('~').Length)</_SourceProfileCount>
 			</PropertyGroup>
+			<!-- Extract into its own properties -->
+			<Choose>
+				<When Condition="$(_SourceProfileCount) &gt; 1 AND $(_SourceProfileCount) &lt; 3">
+					<PropertyGroup>
+						<SourceLanguage>$(SourceProfile.Split('~')[0])</SourceLanguage>
+						<SourceDialect Condition="$(_SourceProfileCount) == 2">$(SourceProfile.Split('~')[1])</SourceDialect>
+					</PropertyGroup>
+				</When>
+				<Otherwise>
+					<PropertyGroup>
+						<_IsInvalidSourceProfile>true</_IsInvalidSourceProfile>
+					</PropertyGroup>
+				</Otherwise>
+			</Choose>
 		</When>
 
 		<Otherwise>

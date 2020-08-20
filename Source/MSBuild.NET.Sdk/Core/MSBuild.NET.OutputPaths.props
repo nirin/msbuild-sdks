@@ -1,0 +1,14 @@
+<Project>
+
+	<!-- HACK: Import the core default output paths from the 'MSBuild.Core.Sdk' only if it is not imported with the 'Sdk.Core.props' -->
+	<Import Project="..\Core\MSBuild.OutputPaths.props" Sdk="MSBuild.Core.Sdk" Condition="'$(ImportedMSBuildOutputPathsProps)' != 'true'"/>
+
+	<!--
+		Set 'BuildDir' here, before 'Microsoft.Common.props', to avoid a competing default there.
+		Reset 'BuildDir' here, Since we made 'BuildDir' -> 'BuildPath' and 'PublishDir' -> 'PublishPath' as the new Output defaults
+	-->
+	<PropertyGroup>
+		<BuildDir Condition="'$(BuildPath)' != ''">$(BuildPath)</BuildDir>
+	</PropertyGroup>
+
+</Project>

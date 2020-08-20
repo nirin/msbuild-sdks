@@ -1,5 +1,8 @@
 <Project>
 
-
+	<PropertyGroup>
+		<LangVersion>$(SourceLanguageVersion)</LangVersion>
+		<LangVersion Condition="'$(LangVersion)' == ''">Latest</LangVersion>
+	</PropertyGroup>
 
 </Project>

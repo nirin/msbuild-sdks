@@ -1,10 +1,16 @@
 <Project>
 
+	<Import Project="..\Resolvers\MSBuild.NET.LanguageResolver.props"/>
+
 	<Import Project="..\Core\MSBuild.NET.Defaults.props"/>
 
 	<Import Project="..\Core\MSBuild.NET.Defaults.Items.props"/>
 
 	<Import Project="..\Core\MSBuild.NET.References.props"/>
+
+	<Import Project="..\Core\MSBuild.NET.AssemblyInfo.props"/>
+
+	<Import Project="..\Core\MSBuild.NET.OutputPaths.props"/>
 
 	<Import Project="..\Core\MSBuild.NET.Specifics.props"/>
 
