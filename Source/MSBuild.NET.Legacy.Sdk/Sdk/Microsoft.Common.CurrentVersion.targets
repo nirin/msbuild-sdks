@@ -599,6 +599,12 @@
 		<ContinueOnError Condition="'$(ContinueOnError)' == ''">false</ContinueOnError>
 	</PropertyGroup>
 
+	<!-- Users familiar with how some other repos work try to use NoWarn with MSBuild in place of MSBuildWarningsAsMessages. -->
+	<PropertyGroup>
+		<MSBuildWarningsAsMessages Condition="'$(MSBuildWarningsAsMessages)' == ''">$(NoWarn)</MSBuildWarningsAsMessages>
+		<MSBuildWarningsAsErrors Condition="'$(MSBuildWarningsAsErrors)' == ''">$(WarningsAsErrors)</MSBuildWarningsAsErrors>
+	</PropertyGroup>
+
 	<!-- Common Project System support -->
 	<PropertyGroup>
 		<CommonXamlResourcesDirectory Condition="'$(CommonXamlResourcesDirectory)' == ''">$(MSBuildToolsPath)\$(LangName)\</CommonXamlResourcesDirectory>
@@ -739,6 +745,12 @@
 		***********************************************************************************************
 		***********************************************************************************************
 	-->
+
+	<Target Name="_AddOutputPathToGlobalPropertiesToRemove">
+		<PropertyGroup>
+			<_GlobalPropertiesToRemoveFromProjectReferences Condition="'$(PassOutputPathToReferencedProjects)' == 'false'">$(_GlobalPropertiesToRemoveFromProjectReferences);OutputPath</_GlobalPropertiesToRemoveFromProjectReferences>
+		</PropertyGroup>
+	</Target>
 
 	<!--
 		============================================================
@@ -959,7 +971,7 @@
 			Properties="%(_MSBuildProjectReferenceExistent.SetConfiguration);%(_MSBuildProjectReferenceExistent.SetPlatform);%(_MSBuildProjectReferenceExistent.SetTargetFramework);"
 			Condition="'$(BuildPassReferences)' == 'true' AND '@(ProjectReferenceWithConfiguration)' != '' AND '@(_MSBuildProjectReferenceExistent)' != '' AND '%(_MSBuildProjectReferenceExistent.BuildReference)' == 'true'"
 			ContinueOnError="!$(BuildingProject)"
-			RemoveProperties="%(_MSBuildProjectReferenceExistent.GlobalPropertiesToRemove)">
+			RemoveProperties="%(_MSBuildProjectReferenceExistent.GlobalPropertiesToRemove);$(_GlobalPropertiesToRemoveFromProjectReferences)">
 		</MSBuild>
 	</Target>
 
@@ -984,7 +996,7 @@
 			Properties="%(_MSBuildProjectReferenceExistent.SetConfiguration);%(_MSBuildProjectReferenceExistent.SetPlatform);%(_MSBuildProjectReferenceExistent.SetTargetFramework)"
 			Condition="'$(BuildPassReferences)' == 'true' AND '@(ProjectReferenceWithConfiguration)' != '' AND '@(_MSBuildProjectReferenceExistent)' != '' AND '%(_MSBuildProjectReferenceExistent.BuildReference)' == 'true'"
 			ContinueOnError="!$(BuildingProject)"
-			RemoveProperties="%(_MSBuildProjectReferenceExistent.GlobalPropertiesToRemove)">
+			RemoveProperties="%(_MSBuildProjectReferenceExistent.GlobalPropertiesToRemove);$(_GlobalPropertiesToRemoveFromProjectReferences)">
 		</MSBuild>
 	</Target>
 
@@ -1009,7 +1021,7 @@
 			Properties="%(_MSBuildProjectReferenceExistent.SetConfiguration);%(_MSBuildProjectReferenceExistent.SetPlatform);%(_MSBuildProjectReferenceExistent.SetTargetFramework)"
 			Condition="'$(BuildPassReferences)' == 'true' AND '@(ProjectReferenceWithConfiguration)' != '' AND '@(_MSBuildProjectReferenceExistent)' != '' AND '%(_MSBuildProjectReferenceExistent.BuildReference)' == 'true'"
 			ContinueOnError="!$(BuildingProject)"
-			RemoveProperties="%(_MSBuildProjectReferenceExistent.GlobalPropertiesToRemove)">
+			RemoveProperties="%(_MSBuildProjectReferenceExistent.GlobalPropertiesToRemove);$(_GlobalPropertiesToRemoveFromProjectReferences)">
 		</MSBuild>
 	</Target>
 
@@ -1561,7 +1573,7 @@
 		against the most appropriate target for the referring target framework.
 		======================================================================================
 	-->
-	<Target Name="_GetProjectReferenceTargetFrameworkProperties">
+	<Target Name="_GetProjectReferenceTargetFrameworkProperties" DependsOnTargets="_AddOutputPathToGlobalPropertiesToRemove">
 		<!--
 			Select the moniker to send to each project reference  if not already set. NuGetTargetMoniker (NTM) is preferred by default over
 			TargetFrameworkMoniker (TFM) because it is required to disambiguate the UWP case where TFM is fixed at .NETCore,Version=v5.0 and
@@ -1579,11 +1591,33 @@
 			and the mechanism here for selecting the best one can be skipped as an optimization.
 
 			We give this treatment to .vcxproj by default since no .vcxproj can target more
-			than one framework.
+			than one framework currently. The user must specify exactly one TargetFramework.
+
+			vcxproj files compile down to OS-specific binaries, either native or .NET. In the
+			_GetProjectReferenceTargetFrameworkProperties target of Microsoft.Common.CurrentVersion.targets,
+			SkipTargetFrameworkProperties is set to true for vcxproj to account for that.
+
+			This means we do not fill the Item _ProjectReferenceTargetFrameworkPossibilities or, by extension,
+			the AnnotatedProjects Item.
+
+			For single-targeted projects, we normally decorate the AnnotatedProjects Item with
+			UndefineProperties metadata specifying that TargetFramework should be undefined. Because it
+			isn't defined properly at that stage, however, this does not happen, and TargetFramework is
+			defined at this point in addition to having been defined globally. Currently, this is always
+			true for vcxproj.
+
+			MSBuild permits building the same project twice as long as it has different sets of global properties.
+			Because the TargetFramework global property is not being removed as expected by the multitargeting
+			part of MSBuild, the engine recognizes that there are differences and builds it twice. This can
+			become more noticeable if the projects build in parallel, since they could try to access the same
+			resources and conflict, failing the build. Note, however, that building the same project twice in
+			this way is always wrong even if it seems minor because they do not conflict, and the second build is
+			relatively fast.
 		-->
 		<ItemGroup>
 			<_MSBuildProjectReferenceExistent Condition="'%(_MSBuildProjectReferenceExistent.SkipGetTargetFrameworkProperties)' == '' AND ('%(Extension)' == '.vcxproj' OR '%(Extension)' == '.nativeproj')">
 				<SkipGetTargetFrameworkProperties>true</SkipGetTargetFrameworkProperties>
+				<UndefineProperties>%(_MSBuildProjectReferenceExistent.UndefineProperties);TargetFramework</UndefineProperties>
 			</_MSBuildProjectReferenceExistent>
 		</ItemGroup>
 
@@ -1616,7 +1650,7 @@
 			BuildInParallel="$(BuildInParallel)"
 			Properties="%(_MSBuildProjectReferenceExistent.SetConfiguration);%(_MSBuildProjectReferenceExistent.SetPlatform)"
 			ContinueOnError="!$(BuildingProject)"
-			RemoveProperties="%(_MSBuildProjectReferenceExistent.GlobalPropertiesToRemove);TargetFramework;RuntimeIdentifier"
+			RemoveProperties="%(_MSBuildProjectReferenceExistent.GlobalPropertiesToRemove);TargetFramework;RuntimeIdentifier;$(_GlobalPropertiesToRemoveFromProjectReferences)"
 			Condition="'%(_MSBuildProjectReferenceExistent.SkipGetTargetFrameworkProperties)' != 'true'"
 			SkipNonexistentTargets="true">
 			<Output TaskParameter="TargetOutputs" ItemName="_ProjectReferenceTargetFrameworkPossibilities"/>
@@ -1635,11 +1669,27 @@
 		</ItemGroup>
 
 		<!-- For each reference, get closest match -->
+
+		<!--
+			Pass the CurrentProjectTargetPlatform parameter to the task only if GetReferenceNearestTargetFrameworkTaskSupportsTargetPlatformParameter is true.
+			This means that we are using a version of NuGet which supports that parameter on this task.
+		-->
+		<GetReferenceNearestTargetFrameworkTask AnnotatedProjectReferences="@(_ProjectReferenceTargetFrameworkPossibilities)"
+												CurrentProjectTargetFramework="$(ReferringTargetFrameworkForProjectReferences)"
+												CurrentProjectTargetPlatform="$(TargetPlatformMoniker)"
+												CurrentProjectName="$(MSBuildProjectName)"
+												FallbackTargetFrameworks="$(AssetTargetFallback)"
+												Condition="'@(_ProjectReferenceTargetFrameworkPossibilities->Count())' != '0' AND '$(ReferringTargetFrameworkForProjectReferences)' != ''
+															AND '$(GetReferenceNearestTargetFrameworkTaskSupportsTargetPlatformParameter)' == 'true'">
+			<Output ItemName="AnnotatedProjects" TaskParameter="AssignedProjects"/>
+		</GetReferenceNearestTargetFrameworkTask>
+
 		<GetReferenceNearestTargetFrameworkTask AnnotatedProjectReferences="@(_ProjectReferenceTargetFrameworkPossibilities)"
 												CurrentProjectTargetFramework="$(ReferringTargetFrameworkForProjectReferences)"
 												CurrentProjectName="$(MSBuildProjectName)"
 												FallbackTargetFrameworks="$(AssetTargetFallback)"
-												Condition="'@(_ProjectReferenceTargetFrameworkPossibilities->Count())' != '0' AND '$(ReferringTargetFrameworkForProjectReferences)' != ''">
+												Condition="'@(_ProjectReferenceTargetFrameworkPossibilities->Count())' != '0' AND '$(ReferringTargetFrameworkForProjectReferences)' != ''
+															AND '$(GetReferenceNearestTargetFrameworkTaskSupportsTargetPlatformParameter)' != 'true'">
 			<Output ItemName="AnnotatedProjects" TaskParameter="AssignedProjects"/>
 		</GetReferenceNearestTargetFrameworkTask>
 
@@ -1679,15 +1729,54 @@
 	</Target>
 
 	<Target Name="GetTargetFrameworks"
+			DependsOnTargets="GetTargetFrameworksWithPlatformForSingleTargetFramework"
 			Returns="@(_ThisProjectBuildMetadata)">
+
+		<CombineXmlElements
+			RootElementName="AdditionalProjectProperties"
+			XmlElements="@(_TargetFrameworkInfo->'%(AdditionalPropertiesFromProject)')">
+			<Output TaskParameter="Result"
+				PropertyName="_AdditionalPropertiesFromProject"/>
+		</CombineXmlElements>
+
 		<ItemGroup>
 			<_ThisProjectBuildMetadata Include="$(MSBuildProjectFullPath)">
-				<TargetFrameworks>$(TargetFramework)</TargetFrameworks>
+				<TargetFrameworks>@(_TargetFrameworkInfo)</TargetFrameworks>
+				<TargetFrameworkMonikers>@(_TargetFrameworkInfo->'%(TargetFrameworkMonikers)')</TargetFrameworkMonikers>
+				<TargetPlatformMonikers>@(_TargetFrameworkInfo->'%(TargetPlatformMonikers)')</TargetPlatformMonikers>
+				<AdditionalPropertiesFromProject>$(_AdditionalPropertiesFromProject)</AdditionalPropertiesFromProject>
 				<HasSingleTargetFramework>true</HasSingleTargetFramework>
 				<!-- indicate to caller that project is RID agnostic so that a global property RuntimeIdentifier value can be removed -->
 				<IsRidAgnostic>false</IsRidAgnostic>
 				<IsRidAgnostic Condition="'$(RuntimeIdentifier)' == '' AND '$(RuntimeIdentifiers)' == ''">true</IsRidAgnostic>
 			</_ThisProjectBuildMetadata>
+		</ItemGroup>
+	</Target>
+
+	<Target Name="GetTargetFrameworksWithPlatformForSingleTargetFramework"
+			Returns="@(_TargetFrameworkInfo)">
+
+		<ItemGroup>
+			<_AdditionalTargetFrameworkInfoPropertyWithValue Include="@(AdditionalTargetFrameworkInfoProperty)">
+				<Value>$(%(AdditionalTargetFrameworkInfoProperty.Identity))</Value>
+			</_AdditionalTargetFrameworkInfoPropertyWithValue>
+		</ItemGroup>
+
+		<CombineTargetFrameworkInfoProperties
+			RootElementName="$(TargetFramework)"
+			PropertiesAndValues="@(_AdditionalTargetFrameworkInfoPropertyWithValue)">
+			<Output TaskParameter="Result"
+					PropertyName="_AdditionalTargetFrameworkInfoProperties"/>
+		</CombineTargetFrameworkInfoProperties>
+
+		<ItemGroup>
+			<_TargetFrameworkInfo Include="$(TargetFramework)">
+				<TargetFrameworks>$(TargetFramework)</TargetFrameworks>
+				<TargetFrameworkMonikers>$(TargetFrameworkMoniker)</TargetFrameworkMonikers>
+				<TargetPlatformMonikers>$(TargetPlatformMoniker)</TargetPlatformMonikers>
+				<TargetPlatformMonikers Condition="'$(TargetPlatformMoniker)' == ''">None</TargetPlatformMonikers>
+				<AdditionalPropertiesFromProject>$(_AdditionalTargetFrameworkInfoProperties)</AdditionalPropertiesFromProject>
+			</_TargetFrameworkInfo>
 		</ItemGroup>
 	</Target>
 
@@ -1776,7 +1865,7 @@
 			Properties="%(_MSBuildProjectReferenceExistent.SetConfiguration);%(_MSBuildProjectReferenceExistent.SetPlatform);%(_MSBuildProjectReferenceExistent.SetTargetFramework)"
 			Condition="'%(_MSBuildProjectReferenceExistent.BuildReference)' == 'true' AND '@(ProjectReferenceWithConfiguration)' != '' AND ('$(BuildingInsideVisualStudio)' == 'true' OR '$(BuildProjectReferences)' != 'true') AND '$(VisualStudioVersion)' != '10.0' AND '@(_MSBuildProjectReferenceExistent)' != ''"
 			ContinueOnError="!$(BuildingProject)"
-			RemoveProperties="%(_MSBuildProjectReferenceExistent.GlobalPropertiesToRemove)">
+			RemoveProperties="%(_MSBuildProjectReferenceExistent.GlobalPropertiesToRemove);$(_GlobalPropertiesToRemoveFromProjectReferences)">
 
 			<Output TaskParameter="TargetOutputs" ItemName="_ResolvedProjectReferencePaths" Condition="'%(_MSBuildProjectReferenceExistent.ReferenceOutputAssembly)' == 'true'"/>
 			<Output TaskParameter="TargetOutputs" ItemName="%(_MSBuildProjectReferenceExistent.OutputItemType)" Condition="'%(_MSBuildProjectReferenceExistent.OutputItemType)' != ''"/>
@@ -1792,7 +1881,7 @@
 			Properties="%(_MSBuildProjectReferenceExistent.SetConfiguration);%(_MSBuildProjectReferenceExistent.SetPlatform);  %(_MSBuildProjectReferenceExistent.SetTargetFramework)"
 			Condition="'%(_MSBuildProjectReferenceExistent.BuildReference)' == 'true' AND '@(ProjectReferenceWithConfiguration)' != '' AND '$(BuildingInsideVisualStudio)' != 'true' AND '$(BuildProjectReferences)' == 'true' AND '@(_MSBuildProjectReferenceExistent)' != ''"
 			ContinueOnError="$(ContinueOnError)"
-			RemoveProperties="%(_MSBuildProjectReferenceExistent.GlobalPropertiesToRemove)">
+			RemoveProperties="%(_MSBuildProjectReferenceExistent.GlobalPropertiesToRemove);$(_GlobalPropertiesToRemoveFromProjectReferences)">
 
 			<Output TaskParameter="TargetOutputs" ItemName="_ResolvedProjectReferencePaths" Condition="'%(_MSBuildProjectReferenceExistent.ReferenceOutputAssembly)' == 'true' OR '$(DesignTimeBuild)' == 'true'"/>
 			<Output TaskParameter="TargetOutputs" ItemName="%(_MSBuildProjectReferenceExistent.OutputItemType)" Condition="'%(_MSBuildProjectReferenceExistent.OutputItemType)' != ''"/>
@@ -1809,7 +1898,7 @@
 			Condition="'%(_MSBuildProjectReferenceExistent.BuildReference)' == 'true' AND '@(ProjectReferenceWithConfiguration)' != '' AND '$(BuildingProject)' == 'true' AND '@(_MSBuildProjectReferenceExistent)' != ''"
 			ContinueOnError="$(ContinueOnError)"
 			SkipNonexistentTargets="true"
-			RemoveProperties="%(_MSBuildProjectReferenceExistent.GlobalPropertiesToRemove)">
+			RemoveProperties="%(_MSBuildProjectReferenceExistent.GlobalPropertiesToRemove);$(_GlobalPropertiesToRemoveFromProjectReferences)">
 
 			<Output TaskParameter="TargetOutputs" ItemName="NativeReference" Condition="'%(_MSBuildProjectReferenceExistent.ReferenceOutputAssembly)' == 'true'"/>
 		</MSBuild>
@@ -2034,6 +2123,10 @@
 			<ResolveAssemblyReferencesSilent Condition="'$(ResolveAssemblyReferencesSilent)' == '' AND '$(TraceDesignTime)' != 'true' AND '$(BuildingProject)' == 'false'">true</ResolveAssemblyReferencesSilent>
 			<ResolveAssemblyReferencesSilent Condition="'$(ResolveAssemblyReferencesSilent)' == ''">false</ResolveAssemblyReferencesSilent>
 			<ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch Condition="'$(ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch)' == ''">Warning</ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>
+			<ResolveAssemblyReferencesFindRelatedSatellites Condition="'$(ResolveAssemblyReferencesFindRelatedSatellites)' == ''">$(BuildingProject)</ResolveAssemblyReferencesFindRelatedSatellites>
+			<ResolveAssemblyReferencesFindSerializationAssemblies Condition="'$(ResolveAssemblyReferencesFindSerializationAssemblies)' == ''">$(BuildingProject)</ResolveAssemblyReferencesFindSerializationAssemblies>
+			<ResolveAssemblyReferencesFindRelatedFiles Condition="'$(ResolveAssemblyReferencesFindRelatedFiles)' == ''">$(BuildingProject)</ResolveAssemblyReferencesFindRelatedFiles>
+			<ResolveAssemblyReferenceOutputUnresolvedAssemblyConflicts Condition="'$(ResolveAssemblyReferenceOutputUnresolvedAssemblyConflicts)' == ''">false</ResolveAssemblyReferenceOutputUnresolvedAssemblyConflicts>
 		</PropertyGroup>
 
 		<!--
@@ -2075,15 +2168,17 @@
 			SupportsBindingRedirectGeneration="$(GenerateBindingRedirectsOutputType)"
 			IgnoreVersionForFrameworkReferences="$(IgnoreVersionForFrameworkReferences)"
 			FindDependencies="$(_FindDependencies)"
-			FindSatellites="$(BuildingProject)"
-			FindSerializationAssemblies="$(BuildingProject)"
-			FindRelatedFiles="$(BuildingProject)"
+			FindSatellites="$(ResolveAssemblyReferencesFindRelatedSatellites)"
+			FindSerializationAssemblies="$(ResolveAssemblyReferencesFindSerializationAssemblies)"
+			FindRelatedFiles="$(ResolveAssemblyReferencesFindRelatedFiles)"
 			Silent="$(ResolveAssemblyReferencesSilent)"
 			TargetFrameworkVersion="$(TargetFrameworkVersion)"
 			TargetFrameworkMoniker="$(TargetFrameworkMoniker)"
 			TargetFrameworkMonikerDisplayName="$(TargetFrameworkMonikerDisplayName)"
 			TargetedRuntimeVersion="$(TargetedRuntimeVersion)"
 			StateFile="$(ResolveAssemblyReferencesStateFile)"
+			AssemblyInformationCachePaths="$(AssemblyInformationCachePaths)"
+			AssemblyInformationCacheOutputPath="$(AssemblyInformationCacheOutputPath)"
 			InstalledAssemblySubsetTables="@(InstalledAssemblySubsetTables)"
 			TargetFrameworkSubsets="@(_ReferenceInstalledAssemblySubsets)"
 			FullTargetFrameworkSubsetNames="$(FullReferenceAssemblyNames)"
@@ -2098,6 +2193,7 @@
 			IgnoreTargetFrameworkAttributeVersionMismatch="$(ResolveAssemblyReferenceIgnoreTargetFrameworkAttributeVersionMismatch)"
 			FindDependenciesOfExternallyResolvedReferences="$(FindDependenciesOfExternallyResolvedReferences)"
 			ContinueOnError="$(ContinueOnError)"
+			OutputUnresolvedAssemblyConflicts="$(ResolveAssemblyReferenceOutputUnresolvedAssemblyConflicts)"
 			Condition="'@(Reference)' != '' OR '@(_ResolvedProjectReferencePaths)' != '' OR '@(_ExplicitReference)' != ''">
 
 			<Output TaskParameter="ResolvedFiles" ItemName="ReferencePath"/>
@@ -2112,6 +2208,7 @@
 			<Output TaskParameter="FilesWritten" ItemName="FileWrites"/>
 			<Output TaskParameter="DependsOnSystemRuntime" PropertyName="DependsOnSystemRuntime"/>
 			<Output TaskParameter="DependsOnNETStandard" PropertyName="_DependsOnNETStandard"/>
+			<Output TaskParameter="UnresolvedAssemblyConflicts" ItemName="ResolveAssemblyReferenceUnresolvedAssemblyConflicts"/>
 		</ResolveAssemblyReference>
 	</Target>
 
@@ -2383,7 +2480,7 @@
 			Targets="GetTargetPathWithTargetPlatformMoniker"
 			BuildInParallel="$(BuildInParallel)"
 			ContinueOnError="!$(BuildingProject)"
-			RemoveProperties="%(_MSBuildProjectReferenceExistent.GlobalPropertiesToRemove)">
+			RemoveProperties="%(_MSBuildProjectReferenceExistent.GlobalPropertiesToRemove);$(_GlobalPropertiesToRemoveFromProjectReferences)">
 
 			<Output TaskParameter="TargetOutputs" ItemName="TargetPathWithTargetPlatformMoniker"/>
 		</MSBuild>
@@ -3718,6 +3815,7 @@
 
 		<ResolveManifestFiles
 			TargetFrameworkVersion="$(TargetFrameworkVersion)"
+			TargetFrameworkIdentifier="$(TargetFrameworkIdentifier)"
 			SigningManifests="$(SignManifests)"
 			DeploymentManifestEntryPoint="@(ApplicationManifest)"
 			PublishFiles="@(_DeploymentPublishFileOfTypeManifestEntryPoint)">
@@ -3753,6 +3851,8 @@
 	<Target
 		Name="GenerateApplicationManifest"
 		DependsOnTargets="
+			_DeploymentSetClickOnceVersions;
+			_DeploymentGenerateLauncher;
 			_DeploymentComputeNativeManifestInfo;
 			_DeploymentComputeClickOnceManifestInfo;
 			ResolveComReferences;
@@ -3798,11 +3898,12 @@
 			IconFile="@(_DeploymentManifestIconFile)"
 			InputManifest="$(_DeploymentBaseManifest)"
 			IsolatedComReferences="@(ResolvedIsolatedComModules)"
+			LauncherBasedDeployment="$(_DeploymentLauncherBased)"
 			ManifestType="$(_DeploymentManifestType)"
 			MaxTargetPath="$(MaxTargetPath)"
 			OutputManifest="@(ApplicationManifest)"
 			OSVersion="$(OSVersion)"
-			Platform="$(PlatformTarget)"
+			Platform="$(_DeploymentPlatformTarget)"
 			Product="$(ProductName)"
 			Publisher="$(PublisherName)"
 			RequiresMinimumFramework35SP1="$(_DeploymentRequiresMinimumFramework35SP1)"
@@ -3811,7 +3912,7 @@
 			TargetCulture="$(TargetCulture)"
 			TargetFrameworkSubset="$(TargetFrameworkSubset)"
 			TargetFrameworkProfile="$(TargetFrameworkProfile)"
-			TargetFrameworkVersion="$(TargetFrameworkVersion)"
+			TargetFrameworkVersion="$(_DeploymentManifestTargetFrameworkVersion)"
 			TrustInfoFile="@(_DeploymentIntermediateTrustInfoFile)"
 			UseApplicationTrust="$(UseApplicationTrust)">
 
@@ -3821,6 +3922,110 @@
 		<PropertyGroup>
 			<_DeploymentCopyApplicationManifest>true</_DeploymentCopyApplicationManifest>
 		</PropertyGroup>
+	</Target>
+
+	<!--
+		============================================================
+						_DeploymentSetClickOnceVersions
+
+		Sets ClickOnce versions
+		============================================================
+	-->
+	<Target
+		Name="_DeploymentSetClickOnceVersions"
+		Condition="'$(GenerateClickOnceManifests)' == 'true'">
+
+		<PropertyGroup>
+			<_DeploymentManifestTargetFrameworkMoniker>$(TargetFrameworkMoniker)</_DeploymentManifestTargetFrameworkMoniker>
+			<_DeploymentManifestTargetFrameworkVersion>$(TargetFrameworkVersion)</_DeploymentManifestTargetFrameworkVersion>
+		</PropertyGroup>
+
+	</Target>
+
+	<!--
+		============================================================
+						_DeploymentGenerateLauncher
+
+		Generates Launcher if needed
+		============================================================
+	-->
+	<Target
+		Name="_DeploymentGenerateLauncher"
+		Condition="'$(GenerateClickOnceManifests)' == 'true' AND '$(_DeploymentLauncherBased)' == 'true'">
+
+		<!--
+			If apphost based built EXE is found, use that as the Launcher.exe's entry point otherwise
+			use the built DLL as the entry point
+		-->
+		<ItemGroup Condition="'$(UseAppHost)' == 'true' AND '$(_IsExecutable)' == 'true' AND Exists('$(AppHostIntermediatePath)')">
+			<EntryPointForLauncher Include="$(AppHostIntermediatePath)"/>
+			<ContentWithTargetPath Include="@(EntryPointForLauncher)"/>
+		</ItemGroup>
+
+		<ItemGroup>
+			<EntryPointForLauncher Include="$(_DeploymentManifestEntryPoint)" Condition="'$(EntryPointForLauncher)' == ''"/>
+		</ItemGroup>
+
+		<!-- Generates Launcher and obtains its Framework version and moniker -->
+		<GenerateLauncher
+			AssemblyName="$(_DeploymentApplicationManifestIdentity)"
+			EntryPoint="@(EntryPointForLauncher)"
+			OutputPath="$(IntermediateOutputPath)"
+			VisualStudioVersion="$(VisualStudioVersion)">
+
+			<Output TaskParameter="OutputEntryPoint" ItemName="_DeploymentManifestLauncherEntryPoint"/>
+		</GenerateLauncher>
+
+		<!--
+			.NET Core ClickOnce deployments use Launcher, which targets .NET FX 4.5 as the minimum
+			supported ClickOnce runtime version on target user's machine.
+
+			TargetFramework Verion and Moniker properties are used in Deployment manifest generation
+			task to set compatibleFrameworks element, which needs to match Launcher's target version.
+
+			Version can be overriden with DeploymentManifestTargetFrameworkVersionOverride property.
+		-->
+		<PropertyGroup>
+			<_DeploymentManifestTargetFrameworkVersion Condition="'$(DeploymentManifestTargetFrameworkVersionOverride)' == ''">v4.5</_DeploymentManifestTargetFrameworkVersion>
+			<_DeploymentManifestTargetFrameworkVersion Condition="'$(DeploymentManifestTargetFrameworkVersionOverride)' != ''">$(DeploymentManifestTargetFrameworkVersionOverride)</_DeploymentManifestTargetFrameworkVersion>
+			<_DeploymentManifestTargetFrameworkMoniker>.NETFramework,Version=$(_DeploymentManifestTargetFrameworkVersion)</_DeploymentManifestTargetFrameworkMoniker>
+		</PropertyGroup>
+
+		<!-- Sign Launcher EXE -->
+		<SignFile
+			CertificateThumbprint="$(_DeploymentResolvedManifestCertificateThumbprint)"
+			TimestampUrl="$(ManifestTimestampUrl)"
+			SigningTarget="@(_DeploymentManifestLauncherEntryPoint)"
+			TargetFrameworkVersion="$(TargetFrameworkVersion)"
+			TargetFrameworkIdentifier="$(TargetFrameworkIdentifier)"
+			Condition="'$(_DeploymentSignClickOnceManifests)' == 'true'"/>
+
+		<!-- Sign the original ClickOnce entrypoint -->
+		<SignFile
+			CertificateThumbprint="$(_DeploymentResolvedManifestCertificateThumbprint)"
+			TimestampUrl="$(ManifestTimestampUrl)"
+			SigningTarget="@(_DeploymentManifestEntryPoint)"
+			TargetFrameworkVersion="$(TargetFrameworkVersion)"
+			TargetFrameworkIdentifier="$(TargetFrameworkIdentifier)"
+			Condition="'$(_DeploymentSignClickOnceManifests)' == 'true'"/>
+
+		<!-- Sign apphost.exe if it's the entrypoint for the Launcher.exe. This is the case in loose file publish -->
+		<SignFile
+			CertificateThumbprint="$(_DeploymentResolvedManifestCertificateThumbprint)"
+			TimestampUrl="$(ManifestTimestampUrl)"
+			SigningTarget="$(AppHostIntermediatePath)"
+			TargetFrameworkVersion="$(TargetFrameworkVersion)"
+			TargetFrameworkIdentifier="$(TargetFrameworkIdentifier)"
+			Condition="'$(_DeploymentSignClickOnceManifests)'=='true' AND '$(UseAppHost)' == 'true' AND '$(PublishSingleFile)' != 'true' AND '$(_IsExecutable)' == 'true' AND Exists('$(AppHostIntermediatePath)')"/>
+
+		<!--
+			Replace entry-point with Launcher and move original project's entry-point to content group.
+		-->
+		<ItemGroup>
+			<ContentWithTargetPath Include="@(_DeploymentManifestEntryPoint)"/>
+			<_DeploymentManifestEntryPoint Remove="@(_DeploymentManifestEntryPoint)"/>
+			<_DeploymentManifestEntryPoint Include="@(_DeploymentManifestLauncherEntryPoint)"/>
+		</ItemGroup>
 	</Target>
 
 	<!--
@@ -3893,10 +4098,66 @@
 				Condition="('%(Extension)' == '.dll' OR '%(Extension)' == '.exe' OR '%(Extension)' == '.md') AND ('%(ReferenceCopyLocalPaths.CopyToPublishDirectory)' != 'false')">
 				<IsPrimary>true</IsPrimary>
 			</_DeploymentReferencePaths>
-			<_DeploymentReferencePaths Include="@(_DeploymentReferencePaths);@(_CopyLocalFalseRefPathsWithExclusion)"/>
+			<_DeploymentReferencePaths Include="@(_CopyLocalFalseRefPathsWithExclusion)"/>
+		</ItemGroup>
+
+		<!-- Include managed references in clickonce manifest only if single file publish is false -->
+		<ItemGroup Condition="'$(PublishSingleFile)' != 'true'">
 			<_ManifestManagedReferences Include="@(_DeploymentReferencePaths);@(ReferenceDependencyPaths);@(_SGenDllsRelatedToCurrentDll);@(SerializationAssembly);@(ReferenceCOMWrappersToCopyLocal)"
 				Exclude="@(_SatelliteAssemblies);@(_ReferenceScatterPaths);@(_ExcludedAssembliesFromManifestGeneration)"/>
 		</ItemGroup>
+
+		<!-- Include the following files in clickonce manifest only if single file publish is false -->
+		<ItemGroup Condition="'$(PublishSingleFile)' != 'true'">
+			<!--
+				_ClickOnceRuntimeCopyLocalItems group contains any runtimes folder assets of Nuget packages that are not included in
+				_DeploymentReferencePaths (e.g. pdbs). They are populated from the RuntimeTargetsCopyLocalItems and NativeCopyLocalItems
+				group that contain the RID-specific assets that go in runtimes folder on publish. They are output groups of the
+				ResolvePackageAssets target in dotnet/sdk
+			-->
+			<_ClickOnceRuntimeCopyLocalItems Include="@(RuntimeTargetsCopyLocalItems)"
+				Condition="'%(RuntimeTargetsCopyLocalItems.CopyLocal)' == 'true'"/>
+			<_ClickOnceRuntimeCopyLocalItems Include="@(NativeCopyLocalItems)"
+				Condition="'%(NativeCopyLocalItems.CopyLocal)' == 'true'"/>
+			<_ClickOnceRuntimeCopyLocalItems Remove="@(_DeploymentReferencePaths)"/>
+			<_ClickOnceFiles Include="@(ContentWithTargetPath);@(_DeploymentManifestIconFile);@(AppConfigWithTargetPath);@(NetCoreRuntimeJsonFilesForClickOnce);@(_ClickOnceRuntimeCopyLocalItems)"/>
+		</ItemGroup>
+
+		<!-- For single file publish, we need to include the SF bundle EXE and files excluded from the bundle EXE in the clickonce manifest -->
+		<ItemGroup Condition="'$(PublishSingleFile)' == 'true'">
+			<_ClickOnceFiles Include="$(PublishedSingleFilePath)"/>
+			<_ClickOnceFiles Include="@(_FilesExcludedFromBundle)"/>
+		</ItemGroup>
+
+		<!-- For single file publish in .net core app, sign the SF EXE if signing is enabled -->
+		<SignFile
+			CertificateThumbprint="$(_DeploymentResolvedManifestCertificateThumbprint)"
+			TimestampUrl="$(ManifestTimestampUrl)"
+			SigningTarget="$(PublishedSingleFilePath)"
+			TargetFrameworkVersion="$(TargetFrameworkVersion)"
+			TargetFrameworkIdentifier="$(TargetFrameworkIdentifier)"
+			Condition="'$(_DeploymentSignClickOnceManifests)'=='true' AND '$(_DeploymentLauncherBased)' == 'true' AND '$(PublishSingleFile)' == 'true'"/>
+
+		<!--
+			If ReadyToRun is enabled in loose files scenario, we need to remove entries of the IL images that have gone through R2R
+			compiler and replace them with the entries for their R2R images. The R2R application image also needs to be signed if necessary.
+		-->
+
+		<ItemGroup Condition="'$(PublishReadyToRun)' == 'true' AND '$(PublishSingleFile)' != 'true'">
+			<_ManifestManagedReferences Remove="@(_ReadyToRunCompileList)"/>
+			<_ClickOnceFiles Remove="@(_ReadyToRunCompileList)"/>
+			<_ClickOnceFiles Include="@(_ReadyToRunFilesToPublish)"/>
+			<_ClickOnceTargetFile Include="@(_ReadyToRunFilesToPublish)" Condition="'%(Filename)%(Extension)' == '$(TargetFileName)'"/>
+		</ItemGroup>
+
+		<!-- Sign application image created by R2R -->
+		<SignFile
+			CertificateThumbprint="$(_DeploymentResolvedManifestCertificateThumbprint)"
+			TimestampUrl="$(ManifestTimestampUrl)"
+			SigningTarget="@(_ClickOnceTargetFile)"
+			TargetFrameworkVersion="$(TargetFrameworkVersion)"
+			TargetFrameworkIdentifier="$(TargetFrameworkIdentifier)"
+			Condition="'$(_DeploymentSignClickOnceManifests)' == 'true' AND '$(PublishReadyToRun)' == 'true' AND '$(PublishSingleFile)' != 'true'"/>
 
 		<!--
 			Copy the application executable from Obj folder to app.publish folder.
@@ -3917,15 +4178,21 @@
 
 		<!-- Create list of items for manifest generation -->
 		<ResolveManifestFiles
+			AssemblyName="$(_DeploymentApplicationManifestIdentity)"
 			EntryPoint="@(_DeploymentClickOnceApplicationExecutable)"
 			ExtraFiles="@(_DebugSymbolsIntermediatePath);$(IntermediateOutputPath)$(TargetName).xml;@(_ReferenceRelatedPaths)"
-			Files="@(ContentWithTargetPath);@(_DeploymentManifestIconFile);@(AppConfigWithTargetPath)"
+			Files="@(_ClickOnceFiles)"
+			IsSelfContainedPublish="$(SelfContained)"
+			IsSingleFilePublish="$(PublishSingleFile)"
+			LauncherBasedDeployment="$(_DeploymentLauncherBased)"
 			ManagedAssemblies="@(_ManifestManagedReferences)"
 			NativeAssemblies="@(NativeReferenceFile);@(_DeploymentNativePrerequisite)"
 			PublishFiles="@(PublishFile)"
+			RuntimePackAssets="@(RuntimePackAsset)"
 			SatelliteAssemblies="@(_SatelliteAssemblies)"
 			SigningManifests="$(SignManifests)"
 			TargetCulture="$(TargetCulture)"
+			TargetFrameworkIdentifier="$(TargetFrameworkIdentifier)"
 			TargetFrameworkVersion="$(TargetFrameworkVersion)">
 
 			<Output TaskParameter="OutputAssemblies" ItemName="_DeploymentManifestDependenciesUnfiltered"/>
@@ -3941,6 +4208,16 @@
 
 		<PropertyGroup>
 			<_DeploymentManifestType>ClickOnce</_DeploymentManifestType>
+		</PropertyGroup>
+
+		<!--
+			Manifest platform should always be MSIL for Launcher-based deployments, as the Launcher is MSIL.
+			Do not set _DeploymentPlatformTarget property in Launcher case - this is interpreted as MSIL,
+			by GenerateApplicationManifest and GenerateDeploymentManifest tasks.
+			Otherwise, set it to PlatformTarget.
+		-->
+		<PropertyGroup>
+			<_DeploymentPlatformTarget Condition="'$(_DeploymentLauncherBased)' != 'true'">$(PlatformTarget)</_DeploymentPlatformTarget>
 		</PropertyGroup>
 
 		<!-- Obtain manifest version from ApplicationVersion and ApplicationRevision properties -->
@@ -4013,18 +4290,19 @@
 			EntryPoint="@(_DeploymentResolvedDeploymentManifestEntryPoint)"
 			ErrorReportUrl="$(_DeploymentFormattedErrorReportUrl)"
 			Install="$(Install)"
+			LauncherBasedDeployment="$(_DeploymentLauncherBased)"
 			MapFileExtensions="$(MapFileExtensions)"
 			MaxTargetPath="$(MaxTargetPath)"
 			MinimumRequiredVersion="$(_DeploymentBuiltMinimumRequiredVersion)"
 			OutputManifest="@(DeployManifest)"
-			Platform="$(PlatformTarget)"
+			Platform="$(_DeploymentPlatformTarget)"
 			Product="$(ProductName)"
 			Publisher="$(PublisherName)"
 			SuiteName="$(SuiteName)"
 			SupportUrl="$(_DeploymentFormattedSupportUrl)"
 			TargetCulture="$(TargetCulture)"
-			TargetFrameworkVersion="$(TargetFrameworkVersion)"
-			TargetFrameworkMoniker="$(TargetFrameworkMoniker)"
+			TargetFrameworkVersion="$(_DeploymentManifestTargetFrameworkVersion)"
+			TargetFrameworkMoniker="$(_DeploymentManifestTargetFrameworkMoniker)"
 			TrustUrlParameters="$(TrustUrlParameters)"
 			UpdateEnabled="$(UpdateEnabled)"
 			UpdateInterval="$(_DeploymentBuiltUpdateInterval)"
@@ -4365,7 +4643,7 @@
 
 	<Target
 		Name="_GetCopyToOutputDirectoryItemsFromTransitiveProjectReferences"
-		DependsOnTargets="_PopulateCommonStateForGetCopyToOutputDirectoryItems"
+		DependsOnTargets="_PopulateCommonStateForGetCopyToOutputDirectoryItems;_AddOutputPathToGlobalPropertiesToRemove"
 		Returns="@(_TransitiveItemsToCopyToOutputDirectory)">
 
 		<!-- Get items from child projects first. -->
@@ -4377,7 +4655,7 @@
 			Condition="'@(_MSBuildProjectReferenceExistent)' != '' AND '$(_GetChildProjectCopyToOutputDirectoryItems)' == 'true' AND '%(_MSBuildProjectReferenceExistent.Private)' != 'false' AND '$(UseCommonOutputDirectory)' != 'true'"
 			ContinueOnError="$(ContinueOnError)"
 			SkipNonexistentTargets="true"
-			RemoveProperties="%(_MSBuildProjectReferenceExistent.GlobalPropertiesToRemove)">
+			RemoveProperties="%(_MSBuildProjectReferenceExistent.GlobalPropertiesToRemove);$(_GlobalPropertiesToRemoveFromProjectReferences)">
 
 			<Output TaskParameter="TargetOutputs" ItemName="_AllChildProjectItemsWithTargetPath"/>
 		</MSBuild>
@@ -4475,6 +4753,10 @@
 		<CallTarget Targets="_GetCopyToOutputDirectoryItemsFromThisProject">
 			<Output TaskParameter="TargetOutputs" ItemName="_ThisProjectItemsToCopyToOutputDirectory"/>
 		</CallTarget>
+
+		<ItemGroup Condition="'$(CopyConflictingTransitiveContent)' == 'false'">
+			<_TransitiveItemsToCopyToOutputDirectory Remove="@(_ThisProjectItemsToCopyToOutputDirectory)" MatchOnMetadata="TargetPath" MatchOnMetadataOptions="PathLike"/>
+		</ItemGroup>
 
 		<ItemGroup>
 			<_TransitiveItemsToCopyToOutputDirectoryAlways KeepDuplicates="'$(_GCTODIKeepDuplicates)' != 'false'" KeepMetadata="$(_GCTODIKeepMetadata)" Include="@(_TransitiveItemsToCopyToOutputDirectory->'%(FullPath)')" Condition="'%(_TransitiveItemsToCopyToOutputDirectory.CopyToOutputDirectory)' == 'Always'"/>
@@ -4982,7 +5264,7 @@
 			BuildInParallel="$(BuildInParallel)"
 			Condition="'$(BuildingInsideVisualStudio)' != 'true' AND '$(BuildProjectReferences)' == 'true' AND '@(_MSBuildProjectReferenceExistent)' != ''"
 			ContinueOnError="$(ContinueOnError)"
-			RemoveProperties="%(_MSBuildProjectReferenceExistent.GlobalPropertiesToRemove)"/>
+			RemoveProperties="%(_MSBuildProjectReferenceExistent.GlobalPropertiesToRemove);$(_GlobalPropertiesToRemoveFromProjectReferences)"/>
 	</Target>
 
 	<!--
@@ -5282,6 +5564,7 @@
 
 		<!-- Copy files to publish folder -->
 		<Copy
+			Condition="'$(PublishSingleFile)' != 'true'"
 			SourceFiles=
 				"@(_ApplicationManifestFinal);
 				@(_DeploymentResolvedManifestEntryPoint);
@@ -5312,9 +5595,10 @@
 			RetryDelayMilliseconds="$(CopyRetryDelayMilliseconds)"
 			UseHardlinksIfPossible="$(CreateHardLinksForPublishFilesIfPossible)"
 			UseSymboliclinksIfPossible="$(CreateSymbolicLinksForPublishFilesIfPossible)"
-			Condition="'%(_DeploymentManifestDependencies.DependencyType)' == 'Install'"/>
+			Condition="'$(PublishSingleFile)' != 'true' AND '%(_DeploymentManifestDependencies.DependencyType)' == 'Install'"/>
 
 		<Copy
+			Condition="'$(PublishSingleFile)' != 'true'"
 			SourceFiles="@(_ReferenceScatterPaths)"
 			DestinationFiles="@(_ReferenceScatterPaths->'$(_DeploymentApplicationDir)%(Filename)%(Extension)$(_DeploymentFileMappingExtension)')"
 			SkipUnchangedFiles="$(SkipCopyUnchangedFiles)"
@@ -5323,6 +5607,28 @@
 			RetryDelayMilliseconds="$(CopyRetryDelayMilliseconds)"
 			UseHardlinksIfPossible="$(CreateHardLinksForPublishFilesIfPossible)"
 			UseSymboliclinksIfPossible="$(CreateSymbolicLinksForPublishFilesIfPossible)"/>
+
+		<ItemGroup Condition="'$(PublishSingleFile)' == 'true'">
+			<PublishedSingleFileToBeCopied Include="@(_DeploymentManifestFiles)"/>
+		</ItemGroup>
+
+		<!-- For single-file publish case, we need to only copy the clickonce manifest, manifest entry point (launcher) and the SF EXE -->
+		<Copy
+			Condition="'$(PublishSingleFile)' == 'true'"
+			SourceFiles=
+				"@(_ApplicationManifestFinal);
+				@(_DeploymentResolvedManifestEntryPoint);
+				@(PublishedSingleFileToBeCopied)"
+			DestinationFiles=
+				"@(_ApplicationManifestFinal->'$(_DeploymentApplicationDir)%(TargetPath)');
+				@(_DeploymentManifestEntryPoint->'$(_DeploymentApplicationDir)%(TargetPath)$(_DeploymentFileMappingExtension)');
+				@(PublishedSingleFileToBeCopied->'$(_DeploymentApplicationDir)%(TargetPath)$(_DeploymentFileMappingExtension)')"
+			SkipUnchangedFiles="$(SkipCopyUnchangedFiles)"
+			OverwriteReadOnlyFiles="$(OverwriteReadOnlyFiles)"
+			Retries="$(CopyRetryCount)"
+			UseHardlinksIfPossible="$(CreateHardLinksForPublishFilesIfPossible)"
+			UseSymboliclinksIfPossible="$(CreateSymbolicLinksForPublishFilesIfPossible)"
+			RetryDelayMilliseconds="$(CopyRetryDelayMilliseconds)"/>
 
 		<FormatUrl InputUrl="$(_DeploymentApplicationUrl)">
 			<Output TaskParameter="OutputUrl" PropertyName="_DeploymentFormattedApplicationUrl"/>
@@ -5371,13 +5677,14 @@
 			CertificateThumbprint="$(_DeploymentResolvedManifestCertificateThumbprint)"
 			TimestampUrl="$(ManifestTimestampUrl)"
 			SigningTarget="$(_DeploymentApplicationDir)$(_DeploymentTargetApplicationManifestFileName)"
+			TargetFrameworkIdentifier="$(TargetFrameworkIdentifier)"
 			TargetFrameworkVersion="$(TargetFrameworkVersion)"
 			Condition="'$(_DeploymentSignClickOnceManifests)' == 'true'"/>
 
 		<!-- Update entry point path in deploy manifest -->
 		<UpdateManifest
 			ApplicationPath="$(_DeploymentApplicationFolderName)\$(_DeploymentTargetApplicationManifestFileName)"
-			TargetFrameworkVersion="$(TargetFrameworkVersion)"
+			TargetFrameworkVersion="$(_DeploymentManifestTargetFrameworkVersion)"
 			ApplicationManifest="$(_DeploymentApplicationDir)$(_DeploymentTargetApplicationManifestFileName)"
 			InputManifest="$(OutDir)$(TargetDeployManifestFileName)"
 			OutputManifest="$(PublishDir)$(TargetDeployManifestFileName)">
@@ -5389,6 +5696,7 @@
 			CertificateThumbprint="$(_DeploymentResolvedManifestCertificateThumbprint)"
 			TimestampUrl="$(ManifestTimestampUrl)"
 			SigningTarget="$(PublishDir)$(TargetDeployManifestFileName)"
+			TargetFrameworkIdentifier="$(TargetFrameworkIdentifier)"
 			TargetFrameworkVersion="$(TargetFrameworkVersion)"
 			Condition="'$(_DeploymentSignClickOnceManifests)' == 'true'"/>
 

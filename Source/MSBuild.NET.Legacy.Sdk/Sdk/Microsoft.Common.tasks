@@ -23,6 +23,8 @@
 	<UsingTask AssemblyFile="$(MSBuildLegacyTasksAssembly)" TaskName="Microsoft.Build.Tasks.AssignTargetPath"/>
 	<UsingTask AssemblyFile="$(MSBuildLegacyTasksAssembly)" TaskName="Microsoft.Build.Tasks.CallTarget"/>
 	<UsingTask AssemblyFile="$(MSBuildLegacyTasksAssembly)" TaskName="Microsoft.Build.Tasks.CombinePath"/>
+	<UsingTask AssemblyFile="$(MSBuildLegacyTasksAssembly)" TaskName="Microsoft.Build.Tasks.CombineTargetFrameworkInfoProperties"/>
+	<UsingTask AssemblyFile="$(MSBuildLegacyTasksAssembly)" TaskName="Microsoft.Build.Tasks.CombineXmlElements"/>
 	<UsingTask AssemblyFile="$(MSBuildLegacyTasksAssembly)" TaskName="Microsoft.Build.Tasks.ConvertToAbsolutePath"/>
 	<UsingTask AssemblyFile="$(MSBuildLegacyTasksAssembly)" TaskName="Microsoft.Build.Tasks.Copy"/>
 	<UsingTask AssemblyFile="$(MSBuildLegacyTasksAssembly)" TaskName="Microsoft.Build.Tasks.CreateCSharpManifestResourceName"/>
@@ -100,12 +102,9 @@
 	<UsingTask AssemblyFile="$(MSBuildLegacyTasksAssembly)" TaskName="Microsoft.Build.Tasks.Csc"/>
 	<UsingTask AssemblyFile="$(MSBuildLegacyTasksAssembly)" TaskName="Microsoft.Build.Tasks.Vbc"/>
 
-	<!-- TODO: Remove when no longet needed! -->
 	<PropertyGroup>
+		<!-- TODO: Remove when no longer needed! -->
 		<RoslynToolsPath Condition="'$(RoslynTargetsPath)' != ''">$(RoslynTargetsPath)</RoslynToolsPath>
-	</PropertyGroup>
-
-	<PropertyGroup>
 		<RoslynToolsPath Condition="'$(RoslynToolsPath)' == ''">$(MSBuildExtensionsPath)Roslyn</RoslynToolsPath>
 		<RoslynBuildTasksAssembly Condition="'$(RoslynBuildTasksAssembly)' == ''">$(RoslynToolsPath)\Microsoft.Build.Tasks.CodeAnalysis.dll</RoslynBuildTasksAssembly>
 	</PropertyGroup>

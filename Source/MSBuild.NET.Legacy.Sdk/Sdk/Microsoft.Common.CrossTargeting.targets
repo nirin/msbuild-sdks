@@ -7,10 +7,22 @@
 	</PropertyGroup>
 
 	<Target Name="GetTargetFrameworks"
+			DependsOnTargets="GetTargetFrameworksWithPlatformFromInnerBuilds"
 			Returns="@(_ThisProjectBuildMetadata)">
+
+		<CombineXmlElements
+			RootElementName="AdditionalProjectProperties"
+			XmlElements="@(_TargetFrameworkInfo->'%(AdditionalPropertiesFromProject)')">
+			<Output TaskParameter="Result"
+					PropertyName="_AdditionalPropertiesFromProject"/>
+		</CombineXmlElements>
+
 		<ItemGroup>
 			<_ThisProjectBuildMetadata Include="$(MSBuildProjectFullPath)">
-				<TargetFrameworks>$(TargetFrameworks)</TargetFrameworks>
+				<TargetFrameworks>@(_TargetFrameworkInfo)</TargetFrameworks>
+				<TargetFrameworkMonikers>@(_TargetFrameworkInfo->'%(TargetFrameworkMonikers)')</TargetFrameworkMonikers>
+				<TargetPlatformMonikers>@(_TargetFrameworkInfo->'%(TargetPlatformMonikers)')</TargetPlatformMonikers>
+				<AdditionalPropertiesFromProject>$(_AdditionalPropertiesFromProject)</AdditionalPropertiesFromProject>
 				<HasSingleTargetFramework>false</HasSingleTargetFramework>
 				<!-- indicate to caller that project is RID agnostic so that a global property RuntimeIdentifier value can be removed -->
 				<IsRidAgnostic>false</IsRidAgnostic>
@@ -28,6 +40,17 @@
 				<AdditionalProperties>TargetFramework=%(_TargetFramework.Identity)</AdditionalProperties>
 			</_InnerBuildProjects>
 		</ItemGroup>
+	</Target>
+
+	<Target Name="GetTargetFrameworksWithPlatformFromInnerBuilds"
+			DependsOnTargets="_ComputeTargetFrameworkItems">
+
+		<MSBuild Projects="@(_InnerBuildProjects)"
+			Condition="'@(_InnerBuildProjects)' != ''"
+			Targets="GetTargetFrameworksWithPlatformForSingleTargetFramework"
+			BuildInParallel="$(BuildInParallel)">
+			<Output ItemName="_TargetFrameworkInfo" TaskParameter="TargetOutputs"/>
+		</MSBuild>
 	</Target>
 
 	<!--
