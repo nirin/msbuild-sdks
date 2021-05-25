@@ -123,7 +123,7 @@
 	-->
 	<Target Name="GenerateRestoreGraphFile" DependsOnTargets="_GenerateRestoreGraph">
 		<!-- Validate  -->
-		<Error Condition="$(RestoreGraphOutputPath) == ''" Text="Missing RestoreGraphOutputPath property!"/>
+		<Error Condition="$(RestoreGraphOutputPath) == ''" Text="Please specify where to write the restore graph output files with the 'RestoreGraphOutputPath' property!"/>
 
 		<!-- Drop any duplicate items -->
 		<RemoveDuplicates
