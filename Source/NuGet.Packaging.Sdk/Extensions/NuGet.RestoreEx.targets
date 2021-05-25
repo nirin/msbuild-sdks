@@ -1,10 +1,12 @@
 <Project>
 
 	<UsingTask TaskName="NuGet.Build.Tasks.RestoreTaskEx" AssemblyFile="$(NuGetRestoreTaskAssembly)"/>
+	<UsingTask TaskName="NuGet.Build.Tasks.GenerateRestoreGraphFileTask" AssemblyFile="$(NuGetRestoreTaskAssembly)"/>
 
 	<Target Name="Restore">
 		<!-- Restore using MSBuild's Static Graph Evaluation -->
 		<RestoreTaskEx
+			CleanupAssetsForUnsupportedProjects="$([MSBuild]::ValueOrDefault('$(RestoreCleanupAssetsForUnsupportedProjects)', 'true'))"
 			DisableParallel="$(RestoreDisableParallel)"
 			Force="$(RestoreForce)"
 			ForceEvaluate="$(RestoreForceEvaluate)"
@@ -16,7 +18,30 @@
 			ProjectFullPath="$(MSBuildProjectFullPath)"
 			Recursive="$([MSBuild]::ValueOrDefault('$(RestoreRecursive)', 'true'))"
 			RestorePackagesConfig="$(RestorePackagesConfig)"
-			SolutionPath="$(SolutionPath)"/>
+			SolutionPath="$(SolutionPath)"
+			ProcessFileName="$(NuGetConsoleProcessFileName)"
+			MSBuildStartupDirectory="$(MSBuildStartupDirectory)"/>
+	</Target>
+
+	<!--
+	====================================================================================================
+										GenerateRestoreGraphFile
+
+		Writes the output of the generated directed graph spec by static graph restore.
+	====================================================================================================
+	-->
+	<Target Name="GenerateRestoreGraphFile">
+		<!-- Validate -->
+		<Error Condition="$(RestoreGraphOutputPath) == ''" Text="Missing RestoreGraphOutputPath property!"/>
+
+		<GenerateRestoreGraphFileTask
+			MSBuildBinPath="$(MSBuildBinPath)"
+			ProjectFullPath="$(MSBuildProjectFullPath)"
+			Recursive="$([MSBuild]::ValueOrDefault('$(RestoreRecursive)', 'true'))"
+			SolutionPath="$(SolutionPath)"
+			RestoreGraphOutputPath="$(RestoreGraphOutputPath)"
+			ProcessFileName="$(NuGetConsoleProcessFileName)"
+			MSBuildStartupDirectory="$(MSBuildStartupDirectory)"/>
 	</Target>
 
 </Project>
