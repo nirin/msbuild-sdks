@@ -8,12 +8,12 @@
 	</PropertyGroup>
 
 	<!-- NuGet's Common Tasks -->
-	<UsingTask TaskName="NuGet.Build.Tasks.GetProjectTargetFrameworksTask" AssemblyFile="$(NuGetPackTaskAssembly)"/>
+	<UsingTask AssemblyFile="$(NuGetPackTaskAssembly)" TaskName="NuGet.Build.Tasks.GetProjectTargetFrameworksTask"/>
 
 	<!-- NuGet's Pack specific Tasks -->
-	<UsingTask TaskName="NuGet.Build.Tasks.Pack.PackTask" AssemblyFile="$(NuGetPackTaskAssembly)"/>
-	<UsingTask TaskName="NuGet.Build.Tasks.Pack.GetPackOutputItemsTask" AssemblyFile="$(NuGetPackTaskAssembly)"/>
-	<UsingTask TaskName="NuGet.Build.Tasks.Pack.IsPackableFalseWarningTask" AssemblyFile="$(NuGetPackTaskAssembly)"/>
-	<UsingTask TaskName="NuGet.Build.Tasks.Pack.GetProjectReferencesFromAssetsFileTask" AssemblyFile="$(NuGetPackTaskAssembly)"/>
+	<UsingTask AssemblyFile="$(NuGetPackTaskAssembly)" TaskName="NuGet.Build.Tasks.Pack.PackTask"/>
+	<UsingTask AssemblyFile="$(NuGetPackTaskAssembly)" TaskName="NuGet.Build.Tasks.Pack.GetPackOutputItemsTask"/>
+	<UsingTask AssemblyFile="$(NuGetPackTaskAssembly)" TaskName="NuGet.Build.Tasks.Pack.IsPackableFalseWarningTask"/>
+	<UsingTask AssemblyFile="$(NuGetPackTaskAssembly)" TaskName="NuGet.Build.Tasks.Pack.GetProjectReferencesFromAssetsFileTask"/>
 
 </Project>

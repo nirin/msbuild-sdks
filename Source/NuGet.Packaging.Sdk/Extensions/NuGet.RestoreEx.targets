@@ -7,8 +7,8 @@
 		<RestoreCleanupAssetsForUnsupportedProjects Condition="'$(RestoreCleanupAssetsForUnsupportedProjects)' == ''">true</RestoreCleanupAssetsForUnsupportedProjects>
 	</PropertyGroup>
 
-	<UsingTask TaskName="NuGet.Build.Tasks.RestoreTaskEx" AssemblyFile="$(NuGetRestoreTaskAssembly)"/>
-	<UsingTask TaskName="NuGet.Build.Tasks.GenerateRestoreGraphFileTask" AssemblyFile="$(NuGetRestoreTaskAssembly)"/>
+	<UsingTask AssemblyFile="$(NuGetRestoreTaskAssembly)" TaskName="NuGet.Build.Tasks.RestoreTaskEx"/>
+	<UsingTask AssemblyFile="$(NuGetRestoreTaskAssembly)" TaskName="NuGet.Build.Tasks.GenerateRestoreGraphFileTask"/>
 
 	<Target Name="Restore">
 		<!-- Restore using MSBuild's Static Graph Evaluation -->
