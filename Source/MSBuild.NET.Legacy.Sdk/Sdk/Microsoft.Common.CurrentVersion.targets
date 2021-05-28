@@ -3336,6 +3336,11 @@
 			Outputs="$(TargetFrameworkMonikerAssemblyAttributesPath)"
 			Condition="'$(GenerateTargetFrameworkAttribute)' == 'true'">
 
+		<PropertyGroup Condition="'$(TargetFrameworkMonikerAssemblyAttributeText)' != ''">
+			<!-- Not all characters are treated as is with CDATA text. Thus, we should escape the text before writing it to the file. -->
+			<TargetFrameworkMonikerAssemblyAttributeText>$([MSBuild]::Escape($(TargetFrameworkMonikerAssemblyAttributeText)))</TargetFrameworkMonikerAssemblyAttributeText>
+		</PropertyGroup>
+
 		<!--
 			This is a file shared between projects so we have to take care to handle simultaneous writes (by ContinueOnError)
 			and a race between clean from one project and build from another (by not adding to FilesWritten so it doesn't clean)
