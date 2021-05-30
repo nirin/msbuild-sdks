@@ -1,22 +1,55 @@
 <Project>
 
-	<UsingTask TaskName="NuGet.Build.Tasks.RestoreTaskEx" AssemblyFile="$(NuGetRestoreTaskAssembly)"/>
+	<PropertyGroup>
+		<RestoreRecursive Condition="'$(RestoreRecursive)' == ''">true</RestoreRecursive>
+		<NuGetInteractive Condition="'$(NuGetInteractive)' == ''">$(MSBuildInteractive)</NuGetInteractive>
+		<RestoreGraphOutputPath Condition="'$(RestoreGraphOutputPath)' == ''">$(MSBuildProjectExtensionsPath)</RestoreGraphOutputPath>
+		<RestoreCleanupAssetsForUnsupportedProjects Condition="'$(RestoreCleanupAssetsForUnsupportedProjects)' == ''">true</RestoreCleanupAssetsForUnsupportedProjects>
+	</PropertyGroup>
+
+	<UsingTask AssemblyFile="$(NuGetRestoreTaskAssembly)" TaskName="NuGet.Build.Tasks.RestoreTaskEx"/>
+	<UsingTask AssemblyFile="$(NuGetRestoreTaskAssembly)" TaskName="NuGet.Build.Tasks.GenerateRestoreGraphFileTask"/>
 
 	<Target Name="Restore">
 		<!-- Restore using MSBuild's Static Graph Evaluation -->
 		<RestoreTaskEx
-			DisableParallel="$(RestoreDisableParallel)"
 			Force="$(RestoreForce)"
-			ForceEvaluate="$(RestoreForceEvaluate)"
-			HideWarningsAndErrors="$(HideWarningsAndErrors)"
-			IgnoreFailedSources="$(RestoreIgnoreFailedSources)"
-			Interactive="$([MSBuild]::ValueOrDefault('$(NuGetInteractive)', '$(MSBuildInteractive)'))"
-			MSBuildBinPath="$(MSBuildBinPath)"
 			NoCache="$(RestoreNoCache)"
+			SolutionPath="$(SolutionPath)"
+			Recursive="$(RestoreRecursive)"
+			Interactive="$(NuGetInteractive)"
+			MSBuildBinPath="$(MSBuildBinPath)"
+			ForceEvaluate="$(RestoreForceEvaluate)"
+			DisableParallel="$(RestoreDisableParallel)"
 			ProjectFullPath="$(MSBuildProjectFullPath)"
-			Recursive="$([MSBuild]::ValueOrDefault('$(RestoreRecursive)', 'true'))"
 			RestorePackagesConfig="$(RestorePackagesConfig)"
-			SolutionPath="$(SolutionPath)"/>
+			HideWarningsAndErrors="$(HideWarningsAndErrors)"
+			ProcessFileName="$(NuGetConsoleProcessFileName)"
+			IgnoreFailedSources="$(RestoreIgnoreFailedSources)"
+			MSBuildStartupDirectory="$(MSBuildStartupDirectory)"
+			CleanupAssetsForUnsupportedProjects="$(RestoreCleanupAssetsForUnsupportedProjects)"/>
+	</Target>
+
+	<!--
+	====================================================================================================
+										GenerateRestoreGraphFile
+
+		Writes the output of the generated directed graph spec by static graph restore.
+	====================================================================================================
+	-->
+	<Target Name="GenerateRestoreGraphFile">
+		<!-- Validate -->
+		<Error Condition="$(RestoreGraphOutputPath) == ''" Text="Please specify where to write the restore graph output files with the 'RestoreGraphOutputPath' property!"/>
+
+		<!-- Write file -->
+		<GenerateRestoreGraphFileTask
+			SolutionPath="$(SolutionPath)"
+			Recursive="$(RestoreRecursive)"
+			MSBuildBinPath="$(MSBuildBinPath)"
+			ProjectFullPath="$(MSBuildProjectFullPath)"
+			ProcessFileName="$(NuGetConsoleProcessFileName)"
+			RestoreGraphOutputPath="$(RestoreGraphOutputPath)"
+			MSBuildStartupDirectory="$(MSBuildStartupDirectory)"/>
 	</Target>
 
 </Project>

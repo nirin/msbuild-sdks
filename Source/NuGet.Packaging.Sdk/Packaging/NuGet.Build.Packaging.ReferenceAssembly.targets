@@ -1,8 +1,8 @@
 <Project>
 
-	<UsingTask TaskName="NuGet.Build.Packaging.Tasks.ApiIntersect" AssemblyFile="$(NuGetPackagingTaskAssemblyFile)"/>
-	<UsingTask TaskName="NuGet.Build.Packaging.Tasks.GenerateAssemblyInfo" AssemblyFile="$(NuGetPackagingTaskAssemblyFile)"/>
-	<UsingTask TaskName="NuGet.Build.Packaging.Tasks.GetApiIntersectTargetPaths" AssemblyFile="$(NuGetPackagingTaskAssemblyFile)"/>
+	<UsingTask AssemblyFile="$(NuGetPackagingTaskAssemblyFile)" TaskName="NuGet.Build.Packaging.Tasks.ApiIntersect"/>
+	<UsingTask AssemblyFile="$(NuGetPackagingTaskAssemblyFile)" TaskName="NuGet.Build.Packaging.Tasks.GenerateAssemblyInfo"/>
+	<UsingTask AssemblyFile="$(NuGetPackagingTaskAssemblyFile)" TaskName="NuGet.Build.Packaging.Tasks.GetApiIntersectTargetPaths"/>
 
 	<ItemGroup>
 		<!-- Converts potentially multiple $(ReferenceAssemblyFrameworks) into @(ReferenceAssemblyFramework) -->
