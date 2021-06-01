@@ -4,12 +4,12 @@
 
 	<PropertyGroup>
 		<NuGetPackagingToolsPath>$(MSBuildThisFileDirectory)Tools\</NuGetPackagingToolsPath>
-		<!-- Load NuGet.Build.Packaging.Tasks.dll, this can be overridden to use a different version with $(NuGetPackagingTaskAssemblyFile) -->
+		<!-- Load NuGet.Build.Packaging.Tasks.dll, this can be overridden to use a different version with 'NuGetPackagingTaskAssemblyFile' property -->
 		<NuGetPackagingTaskAssemblyFile Condition="$(NuGetPackagingTaskAssemblyFile) == ''">$(NuGetPackagingToolsPath)NuGet.Build.Packaging.Tasks.dll</NuGetPackagingTaskAssemblyFile>
 	</PropertyGroup>
 
-	<UsingTask TaskName="NuGet.Build.Packaging.Tasks.AssignPackagePath" AssemblyFile="$(NuGetPackagingTaskAssemblyFile)"/>
-	<UsingTask TaskName="NuGet.Build.Packaging.Tasks.CreatePackage" AssemblyFile="$(NuGetPackagingTaskAssemblyFile)"/>
+	<UsingTask AssemblyFile="$(NuGetPackagingTaskAssemblyFile)" TaskName="NuGet.Build.Packaging.Tasks.AssignPackagePath"/>
+	<UsingTask AssemblyFile="$(NuGetPackagingTaskAssemblyFile)" TaskName="NuGet.Build.Packaging.Tasks.CreatePackage"/>
 
 	<PropertyGroup Label="Globals">
 		<IsOuterBuild Condition="'$(TargetFrameworks)' != '' AND '$(TargetFramework)' == ''">true</IsOuterBuild>

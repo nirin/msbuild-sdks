@@ -1,7 +1,7 @@
 <Project>
 
-	<UsingTask TaskName="NuGet.Build.Packaging.Tasks.ReadLegacyJsonDependencies" AssemblyFile="$(NuGetPackagingTaskAssemblyFile)"/>
-	<UsingTask TaskName="NuGet.Build.Packaging.Tasks.ReadLegacyConfigDependencies" AssemblyFile="$(NuGetPackagingTaskAssemblyFile)"/>
+	<UsingTask AssemblyFile="$(NuGetPackagingTaskAssemblyFile)" TaskName="NuGet.Build.Packaging.Tasks.ReadLegacyJsonDependencies"/>
+	<UsingTask AssemblyFile="$(NuGetPackagingTaskAssemblyFile)" TaskName="NuGet.Build.Packaging.Tasks.ReadLegacyConfigDependencies"/>
 
 	<PropertyGroup>
 		<!-- Infer PackageReference elements from packages.config/project.json files in the project -->

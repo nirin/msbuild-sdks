@@ -251,6 +251,7 @@
 			PackageLicenseFile="$(PackageLicenseFile)"
 			PackageLicenseExpression="$(PackageLicenseExpression)"
 			PackageLicenseExpressionVersion="$(PackageLicenseExpressionVersion)"
+			Readme="$(PackageReadmeFile)"
 			Deterministic="$(Deterministic)"
 			PackageIcon="$(PackageIcon)"/>
 	</Target>
