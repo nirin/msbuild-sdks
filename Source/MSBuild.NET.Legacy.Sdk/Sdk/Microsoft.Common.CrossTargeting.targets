@@ -164,6 +164,13 @@
 		</PropertyGroup>
 	</Target>
 
+	<PropertyGroup>
+		<VSTestTargets Condition="'$(VSTestTargets)' == ''">$(MSBuildExtensionsPath)\Microsoft.TestPlatform.CrossTargeting.targets</VSTestTargets>
+		<VSTestTargets Condition="!Exists('$(VSTestTargets)')">$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\$(MSBuildThisFile)\ImportAfter\Microsoft.TestPlatform.CrossTargeting.targets</VSTestTargets>
+	</PropertyGroup>
+
+	<Import Project="$(VSTestTargets)" Condition="Exists('$(VSTestTargets)')"/>
+
 	<Import Project="$(CustomAfterMicrosoftCommonCrossTargetingTargets)" Condition="Exists('$(CustomAfterMicrosoftCommonCrossTargetingTargets)')"/>
 
 </Project>
