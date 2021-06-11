@@ -1,12 +1,23 @@
 <Project>
 
-	<!-- Import `NuGet.Pack.targets` (required for `PackTask` and used for Pack functionality) -->
-	<PropertyGroup>
-		<ImportNuGetPackTargets Condition="'$(ImportNuGetPackTargets)' == ''">true</ImportNuGetPackTargets>
-		<NuGetPackTargets Condition="'$(NuGetPackTargets)' == ''">..\Extensions\NuGet.Pack.targets</NuGetPackTargets>
-	</PropertyGroup>
-
-	<!-- This will import NuGet pack targets. We need pack to work after all the build artifacts are produced. -->
-	<Import Project="$(NuGetPackTargets)" Condition="'$(ImportNuGetPackTargets)' == 'true'"/>
+	<!--
+		These imports will enable packing of a project's build output into a NuGet package.
+		Keep in mind that the pack needs to work after all the build artifacts are produced.
+		So, import this targets file after all the imports within a project file.
+	-->
+	<ImportGroup>
+		<!--
+			The Pack tasks file defines the pack-specific tasks required for the Pack functionality.
+			When adding any new targets containing tasks, please define a `UsingTask` in the tasks file
+			rather than in the targets file unless it's conditional and/or temporary.
+		-->
+		<Import Project="..\Extensions\NuGet.Pack.tasks"/>
+		<!--
+			The Pack targets file defines default properties and targets implementing the Pack logic.
+			When adding/modifying any targets, please define the properties first and then the targets
+			unless it's required to have the properties inside the target or above (near) it.
+		-->
+		<Import Project="..\Extensions\NuGet.Pack.targets"/>
+	</ImportGroup>
 
 </Project>

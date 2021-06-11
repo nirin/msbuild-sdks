@@ -1,8 +1,5 @@
 <Project>
 
-	<!-- Import NuGet Pack Tasks -->
-	<Import Project="..\Tasks\NuGet.Pack.tasks"/>
-
 	<PropertyGroup>
 		<PackageId Condition="'$(PackageId)' == ''">$(AssemblyName)</PackageId>
 		<PackageVersion Condition="'$(PackageVersion)' == ''">$(Version)</PackageVersion>

@@ -24,9 +24,6 @@
 -->
 <Project>
 
-	<!-- Import NuGet Restore Tasks -->
-	<Import Project="..\Tasks\NuGet.Restore.tasks"/>
-
 	<PropertyGroup>
 		<!-- Mark that this target file has been loaded.  -->
 		<IsRestoreTargetsFileLoaded>true</IsRestoreTargetsFileLoaded>
@@ -1272,17 +1269,5 @@
 			<_ValidProjectsForRestore Include="$(MSBuildProjectFullPath)"/>
 		</ItemGroup>
 	</Target>
-
-	<!--
-		============================================================
-		Import 'NuGet.RestoreEx.targets' if the MSBuild property 'RestoreUseStaticGraphEvaluation'
-		is 'true'.  This file overrides the Restore target to use MSBuild Static Graph
-		to load and evaluate projects which is much faster.
-
-		This feature is not supported for NuGet.exe scenarios and 'NuGet.RestoreEx.targets'
-		won't exist in that case.
-		============================================================
-	-->
-	<Import Project="NuGet.RestoreEx.targets" Condition="'$(RestoreUseStaticGraphEvaluation)' == 'true'"/>
 
 </Project>

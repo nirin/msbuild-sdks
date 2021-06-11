@@ -3,8 +3,8 @@
 	<!-- Load `NuGet.Build.Tasks.Pack.dll`, this can be overridden to use a different version with `NuGetPackTaskAssembly` -->
 	<PropertyGroup Condition="$(NuGetPackTaskAssembly) == ''">
 		<NuGetPackTaskAssemblyFile Condition="'$(NuGetPackTaskAssemblyFile)' == ''">NuGet.Build.Tasks.Pack.dll</NuGetPackTaskAssemblyFile>
-		<NuGetPackTaskAssemblyPath Condition="'$(NuGetPackTaskAssemblyPath)' == ''">$([System.IO.Path]::Combine('$(MSBuildThisFileDirectory)', '$(MSBuildRuntimeType)'))</NuGetPackTaskAssemblyPath>
-		<NuGetPackTaskAssembly>$([System.IO.Path]::Combine('$(NuGetPackTaskAssemblyPath)', '$(NuGetPackTaskAssemblyFile)'))</NuGetPackTaskAssembly>
+		<NuGetPackTaskAssemblyPath Condition="'$(NuGetPackTaskAssemblyPath)' == ''">..\Tasks\$(MSBuildRuntimeType)</NuGetPackTaskAssemblyPath>
+		<NuGetPackTaskAssembly>$(NuGetPackTaskAssemblyPath)\$(NuGetPackTaskAssemblyFile)</NuGetPackTaskAssembly>
 	</PropertyGroup>
 
 	<!-- NuGet's Common Tasks -->
