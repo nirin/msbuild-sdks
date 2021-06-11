@@ -86,10 +86,10 @@
 	</PropertyGroup>
 
 	<!--
-		============================================================
-		Restore
+	============================================================
+							Restore
 		Main entry point for restoring packages
-		============================================================
+	============================================================
 	-->
 	<Target Name="Restore" DependsOnTargets="_GenerateRestoreGraph">
 
@@ -116,10 +116,10 @@
 	</Target>
 
 	<!--
-		============================================================
-		GenerateRestoreGraphFile
+	============================================================
+					GenerateRestoreGraphFile
 		Writes the output of _GenerateRestoreGraph to disk
-		============================================================
+	============================================================
 	-->
 	<Target Name="GenerateRestoreGraphFile" DependsOnTargets="_GenerateRestoreGraph">
 		<!-- Validate  -->
@@ -141,37 +141,42 @@
 	</Target>
 
 	<!--
-		============================================================
-		CollectPackageReferences
+	============================================================
+					CollectPackageReferences
+
 		Gathers all PackageReference items from the project.
 		This target may be used as an extension point to modify
 		package references before NuGet reads them.
-		============================================================
+	============================================================
 	-->
 	<Target Name="CollectPackageReferences" Returns="@(PackageReference)"/>
 
 	<!--
-		============================================================
-		CollectCentralPackageVersions
+	============================================================
+					CollectCentralPackageVersions
+
 		Gathers all PackageVersion items from the central package versions file.
-		============================================================
+		This target may be used as an extension point to modify
+		package versions before NuGet reads them.
+	============================================================
 	-->
 	<Target Name="CollectCentralPackageVersions" Returns="@(PackageVersion)"/>
 
 	<!--
-		============================================================
-		CollectPackageDownloads
+	============================================================
+					CollectPackageDownloads
+
 		Gathers all PackageDownload items from the project.
 		This target may be used as an extension point to modify
 		package downloads before NuGet reads them.
-		============================================================
+	============================================================
 	-->
 	<Target Name="CollectPackageDownloads" Returns="@(PackageDownload)"/>
 
 	<!--
-		============================================================
-		CollectFrameworkReferences
-		============================================================
+	============================================================
+					CollectFrameworkReferences
+	============================================================
 	-->
 	<Target Name="CollectFrameworkReferences" Returns="@(_FrameworkReferenceForRestore)">
 		<ItemGroup>
@@ -182,10 +187,10 @@
 	</Target>
 
 	<!--
-		============================================================
-		_LoadRestoreGraphEntryPoints
+	============================================================
+					_LoadRestoreGraphEntryPoints
 		Find project entry points and load them into items.
-		============================================================
+	============================================================
 	-->
 	<Target Name="_LoadRestoreGraphEntryPoints" Returns="@(RestoreGraphProjectInputItems)">
 
@@ -211,10 +216,10 @@
 	</Target>
 
 	<!--
-		============================================================
-		_FilterRestoreGraphProjectInputItems
+	============================================================
+				_FilterRestoreGraphProjectInputItems
 		Filter out unsupported project entry points.
-		============================================================
+	============================================================
 	-->
 	<Target Name="_FilterRestoreGraphProjectInputItems" DependsOnTargets="_LoadRestoreGraphEntryPoints"
 			Returns="@(FilteredRestoreGraphProjectInputItems)">
@@ -299,10 +304,10 @@
 	</Target>
 
 	<!--
-		============================================================
-		_GenerateRestoreGraph
+	============================================================
+						_GenerateRestoreGraph
 		Entry point for creating the project to project restore graph.
-		============================================================
+	============================================================
 	-->
 	<Target Name="_GenerateRestoreGraph"
 			DependsOnTargets="_FilterRestoreGraphProjectInputItems;_GetAllRestoreProjectPathItems"
@@ -342,10 +347,10 @@
 	</Target>
 
 	<!--
-		============================================================
-		_GenerateRestoreGraphProjectEntry
+	============================================================
+				_GenerateRestoreGraphProjectEntry
 		Top level entry point within a project.
-		============================================================
+	============================================================
 	-->
 	<Target Name="_GenerateRestoreGraphProjectEntry"
 			DependsOnTargets="_GenerateRestoreSpecs;_GenerateDotnetCliToolReferenceSpecs"
@@ -354,10 +359,10 @@
 	</Target>
 
 	<!--
-		============================================================
-		_GenerateRestoreSpecs
+	============================================================
+						_GenerateRestoreSpecs
 		Mark entry points for restore.
-		============================================================
+	============================================================
 	-->
 	<Target Name="_GenerateRestoreSpecs"
 			DependsOnTargets="_GetRestoreProjectStyle"
@@ -374,10 +379,10 @@
 	</Target>
 
 	<!--
-		============================================================
-		_GenerateDotnetCliToolReferenceSpecs
+	============================================================
+				_GenerateDotnetCliToolReferenceSpecs
 		Collect DotnetCliToolReferences
-		============================================================
+	============================================================
 	-->
 	<Target Name="_GenerateDotnetCliToolReferenceSpecs"
 			DependsOnTargets="_GetRestoreSettings"
@@ -406,10 +411,10 @@
 	</Target>
 
 	<!--
-		============================================================
-		_GetProjectJsonPath
+	============================================================
+						_GetProjectJsonPath
 		Discover the project.json path if one exists for the project.
-		============================================================
+	============================================================
 	-->
 	<Target Name="_GetProjectJsonPath"
 			Returns="$(_CurrentProjectJsonPath)">
@@ -423,10 +428,10 @@
 	</Target>
 
 	<!--
-		============================================================
-		_GetRestoreProjectStyle
+	============================================================
+					_GetRestoreProjectStyle
 		Determine the project restore type.
-		============================================================
+	============================================================
 	-->
 	<Target Name="_GetRestoreProjectStyle"
 			DependsOnTargets="_GetProjectJsonPath;CollectPackageReferences"
@@ -452,12 +457,13 @@
 	</Target>
 
 	<!--
-		============================================================
-		EnableBuildPathMismatchWarning
-		If using PackageReference, enable an MSBuild warning if BuildPath is set to something different
-		than MSBuildProjectExtensionsPath, because it may be unexpected that the assets and related files wouldn't be written
-		to the BuildPath.
-		============================================================
+	====================================================================================================
+									EnableBuildPathMismatchWarning
+
+		If using 'PackageReference', enable an MSBuild warning if 'BuildPath' is set to something different
+		than 'MSBuildProjectExtensionsPath', because it may be unexpected that the assets and related
+		files wouldn't be written to the BuildPath.
+	====================================================================================================
 	-->
 	<Target Name="EnableBuildPathMismatchWarning" DependsOnTargets="_GetRestoreProjectStyle"
 			BeforeTargets="_CheckForInvalidConfigurationAndPlatform"
@@ -469,11 +475,12 @@
 	</Target>
 
 	<!--
-		============================================================
-		_GetRestoreTargetFrameworksOutput
+	============================================================
+				_GetRestoreTargetFrameworksOutput
+
 		Read target frameworks from the project.
 		Non-NETCore project frameworks will be returned.
-		============================================================
+	============================================================
 	-->
 	<Target Name="_GetRestoreTargetFrameworksOutput"
 			DependsOnTargets="_GetRestoreProjectStyle"
@@ -504,11 +511,12 @@
 	</Target>
 
 	<!--
-		============================================================
-		_GetRestoreTargetFrameworksAsItems
+	============================================================
+				_GetRestoreTargetFrameworksAsItems
+
 		Read $(TargetFrameworks) from the project as items.
 		Projects that do not have $(TargetFrameworks) will noop.
-		============================================================
+	============================================================
 	-->
 	<Target Name="_GetRestoreTargetFrameworksAsItems"
 			DependsOnTargets="_GetRestoreProjectStyle"
@@ -519,9 +527,9 @@
 	</Target>
 
 	<!--
-		============================================================
-		_GetRestoreSettings
-		============================================================
+	============================================================
+					_GetRestoreSettings
+	============================================================
 	-->
 	<Target Name="_GetRestoreSettings"
 			Condition="'$(PackageReferenceCompatibleProjectStyle)' == 'true' OR '$(RestoreProjectStyle)' == 'ProjectJson' OR '$(RestoreProjectStyle)' == 'PackagesConfig'"
@@ -567,10 +575,10 @@
 	</Target>
 
 	<!--
-		============================================================
-		_GetRestoreSettingsCurrentProject
+	============================================================
+				_GetRestoreSettingsCurrentProject
 		Generate items for a single framework.
-		============================================================
+	============================================================
 	-->
 	<Target Name="_GetRestoreSettingsCurrentProject"
 			Condition="'$(TargetFrameworks)' == '' AND '$(PackageReferenceCompatibleProjectStyle)' == 'true'"
@@ -579,10 +587,10 @@
 	</Target>
 
 	<!--
-		============================================================
-		_GetRestoreSettingsAllFrameworks
+	============================================================
+				_GetRestoreSettingsAllFrameworks
 		Generate items for a single framework.
-		============================================================
+	============================================================
 	-->
 	<Target Name="_GetRestoreSettingsAllFrameworks"
 			Condition="'$(TargetFrameworks)' != '' AND '$(PackageReferenceCompatibleProjectStyle)' == 'true'"
@@ -604,10 +612,10 @@
 	</Target>
 
 	<!--
-		============================================================
-		_GetRestoreSettingsPerFramework
+	============================================================
+				_GetRestoreSettingsPerFramework
 		Generate items with framework specific settings.
-		============================================================
+	============================================================
 	-->
 	<Target Name="_GetRestoreSettingsPerFramework"
 			Returns="@(_RestoreSettingsPerFramework)">
@@ -622,10 +630,10 @@
 	</Target>
 
 	<!--
-		============================================================
-		_GenerateRestoreProjectSpec
+	============================================================
+					_GenerateRestoreProjectSpec
 		Generate a restore project spec for the current project.
-		============================================================
+	============================================================
 	-->
 	<Target Name="_GenerateRestoreProjectSpec"
 			DependsOnTargets="_GetRestoreProjectStyle;_GetRestoreTargetFrameworksOutput;_GetRestoreSettings"
@@ -760,10 +768,10 @@
 	</Target>
 
 	<!--
-		============================================================
-		_GenerateProjectRestoreGraph
+	============================================================
+				_GenerateProjectRestoreGraph
 		Recursively walk project to project references.
-		============================================================
+	============================================================
 	-->
 	<Target Name="_GenerateProjectRestoreGraph"
 			DependsOnTargets="
@@ -776,10 +784,10 @@
 	</Target>
 
 	<!--
-		============================================================
-		_GenerateRestoreDependencies
+	============================================================
+				_GenerateRestoreDependencies
 		Generate items for package and project references.
-		============================================================
+	============================================================
 	-->
 	<Target Name="_GenerateRestoreDependencies"
 			DependsOnTargets="_GenerateProjectRestoreGraphAllFrameworks;_GenerateProjectRestoreGraphCurrentProject"
@@ -787,10 +795,10 @@
 	</Target>
 
 	<!--
-		============================================================
-		_GenerateProjectRestoreGraphAllFrameworks
+	============================================================
+			_GenerateProjectRestoreGraphAllFrameworks
 		Walk dependencies for all frameworks.
-		============================================================
+	============================================================
 	-->
 	<Target Name="_GenerateProjectRestoreGraphAllFrameworks"
 			Condition="'$(TargetFrameworks)' != ''"
@@ -813,10 +821,10 @@
 	</Target>
 
 	<!--
-		============================================================
-		_GenerateProjectRestoreGraphCurrentProject
+	============================================================
+			_GenerateProjectRestoreGraphCurrentProject
 		Walk dependencies with the current framework.
-		============================================================
+	============================================================
 	-->
 	<Target Name="_GenerateProjectRestoreGraphCurrentProject"
 			Condition="'$(TargetFrameworks)' == ''"
@@ -825,10 +833,10 @@
 	</Target>
 
 	<!--
-		============================================================
-		_GenerateProjectRestoreGraphPerFramework
+	============================================================
+			_GenerateProjectRestoreGraphPerFramework
 		Walk dependencies using $(TargetFramework)
-		============================================================
+	============================================================
 	-->
 	<Target Name="_GenerateProjectRestoreGraphPerFramework"
 			DependsOnTargets="_GetRestoreProjectStyle;CollectPackageReferences;CollectPackageDownloads;CollectFrameworkReferences;CollectCentralPackageVersions"
@@ -916,10 +924,10 @@
 	</Target>
 
 	<!--
-		============================================================
-		_GenerateRestoreProjectPathItemsCurrentProject
+	============================================================
+			_GenerateRestoreProjectPathItemsCurrentProject
 		Get absolute paths for all project references.
-		============================================================
+	============================================================
 	-->
 	<Target Name="_GenerateRestoreProjectPathItemsCurrentProject"
 			Condition="'$(TargetFrameworks)' == ''"
@@ -928,10 +936,10 @@
 	</Target>
 
 	<!--
-		============================================================
-		_GenerateRestoreProjectPathItemsPerFramework
+	============================================================
+			_GenerateRestoreProjectPathItemsPerFramework
 		Get absolute paths for all project references.
-		============================================================
+	============================================================
 	-->
 	<Target Name="_GenerateRestoreProjectPathItemsPerFramework"
 			Returns="@(_RestoreProjectPathItems)">
@@ -947,10 +955,10 @@
 	</Target>
 
 	<!--
-		============================================================
-		_GenerateRestoreProjectPathItems
+	============================================================
+				_GenerateRestoreProjectPathItems
 		Get all project references regardless of framework
-		============================================================
+	============================================================
 	-->
 	<Target Name="_GenerateRestoreProjectPathItems"
 			DependsOnTargets="_GenerateRestoreProjectPathItemsAllFrameworks;_GenerateRestoreProjectPathItemsCurrentProject"
@@ -965,10 +973,10 @@
 	</Target>
 
 	<!--
-		============================================================
-		_GenerateRestoreProjectPathItemsAllFrameworks
+	============================================================
+			_GenerateRestoreProjectPathItemsAllFrameworks
 		Get all project references regardless of framework
-		============================================================
+	============================================================
 	-->
 	<Target Name="_GenerateRestoreProjectPathItemsAllFrameworks"
 			Condition="'$(TargetFrameworks)' != ''"
@@ -1008,10 +1016,10 @@
 	</Target>
 
 	<!--
-		============================================================
-		_GenerateRestoreProjectPathWalk
+	============================================================
+				_GenerateRestoreProjectPathWalk
 		Recursively walk projects
-		============================================================
+	============================================================
 	-->
 	<Target Name="_GenerateRestoreProjectPathWalk"
 			DependsOnTargets="_GenerateRestoreProjectPathItems"
@@ -1061,11 +1069,12 @@
 	</Target>
 
 	<!--
-		============================================================
-		_GetAllRestoreProjectPathItems
+	============================================================
+				_GetAllRestoreProjectPathItems
+
 		Get the full list of known projects.
 		This includes all child projects from all target frameworks.
-		============================================================
+	============================================================
 	-->
 	<Target Name="_GetAllRestoreProjectPathItems"
 			DependsOnTargets="_FilterRestoreGraphProjectInputItems"
@@ -1141,13 +1150,14 @@
 	</Target>
 
 	<!--
-		============================================================
-		_GetRestoreSettingsOverrides
+	============================================================
+					_GetRestoreSettingsOverrides
+
 		Get global property overrides that should be resolved
 		against the current working directory instead of the project.
 		This is done by calling into NuGet.targets in a new scope,
 		project properties will not be returned by the calls below.
-		============================================================
+	============================================================
 	-->
 	<Target Name="_GetRestoreSettingsOverrides"
 			Returns="$(_RestorePackagesPathOverride);$(_RestoreRepositoryPathOverride);$(_RestoreSourcesOverride);$(_RestoreFallbackFoldersOverride)">
@@ -1202,9 +1212,9 @@
 	</Target>
 
 	<!--
-		============================================================
-		_GetRestorePackagesPathOverride
-		============================================================
+	============================================================
+				_GetRestorePackagesPathOverride
+	============================================================
 	-->
 	<Target Name="_GetRestorePackagesPathOverride"
 			Returns="$(_RestorePackagesPathOverride)">
@@ -1214,9 +1224,9 @@
 	</Target>
 
 	<!--
-		============================================================
-		_GetRestoreRepositoryPathOverride
-		============================================================
+	============================================================
+				_GetRestoreRepositoryPathOverride
+	============================================================
 	-->
 	<Target Name="_GetRestoreRepositoryPathOverride"
 			Returns="$(_RestoreRepositoryPathOverride)">
@@ -1226,9 +1236,9 @@
 	</Target>
 
 	<!--
-		============================================================
-		_GetRestoreSourcesOverride
-		============================================================
+	============================================================
+					_GetRestoreSourcesOverride
+	============================================================
 	-->
 	<Target Name="_GetRestoreSourcesOverride"
 			Returns="$(_RestoreSourcesOverride)">
@@ -1238,9 +1248,9 @@
 	</Target>
 
 	<!--
-		============================================================
-		_GetRestoreFallbackFoldersOverride
-		============================================================
+	============================================================
+				_GetRestoreFallbackFoldersOverride
+	============================================================
 	-->
 	<Target Name="_GetRestoreFallbackFoldersOverride"
 			Returns="$(_RestoreFallbackFoldersOverride)">
@@ -1250,10 +1260,10 @@
 	</Target>
 
 	<!--
-		============================================================
-		_IsProjectRestoreSupported
+	============================================================
+					_IsProjectRestoreSupported
 		Verify restore targets exist in the project.
-		============================================================
+	============================================================
 	-->
 	<Target Name="_IsProjectRestoreSupported"
 			Returns="@(_ValidProjectsForRestore)">
