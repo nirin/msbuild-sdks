@@ -1,7 +1,7 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29102.190
-MinimumVisualStudioVersion = 10.0.40219.1
+# Visual Studio Version 17
+VisualStudioVersion = 17.0
+MinimumVisualStudioVersion = 15.0
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sdks", "Sdks", "{43CB834E-28D8-4B88-B668-F1388A5D774E}"
 EndProject
 Project("{5DD5E4FA-CB73-4610-85AB-557B54E96AA9}") = "MSBuild.Core.Sdk", "Source\MSBuild.Core.Sdk\MSBuild.Core.Sdk.nuproj", "{783A4558-BD83-4557-A6BC-A9C5636E82AD}"
