@@ -1,5 +1,6 @@
 <Project>
 
+	<!-- Use 'ImportDirectoryPackagesProps' to enable/disable the following import when needed! -->
 	<PropertyGroup>
 		<ImportDirectoryPackagesProps Condition="'$(ImportDirectoryPackagesProps)' == ''">true</ImportDirectoryPackagesProps>
 	</PropertyGroup>

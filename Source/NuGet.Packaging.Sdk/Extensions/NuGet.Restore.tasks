@@ -3,8 +3,8 @@
 	<!-- Load `NuGet.Build.Tasks.dll`, this can be overridden to use a different version with `NuGetRestoreTaskAssembly` -->
 	<PropertyGroup Condition="$(NuGetRestoreTaskAssembly) == ''">
 		<NuGetRestoreTaskAssemblyFile Condition="'$(NuGetRestoreTaskAssemblyFile)' == ''">NuGet.Build.Tasks.dll</NuGetRestoreTaskAssemblyFile>
-		<NuGetRestoreTaskAssemblyPath Condition="'$(NuGetRestoreTaskAssemblyPath)' == ''">$([System.IO.Path]::Combine('$(MSBuildThisFileDirectory)', '$(MSBuildRuntimeType)'))</NuGetRestoreTaskAssemblyPath>
-		<NuGetRestoreTaskAssembly>$([System.IO.Path]::Combine('$(NuGetRestoreTaskAssemblyPath)', '$(NuGetRestoreTaskAssemblyFile)'))</NuGetRestoreTaskAssembly>
+		<NuGetRestoreTaskAssemblyPath Condition="'$(NuGetRestoreTaskAssemblyPath)' == ''">..\Tasks\$(MSBuildRuntimeType)</NuGetRestoreTaskAssemblyPath>
+		<NuGetRestoreTaskAssembly>$(NuGetRestoreTaskAssemblyPath)\$(NuGetRestoreTaskAssemblyFile)</NuGetRestoreTaskAssembly>
 	</PropertyGroup>
 
 	<!-- NuGet's Common Tasks -->

@@ -53,7 +53,7 @@
 	<!-- Set `DefaultItemExcludes` property for output paths that should be excluded from the default items only when under project directory. -->
 	<PropertyGroup Condition="!$([System.IO.Path]::IsPathRooted('$(PublishPath)')) OR $(PublishPath.StartsWith('$(MSBuildProjectDirectory)'))">
 		<!-- publish folder, by default -->
-		<DefaultItemExcludes>$(DefaultItemExcludes);$(PublishPath)\**</DefaultItemExcludes>
+		<DefaultItemExcludes>$(DefaultItemExcludes);$(PublishPath)**</DefaultItemExcludes>
 	</PropertyGroup>
 
 	<!-- Append `BuildContext` to Output paths, so that the output from the multi-targeted builds don't overwrite each other -->

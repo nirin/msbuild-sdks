@@ -3,11 +3,11 @@
 	<!--
 		Package Version property for Implicit Packages included in the props file
 	-->
-	<PropertyGroup Condition="'$(_ImplicitPlatformPackageVersion)' == '' AND '$(TargetFrameworkIdentifier)' == '.NETCore' AND '$(_TargetFrameworkVersionWithoutV)' >= '5.0'">
+	<PropertyGroup Condition="'$(_ImplicitPlatformPackageVersion)' == '' AND '$(TargetPlatformIdentifier)' == 'UAP'">
 		<!-- The property `TargetPlatformVersion` has a `<major>.<minor>.<build>.<revision>` pattern. E.g.: `10.0.10240.0` -->
 		<_TargetPlatformBuildVersion>$(TargetPlatformVersion.Split('.')[2])</_TargetPlatformBuildVersion>
 		<_ImplicitPlatformPackageVersion Condition="'$(_TargetPlatformBuildVersion)' >= '10150'">5.4.7</_ImplicitPlatformPackageVersion>
-		<_ImplicitPlatformPackageVersion Condition="'$(_TargetPlatformBuildVersion)' >= '15138'">6.2.12</_ImplicitPlatformPackageVersion>
+		<_ImplicitPlatformPackageVersion Condition="'$(_TargetPlatformBuildVersion)' >= '15138'">6.2.13</_ImplicitPlatformPackageVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(_ImplicitPlatformPackageVersion)' == '' AND '$(TargetFrameworkIdentifier)' == 'Tizen'">

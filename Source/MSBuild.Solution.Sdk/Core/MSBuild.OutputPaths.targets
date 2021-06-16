@@ -37,7 +37,7 @@
 	<!-- Set `DefaultItemExcludes` property for output paths that should be excluded from the default items only when under solution directory. -->
 	<PropertyGroup Condition="!$([System.IO.Path]::IsPathRooted('$(PublishPath)')) OR $(PublishPath.StartsWith('$(MSBuildSolutionDirectory)'))">
 		<!-- publish folder, by default -->
-		<DefaultItemExcludes>$(DefaultItemExcludes);$(PublishPath)\**</DefaultItemExcludes>
+		<DefaultItemExcludes>$(DefaultItemExcludes);$(PublishPath)**</DefaultItemExcludes>
 	</PropertyGroup>
 
 	<PropertyGroup>

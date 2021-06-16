@@ -10,6 +10,13 @@
 	<UsingTask AssemblyFile="$(NuGetRestoreTaskAssembly)" TaskName="NuGet.Build.Tasks.RestoreTaskEx"/>
 	<UsingTask AssemblyFile="$(NuGetRestoreTaskAssembly)" TaskName="NuGet.Build.Tasks.GenerateRestoreGraphFileTask"/>
 
+	<!--
+	====================================================================================================
+												Restore
+
+		Main entry point for restoring packages using MSBuild's Static Graph Evaluation.
+	====================================================================================================
+	-->
 	<Target Name="Restore">
 		<!-- Restore using MSBuild's Static Graph Evaluation -->
 		<RestoreTaskEx

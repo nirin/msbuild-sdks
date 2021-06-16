@@ -1,7 +1,7 @@
 <Project>
 
 	<!--
-		We need to initialize '_PlatformImportId' and '_TargetPlatformId' properties
+		We need to initialize '_ImportPlatformId' and '_TargetPlatformId' properties
 		to bring in the corresponding props and targets (from external sources).
 	-->
 
@@ -11,7 +11,7 @@
 				<_TargetPlatformId Condition="'$(TargetFrameworkIdentifier)' == '.NETCore'">Windows</_TargetPlatformId>
 				<_TargetPlatformId Condition="'$(TargetFrameworkIdentifier)' == '.NETFramework'">WindowsDesktop</_TargetPlatformId>
 				<_TargetPlatformId Condition="'$(TargetFrameworkIdentifier)' == '.NETPortable'">Portable</_TargetPlatformId>
-				<_PlatformImportId>$(_TargetPlatformId)</_PlatformImportId>
+				<_ImportPlatformId>$(_TargetPlatformId)</_ImportPlatformId>
 			</PropertyGroup>
 		</When>
 
@@ -19,7 +19,7 @@
 			<PropertyGroup>
 				<_TargetPlatformId>Windows</_TargetPlatformId>
 				<_TargetPlatformId Condition="'$(TargetFrameworkIdentifier)' == 'WindowsPhone'">WindowsPhone</_TargetPlatformId>
-				<_PlatformImportId>$(_TargetPlatformId)</_PlatformImportId>
+				<_ImportPlatformId>$(_TargetPlatformId)</_ImportPlatformId>
 			</PropertyGroup>
 		</When>
 
@@ -36,7 +36,7 @@
 			</PropertyGroup>
 
 			<PropertyGroup>
-				<_PlatformImportId>Xamarin</_PlatformImportId>
+				<_ImportPlatformId>Xamarin</_ImportPlatformId>
 			</PropertyGroup>
 		</When>
 
@@ -51,14 +51,14 @@
 			</PropertyGroup>
 
 			<PropertyGroup>
-				<_PlatformImportId>Xamarin</_PlatformImportId>
+				<_ImportPlatformId>Xamarin</_ImportPlatformId>
 			</PropertyGroup>
 		</When>
 
 		<Otherwise>
 			<PropertyGroup>
 				<_TargetPlatformId>$(TargetFrameworkIdentifier)</_TargetPlatformId>
-				<_PlatformImportId>$(_TargetPlatformId)</_PlatformImportId>
+				<_ImportPlatformId>$(_TargetPlatformId)</_ImportPlatformId>
 			</PropertyGroup>
 		</Otherwise>
 	</Choose>

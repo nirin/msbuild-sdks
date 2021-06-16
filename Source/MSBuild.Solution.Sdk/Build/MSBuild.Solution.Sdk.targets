@@ -1,6 +1,6 @@
 <Project>
 
-	<Import Project="$(MSBuildSolutionFullPath).user" Condition="Exists('$(MSBuildSolutionFullPath).user')"/>
+	<Import Project="$(MSBuildSolutionDirectory)\$(MSBuildSolutionName).user" Condition="Exists('$(MSBuildSolutionDirectory)\$(MSBuildSolutionName).user')"/>
 
 	<Import Project="..\Core\MSBuild.Core.targets"/>
 

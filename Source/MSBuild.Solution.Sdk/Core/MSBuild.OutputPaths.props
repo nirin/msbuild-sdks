@@ -15,7 +15,7 @@
 	<!-- Set `DefaultItemExcludes` property for output paths that should be excluded from the default items only when under solution directory. -->
 	<PropertyGroup Condition="!$([System.IO.Path]::IsPathRooted('$(BuildPath)')) OR $(BuildPath.StartsWith('$(MSBuildSolutionDirectory)'))">
 		<!-- build folder, by default -->
-		<DefaultItemExcludes>$(DefaultItemExcludes);$(BuildPath)\**</DefaultItemExcludes>
+		<DefaultItemExcludes>$(DefaultItemExcludes);$(BuildPath)**</DefaultItemExcludes>
 	</PropertyGroup>
 
 	<PropertyGroup>

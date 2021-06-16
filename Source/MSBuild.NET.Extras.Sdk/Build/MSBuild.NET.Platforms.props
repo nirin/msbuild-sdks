@@ -9,8 +9,8 @@
 	</PropertyGroup>
 
 	<PropertyGroup>
-		<PlatformProps Condition="'$(PlatformProps)' == ''">Platforms\$(_PlatformImportId).props</PlatformProps>
-		<PlatformTargets Condition="'$(PlatformTargets)' == ''">Platforms\$(_PlatformImportId).targets</PlatformTargets>
+		<PlatformProps Condition="'$(PlatformProps)' == ''">Platforms\$(_ImportPlatformId).props</PlatformProps>
+		<PlatformTargets Condition="'$(PlatformTargets)' == ''">Platforms\$(_ImportPlatformId).targets</PlatformTargets>
 	</PropertyGroup>
 
 	<Import Project="$(PlatformProps)" Condition="Exists('$(PlatformProps)')"/>

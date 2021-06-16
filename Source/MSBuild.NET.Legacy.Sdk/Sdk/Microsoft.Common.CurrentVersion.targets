@@ -1658,9 +1658,9 @@
 
 		<ItemGroup>
 			<!--
-				Preserve the ItemSpec value on the _ProjectReferenceTargetFrameworkPossibilities. Because relative paths in another project
+				Preserve the ItemSpec value on the '_ProjectReferenceTargetFrameworkPossibilities'. Because relative paths in another project
 				context would be incorrect, the MSBuild task invocation needs expands the project reference paths in the MSBuild task above.
-				This is generally OK, but if the list is copied the OriginalItemSpec can become the expanded value and cause issues correlating
+				This is generally OK, but if the list is copied the 'OriginalItemSpec' can become the expanded value and cause issues correlating
 				a project reference back to an Item instance.
 			-->
 			<_ProjectReferenceTargetFrameworkPossibilitiesOriginalItemSpec Include="@(_ProjectReferenceTargetFrameworkPossibilities->'%(OriginalItemSpec)')"/>
@@ -1671,7 +1671,7 @@
 		<!-- For each reference, get closest match -->
 
 		<!--
-			Pass the CurrentProjectTargetPlatform parameter to the task only if GetReferenceNearestTargetFrameworkTaskSupportsTargetPlatformParameter is true.
+			Pass the 'CurrentProjectTargetPlatform' parameter to the task only if 'GetReferenceNearestTargetFrameworkTaskSupportsTargetPlatformParameter' is true.
 			This means that we are using a version of NuGet which supports that parameter on this task.
 		-->
 		<GetReferenceNearestTargetFrameworkTask AnnotatedProjectReferences="@(_ProjectReferenceTargetFrameworkPossibilities)"
@@ -1695,33 +1695,34 @@
 
 		<ItemGroup>
 			<!--
-				If the task was skipped or the current TargetFramework is empty, AnnotatedProjects will be empty.
-				In this case, copy _ProjectReferenceTargetFrameworkPossibilities as is. See:
+				If the task was skipped or the current TargetFramework is empty, 'AnnotatedProjects' will be empty.
+				In this case, copy '_ProjectReferenceTargetFrameworkPossibilities' as is. See:
 					https://github.com/dotnet/sdk/issues/416
 			-->
 			<AnnotatedProjects Include="@(_ProjectReferenceTargetFrameworkPossibilities)"
 				Condition="'$(ReferringTargetFrameworkForProjectReferences)' == ''"/>
-			<!-- If the NearestTargetFramework property was set and the project multi-targets, SetTargetFramework must be set. -->
+
+			<!-- If the 'NearestTargetFramework' property was set and the project multi-targets, 'SetTargetFramework' must be set. -->
 			<AnnotatedProjects Condition="'@(AnnotatedProjects)' == '%(Identity)' AND '%(AnnotatedProjects.NearestTargetFramework)' != '' AND '%(AnnotatedProjects.HasSingleTargetFramework)' != 'true'">
 				<SetTargetFramework>TargetFramework=%(AnnotatedProjects.NearestTargetFramework)</SetTargetFramework>
 			</AnnotatedProjects>
 
 			<!--
-				If the NearestTargetFramework property was not set or the project has a single TargetFramework, we need to Undefine
-				TargetFramework to avoid another project evaluation.
+				If the 'NearestTargetFramework' property was not set or the project has a single 'TargetFramework', we need to Undefine
+				'TargetFramework' to avoid another project evaluation.
 			-->
 			<AnnotatedProjects Condition="'@(AnnotatedProjects)' == '%(Identity)' AND ('%(AnnotatedProjects.NearestTargetFramework)' == '' OR '%(AnnotatedProjects.HasSingleTargetFramework)' == 'true')">
 				<UndefineProperties>%(AnnotatedProjects.UndefineProperties);TargetFramework</UndefineProperties>
 			</AnnotatedProjects>
 
-			<!-- If the project is RID agnostic, undefine the RuntimeIdentifier property to avoid another evaluation. -->
+			<!-- If the project is RID agnostic, undefine the 'RuntimeIdentifier' property to avoid another evaluation. -->
 			<AnnotatedProjects Condition="'@(AnnotatedProjects)' == '%(Identity)' AND '%(AnnotatedProjects.IsRidAgnostic)' == 'true'">
 				<UndefineProperties>%(AnnotatedProjects.UndefineProperties);RuntimeIdentifier</UndefineProperties>
 			</AnnotatedProjects>
 
 			<!--
-				Remove the items we've touched from _MSBuildProjectReferenceExistent. This will leave all projects where
-				SkipGetTargetFrameworkProperties was set. Then add all AnnotatedProjects back.
+				Remove the items we've touched from `_MSBuildProjectReferenceExistent`. This will leave all projects where
+				'SkipGetTargetFrameworkProperties' was set. Then add all 'AnnotatedProjects' back.
 			-->
 			<_MSBuildProjectReferenceExistent Remove="@(_MSBuildProjectReferenceExistent)" Condition="'%(_MSBuildProjectReferenceExistent.SkipGetTargetFrameworkProperties)' != 'true'"/>
 			<_MSBuildProjectReferenceExistent Include="@(AnnotatedProjects)"/>
@@ -1746,7 +1747,7 @@
 				<TargetPlatformMonikers>@(_TargetFrameworkInfo->'%(TargetPlatformMonikers)')</TargetPlatformMonikers>
 				<AdditionalPropertiesFromProject>$(_AdditionalPropertiesFromProject)</AdditionalPropertiesFromProject>
 				<HasSingleTargetFramework>true</HasSingleTargetFramework>
-				<!-- indicate to caller that project is RID agnostic so that a global property RuntimeIdentifier value can be removed -->
+				<!-- indicate to caller that project is RID agnostic so that a global property 'RuntimeIdentifier' value can be removed -->
 				<IsRidAgnostic>false</IsRidAgnostic>
 				<IsRidAgnostic Condition="'$(RuntimeIdentifier)' == '' AND '$(RuntimeIdentifiers)' == ''">true</IsRidAgnostic>
 			</_ThisProjectBuildMetadata>
@@ -2500,7 +2501,9 @@
 		<ExpandSDKReferencesDependsOn>
 			ResolveSDKReferences
 		</ExpandSDKReferencesDependsOn>
-		<ExpandSDKAllowedReferenceExtensions Condition="'$(ExpandSDKAllowedReferenceExtensions)' == ''">.winmd;.dll</ExpandSDKAllowedReferenceExtensions>
+		<ExpandSDKAllowedReferenceExtensions Condition="'$(ExpandSDKAllowedReferenceExtensions)' == ''">
+			.winmd;.dll
+		</ExpandSDKAllowedReferenceExtensions>
 	</PropertyGroup>
 
 	<Target Name="ExpandSDKReferences"
@@ -4623,10 +4626,10 @@
 		</GetCopyToOutputDirectoryItemsDependsOn>
 
 		<!--
-			Mitigation for https://github.com/microsoft/msbuild/issues/4677
+			Mitigation for https://github.com/dotnet/msbuild/issues/4677
 			When MSBuildCopyContentTransitively == true, all content copying is transitive.
 			When MSBuildCopyContentTransitively == false, content copying is 1 level deep.
-			When MSBuildCopyContentTransitively != {true, false}, the legacy behaviour in https://github.com/microsoft/msbuild/issues/4677 manifests.
+			When MSBuildCopyContentTransitively != {true, false}, the legacy behaviour in https://github.com/dotnet/msbuild/issues/4677 manifests.
 		 -->
 		<_RecursiveTargetForContentCopying>GetCopyToOutputDirectoryItems</_RecursiveTargetForContentCopying>
 		<!-- Enforce 1 level deep content copying by replacing the recursive content target with the target that retrieves the content for the current project only. -->

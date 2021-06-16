@@ -10,6 +10,7 @@
 		<VisualStudioVersion Condition="Exists('$(BaseVSToolsPath)\v14.0')">14.0</VisualStudioVersion>
 		<VisualStudioVersion Condition="Exists('$(BaseVSToolsPath)\v15.0')">15.0</VisualStudioVersion>
 		<VisualStudioVersion Condition="Exists('$(BaseVSToolsPath)\v16.0')">16.0</VisualStudioVersion>
+		<VisualStudioVersion Condition="Exists('$(BaseVSToolsPath)\v17.0')">17.0</VisualStudioVersion>
 
 		<VSToolsPath>$(BaseVSToolsPath)\v$(VisualStudioVersion)</VSToolsPath>
 	</PropertyGroup>
