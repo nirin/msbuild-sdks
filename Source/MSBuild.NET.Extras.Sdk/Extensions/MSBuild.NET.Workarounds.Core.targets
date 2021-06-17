@@ -6,7 +6,7 @@
 	-->
 	<Target Name="_SatelliteDeploymentOldSdkWorkaround"
 			AfterTargets="ResolveLockFileCopyLocalProjectDeps"
-			Condition="'$(DotNetSdkVersion)' &lt; '2.0'">
+			Condition="'$(NETSdkVersion)' &lt; '2.0'">
 		<ItemGroup>
 			<ReferenceCopyLocalPaths Remove="@(ResourceCopyLocalItems)"/>
 			<ReferenceCopyLocalPaths Include="@(ResourceCopyLocalItems)" Condition="'@(ResourceCopyLocalItems)' != ''">
