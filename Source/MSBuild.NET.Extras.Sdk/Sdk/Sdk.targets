@@ -6,6 +6,18 @@
 		<CustomAfterMicrosoftCommonCrossTargetingTargets>$(MSBuildThisFileDirectory)..\Extensions\MSBuild.ProjectExtensions.targets</CustomAfterMicrosoftCommonCrossTargetingTargets>
 	</PropertyGroup>
 
+	<!-- Import WPF/WFF specific Workarounds -->
+	<PropertyGroup>
+		<CustomAfterMicrosoftCommonTargets>$(CustomAfterMicrosoftCommonTargets);$(MSBuildThisFileDirectory)..\Extensions\MSBuild.TPB.Workarounds.targets</CustomAfterMicrosoftCommonTargets>
+		<CustomAfterMicrosoftCommonCrossTargetingTargets>$(CustomAfterMicrosoftCommonCrossTargetingTargets);$(MSBuildThisFileDirectory)..\Extensions\MSBuild.TPB.Workarounds.targets</CustomAfterMicrosoftCommonCrossTargetingTargets>
+	</PropertyGroup>
+
+	<!-- Import .NET general Workarounds -->
+	<PropertyGroup>
+		<CustomAfterMicrosoftCommonTargets>$(CustomAfterMicrosoftCommonTargets);$(MSBuildThisFileDirectory)..\Extensions\MSBuild.NET.Workarounds.targets</CustomAfterMicrosoftCommonTargets>
+		<CustomAfterMicrosoftCommonCrossTargetingTargets>$(CustomAfterMicrosoftCommonCrossTargetingTargets);$(MSBuildThisFileDirectory)..\Extensions\MSBuild.NET.Workarounds.targets</CustomAfterMicrosoftCommonCrossTargetingTargets>
+	</PropertyGroup>
+
 	<Import Project="..\Build\MSBuild.NET.Extras.Sdk.targets"/>
 	<Import Project="..\DefaultItems\MSBuild.NET.ImplicitPackages.targets"/>
 
