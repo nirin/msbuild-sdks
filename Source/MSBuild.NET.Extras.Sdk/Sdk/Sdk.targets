@@ -1,10 +1,9 @@
 <Project>
 
+	<!-- Import Fixed up Project Extensions logic for WPF/WFF -->
 	<PropertyGroup>
-		<_DotNetWorkaroundsTargets>$(MSBuildThisFileDirectory)..\Extensions\MSBuild.NET.Workarounds.targets</_DotNetWorkaroundsTargets>
-		<_DotNetWorkaroundsCoreTargets>$(MSBuildThisFileDirectory)..\Extensions\MSBuild.NET.Workarounds.Core.targets</_DotNetWorkaroundsCoreTargets>
-		<CustomAfterMicrosoftCommonTargets>$(_DotNetWorkaroundsCoreTargets)</CustomAfterMicrosoftCommonTargets>
-		<CustomAfterMicrosoftCommonCrossTargetingTargets>$(_DotNetWorkaroundsTargets)</CustomAfterMicrosoftCommonCrossTargetingTargets>
+		<CustomAfterMicrosoftCommonTargets>$(MSBuildThisFileDirectory)..\Extensions\MSBuild.ProjectExtensions.targets</CustomAfterMicrosoftCommonTargets>
+		<CustomAfterMicrosoftCommonCrossTargetingTargets>$(MSBuildThisFileDirectory)..\Extensions\MSBuild.ProjectExtensions.targets</CustomAfterMicrosoftCommonCrossTargetingTargets>
 	</PropertyGroup>
 
 	<Import Project="..\Build\MSBuild.NET.Extras.Sdk.targets"/>

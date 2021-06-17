@@ -25,10 +25,10 @@
 		<NETSdkVersion Condition="'$(NETSdkVersion)' == ''">1.0</NETSdkVersion>
 	</PropertyGroup>
 
+	<!-- Import Fixed up Project Extensions logic for WPF/WFF -->
 	<PropertyGroup>
-		<_DotNetWorkaroundsProps>$(MSBuildThisFileDirectory)..\Extensions\MSBuild.NET.Workarounds.props</_DotNetWorkaroundsProps>
-		<CustomBeforeMicrosoftCommonProps>$(_DotNetWorkaroundsProps)</CustomBeforeMicrosoftCommonProps>
-		<CustomBeforeMicrosoftCommonCrossTargetingProps>$(_DotNetWorkaroundsProps)</CustomBeforeMicrosoftCommonCrossTargetingProps>
+		<CustomBeforeMicrosoftCommonProps>$(MSBuildThisFileDirectory)..\Extensions\MSBuild.ProjectExtensions.Common.props</CustomBeforeMicrosoftCommonProps>
+		<CustomAfterMicrosoftCommonProps>$(MSBuildThisFileDirectory)..\Extensions\MSBuild.ProjectExtensions.props</CustomAfterMicrosoftCommonProps>
 	</PropertyGroup>
 
 	<Import Sdk="Microsoft.NET.Sdk" Project="Sdk.props"/>

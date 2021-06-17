@@ -13,6 +13,21 @@
 		</ItemGroup>
 	</Target>
 
+	<!--
+		Workaround for a bug in 'Microsoft.NET.Sdk' < v2.0 where satellites were deployed on top of each other in root.
+		ISSUE: https://github.com/dotnet/sdk/issues/1360
+	-->
+	<Target Name="_SatelliteDeploymentOldSdkWorkaround"
+			AfterTargets="ResolveLockFileCopyLocalProjectDeps"
+			Condition="'$(NETSdkVersion)' &lt; '2.0'">
+		<ItemGroup>
+			<ReferenceCopyLocalPaths Remove="@(ResourceCopyLocalItems)"/>
+			<ReferenceCopyLocalPaths Include="@(ResourceCopyLocalItems)" Condition="'@(ResourceCopyLocalItems)' != ''">
+				<DestinationSubDirectory>$([System.IO.Directory]::GetParent(%(ResourceCopyLocalItems.FullPath)).Name)\</DestinationSubDirectory>
+			</ReferenceCopyLocalPaths>
+		</ItemGroup>
+	</Target>
+
 	<!-- By default we suppress the old sdk warning, if the user has loaded v4.3.0+ NuGet 'Pack' target, which contain some fixes around PRI files. -->
 	<PropertyGroup Condition="'$(NETSdkVersion)' &lt; '2.0'">
 		<PackDependsOn>_WarnWhenUsingOldSdk;$(PackDependsOn)</PackDependsOn>
@@ -23,8 +38,5 @@
 	<Target Name="_WarnWhenUsingOldSdk" Condition="'$(NETSdkVersion)' &lt; '2.0' AND '$(SuppressOldSdkWarning)' != 'true'">
 		<Warning Text="There are known issues using the 'Pack' target that comes with the v1 SDKs. Update to v2 and above SDKs to use the fixed 'Pack' target. If you don't need the fixed 'Pack' target the set 'SuppressOldSdkWarning' property to 'true'. If you need to use the v1 SDKs and to use the 'Pack' target, then add a 'NuGet.Build.Tasks.Pack' v4.3.0 and above, as a dependency to proceed."/>
 	</Target>
-
-	<Import Project="MSBuild.TPB.Workarounds.targets" Condition="'$(UseTPB_Workarounds)' == 'true'"/>
-	<Import Project="MSBuild.TPB.ProjectExtensions.targets" Condition="'$(UseTPB_Workarounds)' == 'true'"/>
 
 </Project>
