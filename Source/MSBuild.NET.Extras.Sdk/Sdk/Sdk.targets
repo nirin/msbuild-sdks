@@ -1,19 +1,19 @@
 <Project>
 
 	<!-- Import Fixed up Project Extensions logic for WPF/WFF -->
-	<PropertyGroup>
+	<PropertyGroup Condition="'$(NETSdkVersion)' &lt; '5.0'">
 		<CustomAfterMicrosoftCommonTargets>$(MSBuildThisFileDirectory)..\Extensions\MSBuild.ProjectExtensions.targets</CustomAfterMicrosoftCommonTargets>
 		<CustomAfterMicrosoftCommonCrossTargetingTargets>$(MSBuildThisFileDirectory)..\Extensions\MSBuild.ProjectExtensions.targets</CustomAfterMicrosoftCommonCrossTargetingTargets>
 	</PropertyGroup>
 
 	<!-- Import WPF/WFF specific Workarounds -->
-	<PropertyGroup>
+	<PropertyGroup Condition="'$(NETSdkVersion)' &lt; '5.0'">
 		<CustomAfterMicrosoftCommonTargets>$(CustomAfterMicrosoftCommonTargets);$(MSBuildThisFileDirectory)..\Extensions\MSBuild.TPB.Workarounds.targets</CustomAfterMicrosoftCommonTargets>
 		<CustomAfterMicrosoftCommonCrossTargetingTargets>$(CustomAfterMicrosoftCommonCrossTargetingTargets);$(MSBuildThisFileDirectory)..\Extensions\MSBuild.TPB.Workarounds.targets</CustomAfterMicrosoftCommonCrossTargetingTargets>
 	</PropertyGroup>
 
 	<!-- Import .NET general Workarounds -->
-	<PropertyGroup>
+	<PropertyGroup Condition="'$(NETSdkVersion)' &lt; '5.0'">
 		<CustomAfterMicrosoftCommonTargets>$(CustomAfterMicrosoftCommonTargets);$(MSBuildThisFileDirectory)..\Extensions\MSBuild.NET.Workarounds.targets</CustomAfterMicrosoftCommonTargets>
 		<CustomAfterMicrosoftCommonCrossTargetingTargets>$(CustomAfterMicrosoftCommonCrossTargetingTargets);$(MSBuildThisFileDirectory)..\Extensions\MSBuild.NET.Workarounds.targets</CustomAfterMicrosoftCommonCrossTargetingTargets>
 	</PropertyGroup>

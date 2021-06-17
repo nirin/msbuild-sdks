@@ -26,7 +26,7 @@
 	</PropertyGroup>
 
 	<!-- Import Fixed up Project Extensions logic for WPF/WFF -->
-	<PropertyGroup>
+	<PropertyGroup Condition="'$(NETSdkVersion)' &lt; '5.0'">
 		<CustomBeforeMicrosoftCommonProps>$(MSBuildThisFileDirectory)..\Extensions\MSBuild.ProjectExtensions.Common.props</CustomBeforeMicrosoftCommonProps>
 		<CustomAfterMicrosoftCommonProps>$(MSBuildThisFileDirectory)..\Extensions\MSBuild.ProjectExtensions.props</CustomAfterMicrosoftCommonProps>
 	</PropertyGroup>
