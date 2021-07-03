@@ -45,14 +45,18 @@
 		</Compile>
 	</ItemGroup>
 
-	<ItemGroup Condition="'$(EnableDefaultPageItems)' == 'true'">
-		<_XamlGeneratedCompile Include="**\*.xaml$(DefaultLanguageSourceExtension)">
-			<CoreRef>$(IntermediateOutputPath)$([MSBuild]::ValueOrDefault('%(Filename)', '').Replace('xaml', 'g%(Extension)'))</CoreRef>
-			<DesignRef>$(IntermediateOutputPath)$([MSBuild]::ValueOrDefault('%(Filename)', '').Replace('xaml', 'g.i%(Extension)'))</DesignRef>
+	<ItemGroup Condition="'$(EnableDefaultPageItems)' == 'true' AND '$(IncludeGeneratedCode)' == 'true'">
+		<_XamlGeneratedCompile Include="@(ApplicationDefinition);@(Page)">
+			<CoreRef>$(IntermediateOutputPath)$([MSBuild]::ValueOrDefault('%(Filename)', '').Replace('.xaml', '.g%(Extension)'))</CoreRef>
+			<DesignRef>$(IntermediateOutputPath)$([MSBuild]::ValueOrDefault('%(Filename)', '').Replace('.xaml', '.g.i%(Extension)'))</DesignRef>
 		</_XamlGeneratedCompile>
-
-		<Compile Include="@(_XamlGeneratedCompile->'%(CoreRef)')" KeepMetadata="false" Visible="false"/>
-		<Compile Include="@(_XamlGeneratedCompile->'%(DesignRef)')" KeepMetadata="false" Visible="false"/>
+		<Compile Include="@(_XamlGeneratedCompile->'%(CoreRef);%(DesignRef)')">
+			<AutoGen>true</AutoGen>
+			<DesignTime>true</DesignTime>
+			<DesignTimeSharedInput>true</DesignTimeSharedInput>
+			<DependentUpon>%(_XamlGeneratedCompile.Filename)</DependentUpon>
+		</Compile>
+		<_XamlGeneratedCompile Remove="@(_XamlGeneratedCompile)"/>
 	</ItemGroup>
 
 </Project>
