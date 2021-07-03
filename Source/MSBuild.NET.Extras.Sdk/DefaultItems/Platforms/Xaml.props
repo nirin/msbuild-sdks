@@ -20,7 +20,7 @@
 		<Resource Include="$(DefaultResourceIncludes)" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder);$(DefaultResourceExcludes)">
 			<Generator Condition="'$(EnableXamlIntelliSenseGenerator)' == 'true'">$(XamlIntelliSenseGeneratorTool)</Generator>
 		</Resource>
-		<UpToDateCheckInput Include="@(DefaultResourceIncludes)"/>
+		<UpToDateCheckInput Include="@(Resource)"/>
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(EnableDefaultPageItems)' == 'true'">
@@ -45,7 +45,7 @@
 		</Compile>
 	</ItemGroup>
 
-	<!--<ItemGroup Condition="'$(EnableDefaultPageItems)' == 'true'">
+	<ItemGroup Condition="'$(EnableDefaultPageItems)' == 'true'">
 		<_XamlGeneratedCompile Include="**\*.xaml$(DefaultLanguageSourceExtension)">
 			<CoreRef>$(IntermediateOutputPath)$([MSBuild]::ValueOrDefault('%(Filename)', '').Replace('xaml', 'g%(Extension)'))</CoreRef>
 			<DesignRef>$(IntermediateOutputPath)$([MSBuild]::ValueOrDefault('%(Filename)', '').Replace('xaml', 'g.i%(Extension)'))</DesignRef>
@@ -53,6 +53,6 @@
 
 		<Compile Include="@(_XamlGeneratedCompile->'%(CoreRef)')" KeepMetadata="false" Visible="false"/>
 		<Compile Include="@(_XamlGeneratedCompile->'%(DesignRef)')" KeepMetadata="false" Visible="false"/>
-	</ItemGroup>-->
+	</ItemGroup>
 
 </Project>

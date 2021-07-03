@@ -80,7 +80,7 @@
 		<UpToDateCheckInput Include="@(XamlSvcDef)"/>
 	</ItemGroup>
 
-	<!-- Fix for Legacy Project System -->
+	<!-- Fixes for Legacy Project System -->
 
 	<ItemGroup>
 		<None Update="@(Settings)" Condition="'$(EnableDefaultSettingsItems)' == 'true'" Visible="false"/>
