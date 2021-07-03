@@ -5,6 +5,20 @@
 	<Import Project="Platforms\Desktop.props"/>
 	<Import Project="Platforms\Desktop.$(_LanguageSourceName).props" Condition="Exists('Platforms\Desktop.$(_LanguageSourceName).props')"/>
 
+	<Import Project="Platforms\Web.props"/>
+
+	<!-- Fixes for Web/Service Content items -->
+
+	<ItemGroup Condition="'$(EnableDefaultContentItems)' == 'true'">
+		<!-- Remove Content items from other item types -->
+		<None Remove="@(Content)"/>
+		<Compile Remove="@(Content)"/>
+		<EmbeddedResource Remove="@(Content)"/>
+
+		<!-- Keep track of the default content items for later to distinguish them from newly generated content items -->
+		<_ContentIncludedByDefault Include="@(Content)"/>
+	</ItemGroup>
+
 	<Import Project="Platforms\Xaml.props"/>
 
 	<Import Project="Platforms\Xamarin.props"/>
