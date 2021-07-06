@@ -1,10 +1,21 @@
 <Project>
 
-	<PropertyGroup>
-		<_DotNetWorkaroundsTargets>$(MSBuildThisFileDirectory)..\Extensions\MSBuild.NET.Workarounds.targets</_DotNetWorkaroundsTargets>
-		<_DotNetWorkaroundsCoreTargets>$(MSBuildThisFileDirectory)..\Extensions\MSBuild.NET.Workarounds.Core.targets</_DotNetWorkaroundsCoreTargets>
-		<CustomAfterMicrosoftCommonTargets>$(_DotNetWorkaroundsCoreTargets)</CustomAfterMicrosoftCommonTargets>
-		<CustomAfterMicrosoftCommonCrossTargetingTargets>$(_DotNetWorkaroundsTargets)</CustomAfterMicrosoftCommonCrossTargetingTargets>
+	<!-- Import Fixed up Project Extensions logic for WPF/WFF -->
+	<PropertyGroup Condition="'$(NETSdkVersion)' &lt; '5.0'">
+		<CustomAfterMicrosoftCommonTargets>$(MSBuildThisFileDirectory)..\Extensions\MSBuild.ProjectExtensions.targets</CustomAfterMicrosoftCommonTargets>
+		<CustomAfterMicrosoftCommonCrossTargetingTargets>$(MSBuildThisFileDirectory)..\Extensions\MSBuild.ProjectExtensions.targets</CustomAfterMicrosoftCommonCrossTargetingTargets>
+	</PropertyGroup>
+
+	<!-- Import WPF/WFF specific Workarounds -->
+	<PropertyGroup Condition="'$(NETSdkVersion)' &lt; '5.0'">
+		<CustomAfterMicrosoftCommonTargets>$(CustomAfterMicrosoftCommonTargets);$(MSBuildThisFileDirectory)..\Extensions\MSBuild.TPB.Workarounds.targets</CustomAfterMicrosoftCommonTargets>
+		<CustomAfterMicrosoftCommonCrossTargetingTargets>$(CustomAfterMicrosoftCommonCrossTargetingTargets);$(MSBuildThisFileDirectory)..\Extensions\MSBuild.TPB.Workarounds.targets</CustomAfterMicrosoftCommonCrossTargetingTargets>
+	</PropertyGroup>
+
+	<!-- Import .NET general Workarounds -->
+	<PropertyGroup Condition="'$(NETSdkVersion)' &lt; '5.0'">
+		<CustomAfterMicrosoftCommonTargets>$(CustomAfterMicrosoftCommonTargets);$(MSBuildThisFileDirectory)..\Extensions\MSBuild.NET.Workarounds.targets</CustomAfterMicrosoftCommonTargets>
+		<CustomAfterMicrosoftCommonCrossTargetingTargets>$(CustomAfterMicrosoftCommonCrossTargetingTargets);$(MSBuildThisFileDirectory)..\Extensions\MSBuild.NET.Workarounds.targets</CustomAfterMicrosoftCommonCrossTargetingTargets>
 	</PropertyGroup>
 
 	<Import Project="..\Build\MSBuild.NET.Extras.Sdk.targets"/>

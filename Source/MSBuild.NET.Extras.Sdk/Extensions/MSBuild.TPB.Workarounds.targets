@@ -21,7 +21,7 @@
 			<RootNamespace/>
 
 			<!-- Default Scenarios -->
-			<RootNamespace Condition="'$(_RootNamespaceInGeneratedProject.Length)' == '8'">$(_OriginalProjectName)</RootNamespace>
+			<RootNamespace Condition="$(_RootNamespaceInGeneratedProject.Length) == 8">$(_OriginalProjectName)</RootNamespace>
 			<RootNamespace Condition="'$(RootNamespace)' == '' AND $(_RootNamespaceInGeneratedProject.Contains('$(MSBuildProjectName)'))">$(_RootNamespaceInGeneratedProject.Replace('$(MSBuildProjectName)', '$(_OriginalProjectName)'))</RootNamespace>
 
 			<!-- Common Special cases -->
@@ -37,7 +37,7 @@
 		Workaround to fix IntelliSense file generation for XAML projects
 		ISSUE: https://github.com/dotnet/project-system/issues/2488
 	-->
-	<Target Name="_DesignTimeBuildAndIntelliSenseWorkaround"
+	<Target Name="_FixupDesignTimeBuildAndIntelliSense"
 			AfterTargets="_CheckCompileDesignTimePrerequisite"
 			Condition="'$(EnableWpfSupport)' == 'true' OR '$(EnableWffSupport)' == 'true'">
 		<PropertyGroup>

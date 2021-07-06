@@ -7,9 +7,20 @@
 
 	<Import Project="Platforms\Common.targets"/>
 
+	<!-- Force disable other projects' setup, Since it does not play very well with each other. -->
+	<PropertyGroup Condition="'$(EnableWpfSupport)' == 'true' OR '$(EnableWinFormsSupport)' == 'true'">
+		<EnableWebSupport>false</EnableWebSupport>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(EnableWebSupport)' == 'true'">
+		<EnableWpfSupport>false</EnableWpfSupport>
+		<EnableWinFormsSupport>false</EnableWinFormsSupport>
+	</PropertyGroup>
+
 	<ImportGroup Condition="'$(TargetFrameworkIdentifier)' == '.NETFramework' OR '$(TargetFrameworkIdentifier)' == '.NETCoreApp'">
 		<Import Project="Platforms\Desktop.targets"/>
 		<Import Project="Platforms\Desktop.$(_LanguageSourceName).targets" Condition="Exists('Platforms\Desktop.$(_LanguageSourceName).targets')"/>
+		<Import Project="Platforms\Web.targets"/>
 	</ImportGroup>
 
 	<Import Project="Platforms\Xaml.targets" Condition="'$(EnableDefaultXamlItems)' == 'true' AND '$(_IsXamarinPlatform)' != 'true'"/>

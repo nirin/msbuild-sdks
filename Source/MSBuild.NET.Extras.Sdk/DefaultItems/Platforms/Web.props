@@ -1,0 +1,56 @@
+<Project>
+
+	<!-- WEB Support -->
+
+	<ItemGroup Condition="'$(EnableDefaultWebItems)' == 'true' AND '$(EnableDefaultContentItems)' == 'true'">
+		<Content Include="App_Code\**\*$(DefaultLanguageSourceExtension)"/>
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(EnableDefaultWebItems)' == 'true' AND '$(EnableDefaultContentItems)' == 'true'">
+		<Content Include="App_GlobalResources\**\*.resx">
+			<Generator>GlobalResourceProxyGenerator</Generator>
+			<LastGenOutput>%(Filename)$(DefaultDesignerFileSuffix)$(DefaultLanguageSourceExtension)</LastGenOutput>
+			<LastGenOutputPath>%(RecursiveDir)</LastGenOutputPath>
+		</Content>
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(EnableDefaultWebItems)' == 'true' AND '$(EnableDefaultContentItems)' == 'true'">
+		<Content Include="$(DefaultWebStyleIncludes)" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)"/>
+		<Content Include="$(DefaultWebScriptIncludes)" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)"/>
+
+		<Content Include="**\*.config" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder);$(DefaultWebStyleIncludes);$(DefaultWebScriptIncludes)">
+			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+		</Content>
+		<Content Update="**\Web.*.config" DependentUpon="Web.config"/>
+
+		<Content Include="**\*.json" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder);$(DefaultWebPageIncludes);$(DefaultWebStyleIncludes);$(DefaultWebScriptIncludes)">
+			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+		</Content>
+	</ItemGroup>
+
+	<!-- Razor Pages support -->
+
+	<ItemGroup Condition="'$(EnableDefaultWebItems)' == 'true' AND '$(EnableDefaultWebPageItems)' == 'true'">
+		<Content Include="$(DefaultWebPageItemIncludes)" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder);$(DefaultWebStyleIncludes);$(DefaultWebScriptIncludes)"/>
+	</ItemGroup>
+
+	<!-- Web Forms support -->
+
+	<ItemGroup Condition="'$(EnableDefaultWebItems)' == 'true' AND '$(EnableDefaultWebFormsItems)' == 'true'">
+		<Content Include="$(DefaultWebFormsItemIncludes)" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder);$(DefaultWebStyleIncludes);$(DefaultWebScriptIncludes)"/>
+		<!-- Nest related Compile items -->
+		<Compile Update="$(DefaultWebCompileItemIncludes)">
+			<DependentUpon>%(Filename)</DependentUpon>
+		</Compile>
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(EnableDefaultWebItems)' == 'true'">
+		<!-- Set 'CopyToPublishDirectory' to Never for items under 'AppDesignerFolder' -->
+		<Content Update="$(AppDesignerFolder)\**">
+			<CopyToPublishDirectory>Never</CopyToPublishDirectory>
+		</Content>
+		<!-- Include favicon by default -->
+		<Content Include="favicon.ico"/>
+	</ItemGroup>
+
+</Project>

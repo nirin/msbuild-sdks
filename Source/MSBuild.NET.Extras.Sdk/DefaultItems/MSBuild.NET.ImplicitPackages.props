@@ -15,6 +15,11 @@
 			Condition="'$(OutputType)' != 'Exe' OR '$(OutputType)' != 'AppContainerExe'"/>
 	</ItemGroup>
 
+	<ItemGroup Condition="'$(DisableImplicitFrameworkReferences)' != 'true' AND '$(TargetFrameworkIdentifier)' == '.NETFramework'">
+		<PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="$(_ImplicitPlatformPackageVersion)"
+			PrivateAssets="All" Publish="false" Pack="false" IsImplicitlyDefined="true"/>
+	</ItemGroup>
+
 	<ItemGroup Condition="'$(DisableImplicitFrameworkReferences)' != 'true' AND '$(TargetFrameworkIdentifier)' == 'Tizen'">
 		<PackageReference Include="Tizen.NET" Version="$(_ImplicitPlatformPackageVersion)" IsImplicitlyDefined="true"/>
 		<PackageReference Update="Tizen.NET" PrivateAssets="All" Publish="false" Condition="'$(OutputType)' != 'Exe'"/>

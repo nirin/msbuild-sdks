@@ -10,6 +10,10 @@
 		<_ImplicitPlatformPackageVersion Condition="'$(_TargetPlatformBuildVersion)' >= '15138'">6.2.13</_ImplicitPlatformPackageVersion>
 	</PropertyGroup>
 
+	<PropertyGroup Condition="'$(_ImplicitPlatformPackageVersion)' == '' AND '$(TargetFrameworkIdentifier)' == '.NETFramework'">
+		<_ImplicitPlatformPackageVersion Condition="'$(_TargetFrameworkVersionWithoutV)' &lt; '5.0'">1.0.2</_ImplicitPlatformPackageVersion>
+	</PropertyGroup>
+
 	<PropertyGroup Condition="'$(_ImplicitPlatformPackageVersion)' == '' AND '$(TargetFrameworkIdentifier)' == 'Tizen'">
 		<_ImplicitPlatformPackageVersion Condition="'$(_TargetFrameworkVersionWithoutV)' >= '3.0'">$(_TargetFrameworkVersionWithoutV).0</_ImplicitPlatformPackageVersion>
 	</PropertyGroup>

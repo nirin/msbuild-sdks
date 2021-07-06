@@ -47,37 +47,6 @@
 		-->
 	</ItemGroup>
 
-	<!-- WEB Support -->
-
-	<ItemGroup Condition="'$(EnableDefaultContentItems)' == 'true' AND '$(EnableDefaultWebItems)' == 'true'">
-		<Content Include="$(DefaultWebStyleIncludes)" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)"/>
-		<Content Include="$(DefaultWebScriptIncludes)" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)"/>
-
-		<Content Include="$(DefaultWebPageItemIncludes)" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder);$(DefaultWebStyleIncludes);$(DefaultWebScriptIncludes)"/>
-
-		<Content Include="**\*.config" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder);$(DefaultWebStyleIncludes);$(DefaultWebScriptIncludes)">
-			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-		</Content>
-		<Content Update="**\Web.*.config" DependentUpon="Web.config"/>
-
-		<Content Include="**\*.json" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder);$(DefaultWebPageIncludes);$(DefaultWebStyleIncludes);$(DefaultWebScriptIncludes)">
-			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-		</Content>
-
-		<Content Include="favicon.ico"/>
-	</ItemGroup>
-
-	<ItemGroup Condition="'$(EnableDefaultWebItems)' == 'true'">
-		<!-- Set CopyToPublishDirectory to Never for items under AppDesignerFolder -->
-		<Content Update="$(AppDesignerFolder)\**">
-			<CopyToPublishDirectory>Never</CopyToPublishDirectory>
-		</Content>
-		<!-- Nest related Compile items -->
-		<Compile Update="$(DefaultWebCompileItems)">
-			<DependentUpon>%(Filename)</DependentUpon>
-		</Compile>
-	</ItemGroup>
-
 	<!-- WCF/WFF Support -->
 
 	<ItemGroup Condition="'$(EnableDefaultContentItems)' == 'true' AND '$(EnableDefaultServiceItems)' == 'true'">
@@ -111,19 +80,7 @@
 		<UpToDateCheckInput Include="@(XamlSvcDef)"/>
 	</ItemGroup>
 
-	<!-- Fix for Web/Service Content items -->
-
-	<ItemGroup Condition="'$(EnableDefaultContentItems)' == 'true'">
-		<!-- Remove Content items from other item types -->
-		<None Remove="@(Content)"/>
-		<Compile Remove="@(Content)"/>
-		<EmbeddedResource Remove="@(Content)"/>
-
-		<!-- Keep track of the default content items for later to distinguish them from newly generated content items -->
-		<_ContentIncludedByDefault Include="@(Content)"/>
-	</ItemGroup>
-
-	<!-- Fix for Legacy Project System -->
+	<!-- Fixes for Legacy Project System -->
 
 	<ItemGroup>
 		<None Update="@(Settings)" Condition="'$(EnableDefaultSettingsItems)' == 'true'" Visible="false"/>

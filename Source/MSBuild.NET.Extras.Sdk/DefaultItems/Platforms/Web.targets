@@ -1,0 +1,57 @@
+<Project>
+
+	<!-- WEB Support -->
+
+	<PropertyGroup Condition="'$(EnableWebSupport)' == 'true'">
+		<EnableDefaultWebItems Condition="'$(EnableDefaultWebItems)' == ''">true</EnableDefaultWebItems>
+		<EnableImplicitWebReferences Condition="'$(EnableImplicitWebReferences)' == ''">true</EnableImplicitWebReferences>
+		<EnableWebDesigner Condition="'$(EnableWebDesigner)' == ''">false</EnableWebDesigner>
+		<WebDesignerService Condition="'$(WebDesignerService)' == ''">{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}</WebDesignerService>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(EnableDefaultWebItems)' == 'true'">
+		<DefaultItemExcludes>$(DefaultItemExcludes);**\node_modules\**;node_modules\**</DefaultItemExcludes>
+		<DefaultItemExcludes>$(DefaultItemExcludes);**\jspm_packages\**;jspm_packages\**</DefaultItemExcludes>
+		<DefaultItemExcludes>$(DefaultItemExcludes);**\bower_components\**;bower_components\**</DefaultItemExcludes>
+
+		<EnableDefaultContentItems Condition="'$(EnableDefaultContentItems)' == ''">true</EnableDefaultContentItems>
+		<EnableDefaultWebPageItems Condition="'$(EnableDefaultWebPageItems)' == ''">true</EnableDefaultWebPageItems>
+		<EnableDefaultWebFormsItems Condition="'$(EnableDefaultWebFormsItems)' == ''">true</EnableDefaultWebFormsItems>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(EnableDefaultWebItems)' == 'true' AND '$(EnableDefaultContentItems)' == 'true'">
+		<DefaultWebScriptIncludes>Scripts\**</DefaultWebScriptIncludes>
+		<DefaultWebStyleIncludes>Content\**;Styles\**;Themes\**</DefaultWebStyleIncludes>
+	</PropertyGroup>
+
+	<!-- Razor Pages support -->
+
+	<PropertyGroup Condition="'$(EnableDefaultWebItems)' == 'true' AND '$(EnableDefaultWebPageItems)' == 'true'">
+		<DefaultWebPageIncludes>Views\**;Areas\**;Pages\**</DefaultWebPageIncludes>
+
+		<DefaultWebPageItemIncludes>Views\**\*$(DefaultLanguageSourceExtension)html</DefaultWebPageItemIncludes>
+		<DefaultWebPageItemIncludes>$(DefaultWebPageItemIncludes);Areas\**\*$(DefaultLanguageSourceExtension)html</DefaultWebPageItemIncludes>
+		<DefaultWebPageItemIncludes>$(DefaultWebPageItemIncludes);Pages\**\*$(DefaultLanguageSourceExtension)html</DefaultWebPageItemIncludes>
+	</PropertyGroup>
+
+	<!-- Web Forms support -->
+
+	<PropertyGroup Condition="'$(EnableDefaultWebItems)' == 'true' AND '$(EnableDefaultWebFormsItems)' == 'true'">
+		<DefaultWebFormsIncludes>Controls\**;Handlers\**;Methods\**;Pages\**</DefaultWebFormsIncludes>
+
+		<DefaultWebFormsItemIncludes>*.Master</DefaultWebFormsItemIncludes>
+		<DefaultWebFormsItemIncludes>$(DefaultWebFormsItemIncludes);*.asax</DefaultWebFormsItemIncludes>
+		<DefaultWebFormsItemIncludes>$(DefaultWebFormsItemIncludes);*.ascx;Controls\**\*.ascx</DefaultWebFormsItemIncludes>
+		<DefaultWebFormsItemIncludes>$(DefaultWebFormsItemIncludes);*.ashx;Handlers\**\*.ashx</DefaultWebFormsItemIncludes>
+		<DefaultWebFormsItemIncludes>$(DefaultWebFormsItemIncludes);*.asmx;Methods\**\*.asmx</DefaultWebFormsItemIncludes>
+		<DefaultWebFormsItemIncludes>$(DefaultWebFormsItemIncludes);*.aspx;Pages\**\*.aspx</DefaultWebFormsItemIncludes>
+
+		<DefaultWebCompileItemIncludes>**\*.Master$(DefaultLanguageSourceExtension)</DefaultWebCompileItemIncludes>
+		<DefaultWebCompileItemIncludes>$(DefaultWebCompileItemIncludes);**\*.asax$(DefaultLanguageSourceExtension)</DefaultWebCompileItemIncludes>
+		<DefaultWebCompileItemIncludes>$(DefaultWebCompileItemIncludes);**\*.ascx$(DefaultLanguageSourceExtension)</DefaultWebCompileItemIncludes>
+		<DefaultWebCompileItemIncludes>$(DefaultWebCompileItemIncludes);**\*.ashx$(DefaultLanguageSourceExtension)</DefaultWebCompileItemIncludes>
+		<DefaultWebCompileItemIncludes>$(DefaultWebCompileItemIncludes);**\*.asmx$(DefaultLanguageSourceExtension)</DefaultWebCompileItemIncludes>
+		<DefaultWebCompileItemIncludes>$(DefaultWebCompileItemIncludes);**\*.aspx$(DefaultLanguageSourceExtension)</DefaultWebCompileItemIncludes>
+	</PropertyGroup>
+
+</Project>
