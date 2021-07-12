@@ -8,21 +8,24 @@
 
 	<PropertyGroup Label="PackageInfo">
 		<Company>NIRIN</Company>
-		<Authors>Nirmal Guru</Authors>
-		<Owners>NIRIN;Nirmal Guru</Owners>
+		<Authors>Nirmal4G</Authors>
+		<Owners>NIRIN</Owners>
 		<Copyright>© NIRIN Foundation.</Copyright>
+		<PackageIcon>Icon.png</PackageIcon>
+		<PackageReadMe>ReadMe.md</PackageReadMe>
 		<PackageTags>msbuild;project;sdk</PackageTags>
 		<Summary>MSBuild targets and properties for SDK-style projects.</Summary>
 		<Description>MSBuild targets and properties for SDK-style projects.</Description>
-		<PackageLicenseUrl>https://github.com/nirin/msbuild-sdks/blob/master/License.md</PackageLicenseUrl>
-		<PackageProjectUrl>https://github.com/nirin/msbuild-sdks</PackageProjectUrl>
-		<RepositoryUrl>git://github.com/nirin/msbuild-sdks</RepositoryUrl>
+		<PackageLicenseFile>License.md</PackageLicenseFile>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageProjectUrl>https://nirin.dev/projects/msbuild-sdks</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/nirin/msbuild-sdks</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>
 		<PackageType>MSBuildSdk</PackageType>
 		<Serviceable>true</Serviceable>
 		<NeutralLanguage>en</NeutralLanguage>
 		<DevelopmentDependency>true</DevelopmentDependency>
-		<PackageReleaseNotes>https://github.com/nirin/msbuild-sdks/blob/master/ReadMe.md</PackageReleaseNotes>
+		<PackageReleaseNotes>Work SxS with the _inbox_ SDKs.</PackageReleaseNotes>
 	</PropertyGroup>
 
 	<PropertyGroup Label="Build">
@@ -34,6 +37,12 @@
 		<EnableDefaultPackageItems>true</EnableDefaultPackageItems>
 		<ExcludeDefaultBuildFiles>false</ExcludeDefaultBuildFiles>
 	</PropertyGroup>
+
+	<ItemGroup Label="PackageItems">
+		<PackageFile PackagePath="\" Include="$(BuildToolsPath)$(PackageIcon)"/>
+		<PackageFile PackagePath="\" Include="$(RepositoryDirectory)$(PackageLicenseFile)"/>
+		<PackageFile PackagePath="\" Include="$(MSBuildProjectDirectory)\$(PackageReadMe)"/>
+	</ItemGroup>
 
 	<ItemGroup Condition="'$(EnableDefaultItems)' == 'true' AND '$(EnableDefaultPackageItems)' == 'true'">
 		<None Remove="*\**\*.*"/>
