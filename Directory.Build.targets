@@ -1,9 +1,12 @@
 <Project>
 
 	<PropertyGroup>
-		<_ProjectItemExcludes>**\~*\**\*;**\*~\**\*;**\*~.*;**\~*.*</_ProjectItemExcludes>
 		<DefaultItemExcludes Condition="!$(DefaultItemExcludes.EndsWith(';'))">$(DefaultItemExcludes);</DefaultItemExcludes>
-		<DefaultItemExcludes>$(DefaultItemExcludes)$(_ProjectItemExcludes)</DefaultItemExcludes>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<CustomItemExcludes>**\~*\**\*;**\*~\**\*;**\*~.*;**\~*.*</CustomItemExcludes>
+		<DefaultItemExcludes>$(DefaultItemExcludes)$(CustomItemExcludes)</DefaultItemExcludes>
 	</PropertyGroup>
 
 </Project>
