@@ -27,6 +27,10 @@
 				<!-- indicate to caller that project is RID agnostic so that a global property RuntimeIdentifier value can be removed -->
 				<IsRidAgnostic>false</IsRidAgnostic>
 				<IsRidAgnostic Condition="'$(RuntimeIdentifier)' == '' AND '$(RuntimeIdentifiers)' == ''">true</IsRidAgnostic>
+				<!-- Extract necessary information for SetPlatform negotiation -->
+				<!-- This target does not run for cpp projects. -->
+				<IsVcxOrNativeProj>false</IsVcxOrNativeProj>
+				<Platforms>$(Platforms)</Platforms>
 			</_ThisProjectBuildMetadata>
 		</ItemGroup>
 	</Target>
