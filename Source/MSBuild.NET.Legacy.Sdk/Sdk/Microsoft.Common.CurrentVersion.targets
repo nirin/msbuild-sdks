@@ -102,10 +102,19 @@
 	-->
 
 	<PropertyGroup>
+		<BuildDirName Condition="'$(BuildDirName)' == ''">build</BuildDirName>
+		<BuildDir Condition="'$(BuildDir)' == ''">$(BuildDirName)\</BuildDir>
+		<BuildDir Condition="!HasTrailingSlash('$(BuildDir)')">$(BuildDir)\</BuildDir>
+		<_InitialBuildDir>$(BuildDir)</_InitialBuildDir>
+	</PropertyGroup>
+
+	<PropertyGroup>
 		<!-- Check whether BaseOutputPath was specified -->
 		<BaseOutputPathWasSpecified Condition="'$(BaseOutputPath)' != ''">true</BaseOutputPathWasSpecified>
 		<!-- Check whether OutputPath was specified for valid Configuration/Platform combination -->
 		<_OutputPathWasMissing Condition="'$(Platform)' != '' AND '$(Configuration)' != '' AND '$(OutputPath)' == ''">true</_OutputPathWasMissing>
+		<!-- When producing only reference assembly reset default OutputPath folder to ref instead of bin -->
+		<BaseOutputPath Condition="'$(BaseOutputPath)' == '' AND '$(ProduceOnlyReferenceAssembly)' == 'true'">$(BuildDir)ref\</BaseOutputPath>
 	</PropertyGroup>
 
 	<PropertyGroup>
@@ -116,11 +125,6 @@
 	</PropertyGroup>
 
 	<PropertyGroup>
-		<BuildDirName Condition="'$(BuildDirName)' == ''">build</BuildDirName>
-		<BuildDir Condition="'$(BuildDir)' == ''">$(BuildDirName)\</BuildDir>
-		<BuildDir Condition="!HasTrailingSlash('$(BuildDir)')">$(BuildDir)\</BuildDir>
-		<_InitialBuildDir>$(BuildDir)</_InitialBuildDir>
-
 		<BaseOutputPath Condition="'$(BaseOutputPath)' == ''">$(BuildDir)bin\</BaseOutputPath>
 		<BaseOutputPath Condition="!HasTrailingSlash('$(BaseOutputPath)')">$(BaseOutputPath)\</BaseOutputPath>
 		<OutputPath Condition="'$(OutputPath)' == '' AND '$(Platform)' == 'AnyCPU'">$(BaseOutputPath)$(Configuration)\</OutputPath>
@@ -157,7 +161,7 @@
 		<_DocumentationFileProduced Condition="'$(DocumentationFile)' == ''">false</_DocumentationFileProduced>
 
 		<!-- Whether or not a reference assembly is produced. -->
-		<ProduceReferenceAssembly Condition="'$(ProduceReferenceAssembly)' == ''">false</ProduceReferenceAssembly>
+		<ProduceReferenceAssembly Condition="'$(ProduceReferenceAssembly)' == '' OR '$(ProduceOnlyReferenceAssembly)' == 'true'">false</ProduceReferenceAssembly>
 	</PropertyGroup>
 
 	<!--
@@ -235,7 +239,7 @@
 		<!-- Example, C:\MyProjects\MyProject\bin\Debug\MyAssembly.dll -->
 		<TargetPath Condition="'$(TargetPath)' == ''">$(TargetDir)$(TargetFileName)</TargetPath>
 		<!-- Example, C:\MyProjects\MyProject\bin\Debug\ref\MyAssembly.dll -->
-		<TargetRefPath Condition="'$(TargetRefPath)' == '' AND '$(ProduceReferenceAssembly)' == 'true'">$([MSBuild]::NormalizePath($(TargetDir), 'ref', $(TargetFileName)))</TargetRefPath>
+		<TargetRefPath Condition="'$(TargetRefPath)' == '' AND '$(ProduceReferenceAssembly)' == 'true'">$([MSBuild]::NormalizePath('$(TargetDir)', 'ref', '$(TargetFileName)'))</TargetRefPath>
 	</PropertyGroup>
 
 	<PropertyGroup>
