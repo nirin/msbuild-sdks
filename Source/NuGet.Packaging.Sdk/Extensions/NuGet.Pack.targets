@@ -18,7 +18,8 @@
 		<SymbolPackageFormat Condition="'$(SymbolPackageFormat)' == ''">symbols.nupkg</SymbolPackageFormat>
 		<AddPriFileDependsOn Condition="'$(MicrosoftPortableCurrentVersionPropsHasBeenImported)' == 'true'">DeterminePortableBuildCapabilities</AddPriFileDependsOn>
 		<WarnOnPackingNonPackableProject Condition="'$(WarnOnPackingNonPackableProject)' == ''">false</WarnOnPackingNonPackableProject>
-		<AllowedOutputExtensionsInPackageBuildOutputFolder>.dll;.exe;.winmd;.json;.pri;.xml;$(AllowedOutputExtensionsInPackageBuildOutputFolder)</AllowedOutputExtensionsInPackageBuildOutputFolder>
+		<DefaultAllowedOutputExtensionsInPackageBuildOutputFolder Condition="'$(DefaultAllowedOutputExtensionsInPackageBuildOutputFolder)' == ''">.dll;.exe;.winmd;.json;.pri;.xml</DefaultAllowedOutputExtensionsInPackageBuildOutputFolder>
+		<AllowedOutputExtensionsInPackageBuildOutputFolder>$(DefaultAllowedOutputExtensionsInPackageBuildOutputFolder);$(AllowedOutputExtensionsInPackageBuildOutputFolder)</AllowedOutputExtensionsInPackageBuildOutputFolder>
 		<AllowedOutputExtensionsInSymbolsPackageBuildOutputFolder>.pdb;.mdb;$(AllowedOutputExtensionsInPackageBuildOutputFolder);$(AllowedOutputExtensionsInSymbolsPackageBuildOutputFolder)</AllowedOutputExtensionsInSymbolsPackageBuildOutputFolder>
 		<AllowedOutputExtensionsInSymbolsPackageBuildOutputFolder Condition="'$(SymbolPackageFormat)' == 'snupkg'">.pdb</AllowedOutputExtensionsInSymbolsPackageBuildOutputFolder>
 		<SuppressDependenciesWhenPacking Condition="'$(SuppressDependenciesWhenPacking)' == ''">false</SuppressDependenciesWhenPacking>
@@ -302,7 +303,7 @@
 			Targets="_GetProjectVersion"
 			SkipNonexistentTargets="true"
 			SkipNonexistentProjects="true"
-			Properties="BuildProjectReferences=false;">
+			Properties="BuildProjectReferences=false">
 			<Output
 				TaskParameter="TargetOutputs"
 				ItemName="_ProjectReferencesWithVersions"/>
@@ -324,7 +325,7 @@
 			Condition="'$(IncludeBuildOutput)' == 'true'"
 			Projects="$(MSBuildProjectFullPath)"
 			Targets="_GetBuildOutputFilesWithTfm"
-			Properties="TargetFramework=%(_TargetFrameworks.Identity);">
+			Properties="TargetFramework=%(_TargetFrameworks.Identity)">
 
 			<Output
 				TaskParameter="TargetOutputs"
@@ -335,7 +336,7 @@
 			Condition="'$(TargetsForTfmSpecificContentInPackage)' != ''"
 			Projects="$(MSBuildProjectFullPath)"
 			Targets="_GetTfmSpecificContentForPackage"
-			Properties="TargetFramework=%(_TargetFrameworks.Identity);">
+			Properties="TargetFramework=%(_TargetFrameworks.Identity)">
 
 			<Output
 				TaskParameter="TargetOutputs"
@@ -346,7 +347,7 @@
 			Condition="'$(IncludeBuildOutput)' == 'true'"
 			Projects="$(MSBuildProjectFullPath)"
 			Targets="_GetDebugSymbolsWithTfm"
-			Properties="TargetFramework=%(_TargetFrameworks.Identity);">
+			Properties="TargetFramework=%(_TargetFrameworks.Identity)">
 
 			<Output
 				TaskParameter="TargetOutputs"
@@ -358,7 +359,7 @@
 			Projects="$(MSBuildProjectFullPath)"
 			Targets="SourceFilesProjectOutputGroup"
 			Properties="TargetFramework=%(_TargetFrameworks.Identity);
-						BuildProjectReferences=false;">
+						BuildProjectReferences=false">
 
 			<Output
 				TaskParameter="TargetOutputs"
@@ -370,7 +371,7 @@
 			Projects="$(MSBuildProjectFullPath)"
 			Targets="_GetFrameworkAssemblyReferences"
 			Properties="TargetFramework=%(_TargetFrameworks.Identity);
-						BuildProjectReferences=false;">
+						BuildProjectReferences=false">
 
 			<Output
 				TaskParameter="TargetOutputs"
@@ -382,7 +383,7 @@
 			Projects="$(MSBuildProjectFullPath)"
 			Targets="_GetFrameworksWithSuppressedDependencies"
 			Properties="TargetFramework=%(_TargetFrameworks.Identity);
-						BuildProjectReferences=false;">
+						BuildProjectReferences=false">
 
 			<Output
 				TaskParameter="TargetOutputs"
@@ -407,9 +408,8 @@
 
 	<Target Name="_GetBuildOutputFilesWithTfm"
 			DependsOnTargets="BuiltProjectOutputGroup;DocumentationProjectOutputGroup;SatelliteDllsProjectOutputGroup;_AddPriFileToPackBuildOutput;$(TargetsForTfmSpecificBuildOutput)"
-			Condition="'$(IncludeBuildOutput)' == 'true'"
 			Returns="@(BuildOutputInPackage)">
-		<ItemGroup>
+		<ItemGroup Condition="'$(IncludeBuildOutput)' == 'true'">
 			<BuildOutputInPackage Include="@(SatelliteDllsProjectOutputGroupOutput);
 				@(BuiltProjectOutputGroupOutput);
 				@(DocumentationProjectOutputGroupOutput);
@@ -430,13 +430,15 @@
 	</Target>
 
 	<Target Name="_GetDebugSymbolsWithTfm"
-			DependsOnTargets="DebugSymbolsProjectOutputGroup"
-			Condition="'$(IncludeBuildOutput)' == 'true'"
+			DependsOnTargets="DebugSymbolsProjectOutputGroup;$(TargetsForTfmSpecificDebugSymbolsInPackage)"
 			Returns="@(_TargetPathsToSymbolsWithTfm)">
-		<ItemGroup>
+		<ItemGroup Condition="'$(IncludeBuildOutput)' == 'true'">
 			<_TargetPathsToSymbolsWithTfm Include="@(DebugSymbolsProjectOutputGroupOutput)">
 				<TargetFramework>$(TargetFramework)</TargetFramework>
 			</_TargetPathsToSymbolsWithTfm>
+		</ItemGroup>
+		<ItemGroup>
+			<_TargetPathsToSymbolsWithTfm Include="@(TfmSpecificDebugSymbolsFile)" />
 		</ItemGroup>
 	</Target>
 

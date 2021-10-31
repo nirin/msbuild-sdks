@@ -53,6 +53,7 @@
 	<UsingTask AssemblyFile="$(MSBuildCommonTasksAssembly)" TaskName="Microsoft.Build.Tasks.GenerateTrustInfo"/>
 	<UsingTask AssemblyFile="$(MSBuildCommonTasksAssembly)" TaskName="Microsoft.Build.Tasks.GetFileHash"/>
 	<UsingTask AssemblyFile="$(MSBuildCommonTasksAssembly)" TaskName="Microsoft.Build.Tasks.GetAssemblyIdentity"/>
+	<UsingTask AssemblyFile="$(MSBuildCommonTasksAssembly)" TaskName="Microsoft.Build.Tasks.GetCompatiblePlatform"/>
 	<UsingTask AssemblyFile="$(MSBuildCommonTasksAssembly)" TaskName="Microsoft.Build.Tasks.GetFrameworkPath"/>
 	<UsingTask AssemblyFile="$(MSBuildCommonTasksAssembly)" TaskName="Microsoft.Build.Tasks.GetFrameworkSdkPath"/>
 	<UsingTask AssemblyFile="$(MSBuildCommonTasksAssembly)" TaskName="Microsoft.Build.Tasks.GetReferenceAssemblyPaths"/>
