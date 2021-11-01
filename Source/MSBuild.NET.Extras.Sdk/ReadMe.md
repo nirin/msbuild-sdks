@@ -31,7 +31,7 @@ Visual Studio 2017 Update 6 (aka _v15.6_) includes support for SDK's resolved fr
     - Adding a `global.json` containing the SDK name and version.
     - Appending a version info to the `Sdk` attribute value.
 
-4. Then you can edit the `TargetFramework` to a different TFM, or you can rename `TargetFramework` to `TargetFrameworks` and specify multiple TFM's with a semi-colon (`;`) separator.
+4. Then you can edit the `TargetFramework` property to a different TFM, or you can rename `TargetFramework` to `TargetFrameworks` and specify multiple TFM's with a semi-colon (`;`) separator.
 
 The final project should look like this:
 
@@ -66,8 +66,8 @@ Then again, you might want to override the version for just one project _OR_ if 
 </Project>
 ```
 
-That's it. You do not need to specify the UWP or Tizen meta-packages as they'll be automatically included.
-After that, you can use the `Restore`, `Build`, `Pack` targets to restore packages, build the project and create NuGet packages. E.g.: `msbuild /t:Pack ...`
+That's it. You do not need to specify the .NET or UWP or Tizen framework packages as they'll be automatically included.
+After that, you can use the `Restore`, `Build`, `Pack` targets to restore packages, build the project and create NuGet packages. E.g.: `msbuild -t:Pack ...`
 
 #### Important to Note
 

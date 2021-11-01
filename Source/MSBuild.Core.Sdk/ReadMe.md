@@ -1,13 +1,12 @@
-# MSBuild.NET.DefaultItems
+# MSBuild.Core.Sdk
 
 ## Summary
 
-An MSBuild Extension package for including various platforms' (Android, Apple, Tizen, Web, Windows) default build items etc... in .NET projects.
+Support projects that do not compile to an assembly. This is usually the base SDK for other SDKs in this repository.
 
-### Package Name: `MSBuild.NET.DefaultItems`
+### Package Name: `MSBuild.Core.Sdk`
 
-[![MSBuild.NET.DefaultItems](https://img.shields.io/nuget/v/MSBuild.NET.DefaultItems.svg)](https://nuget.org/packages/MSBuild.NET.DefaultItems)
-[![MSBuild.NET.DefaultItems](https://img.shields.io/myget/msbuild-sdks/v/MSBuild.NET.DefaultItems.svg)](https://myget.org/feed/msbuild-sdks/package/nuget/MSBuild.NET.DefaultItems)
+[![MSBuild.Core.Sdk](https://img.shields.io/myget/msbuild-sdks/v/MSBuild.Core.Sdk.svg)](https://myget.org/feed/msbuild-sdks/package/nuget/MSBuild.Core.Sdk)
 [![MSBuild-SDKs](https://img.shields.io/badge/msbuild--sdks-myget-brightgreen.svg)](https://myget.org/gallery/msbuild-sdks)
 
 ### Getting started (VS 15.6+)
@@ -20,27 +19,28 @@ Visual Studio 2017 Update 6 (aka _v15.6_) includes support for SDK's resolved fr
     - from `dotnet new` templates.
     - With your existing SDK-style project.
 
-2. Add `<Import Sdk="MSBuild.NET.DefaultItems" Project="Items.{props|targets}" />` to the top and bottom of the file between the `<Project>` root elements.
+2. Replace `Microsoft.NET.Sdk` with `MSBuild.Core.Sdk` to the project's top-level `Sdk` attribute.
 
 3. You have to tell MSBuild that the `Sdk` should resolve from NuGet by
     - Adding a `global.json` containing the SDK name and version.
     - Appending a version info to the `Sdk` attribute value.
 
-4. Then you can enable the default items through a set of properties for each supported project types.
+4. Remove the `TargetFramework(s)` and other .NET specific properties from the project file. Older versions of VS IDE might require `TargetFramework(s)` property to open the project in IDE successfully.
+
+5. Then you can add custom properties, items, tasks and targets and use the project for various purposes other than building a .NET assembly.
 
 The final project should look like this:
 
 ```xml
-<Project Sdk="Microsoft.NET.Sdk">
-
-    <Import Sdk="MSBuild.NET.DefaultItems" Project="Items.props"/>
+<Project Sdk="MSBuild.Core.Sdk" DefaultTargets="Greet">
 
     <PropertyGroup>
-        <TargetFrameworks>net48;net5.0</TargetFrameworks>
-        <EnableDefaultXamlItems>true</EnableDefaultXamlItems>
+        <Greeting>Hello, World!</Greeting>
     </PropertyGroup>
 
-    <Import Sdk="MSBuild.NET.DefaultItems" Project="Items.targets"/>
+    <Target Name="Greet">
+      <Message Importance="High" Text="$(Greeting)"/>
+    </Target>
 
 </Project>
 ```
@@ -50,7 +50,7 @@ You can put the `global.json` file next to your solution:
 ```json
 {
     "msbuild-sdks": {
-        "MSBuild.NET.DefaultItems": "0.8.0"
+        "MSBuild.Core.Sdk": "1.0.0"
     }
 }
 ```
@@ -61,22 +61,21 @@ This would be a preferred solution for all the projects in your solution.
 Then again, you might want to override the version for just one project _OR_ if you have only one project in your solution (without adding `global.json`), you can do so like this:
 
 ```xml
-<Project Sdk="Microsoft.NET.Sdk">
-
-    <Import Sdk="MSBuild.NET.DefaultItems/0.8.0" Project="Items.props"/>
+<Project Sdk="MSBuild.Core.Sdk/1.0.0" DefaultTargets="Greet">
 
     <PropertyGroup>
-        <TargetFrameworks>net48;net5.0</TargetFrameworks>
-        <EnableDefaultXamlItems>true</EnableDefaultXamlItems>
+        <Greeting>Hello, World!</Greeting>
     </PropertyGroup>
 
-    <Import Sdk="MSBuild.NET.DefaultItems/0.8.0" Project="Items.targets"/>
+    <Target Name="Greet">
+      <Message Importance="High" Text="$(Greeting)"/>
+    </Target>
 
 </Project>
 ```
 
-That's it. You do not need to specify the .NET or UWP or Tizen framework packages as they'll be automatically included.
-After that, you can use the `Restore`, `Build`, `Pack` targets to restore packages, build the project and create NuGet packages. E.g.: `msbuild -t:Pack ...`
+That's it. You do not need to specify any default properties or items as they'll be automatically defined.
+After that, you can use the `Greet` to display the greeting message (_in my example_) or roll your own targets to do things that you want. E.g.: `msbuild -t:DoWork ...`
 
 #### Important to Note
 
