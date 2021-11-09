@@ -2,8 +2,8 @@
 
 ## Summary
 
-Supports creating MSBuild solutions which are MSBuild projects that indicate what projects to include when building your tree.
-They are an evolution of Visual Studio solution files.
+Supports creating MSBuild solutions which are MSBuild projects that indicate what projects to include when building your solution tree.
+They are an evolution of the classic Visual Studio solution (_.sln_) files.
 
 ### Package Name: `MSBuild.Solution.Sdk`
 
