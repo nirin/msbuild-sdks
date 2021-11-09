@@ -1,8 +1,8 @@
 <Project>
 
 	<!--
-		Determine the path to the directory build props file, if the user did not disable `ImportDirectoryBuildProps` and
-		they did not already specify an absolute path to use via `DirectoryBuildProps`
+		Determine the path to the `Directory.Build.props` file, if the user did not disable `$(ImportDirectoryBuildProps)` and
+		they did not already specify an absolute path to use via `$(DirectoryBuildProps)`
 	-->
 	<PropertyGroup Condition="'$(DirectoryBuildProps)' == ''">
 		<DirectoryBuildPropsFile Condition="'$(DirectoryBuildPropsFile)' == ''">Directory.Build.props</DirectoryBuildPropsFile>

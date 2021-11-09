@@ -11,7 +11,7 @@
 	</PropertyGroup>
 
 	<!--
-		Append `BuildContext` with the properties that's used in multi-targeting to identify targeted builds.
+		Append `$(BuildContext)` with the properties that's used in multi-targeting to identify targeted builds.
 	-->
 
 	<PropertyGroup Condition="'$(Configuration)' != ''">
@@ -19,7 +19,7 @@
 		<BuildContext>$(BuildContext)$(Configuration)</BuildContext>
 	</PropertyGroup>
 
-	<!-- Do not append `Platform` if it is `Any` since it is implicitly implied. -->
+	<!-- Do not append `$(Platform)` if it is `Any` since it is implicitly implied. -->
 	<PropertyGroup Condition="'$(Platform)' != '' AND '$(Platform)' != 'Any'">
 		<BuildContext Condition="!('$(BuildContext)' == '' OR $(BuildContext.EndsWith('-')))">$(BuildContext)-</BuildContext>
 		<BuildContext>$(BuildContext)$(Platform)</BuildContext>

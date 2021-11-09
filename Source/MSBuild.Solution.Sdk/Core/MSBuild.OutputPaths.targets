@@ -2,7 +2,7 @@
 
 	<!--
 		These are different than the defaults set by either `Microsoft.Common.targets` or the `Microsoft.NET.Sdk`.
-		These follow the following style, for all Projects within a Solution.
+		These follow the following style, for all Projects within a Solution as their base paths.
 
 		:Solution
 		├───<Builds>
@@ -39,9 +39,9 @@
 		<PublishPath Condition="!$([System.IO.Path]::IsPathRooted('$(PublishPath)'))">$(PublishPath)$(PublishName)\</PublishPath>
 	</PropertyGroup>
 
-	<!-- Set `DefaultItemExcludes` property for output paths that should be excluded from the default items only when under solution directory. -->
+	<!-- Set `$(DefaultItemExcludes)` property for output paths that should be excluded from the default items only when under solution directory. -->
 	<PropertyGroup Condition="!$([System.IO.Path]::IsPathRooted('$(PublishPath)')) OR $(PublishPath.StartsWith('$(MSBuildSolutionDirectory)'))">
-		<!-- publish folder, by default -->
+		<!-- Exclude publish directory, by default -->
 		<DefaultItemExcludes>$(DefaultItemExcludes);$(PublishPath)**</DefaultItemExcludes>
 	</PropertyGroup>
 

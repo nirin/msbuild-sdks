@@ -1,8 +1,8 @@
 <Project>
 
 	<!--
-		Determine the path to the directory build targets file, if the user did not disable `ImportDirectoryBuildTargets` and
-		they did not already specify an absolute path to use via `DirectoryBuildTargets`
+		Determine the path to the `Directory.Build.targets` file, if the user did not disable `$(ImportDirectoryBuildTargets)` and
+		they did not already specify an absolute path to use via `$(DirectoryBuildTargets)`
 	-->
 	<PropertyGroup Condition="'$(DirectoryBuildTargets)' == ''">
 		<DirectoryBuildTargetsFile Condition="'$(DirectoryBuildTargetsFile)' == ''">Directory.Build.targets</DirectoryBuildTargetsFile>

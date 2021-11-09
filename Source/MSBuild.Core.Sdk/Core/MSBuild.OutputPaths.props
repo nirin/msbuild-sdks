@@ -1,8 +1,8 @@
 <Project>
 
 	<!--
-		We need to initialize `BuildPath` separately and before the `MSBuild.OutputPaths.targets` import,
-		since `MSBuildProjectExtensionsPath` uses it to import custom props from Package Managers and Tools.
+		We need to initialize `$(BuildPath)` separately and before the `MSBuild.OutputPaths.targets` import,
+		since `$(MSBuildProjectExtensionsPath)` uses it to import custom props from Package Managers and Tools.
 	-->
 	<PropertyGroup Label="Build">
 		<BuildFolder Condition="'$(BuildFolder)' == ''">build</BuildFolder>
@@ -19,9 +19,9 @@
 		<_InitialBuildPath>$(BuildPath)</_InitialBuildPath>
 	</PropertyGroup>
 
-	<!-- Set `DefaultItemExcludes` property for output paths that should be excluded from the default items only when under project directory. -->
+	<!-- Set `$(DefaultItemExcludes)` property for output paths that should be excluded from the default items only when under project directory. -->
 	<PropertyGroup Condition="!$([System.IO.Path]::IsPathRooted('$(BuildPath)')) OR $(BuildPath.StartsWith('$(MSBuildProjectDirectory)'))">
-		<!-- build folder, by default -->
+		<!-- Exclude build directory, by default -->
 		<DefaultItemExcludes>$(BuildPath)**;$(DefaultItemExcludes)</DefaultItemExcludes>
 	</PropertyGroup>
 

@@ -1,6 +1,6 @@
 <Project>
 
-	<!-- We need to initialize `MSBuildSolutionExtensionsPath` property. -->
+	<!-- We need to initialize `$(MSBuildSolutionExtensionsPath)` property. -->
 	<Import Project="MSBuild.SolutionExtension.Core.props" Condition="'$(ImportedMSBuildSolutionExtensionCoreProps)' != 'true'"/>
 
 	<Import Project="$(MSBuildSolutionExtensionsPath)$(MSBuildSolutionExtensionsFileName).props" Condition="Exists('$(MSBuildSolutionExtensionsPath)')"/>
