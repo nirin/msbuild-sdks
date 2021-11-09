@@ -1,0 +1,16 @@
+<Project Sdk="NuGet.Packaging.Sdk">
+
+	<PropertyGroup Label="Globals">
+		<ProjectGuid>{ACEAD681-9AF6-45A1-BCE0-A893E9EE59BB}</ProjectGuid>
+	</PropertyGroup>
+
+	<PropertyGroup Label="PackageInfo">
+		<Title>MSBuild Managed Sdk</Title>
+		<PackageId>MSBuild.Managed.Sdk</PackageId>
+		<PackageVersion Condition="'$(PackageVersion)' == ''">1.0.0</PackageVersion>
+		<PackageTags>$(PackageTags);managed;annex;mono;dotnet;clr;swift;java;jvm</PackageTags>
+		<Summary>An MSBuild SDK package that supports authoring and building managed platform projects.</Summary>
+		<Description>$(Summary) It has a common infrastructure for compiling any managed code, with any supported compiler, on any supported platform.</Description>
+	</PropertyGroup>
+
+</Project>

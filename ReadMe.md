@@ -79,6 +79,10 @@ Supports NuGet Restore/Pack Tasks and Package authoring. It's basically an SDK w
 
 Supports managing Native and Managed references via various sources such as packages from a central repository. Also allows global references and central versioning via Solution SDK.
 
+### [MSBuild.Managed.Sdk](Source/MSBuild.Managed.Sdk)
+
+Supports [Managed](Docs/Support.md#managed-platform-support) projects that include building for Managed Runtime frameworks (_Annex, Mono, .NET, Swift, Java, etc…_). This is usually the base SDK for other specific Managed Runtime SDKs listed here.
+
 ### [MSBuild.Native.Sdk](Source/MSBuild.Native.Sdk)
 
 Supports [Native](Docs/Support.md#native-platform-support) projects that include building for Native Runtime targets (_ASM, FORTRAN, C/C++, SLang, Rust, etc…_). This is usually the base SDK for other specific Native Runtime SDKs listed here.
