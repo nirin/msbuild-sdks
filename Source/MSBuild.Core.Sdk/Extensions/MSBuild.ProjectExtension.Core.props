@@ -10,7 +10,7 @@
 		management system can write out multiple files but the order of the import is alphabetic because MSBuild sorts the list.
 	-->
 	<PropertyGroup>
-		<ProjectExtensionsFolder Condition="'$(ProjectExtensionsFolder)' == ''">annex</ProjectExtensionsFolder>
+		<ProjectExtensionsFolder Condition="'$(ProjectExtensionsFolder)' == ''">ext</ProjectExtensionsFolder>
 		<MSBuildProjectExtensionsPath Condition="'$(MSBuildProjectExtensionsPath)' == ''">$([System.IO.Path]::Combine('$(BuildPath)', '$(ProjectExtensionsFolder)'))</MSBuildProjectExtensionsPath>
 		<!--
 			Import paths that are relative default to be relative to the importing file. However, since `$(MSBuildProjectExtensionsPath)`

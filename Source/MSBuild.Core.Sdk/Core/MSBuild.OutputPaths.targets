@@ -33,10 +33,10 @@
 	<Import Project="MSBuild.OutputPaths.props" Condition="'$(ImportedMSBuildOutputPathsProps)' != 'true'"/>
 
 	<PropertyGroup Label="Outputs">
-		<InterimOutputFolder Condition="'$(InterimOutputFolder)' == ''">interim</InterimOutputFolder>
+		<InterimOutputFolder Condition="'$(InterimOutputFolder)' == ''">int</InterimOutputFolder>
 		<InterimOutputPath>$(BuildPath)$(InterimOutputFolder)\</InterimOutputPath>
 
-		<FinalOutputFolder Condition="'$(FinalOutputFolder)' == ''">final</FinalOutputFolder>
+		<FinalOutputFolder Condition="'$(FinalOutputFolder)' == ''">fin</FinalOutputFolder>
 		<FinalOutputPath>$(BuildPath)$(FinalOutputFolder)\</FinalOutputPath>
 	</PropertyGroup>
 
