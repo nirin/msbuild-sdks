@@ -18,7 +18,7 @@
 			it needs to be made absolute based on the `$(MSBuildProjectDirectory)` directory.
 		-->
 		<MSBuildProjectExtensionsPath>$([System.IO.Path]::Combine('$(MSBuildProjectDirectory)', '$(MSBuildProjectExtensionsPath)'))</MSBuildProjectExtensionsPath>
-		<MSBuildProjectExtensionsPath Condition="!HasTrailingSlash('$(MSBuildProjectExtensionsPath)')">$(MSBuildProjectExtensionsPath)\</MSBuildProjectExtensionsPath>
+		<MSBuildProjectExtensionsPath>$([MSBuild]::EnsureTrailingSlash('$(MSBuildProjectExtensionsPath)'))</MSBuildProjectExtensionsPath>
 		<_InitialMSBuildProjectExtensionsPath>$(MSBuildProjectExtensionsPath)</_InitialMSBuildProjectExtensionsPath>
 	</PropertyGroup>
 

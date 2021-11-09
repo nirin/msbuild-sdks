@@ -17,7 +17,7 @@
 			it needs to be made absolute based on the `$(MSBuildSolutionDirectory)` directory.
 		-->
 		<MSBuildSolutionExtensionsPath>$([System.IO.Path]::Combine('$(MSBuildSolutionDirectory)', '$(MSBuildSolutionExtensionsPath)'))</MSBuildSolutionExtensionsPath>
-		<MSBuildSolutionExtensionsPath Condition="!HasTrailingSlash('$(MSBuildSolutionExtensionsPath)')">$(MSBuildSolutionExtensionsPath)\</MSBuildSolutionExtensionsPath>
+		<MSBuildSolutionExtensionsPath>$([MSBuild]::EnsureTrailingSlash('$(MSBuildSolutionExtensionsPath)'))</MSBuildSolutionExtensionsPath>
 		<_InitialMSBuildSolutionExtensionsPath>$(MSBuildSolutionExtensionsPath)</_InitialMSBuildSolutionExtensionsPath>
 	</PropertyGroup>
 

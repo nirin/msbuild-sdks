@@ -1,12 +1,15 @@
 <Project>
 
-	<!-- Default configurations and platforms -->
+	<!-- Set `$(Configurations)` and `$(Platforms)` properties to most frequently used monikers -->
 	<PropertyGroup>
 		<Configurations Condition="'$(Configurations)' == ''">Debug;Release</Configurations>
 		<Platforms Condition="'$(Platforms)' == ''">Any;Windows;Linux</Platforms>
 	</PropertyGroup>
 
-	<!-- Default configuration and platform to Debug and Any-->
+	<!--
+		Set `$(Configuration)` and `$(Platform)` properties to the most used moniker
+		or `$(DefaultConfiguration)` and `$(DefaultPlatform)` when provided.
+	-->
 	<PropertyGroup>
 		<Configuration Condition="'$(DefaultConfiguration)' != ''">$(DefaultConfiguration)</Configuration>
 		<Configuration Condition="'$(Configuration)' == ''">Debug</Configuration>

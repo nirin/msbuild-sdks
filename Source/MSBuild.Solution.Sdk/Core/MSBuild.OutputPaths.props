@@ -7,15 +7,15 @@
 	<PropertyGroup Label="Build">
 		<BuildFolder Condition="'$(BuildFolder)' == ''">build</BuildFolder>
 		<BuildPath Condition="'$(BuildPath)' == ''">$(BuildFolder)</BuildPath>
-		<BuildPath Condition="!HasTrailingSlash('$(BuildPath)')">$(BuildPath)\</BuildPath>
 	</PropertyGroup>
 
 	<PropertyGroup Label="Build" Condition="$([System.IO.Path]::IsPathRooted('$(BuildPath)'))">
 		<AppendSolutionNameToBuildPath Condition="'$(AppendSolutionNameToBuildPath)' == ''">true</AppendSolutionNameToBuildPath>
-		<BuildPath Condition="'$(AppendSolutionNameToBuildPath)' == 'true' AND !$(BuildPath.StartsWith('$(MSBuildSolutionDirectory)'))">$(BuildPath)$(MSBuildSolutionName)\</BuildPath>
+		<BuildPath Condition="'$(AppendSolutionNameToBuildPath)' == 'true' AND !$(BuildPath.StartsWith('$(MSBuildSolutionDirectory)'))">$([System.IO.Path]::Join('$(BuildPath)', '$(MSBuildSolutionName)'))</BuildPath>
 	</PropertyGroup>
 
 	<PropertyGroup Label="Build">
+		<BuildPath>$([MSBuild]::EnsureTrailingSlash('$(BuildPath)'))</BuildPath>
 		<_InitialBuildPath>$(BuildPath)</_InitialBuildPath>
 	</PropertyGroup>
 

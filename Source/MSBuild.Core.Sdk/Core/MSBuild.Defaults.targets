@@ -12,6 +12,8 @@
 
 	<!--
 		Append `$(BuildContext)` with the properties that's used in multi-targeting to identify targeted builds.
+		Here, we're using dash (`-`) as the separator to join the properties together that identifies a build.
+		This can be used to generate unique names for the output artifacts from a publish target.
 	-->
 
 	<PropertyGroup Condition="'$(Configuration)' != ''">
