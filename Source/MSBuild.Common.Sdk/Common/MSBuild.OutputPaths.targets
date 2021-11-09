@@ -1,0 +1,78 @@
+<Project>
+
+	<!--
+		These are different than the defaults set by either `Microsoft.Common.targets` or the `Microsoft.NET.Sdk`.
+		These follow the following style, one within the Project and one common to all Projects within a Solution.
+
+		:Project
+		├───<Builds>
+		│	├───<Binaries>
+		│	│	├───Release
+		│	│	└───Debug\Linux
+		│	└───<Objects>
+		|		|•••
+		└───<Publish>
+			|•••
+
+		:Solution
+		├───<Builds>
+		│	├───Project.1
+		│	│	├───<Binaries>
+		│	│	│	├───Release
+		│	│	│	└───Debug\Windows
+		│	│	└───<Objects>
+		|	|		|•••
+		│	├───Project.2
+		│	└───Project.3
+		└───<Publish>
+			├───Project.2.pkg (file)
+			└───Project.3.pub (folder)
+				|•••
+	-->
+
+	<Import Project="MSBuild.OutputPaths.props" Condition="'$(ImportedMSBuildOutputPathsProps)' != 'true'"/>
+
+	<PropertyGroup Label="Outputs">
+		<BaseOutputPath Condition="'$(BaseOutputPath)' == ''">bin</BaseOutputPath>
+		<BaseOutputPath>$([System.IO.Path]::Combine('$(BuildDir)', '$(BaseOutputPath)'))</BaseOutputPath>
+		<BaseOutputPath>$([MSBuild]::EnsureTrailingSlash('$(BaseOutputPath)'))</BaseOutputPath>
+
+		<OutputPath Condition="'$(OutputPath)' == '' AND '$(PlatformName)' == 'Any'">$([System.IO.Path]::Combine('$(BaseOutputPath)', '$(Configuration)'))</OutputPath>
+		<OutputPath Condition="'$(OutputPath)' == '' AND '$(PlatformName)' != 'Any'">$([System.IO.Path]::Combine('$(BaseOutputPath)', '$(PlatformName)', '$(Configuration)'))</OutputPath>
+		<OutputPath>$([MSBuild]::EnsureTrailingSlash('$(OutputPath)'))</OutputPath>
+
+		<BaseIntermediateOutputPath Condition="'$(BaseIntermediateOutputPath)' == ''">obj</BaseIntermediateOutputPath>
+		<BaseIntermediateOutputPath>$([System.IO.Path]::Combine('$(BuildDir)', '$(BaseIntermediateOutputPath)'))</BaseIntermediateOutputPath>
+		<BaseIntermediateOutputPath>$([MSBuild]::EnsureTrailingSlash('$(BaseIntermediateOutputPath)'))</BaseIntermediateOutputPath>
+
+		<IntermediateOutputPath Condition="'$(IntermediateOutputPath)' == '' AND '$(PlatformName)' == 'Any'">$([System.IO.Path]::Combine('$(BaseIntermediateOutputPath)', '$(Configuration)'))</IntermediateOutputPath>
+		<IntermediateOutputPath Condition="'$(IntermediateOutputPath)' == '' AND '$(PlatformName)' != 'Any'">$([System.IO.Path]::Combine('$(BaseIntermediateOutputPath)', '$(PlatformName)', '$(Configuration)'))</IntermediateOutputPath>
+		<IntermediateOutputPath>$([MSBuild]::EnsureTrailingSlash('$(IntermediateOutputPath)'))</IntermediateOutputPath>
+	</PropertyGroup>
+
+	<!-- Set `$(PublishDir)` here, before `Microsoft.Common.targets`, to avoid a competing default there. -->
+	<PropertyGroup Label="Publish">
+		<PublishDirName Condition="'$(PublishDirName)' == ''">publish</PublishDirName>
+		<PublishDir Condition="'$(PublishDir)' == ''">$(PublishDirName)</PublishDir>
+	</PropertyGroup>
+
+	<PropertyGroup Label="Publish" Condition="$([System.IO.Path]::IsPathRooted('$(PublishDir)'))">
+		<AppendProjectNameToPublishDir Condition="'$(AppendProjectNameToPublishDir)' == ''">true</AppendProjectNameToPublishDir>
+		<PublishDir Condition="'$(AppendProjectNameToPublishDir)' == 'true' AND !$(PublishDir.StartsWith('$(MSBuildProjectDirectory)'))">$([System.IO.Path]::Combine('$(PublishDir)', '$(ProjectName)'))</PublishDir>
+	</PropertyGroup>
+
+	<PropertyGroup Label="Publish">
+		<PublishDir>$([MSBuild]::EnsureTrailingSlash('$(PublishDir)'))</PublishDir>
+	</PropertyGroup>
+
+	<!-- Set `$(DefaultItemExcludes)` property for output paths that should be excluded from the default items only when under project directory. -->
+	<PropertyGroup Condition="!$([System.IO.Path]::IsPathRooted('$(PublishDir)')) OR $(PublishDir.StartsWith('$(MSBuildProjectDirectory)'))">
+		<!-- Exclude publish directory, by default -->
+		<DefaultItemExcludes>$(DefaultItemExcludes);$(PublishDir)**</DefaultItemExcludes>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<ImportedMSBuildOutputPathsTargets>true</ImportedMSBuildOutputPathsTargets>
+	</PropertyGroup>
+
+</Project>

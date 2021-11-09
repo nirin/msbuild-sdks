@@ -13,6 +13,12 @@ Support projects that do not compile to an assembly. This is usually the base SD
 
 [![MSBuild.Core.Sdk](https://img.shields.io/myget/msbuild-sdks/v/MSBuild.Core.Sdk.svg)](https://myget.org/feed/msbuild-sdks/package/nuget/MSBuild.Core.Sdk)
 
+### [MSBuild.Common.Sdk](Source/MSBuild.Common.Sdk)
+
+Support projects that do not compile to an assembly. This is usually the base SDK for other SDKs listed here.
+
+[![MSBuild.Common.Sdk](https://img.shields.io/myget/msbuild-sdks/v/MSBuild.Common.Sdk.svg)](https://myget.org/feed/msbuild-sdks/package/nuget/MSBuild.Common.Sdk)
+
 ### [MSBuild.Project.Sdk](Source/MSBuild.Project.Sdk)
 
 Support projects that do not compile to an assembly. This is usually the base SDK for other SDKs listed here.

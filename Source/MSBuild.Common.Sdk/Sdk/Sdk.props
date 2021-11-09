@@ -1,0 +1,7 @@
+<Project>
+
+	<Import Project="Sdk.Extensions.props"/>
+
+	<Import Project="Sdk.Common.props"/>
+
+</Project>
