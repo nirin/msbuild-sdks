@@ -21,17 +21,22 @@
 			└───Project.3.pub (folder)
 				|•••
 	-->
+
 	<Import Project="MSBuild.OutputPaths.props" Condition="'$(ImportedMSBuildOutputPathsProps)' != 'true'"/>
 
 	<PropertyGroup Label="Publish">
 		<PublishFolder Condition="'$(PublishFolder)' == ''">publish</PublishFolder>
-		<PublishPath Condition="'$(PublishPath)' == ''">$(PublishFolder)\</PublishPath>
+		<PublishPath Condition="'$(PublishPath)' == ''">$(PublishFolder)</PublishPath>
 		<PublishPath Condition="!HasTrailingSlash('$(PublishPath)')">$(PublishPath)\</PublishPath>
 	</PropertyGroup>
 
-	<PropertyGroup Label="Publish" Condition="$([System.IO.Path]::IsPathRooted('$(PublishPath)')) AND !$(PublishPath.StartsWith('$(MSBuildSolutionDirectory)'))">
-		<PublishPath>$(PublishPath)$(PublishFolder)\</PublishPath>
-		<PublishPath Condition="'$(AppendSolutionNameToPublishPath)' == 'true'">$(PublishPath)$(SolutionName)\</PublishPath>
+	<PropertyGroup Label="Publish" Condition="$([System.IO.Path]::IsPathRooted('$(PublishPath)'))">
+		<AppendSolutionNameToPublishPath Condition="'$(AppendSolutionNameToPublishPath)' == ''">true</AppendSolutionNameToPublishPath>
+		<PublishPath Condition="'$(AppendSolutionNameToPublishPath)' == 'true' AND !$(PublishPath.StartsWith('$(MSBuildSolutionDirectory)'))">$(PublishPath)$(SolutionName)\</PublishPath>
+	</PropertyGroup>
+
+	<PropertyGroup Label="Publish">
+		<PublishPath Condition="!$([System.IO.Path]::IsPathRooted('$(PublishPath)'))">$(PublishPath)$(PublishName)\</PublishPath>
 	</PropertyGroup>
 
 	<!-- Set `DefaultItemExcludes` property for output paths that should be excluded from the default items only when under solution directory. -->

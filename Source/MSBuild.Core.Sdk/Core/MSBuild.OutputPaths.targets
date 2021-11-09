@@ -29,9 +29,10 @@
 			└───Project.3.pub (folder)
 				|•••
 	-->
+
 	<Import Project="MSBuild.OutputPaths.props" Condition="'$(ImportedMSBuildOutputPathsProps)' != 'true'"/>
 
-	<PropertyGroup Label="Build">
+	<PropertyGroup Label="Outputs">
 		<InterimOutputFolder Condition="'$(InterimOutputFolder)' == ''">interim</InterimOutputFolder>
 		<InterimOutputPath>$(BuildPath)$(InterimOutputFolder)\</InterimOutputPath>
 
@@ -39,15 +40,26 @@
 		<FinalOutputPath>$(BuildPath)$(FinalOutputFolder)\</FinalOutputPath>
 	</PropertyGroup>
 
+	<!-- Append `BuildContext` to Output paths, so that the output from the multi-targeted builds don't overwrite each other -->
+	<PropertyGroup Label="Outputs">
+		<BuildContext>$(BuildContext.Trim('-'))</BuildContext>
+		<InterimTargetPath>$(InterimOutputPath)$(BuildContext)\</InterimTargetPath>
+		<FinalTargetPath>$(FinalOutputPath)$(BuildContext)\</FinalTargetPath>
+	</PropertyGroup>
+
 	<PropertyGroup Label="Publish">
 		<PublishFolder Condition="'$(PublishFolder)' == ''">publish</PublishFolder>
-		<PublishPath Condition="'$(PublishPath)' == ''">$(PublishFolder)\</PublishPath>
+		<PublishPath Condition="'$(PublishPath)' == ''">$(PublishFolder)</PublishPath>
 		<PublishPath Condition="!HasTrailingSlash('$(PublishPath)')">$(PublishPath)\</PublishPath>
 	</PropertyGroup>
 
-	<PropertyGroup Label="Publish" Condition="$([System.IO.Path]::IsPathRooted('$(PublishPath)')) AND !$(PublishPath.StartsWith('$(MSBuildProjectDirectory)'))">
-		<PublishPath>$(PublishPath)$(PublishFolder)\</PublishPath>
-		<PublishPath Condition="'$(AppendProjectNameToPublishPath)' == 'true'">$(PublishPath)$(ProjectName)\</PublishPath>
+	<PropertyGroup Label="Publish" Condition="$([System.IO.Path]::IsPathRooted('$(PublishPath)'))">
+		<AppendProjectNameToPublishPath Condition="'$(AppendProjectNameToPublishPath)' == ''">true</AppendProjectNameToPublishPath>
+		<PublishPath Condition="'$(AppendProjectNameToPublishPath)' == 'true' AND !$(PublishPath.StartsWith('$(MSBuildProjectDirectory)'))">$(PublishPath)$(ProjectName)\</PublishPath>
+	</PropertyGroup>
+
+	<PropertyGroup Label="Publish">
+		<PublishPath Condition="!$([System.IO.Path]::IsPathRooted('$(PublishPath)'))">$(PublishPath)$(PublishName)\</PublishPath>
 	</PropertyGroup>
 
 	<!-- Set `DefaultItemExcludes` property for output paths that should be excluded from the default items only when under project directory. -->
@@ -55,30 +67,6 @@
 		<!-- publish folder, by default -->
 		<DefaultItemExcludes>$(DefaultItemExcludes);$(PublishPath)**</DefaultItemExcludes>
 	</PropertyGroup>
-
-	<!-- Append `BuildContext` to Output paths, so that the output from the multi-targeted builds don't overwrite each other -->
-	<PropertyGroup>
-		<BuildContext>$(BuildContext.Trim('-'))</BuildContext>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(BuildContext)' != ''">
-		<InterimTargetPath>$(InterimOutputPath)$(BuildContext)\</InterimTargetPath>
-		<FinalTargetPath>$(FinalOutputPath)$(BuildContext)\</FinalTargetPath>
-	</PropertyGroup>
-
-	<Target Name="GetOutputPathsForProject" BeforeTargets="$(BuildDependsOn);Build;$(RebuildDependsOn);Rebuild;$(CleanDependsOn);Clean">
-
-		<!-- Append `BuildContext` to Output paths, so that the output from the multi-targeted builds don't overwrite each other -->
-		<PropertyGroup>
-			<BuildContext>$(BuildContext.Trim('-'))</BuildContext>
-		</PropertyGroup>
-
-		<PropertyGroup Condition="'$(BuildContext)' != ''">
-			<InterimTargetPath>$(InterimOutputPath)$(BuildContext)\</InterimTargetPath>
-			<FinalTargetPath>$(FinalOutputPath)$(BuildContext)\</FinalTargetPath>
-		</PropertyGroup>
-
-	</Target>
 
 	<PropertyGroup>
 		<ImportedMSBuildOutputPathsTargets>true</ImportedMSBuildOutputPathsTargets>

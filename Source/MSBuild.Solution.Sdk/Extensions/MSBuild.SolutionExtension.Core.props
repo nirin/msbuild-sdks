@@ -16,7 +16,7 @@
 			defaults to `BuildPath` we expect it to be relative to the `BuildPath` directory. So if the path is relative
 			it needs to be made absolute based on the `MSBuildSolutionDirectory` directory.
 		-->
-		<MSBuildSolutionExtensionsPath Condition="!$([System.IO.Path]::IsPathRooted('$(MSBuildSolutionExtensionsPath)'))">$([System.IO.Path]::Combine('$(MSBuildSolutionDirectory)', '$(MSBuildSolutionExtensionsPath)'))</MSBuildSolutionExtensionsPath>
+		<MSBuildSolutionExtensionsPath>$([System.IO.Path]::Combine('$(MSBuildSolutionDirectory)', '$(MSBuildSolutionExtensionsPath)'))</MSBuildSolutionExtensionsPath>
 		<MSBuildSolutionExtensionsPath Condition="!HasTrailingSlash('$(MSBuildSolutionExtensionsPath)')">$(MSBuildSolutionExtensionsPath)\</MSBuildSolutionExtensionsPath>
 		<_InitialMSBuildSolutionExtensionsPath>$(MSBuildSolutionExtensionsPath)</_InitialMSBuildSolutionExtensionsPath>
 	</PropertyGroup>
