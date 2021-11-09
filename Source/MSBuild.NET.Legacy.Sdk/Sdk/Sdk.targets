@@ -1,9 +1,9 @@
 <Project>
 
-	<Import Sdk="MSBuild.Core.Sdk" Project="Sdk.Core.targets"/>
+	<Import Sdk="MSBuild.Common.Sdk" Project="Sdk.Core.targets"/>
 
 	<Import Project="Sdk.Core.targets"/>
 
-	<Import Sdk="MSBuild.Core.Sdk" Project="Sdk.Extensions.targets"/>
+	<Import Sdk="MSBuild.Common.Sdk" Project="Sdk.Extensions.targets"/>
 
 </Project>

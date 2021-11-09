@@ -1,9 +1,5 @@
 <Project>
 
-	<Import Sdk="MSBuild.Core.Sdk" Project="Sdk.Core.targets"/>
-
 	<Import Project="..\Build\MSBuild.Packaging.Sdk.targets"/>
-
-	<Import Sdk="MSBuild.Core.Sdk" Project="Sdk.Extensions.targets"/>
 
 </Project>
