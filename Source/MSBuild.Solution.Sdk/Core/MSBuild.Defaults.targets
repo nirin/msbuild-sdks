@@ -14,14 +14,14 @@
 		Do not append `Platform` if it is `Any` since it is implicitly implied.
 	-->
 
-	<PropertyGroup Condition="'$(Platform)' != '' AND '$(Platform)' != 'Any'">
-		<BuildContext Condition="!('$(BuildContext)' == '' OR $(BuildContext.EndsWith('-')))">$(BuildContext)-</BuildContext>
-		<BuildContext>$(BuildContext)$(Platform)</BuildContext>
-	</PropertyGroup>
-
 	<PropertyGroup Condition="'$(Configuration)' != ''">
 		<BuildContext Condition="!('$(BuildContext)' == '' OR $(BuildContext.EndsWith('-')))">$(BuildContext)-</BuildContext>
 		<BuildContext>$(BuildContext)$(Configuration)</BuildContext>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Platform)' != '' AND '$(Platform)' != 'Any'">
+		<BuildContext Condition="!('$(BuildContext)' == '' OR $(BuildContext.EndsWith('-')))">$(BuildContext)-</BuildContext>
+		<BuildContext>$(BuildContext)$(Platform)</BuildContext>
 	</PropertyGroup>
 
 </Project>
