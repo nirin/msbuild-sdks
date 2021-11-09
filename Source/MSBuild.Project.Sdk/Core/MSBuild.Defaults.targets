@@ -1,0 +1,30 @@
+<Project>
+
+	<PropertyGroup>
+		<ProjectName Condition="'$(ProjectName)' == ''">$(MSBuildProjectName)</ProjectName>
+		<AssemblyName Condition="'$(AssemblyName)' == ''">$(ProjectName)</AssemblyName>
+		<RootNamespace Condition="'$(RootNamespace)' == ''">$(ProjectName)</RootNamespace>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<PublishName Condition="'$(PublishName)' == ''">$(ProjectName)</PublishName>
+	</PropertyGroup>
+
+	<!--
+		Append `$(BuildContext)` with the properties that's used in multi-targeting to identify targeted builds.
+		Here, we're using dash (`-`) as the separator to join the properties together that identifies a build.
+		This can be used to generate unique names for the output artifacts from a publish target.
+	-->
+
+	<PropertyGroup Condition="'$(Configuration)' != ''">
+		<BuildContext Condition="!('$(BuildContext)' == '' OR $(BuildContext.EndsWith('-')))">$(BuildContext)-</BuildContext>
+		<BuildContext>$(BuildContext)$(Configuration)</BuildContext>
+	</PropertyGroup>
+
+	<!-- Do not append `$(Platform)` if it is `Any` since it is implicitly implied. -->
+	<PropertyGroup Condition="'$(Platform)' != '' AND '$(Platform)' != 'Any'">
+		<BuildContext Condition="!('$(BuildContext)' == '' OR $(BuildContext.EndsWith('-')))">$(BuildContext)-</BuildContext>
+		<BuildContext>$(BuildContext)$(Platform)</BuildContext>
+	</PropertyGroup>
+
+</Project>

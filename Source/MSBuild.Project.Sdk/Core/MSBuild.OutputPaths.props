@@ -1,0 +1,32 @@
+<Project>
+
+	<!--
+		We need to initialize `$(BuildPath)` separately and before the `MSBuild.OutputPaths.targets` import,
+		since `$(MSBuildProjectExtensionsPath)` uses it to import custom props from Package Managers and Tools.
+	-->
+	<PropertyGroup Label="Build">
+		<BuildFolder Condition="'$(BuildFolder)' == ''">build</BuildFolder>
+		<BuildPath Condition="'$(BuildPath)' == ''">$(BuildFolder)</BuildPath>
+	</PropertyGroup>
+
+	<PropertyGroup Label="Build" Condition="$([System.IO.Path]::IsPathRooted('$(BuildPath)'))">
+		<AppendProjectNameToBuildPath Condition="'$(AppendProjectNameToBuildPath)' == ''">true</AppendProjectNameToBuildPath>
+		<BuildPath Condition="'$(AppendProjectNameToBuildPath)' == 'true' AND !$(BuildPath.StartsWith('$(MSBuildProjectDirectory)'))">$([System.IO.Path]::Join('$(BuildPath)', '$(MSBuildProjectName)'))</BuildPath>
+	</PropertyGroup>
+
+	<PropertyGroup Label="Build">
+		<BuildPath>$([MSBuild]::EnsureTrailingSlash('$(BuildPath)'))</BuildPath>
+		<_InitialBuildPath>$(BuildPath)</_InitialBuildPath>
+	</PropertyGroup>
+
+	<!-- Set `$(DefaultItemExcludes)` property for output paths that should be excluded from the default items only when under project directory. -->
+	<PropertyGroup Condition="!$([System.IO.Path]::IsPathRooted('$(BuildPath)')) OR $(BuildPath.StartsWith('$(MSBuildProjectDirectory)'))">
+		<!-- Exclude build directory, by default -->
+		<DefaultItemExcludes>$(BuildPath)**;$(DefaultItemExcludes)</DefaultItemExcludes>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<ImportedMSBuildOutputPathsProps>true</ImportedMSBuildOutputPathsProps>
+	</PropertyGroup>
+
+</Project>

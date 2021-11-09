@@ -1,0 +1,9 @@
+<Project>
+
+	<Import Project="$(MSBuildProjectDirectory)\$(MSBuildProjectName).user" Condition="Exists('$(MSBuildProjectDirectory)\$(MSBuildProjectName).user')"/>
+
+	<Import Project="..\Core\MSBuild.Core.targets"/>
+
+	<Import Project="..\ProjectSystem\MSBuild.ProjectSystem.targets"/>
+
+</Project>

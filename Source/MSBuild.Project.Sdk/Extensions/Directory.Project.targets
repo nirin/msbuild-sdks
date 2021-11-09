@@ -1,0 +1,15 @@
+<Project>
+
+	<!--
+		Determine the path to the `Directory.Project.targets` file, if the user did not disable `$(ImportDirectoryProjectTargets)` and
+		they did not already specify an absolute path to use via `$(DirectoryProjectTargets)`
+	-->
+	<PropertyGroup Condition="'$(DirectoryProjectTargets)' == ''">
+		<DirectoryProjectTargetsFile Condition="'$(DirectoryProjectTargetsFile)' == ''">Directory.Project.targets</DirectoryProjectTargetsFile>
+		<DirectoryProjectTargetsPath Condition="'$(DirectoryProjectTargetsPath)' == ''">$([MSBuild]::GetDirectoryNameOfFileAbove('$(MSBuildProjectDirectory)', '$(DirectoryProjectTargetsFile)'))</DirectoryProjectTargetsPath>
+		<DirectoryProjectTargets Condition="'$(DirectoryProjectTargetsPath)' != ''">$([System.IO.Path]::Join('$(DirectoryProjectTargetsPath)', '$(DirectoryProjectTargetsFile)'))</DirectoryProjectTargets>
+	</PropertyGroup>
+
+	<Import Project="$(DirectoryProjectTargets)" Condition="Exists('$(DirectoryProjectTargets)')"/>
+
+</Project>

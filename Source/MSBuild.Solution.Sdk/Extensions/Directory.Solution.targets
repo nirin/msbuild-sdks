@@ -1,0 +1,15 @@
+<Project>
+
+	<!--
+		Determine the path to the `Directory.Solution.targets` file, if the user did not disable `$(ImportDirectorySolutionTargets)` and
+		they did not already specify an absolute path to use via `$(DirectorySolutionTargets)`
+	-->
+	<PropertyGroup Condition="'$(DirectorySolutionTargets)' == ''">
+		<DirectorySolutionTargetsFile Condition="'$(DirectorySolutionTargetsFile)' == ''">Directory.Solution.targets</DirectorySolutionTargetsFile>
+		<DirectorySolutionTargetsPath Condition="'$(DirectorySolutionTargetsPath)' == ''">$([MSBuild]::GetDirectoryNameOfFileAbove('$(MSBuildSolutionDirectory)', '$(DirectorySolutionTargetsFile)'))</DirectorySolutionTargetsPath>
+		<DirectorySolutionTargets Condition="'$(DirectorySolutionTargetsPath)' != ''">$([System.IO.Path]::Join('$(DirectorySolutionTargetsPath)', '$(DirectorySolutionTargetsFile)'))</DirectorySolutionTargets>
+	</PropertyGroup>
+
+	<Import Project="$(DirectorySolutionTargets)" Condition="Exists('$(DirectorySolutionTargets)')"/>
+
+</Project>

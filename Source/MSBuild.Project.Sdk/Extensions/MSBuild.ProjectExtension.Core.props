@@ -1,0 +1,37 @@
+<Project>
+
+	<!-- We need to initialize `$(BuildPath)` property since `$(MSBuildProjectExtensionsPath)` depends on it. -->
+	<Import Project="..\Core\MSBuild.OutputPaths.props" Condition="'$(MSBuildProjectExtensionsPath)' == ''"/>
+
+	<!--
+		Prepare to import project extensions which usually come from packages. Package management systems will create a file at:
+		`$(MSBuildProjectExtensionsPath)\$(MSBuildProjectExtensionsFileName).<props/targets>`
+		Each package management system should use a unique moniker to avoid collisions. It is a wild-card import so the package
+		management system can write out multiple files but the order of the import is alphabetic because MSBuild sorts the list.
+	-->
+	<PropertyGroup>
+		<ProjectExtensionsFolder Condition="'$(ProjectExtensionsFolder)' == ''">annex</ProjectExtensionsFolder>
+		<MSBuildProjectExtensionsPath Condition="'$(MSBuildProjectExtensionsPath)' == ''">$([System.IO.Path]::Join('$(BuildPath)', '$(ProjectExtensionsFolder)'))</MSBuildProjectExtensionsPath>
+		<!--
+			Import paths that are relative default to be relative to the importing file. However, since `$(MSBuildProjectExtensionsPath)`
+			defaults to `$(BuildPath)` we expect it to be relative to the `$(BuildPath)` directory. So if the path is relative
+			it needs to be made absolute based on the `$(MSBuildProjectDirectory)` directory.
+		-->
+		<MSBuildProjectExtensionsPath>$([System.IO.Path]::Combine('$(MSBuildProjectDirectory)', '$(MSBuildProjectExtensionsPath)'))</MSBuildProjectExtensionsPath>
+		<MSBuildProjectExtensionsPath>$([MSBuild]::EnsureTrailingSlash('$(MSBuildProjectExtensionsPath)'))</MSBuildProjectExtensionsPath>
+		<_InitialMSBuildProjectExtensionsPath>$(MSBuildProjectExtensionsPath)</_InitialMSBuildProjectExtensionsPath>
+	</PropertyGroup>
+
+	<!--
+		All the tools use `$(MSBuildProjectFile).<SomethingUnique>` name pattern for their props/targets.
+		So we set a glob that will be used to import all props/targets that matches the above name pattern.
+	-->
+	<PropertyGroup>
+		<MSBuildProjectExtensionsFileName Condition="'$(MSBuildProjectExtensionsFileName)' == ''">$(MSBuildProjectFile).*</MSBuildProjectExtensionsFileName>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<ImportedMSBuildProjectExtensionCoreProps>true</ImportedMSBuildProjectExtensionCoreProps>
+	</PropertyGroup>
+
+</Project>

@@ -7,7 +7,7 @@
 	<PropertyGroup Condition="'$(SolutionBuildProps)' == ''">
 		<SolutionBuildPropsFile Condition="'$(SolutionBuildPropsFile)' == ''">Solution.Build.props</SolutionBuildPropsFile>
 		<SolutionBuildPropsPath Condition="'$(SolutionBuildPropsPath)' == ''">$(MSBuildSolutionDirectory)</SolutionBuildPropsPath>
-		<SolutionBuildProps Condition="'$(SolutionBuildPropsPath)' != ''">$([System.IO.Path]::Combine('$(SolutionBuildPropsPath)', '$(SolutionBuildPropsFile)'))</SolutionBuildProps>
+		<SolutionBuildProps Condition="'$(SolutionBuildPropsPath)' != ''">$([System.IO.Path]::Join('$(SolutionBuildPropsPath)', '$(SolutionBuildPropsFile)'))</SolutionBuildProps>
 	</PropertyGroup>
 
 	<Import Project="$(SolutionBuildProps)" Condition="Exists('$(SolutionBuildProps)')"/>

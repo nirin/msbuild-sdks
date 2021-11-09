@@ -7,7 +7,7 @@
 	<PropertyGroup Condition="'$(SolutionBuildTargets)' == ''">
 		<SolutionBuildTargetsFile Condition="'$(SolutionBuildTargetsFile)' == ''">Solution.Build.targets</SolutionBuildTargetsFile>
 		<SolutionBuildTargetsPath Condition="'$(SolutionBuildTargetsPath)' == ''">$(MSBuildSolutionDirectory)</SolutionBuildTargetsPath>
-		<SolutionBuildTargets Condition="'$(SolutionBuildTargetsPath)' != ''">$([System.IO.Path]::Combine('$(SolutionBuildTargetsPath)', '$(SolutionBuildTargetsFile)'))</SolutionBuildTargets>
+		<SolutionBuildTargets Condition="'$(SolutionBuildTargetsPath)' != ''">$([System.IO.Path]::Join('$(SolutionBuildTargetsPath)', '$(SolutionBuildTargetsFile)'))</SolutionBuildTargets>
 	</PropertyGroup>
 
 	<Import Project="$(SolutionBuildTargets)" Condition="Exists('$(SolutionBuildTargets)')"/>

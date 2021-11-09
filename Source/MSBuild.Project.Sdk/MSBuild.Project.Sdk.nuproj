@@ -1,18 +1,18 @@
 <Project Sdk="NuGet.Packaging.Sdk">
 
 	<PropertyGroup Label="Globals">
-		<ProjectGuid>{4E8B0C67-EF67-4911-9C0E-7E98F4DD9F94}</ProjectGuid>
+		<ProjectGuid>{783A4558-BD83-4557-A6BC-A9C5636E82AD}</ProjectGuid>
 	</PropertyGroup>
 
 	<PropertyGroup Label="PackageInfo">
-		<Title>MSBuild Core Sdk</Title>
-		<PackageId>MSBuild.Core.Sdk</PackageId>
+		<Title>MSBuild Project Sdk</Title>
+		<PackageId>MSBuild.Project.Sdk</PackageId>
 		<PackageVersion Condition="'$(PackageVersion)' == ''">1.0.0</PackageVersion>
 		<PackageTags>$(PackageTags);project;base;core;common;build;toolkit</PackageTags>
 		<Summary>An MSBuild SDK package for projects that provides basic project support.</Summary>
 		<Description>$(Summary) This is usually the base SDK for other SDKs listed here.</Description>
 		<Description>$(Description) On its own, it can be used for authoring SDKs, build files and project files that don't compile to an assembly.</Description>
-		<Description>$(Description) But, when extended, it can provide common build functionality (such as project metadata, output paths, etc…) to the derived SDKs.</Description>
+		<Description>$(Description) But, when extended, it can provide common build functionality (such as project meta-data, output paths, etc…) to the derived SDKs.</Description>
 	</PropertyGroup>
 
 </Project>
