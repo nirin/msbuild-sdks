@@ -1,7 +1,7 @@
 <Project>
 
 	<!-- Import Fixed up Project Extensions logic for WPF/WFF -->
-	<PropertyGroup Condition="'$(NETSdkVersion)' &lt; '5.0'">
+	<PropertyGroup Condition="'$(MSBuildAssemblyVersion)' &lt; '16.0'">
 		<CustomAfterMicrosoftCommonTargets>$(MSBuildThisFileDirectory)..\Extensions\MSBuild.ProjectExtensions.targets</CustomAfterMicrosoftCommonTargets>
 		<CustomAfterMicrosoftCommonCrossTargetingTargets>$(MSBuildThisFileDirectory)..\Extensions\MSBuild.ProjectExtensions.targets</CustomAfterMicrosoftCommonCrossTargetingTargets>
 	</PropertyGroup>

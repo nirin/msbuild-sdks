@@ -48,7 +48,7 @@ You can put the `global.json` file next to your solution:
 ```json
 {
     "msbuild-sdks": {
-        "MSBuild.NET.Extras.Sdk": "1.4.0"
+        "MSBuild.NET.Extras.Sdk": "1.4.1"
     }
 }
 ```
@@ -59,7 +59,7 @@ This would be a preferred solution for all the projects in your solution.
 Then again, you might want to override the version for just one project _OR_ if you have only one project in your solution (without adding `global.json`), you can do so like this:
 
 ```xml
-<Project Sdk="MSBuild.NET.Extras.Sdk/1.4.0">
+<Project Sdk="MSBuild.NET.Extras.Sdk/1.4.1">
   <PropertyGroup>
     <TargetFrameworks>net46;uap10.0;tizen40</TargetFrameworks>
   </PropertyGroup>

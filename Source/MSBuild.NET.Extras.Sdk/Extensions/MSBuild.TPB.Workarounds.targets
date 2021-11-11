@@ -35,7 +35,7 @@
 
 	<!--
 		Workaround to fix IntelliSense file generation for XAML projects
-		ISSUE: https://github.com/dotnet/project-system/issues/2488
+		ISSUE: https://github.com/dotnet/project-system/issues/5529
 	-->
 	<Target Name="_FixupDesignTimeBuildAndIntelliSense"
 			AfterTargets="_CheckCompileDesignTimePrerequisite"
