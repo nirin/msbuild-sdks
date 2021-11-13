@@ -1,15 +1,20 @@
 <Project>
 
+	<PropertyGroup>
+		<_XamlLanguageTargets>$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.$(LanguageSourceName).targets</_XamlLanguageTargets>
+	</PropertyGroup>
+
+	<Import Project="$(_XamlLanguageTargets)" Condition="Exists('$(_XamlLanguageTargets)')"/>
+	<Import Sdk="MSBuild.NET.Legacy.Sdk" Project="Sdk.Core.targets" Condition="!Exists('$(_XamlLanguageTargets)')"/>
+
 	<ItemGroup>
 		<PropertyPageSchema Include="$(MSBuildToolsPath)\$(LangName)\SubProject.xaml"/>
+	</ItemGroup>
+
+	<ItemGroup>
 		<ProjectCapability Include="SourceItemsFromImports;SharedImports;SharedAssetsProject"/>
 		<ProjectCapability Include="PerPlatformCompilation;MultiTarget"/>
 		<ProjectCapability Include="ProjectConfigurationsDeclaredAsItems"/>
-	</ItemGroup>
-
-	<ItemGroup Condition="'$(VisualStudioVersion)' >= '12.0'">
-		 <!-- ISSUE: https://github.com/dotnet/roslyn-project-system/issues/47 -->
-		<ProjectCapability Include="ManagedLang" Condition="'$(VisualStudioVersion)' &lt;= '15.0'"/>
 		<ProjectCapability Include="HandlesOwnReload"/>
 		<ProjectCapability Include="UseFileGlobs"/>
 	</ItemGroup>
@@ -27,13 +32,5 @@
 
 	<Target Name="_CheckForInvalidConfigurationAndPlatform">
 	</Target>
-
-	<!--
-		HACK: Visual Studio 2013 and below needs this, since their common targets weren't updated for CodeSharing!
-		TargetPath is set to nothing for shared projects because they dont have any output
-	-->
-	<PropertyGroup Condition="'$(VisualStudioVersion)' == '12.0'">
-		<TargetPath/>
-	</PropertyGroup>
 
 </Project>

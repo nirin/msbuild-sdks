@@ -24,7 +24,7 @@
 
 		<When Condition="'$(MSBuildProjectExtension)' == '.vcxproj'">
 			<PropertyGroup>
-				<LanguageSourceName>VisualCpp</LanguageSourceName>
+				<LanguageSourceName>CPP</LanguageSourceName>
 				<ParentProjectType>Native</ParentProjectType>
 			</PropertyGroup>
 		</When>
@@ -38,8 +38,8 @@
 	</Choose>
 
 	<PropertyGroup Label="Globals">
-		<MinimumVisualStudioVersion>14.0</MinimumVisualStudioVersion>
-		<VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">15.0</VisualStudioVersion>
+		<MinimumVisualStudioVersion>15.0</MinimumVisualStudioVersion>
+		<VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">17.0</VisualStudioVersion>
 	</PropertyGroup>
 
 	<PropertyGroup>

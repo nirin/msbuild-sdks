@@ -7,12 +7,6 @@
 		<DefineCommonManagedReferenceSchemas>false</DefineCommonManagedReferenceSchemas>
 	</PropertyGroup>
 
-	<PropertyGroup>
-		<_ManagedLanguageTargets>$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.$(LanguageSourceName).targets</_ManagedLanguageTargets>
-		<_ManagedLanguageTargets Condition="!Exists('$(_ManagedLanguageTargets)')">$(MSBuildToolsPath)\Microsoft.$(LanguageSourceName).targets</_ManagedLanguageTargets>
-	</PropertyGroup>
-
-	<Import Project="$(_ManagedLanguageTargets)"/>
 	<Import Project="MSBuild.CodeSharing.Common.targets"/>
 
 	<PropertyGroup>
@@ -20,12 +14,7 @@
 		<SharedProjectAppliesTo Condition="'$(LanguageSourceName)' == 'VisualBasic'">VB</SharedProjectAppliesTo>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(VisualStudioVersion)' == '12.0'">
-		<!-- {DDDDC6BE-451D-46DD-A712-A5D07027E072} is also used for VS2013 -->
-		<AddItemTemplatesGuid>{72C8CC65-A019-4582-9859-D22C29245638}</AddItemTemplatesGuid>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(VisualStudioVersion)' >= '12.0'">
+	<PropertyGroup>
 		<!--
 			Reset the 'WindowsAppContainer' property to false.
 			Shared projects support Xaml files but only as an item container so there is no need to prompt for a developer license.

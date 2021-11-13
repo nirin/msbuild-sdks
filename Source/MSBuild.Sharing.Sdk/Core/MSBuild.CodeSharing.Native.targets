@@ -4,7 +4,6 @@
 		<ProjectCapability Include="ParentVCProject"/>
 	</ItemGroup>
 
-	<Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets"/>
 	<Import Project="MSBuild.CodeSharing.Common.targets"/>
 
 	<ItemGroup>
