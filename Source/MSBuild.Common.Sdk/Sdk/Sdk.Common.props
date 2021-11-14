@@ -1,0 +1,5 @@
+<Project>
+
+	<Import Project="..\Build\MSBuild.Common.Sdk.props"/>
+
+</Project>

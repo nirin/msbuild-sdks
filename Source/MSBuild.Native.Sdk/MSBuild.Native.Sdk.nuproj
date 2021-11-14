@@ -8,9 +8,9 @@
 		<Title>MSBuild Native Sdk</Title>
 		<PackageId>MSBuild.Native.Sdk</PackageId>
 		<PackageVersion Condition="'$(PackageVersion)' == ''">1.0.0</PackageVersion>
-		<PackageTags>$(PackageTags);native;c/c++;fortran;assembly;asm;x86;x64;arm;arm64</PackageTags>
+		<PackageTags>$(PackageTags);native;assembly;asm;fortran;c;c++;cpp;slang;rust</PackageTags>
 		<Summary>An MSBuild SDK package that supports authoring and building native platform projects.</Summary>
-		<Description>$(Summary) This SDK package supports compiling any native code (C, C++, ASM, FORTRAN, etc...) with any supported compiler (GCC, VisualC, CLang, XLang, etc...) on any platform (Windows, Linux, Unix).</Description>
+		<Description>$(Summary) It has a common infrastructure for compiling any native code, with any supported compiler, on any supported platform.</Description>
 	</PropertyGroup>
 
 </Project>

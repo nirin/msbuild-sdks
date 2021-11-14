@@ -1,0 +1,15 @@
+<Project>
+
+	<!--
+		Determine the path to the `Project.Build.props` file, if the user did not disable `$(ImportProjectBuildProps)` and
+		they did not already specify an absolute path to use via `$(ProjectBuildProps)`
+	-->
+	<PropertyGroup Condition="'$(ProjectBuildProps)' == ''">
+		<ProjectBuildPropsFile Condition="'$(ProjectBuildPropsFile)' == ''">Project.Build.props</ProjectBuildPropsFile>
+		<ProjectBuildPropsPath Condition="'$(ProjectBuildPropsPath)' == ''">$(MSBuildProjectDirectory)</ProjectBuildPropsPath>
+		<ProjectBuildProps Condition="'$(ProjectBuildPropsPath)' != ''">$([System.IO.Path]::Join('$(ProjectBuildPropsPath)', '$(ProjectBuildPropsFile)'))</ProjectBuildProps>
+	</PropertyGroup>
+
+	<Import Project="$(ProjectBuildProps)" Condition="Exists('$(ProjectBuildProps)')"/>
+
+</Project>

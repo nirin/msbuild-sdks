@@ -10,7 +10,9 @@
 		<PackageVersion Condition="'$(PackageVersion)' == ''">1.0.0</PackageVersion>
 		<PackageTags>$(PackageTags);solution;project;build-system;build;toolkit</PackageTags>
 		<Summary>An MSBuild SDK package that supports authoring and building MSBuild Solutions.</Summary>
-		<Description>$(Summary) You can create MSBuild solutions which are essentially MSBuild projects that indicate what projects to include, the configuration and the steps when building your solution tree. They are an evolution of Visual Studio solution files.</Description>
+		<Description>$(Summary) You can now create MSBuild solutions which are essentially MSBuild projects.</Description>
+		<Description>$(Description) They are an evolution of the classic Visual Studio solution (_.sln_) files.</Description>
+		<Description>$(Description) They can indicate what projects to include, its dependencies, the configuration and the steps when building your solution tree.</Description>
 	</PropertyGroup>
 
 </Project>

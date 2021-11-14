@@ -1,29 +1,5 @@
 <Project>
 
-	<!--
-		Right now, MSBuild doesn't have solution specific properties.
-		Hence, the new *Solution* properties are based on Macros available
-		when running from Visual Studio IDE with a legacy solution `sln` file.
-	-->
-	<PropertyGroup Condition="'$(BuildingSolutionFile)' == 'true'">
-		<MSBuildSolutionFile>$(SolutionFileName)</MSBuildSolutionFile>
-		<MSBuildSolutionName>$(SolutionName)</MSBuildSolutionName>
-		<MSBuildSolutionExtension>$(SolutionExt)</MSBuildSolutionExtension>
-		<MSBuildSolutionFullPath>$(SolutionPath)</MSBuildSolutionFullPath>
-		<MSBuildSolutionDirectory>$(SolutionDir)</MSBuildSolutionDirectory>
-		<MSBuildSolutionDirectoryNoRoot>$([MSBuild]::MakeRelative('$([System.IO.Path]::GetPathRoot($(SolutionDir)))', '$(SolutionDir)'))</MSBuildSolutionDirectoryNoRoot>
-	</PropertyGroup>
-
-	<!--
-		With MSBuild project files, there is no restriction on what file extension it could use.
-		But MSBuild recommends a pattern (`*proj`) to identify what kind of MSBuild file it is.
-	-->
-	<PropertyGroup>
-		<MSBuildProjectType>$(MSBuildProjectExtension.TrimStart('.'))</MSBuildProjectType>
-		<MSBuildProjectType Condition="$(MSBuildProjectType.EndsWith('proj'))">$(MSBuildProjectType.Substring(0, $(MSBuildProjectType.LastIndexOf('proj'))))</MSBuildProjectType>
-		<MSBuildProjectType Condition="'$(MSBuildProjectType)' == ''">core</MSBuildProjectType>
-	</PropertyGroup>
-
 	<Import Project="Sdk.Extensions.props"/>
 
 	<Import Project="Sdk.Core.props"/>

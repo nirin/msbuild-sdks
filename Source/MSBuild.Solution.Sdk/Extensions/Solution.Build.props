@@ -1,13 +1,13 @@
 <Project>
 
 	<!--
-		Determine the path to the solution build props file if the user did not disable `ImportSolutionBuildProps` and
-		they did not already specify an absolute path to use via `SolutionBuildProps`
+		Determine the path to the `Solution.Build.props` file if the user did not disable `$(ImportSolutionBuildProps)` and
+		they did not already specify an absolute path to use via `$(SolutionBuildProps)`
 	-->
 	<PropertyGroup Condition="'$(SolutionBuildProps)' == ''">
 		<SolutionBuildPropsFile Condition="'$(SolutionBuildPropsFile)' == ''">Solution.Build.props</SolutionBuildPropsFile>
 		<SolutionBuildPropsPath Condition="'$(SolutionBuildPropsPath)' == ''">$(MSBuildSolutionDirectory)</SolutionBuildPropsPath>
-		<SolutionBuildProps Condition="'$(SolutionBuildPropsPath)' != ''">$([System.IO.Path]::Combine('$(SolutionBuildPropsPath)', '$(SolutionBuildPropsFile)'))</SolutionBuildProps>
+		<SolutionBuildProps Condition="'$(SolutionBuildPropsPath)' != ''">$([System.IO.Path]::Join('$(SolutionBuildPropsPath)', '$(SolutionBuildPropsFile)'))</SolutionBuildProps>
 	</PropertyGroup>
 
 	<Import Project="$(SolutionBuildProps)" Condition="Exists('$(SolutionBuildProps)')"/>

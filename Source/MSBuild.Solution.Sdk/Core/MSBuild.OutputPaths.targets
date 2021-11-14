@@ -2,7 +2,7 @@
 
 	<!--
 		These are different than the defaults set by either `Microsoft.Common.targets` or the `Microsoft.NET.Sdk`.
-		These follow the following style, for all Projects within a Solution.
+		These follow the following style, for all Projects within a Solution as their base paths.
 
 		:Solution
 		├───<Builds>
@@ -21,22 +21,27 @@
 			└───Project.3.pub (folder)
 				|•••
 	-->
+
 	<Import Project="MSBuild.OutputPaths.props" Condition="'$(ImportedMSBuildOutputPathsProps)' != 'true'"/>
 
+	<!-- Set `$(PublishPath)` here, before any custom publish targets, to avoid a competing default there. -->
 	<PropertyGroup Label="Publish">
 		<PublishFolder Condition="'$(PublishFolder)' == ''">publish</PublishFolder>
-		<PublishPath Condition="'$(PublishPath)' == ''">$(PublishFolder)\</PublishPath>
-		<PublishPath Condition="!HasTrailingSlash('$(PublishPath)')">$(PublishPath)\</PublishPath>
+		<PublishPath Condition="'$(PublishPath)' == ''">$(PublishFolder)</PublishPath>
 	</PropertyGroup>
 
-	<PropertyGroup Label="Publish" Condition="$([System.IO.Path]::IsPathRooted('$(PublishPath)')) AND !$(PublishPath.StartsWith('$(MSBuildSolutionDirectory)'))">
-		<PublishPath>$(PublishPath)$(PublishFolder)\</PublishPath>
-		<PublishPath Condition="'$(AppendSolutionNameToPublishPath)' == 'true'">$(PublishPath)$(SolutionName)\</PublishPath>
+	<PropertyGroup Label="Publish" Condition="$([System.IO.Path]::IsPathRooted('$(PublishPath)'))">
+		<AppendSolutionNameToPublishPath Condition="'$(AppendSolutionNameToPublishPath)' == ''">true</AppendSolutionNameToPublishPath>
+		<PublishPath Condition="'$(AppendSolutionNameToPublishPath)' == 'true' AND !$(PublishPath.StartsWith('$(MSBuildSolutionDirectory)'))">$([System.IO.Path]::Join('$(PublishPath)', '$(SolutionName)'))</PublishPath>
 	</PropertyGroup>
 
-	<!-- Set `DefaultItemExcludes` property for output paths that should be excluded from the default items only when under solution directory. -->
+	<PropertyGroup Label="Publish">
+		<PublishPath>$([MSBuild]::EnsureTrailingSlash('$(PublishPath)'))</PublishPath>
+	</PropertyGroup>
+
+	<!-- Set `$(DefaultItemExcludes)` property for output paths that should be excluded from the default items only when under solution directory. -->
 	<PropertyGroup Condition="!$([System.IO.Path]::IsPathRooted('$(PublishPath)')) OR $(PublishPath.StartsWith('$(MSBuildSolutionDirectory)'))">
-		<!-- publish folder, by default -->
+		<!-- Exclude publish directory, by default -->
 		<DefaultItemExcludes>$(DefaultItemExcludes);$(PublishPath)**</DefaultItemExcludes>
 	</PropertyGroup>
 

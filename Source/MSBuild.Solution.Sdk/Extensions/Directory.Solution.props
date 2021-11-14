@@ -1,0 +1,15 @@
+<Project>
+
+	<!--
+		Determine the path to the `Directory.Solution.props` file, if the user did not disable `$(ImportDirectorySolutionProps)` and
+		they did not already specify an absolute path to use via `$(DirectorySolutionProps)`
+	-->
+	<PropertyGroup Condition="'$(DirectorySolutionProps)' == ''">
+		<DirectorySolutionPropsFile Condition="'$(DirectorySolutionPropsFile)' == ''">Directory.Solution.props</DirectorySolutionPropsFile>
+		<DirectorySolutionPropsPath Condition="'$(DirectorySolutionPropsPath)' == ''">$([MSBuild]::GetDirectoryNameOfFileAbove('$(MSBuildSolutionDirectory)', '$(DirectorySolutionPropsFile)'))</DirectorySolutionPropsPath>
+		<DirectorySolutionProps Condition="'$(DirectorySolutionPropsPath)' != ''">$([System.IO.Path]::Join('$(DirectorySolutionPropsPath)', '$(DirectorySolutionPropsFile)'))</DirectorySolutionProps>
+	</PropertyGroup>
+
+	<Import Project="$(DirectorySolutionProps)" Condition="Exists('$(DirectorySolutionProps)')"/>
+
+</Project>

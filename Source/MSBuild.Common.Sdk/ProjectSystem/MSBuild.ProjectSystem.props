@@ -1,6 +1,6 @@
 <Project>
 
-	<!-- Default IDE Legacy project system properties -->
+	<!-- Default IDE project system properties -->
 	<PropertyGroup>
 		<ReadOnlyProject Condition="'$(ReadOnlyProject)' == ''">false</ReadOnlyProject>
 		<HideProjectNode Condition="'$(HideProjectNode)' == ''">false</HideProjectNode>

@@ -1,0 +1,19 @@
+<Project>
+
+	<PropertyGroup>
+		<ProjectName Condition="'$(ProjectName)' == ''">$(MSBuildProjectName)</ProjectName>
+		<AssemblyName Condition="'$(AssemblyName)' == ''">$(ProjectName)</AssemblyName>
+		<RootNamespace Condition="'$(RootNamespace)' == ''">$(ProjectName)</RootNamespace>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<PublishName Condition="'$(PublishName)' == ''">$(ProjectName)</PublishName>
+	</PropertyGroup>
+
+	<!-- Support aliases for `$(Platform)` and `$(Configuration)` through `$(PlatformName)` and `$(ConfigurationName)` -->
+	<PropertyGroup>
+		<PlatformName Condition="'$(PlatformName)' == ''">$(Platform)</PlatformName>
+		<ConfigurationName Condition="'$(ConfigurationName)' == ''">$(Configuration)</ConfigurationName>
+	</PropertyGroup>
+
+</Project>

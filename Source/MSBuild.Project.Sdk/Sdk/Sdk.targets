@@ -1,0 +1,7 @@
+<Project>
+
+	<Import Project="Sdk.Core.targets"/>
+
+	<Import Project="Sdk.Extensions.targets"/>
+
+</Project>

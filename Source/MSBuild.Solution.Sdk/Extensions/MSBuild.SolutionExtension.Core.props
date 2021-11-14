@@ -1,23 +1,23 @@
 <Project>
 
-	<!-- We need to initialize `BuildPath` property since `MSBuildSolutionExtensionsPath` depends on it. -->
+	<!-- We need to initialize `$(BuildPath)` property since `$(MSBuildSolutionExtensionsPath)` depends on it. -->
 	<Import Project="..\Core\MSBuild.OutputPaths.props" Condition="'$(MSBuildSolutionExtensionsPath)' == ''"/>
 
 	<!--
 		Prepare to import project extensions which usually come from packages. Package management systems will create a file at:
-		$(MSBuildSolutionExtensionsPath)\$(MSBuildSolutionExtensionsFileName).<props/targets>
+		`$(MSBuildSolutionExtensionsPath)\$(MSBuildSolutionExtensionsFileName).<props/targets>`
 		Each package management system should use a unique moniker to avoid collisions. It is a wild-card import so the package
 		management system can write out multiple files but the order of the import is alphabetic because MSBuild sorts the list.
 	-->
 	<PropertyGroup>
 		<MSBuildSolutionExtensionsPath Condition="'$(MSBuildSolutionExtensionsPath)' == ''">$(BuildPath)</MSBuildSolutionExtensionsPath>
 		<!--
-			Import paths that are relative default to be relative to the importing file. However, since `MSBuildExtensionsPath`
-			defaults to `BuildPath` we expect it to be relative to the `BuildPath` directory. So if the path is relative
-			it needs to be made absolute based on the `MSBuildSolutionDirectory` directory.
+			Import paths that are relative default to be relative to the importing file. However, since `$(MSBuildSolutionExtensionsPath)`
+			defaults to `$(BuildPath)` we expect it to be relative to the `$(BuildPath)` directory. So if the path is relative
+			it needs to be made absolute based on the `$(MSBuildSolutionDirectory)` directory.
 		-->
-		<MSBuildSolutionExtensionsPath Condition="!$([System.IO.Path]::IsPathRooted('$(MSBuildSolutionExtensionsPath)'))">$([System.IO.Path]::Combine('$(MSBuildSolutionDirectory)', '$(MSBuildSolutionExtensionsPath)'))</MSBuildSolutionExtensionsPath>
-		<MSBuildSolutionExtensionsPath Condition="!HasTrailingSlash('$(MSBuildSolutionExtensionsPath)')">$(MSBuildSolutionExtensionsPath)\</MSBuildSolutionExtensionsPath>
+		<MSBuildSolutionExtensionsPath>$([System.IO.Path]::Combine('$(MSBuildSolutionDirectory)', '$(MSBuildSolutionExtensionsPath)'))</MSBuildSolutionExtensionsPath>
+		<MSBuildSolutionExtensionsPath>$([MSBuild]::EnsureTrailingSlash('$(MSBuildSolutionExtensionsPath)'))</MSBuildSolutionExtensionsPath>
 		<_InitialMSBuildSolutionExtensionsPath>$(MSBuildSolutionExtensionsPath)</_InitialMSBuildSolutionExtensionsPath>
 	</PropertyGroup>
 

@@ -1,0 +1,15 @@
+<Project>
+
+	<!--
+		Determine the path to the `Directory.Project.props` file, if the user did not disable `$(ImportDirectoryProjectProps)` and
+		they did not already specify an absolute path to use via `$(DirectoryProjectProps)`
+	-->
+	<PropertyGroup Condition="'$(DirectoryProjectProps)' == ''">
+		<DirectoryProjectPropsFile Condition="'$(DirectoryProjectPropsFile)' == ''">Directory.Project.props</DirectoryProjectPropsFile>
+		<DirectoryProjectPropsPath Condition="'$(DirectoryProjectPropsPath)' == ''">$([MSBuild]::GetDirectoryNameOfFileAbove('$(MSBuildProjectDirectory)', '$(DirectoryProjectPropsFile)'))</DirectoryProjectPropsPath>
+		<DirectoryProjectProps Condition="'$(DirectoryProjectPropsPath)' != ''">$([System.IO.Path]::Join('$(DirectoryProjectPropsPath)', '$(DirectoryProjectPropsFile)'))</DirectoryProjectProps>
+	</PropertyGroup>
+
+	<Import Project="$(DirectoryProjectProps)" Condition="Exists('$(DirectoryProjectProps)')"/>
+
+</Project>

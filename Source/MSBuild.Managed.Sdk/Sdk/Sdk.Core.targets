@@ -1,0 +1,5 @@
+<Project>
+
+	<Import Project="..\Build\MSBuild.Managed.Sdk.targets"/>
+
+</Project>

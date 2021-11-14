@@ -1,21 +1,28 @@
 <Project>
 
 	<!--
-		We need to initialize `BuildPath` separately and before the `MSBuild.OutputPaths.targets` import,
-		since `MSBuildSolutionExtensionsPath` uses it to import custom props from Package Managers and Tools.
+		We need to initialize `$(BuildPath)` separately and before the `MSBuild.OutputPaths.targets` import,
+		since `$(MSBuildSolutionExtensionsPath)` uses it to import custom props from Package Managers and Tools.
 	-->
 	<PropertyGroup Label="Build">
 		<BuildFolder Condition="'$(BuildFolder)' == ''">build</BuildFolder>
-		<BuildPath Condition="'$(BuildPath)' == ''">$(BuildFolder)\</BuildPath>
-		<BuildPath Condition="!HasTrailingSlash('$(BuildPath)')">$(BuildPath)\</BuildPath>
-		<BuildPath Condition="$([System.IO.Path]::IsPathRooted('$(BuildPath)')) AND !$(BuildPath.StartsWith('$(MSBuildSolutionDirectory)'))">$(BuildPath)$(BuildFolder)\$(MSBuildSolutionName)\</BuildPath>
+		<BuildPath Condition="'$(BuildPath)' == ''">$(BuildFolder)</BuildPath>
+	</PropertyGroup>
+
+	<PropertyGroup Label="Build" Condition="$([System.IO.Path]::IsPathRooted('$(BuildPath)'))">
+		<AppendSolutionNameToBuildPath Condition="'$(AppendSolutionNameToBuildPath)' == ''">true</AppendSolutionNameToBuildPath>
+		<BuildPath Condition="'$(AppendSolutionNameToBuildPath)' == 'true' AND !$(BuildPath.StartsWith('$(MSBuildSolutionDirectory)'))">$([System.IO.Path]::Join('$(BuildPath)', '$(MSBuildSolutionName)'))</BuildPath>
+	</PropertyGroup>
+
+	<PropertyGroup Label="Build">
+		<BuildPath>$([MSBuild]::EnsureTrailingSlash('$(BuildPath)'))</BuildPath>
 		<_InitialBuildPath>$(BuildPath)</_InitialBuildPath>
 	</PropertyGroup>
 
-	<!-- Set `DefaultItemExcludes` property for output paths that should be excluded from the default items only when under solution directory. -->
+	<!-- Set `$(DefaultItemExcludes)` property for output paths that should be excluded from the default items only when under solution directory. -->
 	<PropertyGroup Condition="!$([System.IO.Path]::IsPathRooted('$(BuildPath)')) OR $(BuildPath.StartsWith('$(MSBuildSolutionDirectory)'))">
-		<!-- build folder, by default -->
-		<DefaultItemExcludes>$(DefaultItemExcludes);$(BuildPath)**</DefaultItemExcludes>
+		<!-- Exclude build directory, by default -->
+		<DefaultItemExcludes>$(BuildPath)**;$(DefaultItemExcludes)</DefaultItemExcludes>
 	</PropertyGroup>
 
 	<PropertyGroup>
