@@ -1,4 +1,4 @@
-<Project DefaultTargets="Restore;Build">
+<Project InitialTargets="Initialize" DefaultTargets="Summary">
 
 	<PropertyGroup>
 		<SolutionName Condition="'$(SolutionName)' == ''">$(MSBuildSolutionName)</SolutionName>
@@ -25,5 +25,23 @@
 		<BuildContext Condition="!('$(BuildContext)' == '' OR $(BuildContext.EndsWith('-')))">$(BuildContext)-</BuildContext>
 		<BuildContext>$(BuildContext)$(Platform)</BuildContext>
 	</PropertyGroup>
+
+	<!--
+	========================================================================================================================
+														TARGETS
+	========================================================================================================================
+	-->
+
+	<!-- Initial Target for the Solution Context -->
+
+	<Target Name="Initialize" DependsOnTargets="$(InitializeDependsOn)">
+		<Message Importance="Low" Text="$(MSBuildSolutionName) is initialized."/>
+	</Target>
+
+	<!-- Default Target for the Solution Context -->
+
+	<Target Name="Summary" DependsOnTargets="$(SummaryDependsOn)">
+		<Message Importance="High" Text="$(MSBuildSolutionName) ($(Configuration)|$(Platform)) [$(MSBuildSolutionDirectory)]"/>
+	</Target>
 
 </Project>

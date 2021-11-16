@@ -1,4 +1,4 @@
-<Project>
+<Project InitialTargets="Initialize" DefaultTargets="Summary">
 
 	<PropertyGroup>
 		<ProjectName Condition="'$(ProjectName)' == ''">$(MSBuildProjectName)</ProjectName>
@@ -26,5 +26,23 @@
 		<BuildContext Condition="!('$(BuildContext)' == '' OR $(BuildContext.EndsWith('-')))">$(BuildContext)-</BuildContext>
 		<BuildContext>$(BuildContext)$(Platform)</BuildContext>
 	</PropertyGroup>
+
+	<!--
+	========================================================================================================================
+														TARGETS
+	========================================================================================================================
+	-->
+
+	<!-- Initial Target for the Project Context -->
+
+	<Target Name="Initialize" DependsOnTargets="$(InitializeDependsOn)">
+		<Message Importance="Low" Text="$(MSBuildProjectName) is initialized."/>
+	</Target>
+
+	<!-- Default Target for the Project Context -->
+
+	<Target Name="Summary" DependsOnTargets="$(SummaryDependsOn)">
+		<Message Importance="High" Text="$(MSBuildProjectName) ($(Configuration)|$(Platform)) [$(MSBuildProjectDirectory)]"/>
+	</Target>
 
 </Project>
