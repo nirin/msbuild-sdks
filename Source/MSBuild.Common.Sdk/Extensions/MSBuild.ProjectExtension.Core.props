@@ -1,7 +1,7 @@
 <Project>
 
 	<!-- We need to initialize `$(BuildDir)` property since `$(MSBuildProjectExtensionsPath)` depends on it. -->
-	<Import Project="..\Common\MSBuild.OutputPaths.props" Condition="'$(MSBuildProjectExtensionsPath)' == ''"/>
+	<Import Project="..\Core\MSBuild.OutputPaths.props" Condition="'$(MSBuildProjectExtensionsPath)' == ''"/>
 
 	<!--
 		Prepare to import project extensions which usually come from packages. Package management systems will create a file at:
@@ -30,7 +30,7 @@
 	</PropertyGroup>
 
 	<PropertyGroup>
-		<ImportedProjectExtensionCommonProps>true</ImportedProjectExtensionCommonProps>
+		<ImportedMSBuildProjectExtensionCoreProps>true</ImportedMSBuildProjectExtensionCoreProps>
 	</PropertyGroup>
 
 </Project>

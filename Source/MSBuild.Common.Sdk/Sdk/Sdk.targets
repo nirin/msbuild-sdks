@@ -1,6 +1,6 @@
 <Project>
 
-	<Import Project="Sdk.Common.targets"/>
+	<Import Project="Sdk.Core.targets"/>
 
 	<Import Project="Sdk.Extensions.targets"/>
 

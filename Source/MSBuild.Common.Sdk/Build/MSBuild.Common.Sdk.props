@@ -2,7 +2,7 @@
 
 	<Import Project="Microsoft.VisualStudio.props"/>
 
-	<Import Project="..\Common\MSBuild.Common.props"/>
+	<Import Project="..\Core\MSBuild.Core.props"/>
 
 	<Import Project="..\ProjectSystem\MSBuild.ProjectSystem.props"/>
 
