@@ -1,6 +1,0 @@
--NoLogo
--Restore
--MaxCPUCount
--BinaryLogger
--NodeReuse:False
--Verbosity:Minimal
