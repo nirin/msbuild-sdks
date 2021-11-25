@@ -1,8 +1,8 @@
 <Project>
 
 	<PropertyGroup>
-		<ManagePackageVersionsCentrally>False</ManagePackageVersionsCentrally>
-		<RestoreUseStaticGraphEvaluation>False</RestoreUseStaticGraphEvaluation>
+		<ManagePackageVersionsCentrally>True</ManagePackageVersionsCentrally>
+		<RestoreUseStaticGraphEvaluation>True</RestoreUseStaticGraphEvaluation>
 	</PropertyGroup>
 
 	<!-- Disable Solution extensions -->
