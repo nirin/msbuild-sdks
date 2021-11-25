@@ -1,8 +1,8 @@
 using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace MSBuild.Core.Sdk.Tests
-{
+namespace MSBuild.Core.Sdk.Tests;
+
 	[TestClass]
 	public class MainTest //: SdkTest
 	{
@@ -14,4 +14,3 @@ namespace MSBuild.Core.Sdk.Tests
 			Assert.AreEqual(expected, actual);
 		}
 	}
-}

@@ -1,8 +1,8 @@
 using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace MSBuild.Core.Tasks.Tests
-{
+namespace MSBuild.Core.Tasks.Tests;
+
 	[TestClass]
 	public class MainTest //: TaskTest
 	{
@@ -14,4 +14,3 @@ namespace MSBuild.Core.Tasks.Tests
 			Assert.AreEqual(expected, actual);
 		}
 	}
-}

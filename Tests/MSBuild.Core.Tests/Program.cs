@@ -1,7 +1,7 @@
 using System;
 
-namespace MSBuild.Core.Tests
-{
+namespace MSBuild.Core.Tests;
+
 	public static class Program
 	{
 		public static void Main(string[] args)
@@ -9,4 +9,3 @@ namespace MSBuild.Core.Tests
 			Console.WriteLine("MSBuild Core SDK Tests");
 		}
 	}
-}
