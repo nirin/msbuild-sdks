@@ -2,10 +2,10 @@ using System;
 
 namespace MSBuild.NET.Tests;
 
-	public static class Program
+public static class Program
+{
+	public static void Main(string[] args)
 	{
-		public static void Main(string[] args)
-		{
-			Console.WriteLine("MSBuild .NET SDK Tests");
-		}
+		Console.WriteLine("MSBuild .NET SDK Tests");
 	}
+}
