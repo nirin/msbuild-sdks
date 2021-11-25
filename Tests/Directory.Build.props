@@ -2,6 +2,12 @@
 
 	<Import Project="..\$(MSBuildThisFile)"/>
 
+	<PropertyGroup>
+		<NoWarn>NU1507;NU1701</NoWarn>
+		<ManagePackageVersionsCentrally>True</ManagePackageVersionsCentrally>
+		<RestoreUseStaticGraphEvaluation>True</RestoreUseStaticGraphEvaluation>
+	</PropertyGroup>
+
 	<Choose>
 		<When Condition="$(MSBuildProjectName.EndsWith('Tests'))">
 			<PropertyGroup>

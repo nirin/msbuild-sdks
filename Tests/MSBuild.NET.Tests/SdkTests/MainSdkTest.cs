@@ -1,10 +1,11 @@
 using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using MSBuild.TestFramework;
 
-namespace MSBuild.Core.Sdk.Tests;
+namespace MSBuild.NET.Sdk.Tests;
 
 [TestClass]
-public class MainTest //: SdkTest
+public class MainSdkTest : SdkTest
 {
 	[TestMethod]
 	public void TestThis()

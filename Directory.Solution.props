@@ -1,10 +1,5 @@
 <Project>
 
-	<PropertyGroup>
-		<ManagePackageVersionsCentrally>True</ManagePackageVersionsCentrally>
-		<RestoreUseStaticGraphEvaluation>True</RestoreUseStaticGraphEvaluation>
-	</PropertyGroup>
-
 	<!-- Disable Solution extensions -->
 	<PropertyGroup>
 		<ImportByWildcardAfterSolution>False</ImportByWildcardAfterSolution>

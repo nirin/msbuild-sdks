@@ -3,7 +3,10 @@
 	{
 		"MSBuild.Core.Sdk": "1.0.0-dev.*",
 		"MSBuild.Common.Sdk": "1.0.0-dev.*",
+
+		"MSBuild.NET.Sdk": "1.0.0-dev.*",
 		"MSBuild.NET.Legacy.Sdk": "1.0.0-dev.*",
+
 		"NuGet.Packaging.Sdk": "1.0.0-dev.*"
 	}
 }

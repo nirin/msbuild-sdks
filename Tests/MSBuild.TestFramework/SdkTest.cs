@@ -2,9 +2,9 @@ using System;
 
 namespace MSBuild.TestFramework;
 
-public sealed class Project
+public sealed class SdkTest
 {
-	public Project()
+	public SdkTest()
 	{
 	}
 }
