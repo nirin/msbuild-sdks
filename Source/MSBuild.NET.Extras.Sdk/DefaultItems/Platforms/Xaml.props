@@ -47,8 +47,8 @@
 
 	<ItemGroup Condition="'$(EnableDefaultPageItems)' == 'true' AND '$(IncludeGeneratedCode)' == 'true'">
 		<_XamlGeneratedCompile Include="@(ApplicationDefinition);@(Page)">
-			<CoreRef>$(IntermediateOutputPath)$([MSBuild]::ValueOrDefault('%(Filename)', '').Replace('.xaml', '.g%(Extension)'))</CoreRef>
-			<DesignRef>$(IntermediateOutputPath)$([MSBuild]::ValueOrDefault('%(Filename)', '').Replace('.xaml', '.g.i%(Extension)'))</DesignRef>
+			<CoreRef>$(IntermediateOutputPath)$([System.IO.Path]::ChangeExtension('%(Filename)', '.g%(Extension)'))</CoreRef>
+			<DesignRef>$(IntermediateOutputPath)$([System.IO.Path]::ChangeExtension('%(Filename)', '.g.i%(Extension)'))</DesignRef>
 		</_XamlGeneratedCompile>
 		<Compile Include="@(_XamlGeneratedCompile->'%(CoreRef);%(DesignRef)')">
 			<AutoGen>true</AutoGen>

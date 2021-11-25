@@ -22,7 +22,7 @@
 			<AutoGen>true</AutoGen>
 			<DesignTime>true</DesignTime>
 			<DesignTimeSharedInput>true</DesignTimeSharedInput>
-			<DependentUpon>$([MSBuild]::ValueOrDefault('%(Filename)', '').Replace('$(DefaultDesignerFileSuffix)', '.myapp'))</DependentUpon>
+			<DependentUpon>$([System.IO.Path]::ChangeExtension('%(Filename)', '.myapp'))</DependentUpon>
 		</Compile>
 	</ItemGroup>
 
