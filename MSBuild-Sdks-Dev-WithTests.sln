@@ -4,19 +4,19 @@ VisualStudioVersion = 17.0
 MinimumVisualStudioVersion = 15.0
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sdks", "Sdks", "{43CB834E-28D8-4B88-B668-F1388A5D774E}"
 EndProject
-Project("{5DD5E4FA-CB73-4610-85AB-557B54E96AA9}") = "MSBuild.Core.Sdk", "Source\MSBuild.Core.Sdk\MSBuild.Core.Sdk.nuproj", "{783A4558-BD83-4557-A6BC-A9C5636E82AD}"
+Project("{5DD5E4FA-CB73-4610-85AB-557B54E96AA9}") = "MSBuild.Core.Sdk", "Sources\MSBuild.Core.Sdk\MSBuild.Core.Sdk.nuproj", "{783A4558-BD83-4557-A6BC-A9C5636E82AD}"
 EndProject
-Project("{5DD5E4FA-CB73-4610-85AB-557B54E96AA9}") = "MSBuild.Dependencies.Sdk", "Source\MSBuild.Dependencies.Sdk\MSBuild.Dependencies.Sdk.nuproj", "{4D73720F-06D1-4A74-84D6-FE23115F5F96}"
+Project("{5DD5E4FA-CB73-4610-85AB-557B54E96AA9}") = "MSBuild.Dependencies.Sdk", "Sources\MSBuild.Dependencies.Sdk\MSBuild.Dependencies.Sdk.nuproj", "{4D73720F-06D1-4A74-84D6-FE23115F5F96}"
 EndProject
-Project("{5DD5E4FA-CB73-4610-85AB-557B54E96AA9}") = "MSBuild.Native.Sdk", "Source\MSBuild.Native.Sdk\MSBuild.Native.Sdk.nuproj", "{B088F8C2-87CE-4A56-B92B-83BF2EF995F7}"
+Project("{5DD5E4FA-CB73-4610-85AB-557B54E96AA9}") = "MSBuild.Native.Sdk", "Sources\MSBuild.Native.Sdk\MSBuild.Native.Sdk.nuproj", "{B088F8C2-87CE-4A56-B92B-83BF2EF995F7}"
 EndProject
-Project("{5DD5E4FA-CB73-4610-85AB-557B54E96AA9}") = "MSBuild.NET.Sdk", "Source\MSBuild.NET.Sdk\MSBuild.NET.Sdk.nuproj", "{9B67EF80-5F2B-453E-AB0C-2E3DBE098F22}"
+Project("{5DD5E4FA-CB73-4610-85AB-557B54E96AA9}") = "MSBuild.NET.Sdk", "Sources\MSBuild.NET.Sdk\MSBuild.NET.Sdk.nuproj", "{9B67EF80-5F2B-453E-AB0C-2E3DBE098F22}"
 EndProject
-Project("{5DD5E4FA-CB73-4610-85AB-557B54E96AA9}") = "MSBuild.Packaging.Sdk", "Source\MSBuild.Packaging.Sdk\MSBuild.Packaging.Sdk.nuproj", "{5E1B574A-7C25-4C51-B25B-6D78F847252F}"
+Project("{5DD5E4FA-CB73-4610-85AB-557B54E96AA9}") = "MSBuild.Packaging.Sdk", "Sources\MSBuild.Packaging.Sdk\MSBuild.Packaging.Sdk.nuproj", "{5E1B574A-7C25-4C51-B25B-6D78F847252F}"
 EndProject
-Project("{5DD5E4FA-CB73-4610-85AB-557B54E96AA9}") = "MSBuild.Sharing.Sdk", "Source\MSBuild.Sharing.Sdk\MSBuild.Sharing.Sdk.nuproj", "{4E83D386-7C67-465C-9407-1FEA813B1DFA}"
+Project("{5DD5E4FA-CB73-4610-85AB-557B54E96AA9}") = "MSBuild.Sharing.Sdk", "Sources\MSBuild.Sharing.Sdk\MSBuild.Sharing.Sdk.nuproj", "{4E83D386-7C67-465C-9407-1FEA813B1DFA}"
 EndProject
-Project("{5DD5E4FA-CB73-4610-85AB-557B54E96AA9}") = "MSBuild.Solution.Sdk", "Source\MSBuild.Solution.Sdk\MSBuild.Solution.Sdk.nuproj", "{6B5DCD27-878E-4D34-ABBA-D2B2CDBC0058}"
+Project("{5DD5E4FA-CB73-4610-85AB-557B54E96AA9}") = "MSBuild.Solution.Sdk", "Sources\MSBuild.Solution.Sdk\MSBuild.Solution.Sdk.nuproj", "{6B5DCD27-878E-4D34-ABBA-D2B2CDBC0058}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{A6D598DD-B005-4ECF-B7B4-1CDC7FF3B65B}"
 EndProject
