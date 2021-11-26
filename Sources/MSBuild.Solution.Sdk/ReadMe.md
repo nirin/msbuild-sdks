@@ -13,6 +13,11 @@ They are an evolution of the classic Visual Studio solution (_.sln_) files.
 
 Visual Studio v15.6+ includes support for SDK's resolved from NuGet. That makes using the custom SDKs much easier.
 
+See [Using MSBuild project SDKs][msbuild-sdk-usage] guide on [Microsoft Docs](https://docs.ms) for more information on how project SDKs work and [how project SDKs are resolved][msbuild-sdk-resolver].
+
+[msbuild-sdk-usage]: https://docs.microsoft.com/visualstudio/msbuild/how-to-use-project-sdk
+[msbuild-sdk-resolver]: https://docs.microsoft.com/visualstudio/msbuild/how-to-use-project-sdk#how-project-sdks-are-resolved
+
 #### Using the SDK
 
 1. Create a new project
@@ -91,5 +96,3 @@ After that, you can use the `Restore`, `Build`, `Pack` targets to restore packag
 
 - This SDK does not support Common Project System (**CPS**) protocol. As such, it may not open in Visual Studio and other IDEs that require it.
 - But code editors such as Visual Studio Code and others will open the project without any issues as they (_OmniSharp_) don't require CPS.
-
-More information on how SDK's are resolved can be found [here](https://docs.microsoft.com/visualstudio/msbuild/how-to-use-project-sdk#how-project-sdks-are-resolved).

@@ -14,6 +14,11 @@ Use them to slowly migrate your legacy projects to SDK-style.
 
 Visual Studio v15.6+ includes support for SDK's resolved from NuGet. That makes using the custom SDKs much easier.
 
+See [Using MSBuild project SDKs][msbuild-sdk-usage] guide on [Microsoft Docs](https://docs.ms) for more information on how project SDKs work and [how project SDKs are resolved][msbuild-sdk-resolver].
+
+[msbuild-sdk-usage]: https://docs.microsoft.com/visualstudio/msbuild/how-to-use-project-sdk
+[msbuild-sdk-resolver]: https://docs.microsoft.com/visualstudio/msbuild/how-to-use-project-sdk#how-project-sdks-are-resolved
+
 #### Using the SDK
 
 1. Open your existing MSBuild v12, v14 and v15+ legacy project (_in your code editor of your choice_).
@@ -108,5 +113,3 @@ That's it. After that, you can use the `Build` target to build the projects. E.g
 
 - It will only work with Visual Studio IDE (Windows/Mac) as it requires the desktop `msbuild` and the target Platform SDKs which are not cross-platform.
 - It might work in Visual Studio Code, but you have to configure build tasks in `launch.json` to use desktop `msbuild` to build.
-
-More information on how SDK's are resolved can be found [here](https://docs.microsoft.com/visualstudio/msbuild/how-to-use-project-sdk#how-project-sdks-are-resolved).

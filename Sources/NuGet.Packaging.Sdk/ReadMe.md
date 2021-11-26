@@ -16,6 +16,11 @@ It's basically an SDK wrapper around [NuGet.Build.Packaging](https://github.com/
 
 Visual Studio v15.6+ includes support for SDK's resolved from NuGet. That makes using the custom SDKs much easier.
 
+See [Using MSBuild project SDKs][msbuild-sdk-usage] guide on [Microsoft Docs](https://docs.ms) for more information on how project SDKs work and [how project SDKs are resolved][msbuild-sdk-resolver].
+
+[msbuild-sdk-usage]: https://docs.microsoft.com/visualstudio/msbuild/how-to-use-project-sdk
+[msbuild-sdk-resolver]: https://docs.microsoft.com/visualstudio/msbuild/how-to-use-project-sdk#how-project-sdks-are-resolved
+
 #### Using the SDK
 
 1. Create a new project
@@ -87,5 +92,3 @@ After that, you can use the `Restore`, `Build`, `Pack` targets to restore packag
 
 - As the project support in the SDK is based on an experimental NuGet project, it requires the NuGet Packaging Visual Studio extension to load `.nuproj` project types.
 - Since the extension hasn't been updated in a while, newer VS IDE can't install the extension and thus can't open the project. So, either use internally published VS IDE extension or just use VS Code with _OmniSharp_ extension.
-
-More information on how SDK's are resolved can be found [here](https://docs.microsoft.com/visualstudio/msbuild/how-to-use-project-sdk#how-project-sdks-are-resolved).
