@@ -27,19 +27,19 @@
 	-->
 	<ItemGroup Condition="'$(EnableDefaultEmbeddedResourceItems)' == 'true' AND '$(EnableEmbeddedResourceCodeGenerator)' == 'true'">
 		<EmbeddedResource Update="**\*.resx">
-			<HasLangId>$([System.Text.RegularExpressions.Regex]::IsMatch('%(FileName)', '$(LangIdRegEx)'))</HasLangId>
+			<HasLangId>$([System.Text.RegularExpressions.Regex]::IsMatch('%(Filename)', '$(LangIdRegEx)'))</HasLangId>
 		</EmbeddedResource>
 		<EmbeddedResource Update="**\*.resx">
 			<Generator Condition="!%(HasLangId)">$(EmbeddedResourceCodeGeneratorTool)</Generator>
 			<LastGenOutput Condition="!%(HasLangId)">%(Filename)$(DefaultDesignerFileSuffix)$(DefaultLanguageSourceExtension)</LastGenOutput>
 			<LastGenOutputPath Condition="!%(HasLangId)">%(RecursiveDir)</LastGenOutputPath>
-			<DependentUpon Condition="%(HasLangId)">$([System.Text.RegularExpressions.Regex]::Replace('%(FileName)', '$(LangIdRegEx)', '%(Extension)'))</DependentUpon>
+			<DependentUpon Condition="%(HasLangId)">$([System.Text.RegularExpressions.Regex]::Replace('%(Filename)', '$(LangIdRegEx)', '%(Extension)'))</DependentUpon>
 		</EmbeddedResource>
 		<Compile Update="@(EmbeddedResource->'%(LastGenOutputPath)%(LastGenOutput)')">
 			<AutoGen>true</AutoGen>
 			<DesignTime>true</DesignTime>
 			<DesignTimeSharedInput>true</DesignTimeSharedInput>
-			<DependentUpon>$([MSBuild]::ValueOrDefault('%(Filename)', '').Replace('$(DefaultDesignerFileSuffix)', '.resx'))</DependentUpon>
+			<DependentUpon>$([System.IO.Path]::ChangeExtension('%(Filename)', '.resx'))</DependentUpon>
 		</Compile>
 	</ItemGroup>
 

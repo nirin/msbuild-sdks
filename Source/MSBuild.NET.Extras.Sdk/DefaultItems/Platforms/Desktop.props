@@ -24,13 +24,13 @@
 			<AutoGen>true</AutoGen>
 			<DesignTime>true</DesignTime>
 			<DesignTimeSharedInput>true</DesignTimeSharedInput>
-			<DependentUpon>$([MSBuild]::ValueOrDefault('%(Filename)', '').Replace('$(DefaultDesignerFileSuffix)', '.settings'))</DependentUpon>
+			<DependentUpon>$([System.IO.Path]::ChangeExtension('%(Filename)', '.settings'))</DependentUpon>
 		</Compile>
 	</ItemGroup>
 
 	<ItemGroup>
 		<Compile Update="**\*$(DefaultDesignerFileSuffix)$(DefaultLanguageSourceExtension)">
-			<DependentUpon Condition="'%(DependentUpon)' == ''">$([MSBuild]::ValueOrDefault('%(Filename)', '').Replace('$(DefaultDesignerFileSuffix)', '$(DefaultLanguageSourceExtension)'))</DependentUpon>
+			<DependentUpon Condition="'%(DependentUpon)' == ''">$([System.IO.Path]::ChangeExtension('%(Filename)', '$(DefaultLanguageSourceExtension)'))</DependentUpon>
 		</Compile>
 		<Service Include="$(WebDesignerService)" Condition="'$(EnableWebDesigner)' == 'true'"/>
 		<Service Include="$(UserControlDesignerService)" Condition="'$(EnableUserControlDesigner)' == 'true'"/>
