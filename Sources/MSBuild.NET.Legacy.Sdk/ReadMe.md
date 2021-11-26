@@ -9,11 +9,10 @@ Use them to slowly migrate your legacy projects to SDK-style.
 ### Package Name: `MSBuild.NET.Legacy.Sdk`
 
 [![MSBuild.NET.Legacy.Sdk](https://img.shields.io/myget/msbuild-sdks/v/MSBuild.NET.Legacy.Sdk.svg)](https://myget.org/feed/msbuild-sdks/package/nuget/MSBuild.NET.Legacy.Sdk)
-[![MSBuild-SDKs](https://img.shields.io/badge/msbuild--sdks-myget-brightgreen.svg)](https://myget.org/gallery/msbuild-sdks)
 
-### Getting started (VS 15.6+)
+### Getting started
 
-Visual Studio 2017 Update 6 (aka _v15.6_) includes support for SDK's resolved from NuGet. That makes using the custom SDKs much easier.
+Visual Studio v15.6+ includes support for SDK's resolved from NuGet. That makes using the custom SDKs much easier.
 
 #### Using the SDK
 
@@ -80,7 +79,7 @@ Visual Studio 2017 Update 6 (aka _v15.6_) includes support for SDK's resolved fr
     - Adding a `global.json` containing the SDK name and version.
     - Appending a version info to the `Sdk` attribute value.
 
-   You can put the `global.json` file next to your solution:
+   You can put the SDK version in the `global.json` file next to your solution:
 
    ```json
    {
@@ -109,6 +108,5 @@ That's it. After that, you can use the `Build` target to build the projects. E.g
 
 - It will only work with Visual Studio IDE (Windows/Mac) as it requires the desktop `msbuild` and the target Platform SDKs which are not cross-platform.
 - It might work in Visual Studio Code, but you have to configure build tasks in `launch.json` to use desktop `msbuild` to build.
-- You must install the tools of the platforms you intend to build. For Xamarin, that means the Xamarin Workload; for UWP install those tools as well.
 
 More information on how SDK's are resolved can be found [here](https://docs.microsoft.com/visualstudio/msbuild/how-to-use-project-sdk#how-project-sdks-are-resolved).

@@ -8,11 +8,10 @@ They are an evolution of the classic Visual Studio solution (_.sln_) files.
 ### Package Name: `MSBuild.Solution.Sdk`
 
 [![MSBuild.Solution.Sdk](https://img.shields.io/myget/msbuild-sdks/v/MSBuild.Solution.Sdk.svg)](https://myget.org/feed/msbuild-sdks/package/nuget/MSBuild.Solution.Sdk)
-[![MSBuild-SDKs](https://img.shields.io/badge/msbuild--sdks-myget-brightgreen.svg)](https://myget.org/gallery/msbuild-sdks)
 
-### Getting started (VS 15.6+)
+### Getting started
 
-Visual Studio 2017 Update 6 (aka _v15.6_) includes support for SDK's resolved from NuGet. That makes using the custom SDKs much easier.
+Visual Studio v15.6+ includes support for SDK's resolved from NuGet. That makes using the custom SDKs much easier.
 
 #### Using the SDK
 
@@ -57,7 +56,7 @@ The final project should look like this:
 </Project>
 ```
 
-You can put the `global.json` file next to your solution:
+You can put the SDK version in the `global.json` file next to your solution:
 
 ```json
 {
@@ -90,8 +89,7 @@ After that, you can use the `Restore`, `Build`, `Pack` targets to restore packag
 
 #### Important to Note
 
-- It will only work with Visual Studio IDE (Windows/Mac) as it requires the desktop `msbuild` and the target Platform SDKs which are not cross-platform.
-- It might work in Visual Studio Code, but you have to configure build tasks in `launch.json` to use desktop `msbuild` to build.
-- You must install the tools of the platforms you intend to build. For Xamarin, that means the Xamarin Workload; for UWP install those tools as well.
+- This SDK does not support Common Project System (**CPS**) protocol. As such, it may not open in Visual Studio and other IDEs that require it.
+- But code editors such as Visual Studio Code and others will open the project without any issues as they (_OmniSharp_) don't require CPS.
 
 More information on how SDK's are resolved can be found [here](https://docs.microsoft.com/visualstudio/msbuild/how-to-use-project-sdk#how-project-sdks-are-resolved).

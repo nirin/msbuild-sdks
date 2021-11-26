@@ -12,18 +12,16 @@ See the [original project](https://github.com/onovotny/MSBuildSdkExtras/) by [Or
 
 [![MSBuild.NET.Extras.Sdk](https://img.shields.io/nuget/v/MSBuild.NET.Extras.Sdk.svg)](https://nuget.org/packages/MSBuild.NET.Extras.Sdk)
 [![MSBuild.NET.Extras.Sdk](https://img.shields.io/myget/msbuild-sdks/v/MSBuild.NET.Extras.Sdk.svg)](https://myget.org/feed/msbuild-sdks/package/nuget/MSBuild.NET.Extras.Sdk)
-[![MSBuild-SDKs](https://img.shields.io/badge/msbuild--sdks-myget-brightgreen.svg)](https://myget.org/gallery/msbuild-sdks)
 
-### Getting started (VS 15.6+)
+### Getting started
 
-Visual Studio 2017 Update 6 (aka _v15.6_) includes support for SDK's resolved from NuGet. That makes using the custom SDKs much easier.
+Visual Studio v15.6+ includes support for SDK's resolved from NuGet. That makes using the custom SDKs much easier.
 
 #### Using the SDK
 
 1. Create a new project
-    - .NET Core console app or .NET Standard class library.
+    - Either Console App or Class Library.
     - With your existing SDK-style project.
-    - With the templates in the repo's [TestProjects](../../TestProjects) folder.
 
 2. Replace `Microsoft.NET.Sdk` with `MSBuild.NET.Extras.Sdk` to the project's top-level `Sdk` attribute.
 
@@ -43,7 +41,7 @@ The final project should look like this:
 </Project>
 ```
 
-You can put the `global.json` file next to your solution:
+You can put the SDK version in the `global.json` file next to your solution:
 
 ```json
 {
@@ -81,30 +79,30 @@ More information on how SDK's are resolved can be found [here](https://docs.micr
 
 For those who are using in a `PackageReference` style, you can't do that with v1.1+ of this package. So update VS to 15.6+ and manually upgrade your projects as shown below:
 
-1. The same as above, replace the Sdk attribute's value.
+1. The same as above, replace the `Sdk` attribute's value.
 2. Remove the workaround import specified with the old way. The import property should be `MSBuildSdkExtrasDotNet`.
-3. Do a trial build and then compare your project with the templates in the repo's [TestProjects](/TestProjects) folder to troubleshoot any issues if you encounter them.
-4. Please file an issue if you can't troubleshoot on your own. Then I can help you with the issue you are facing.
+3. Do a trial build and verify using the MSBuild's binary logging (`-bl`) switch to compare the old and the new project builds.
+4. If you encounter any issues that you can't troubleshoot on your own, please file an issue. I'll do the best I can to help.
 
 Your project diff:
 
 ```diff
-- <Project Sdk="Microsoft.NET.Sdk">
-+ <Project Sdk="MSBuild.NET.Extras.Sdk">
-  <!-- OTHER PROPERTIES -->
-  <PropertyGroup>
-    <TargetFrameworks>net46;uap10.0;tizen40</TargetFrameworks>
-  </PropertyGroup>
+-<Project Sdk="Microsoft.NET.Sdk">
++<Project Sdk="MSBuild.NET.Extras.Sdk">
+   <!-- OTHER PROPERTIES -->
+   <PropertyGroup>
+     <TargetFrameworks>net46;uap10.0;tizen40</TargetFrameworks>
+   </PropertyGroup>
 
-  <ItemGroup>
+   <ItemGroup>
 -    <PackageReference Include="MSBuild.NET.Extras.Sdk" Version="1.0.0" PrivateAssets="All"/>
-    <PackageReference Include="System.ValueTuple" Version="5.0.0"/>
-    <!-- OTHER PACKAGES/INCLUDES -->
-  </ItemGroup>
+     <PackageReference Include="System.ValueTuple" Version="5.0.0"/>
+     <!-- OTHER PACKAGES/INCLUDES -->
+   </ItemGroup>
 
 -  <Import Project="$(MSBuildSdkExtrasDotNet)" Condition="Exists('$(MSBuildSdkExtrasDotNet)')"/>
-  <!-- OTHER IMPORTS -->
-</Project>
+   <!-- OTHER IMPORTS -->
+ </Project>
 ```
 
 ```diff
@@ -135,6 +133,6 @@ Once this package is configured, you can now use any supported TFM in your `Targ
 - `xamarin.tvos`
 - `portableNN-`/`portable-` (legacy PCL profiles like `portable-net45+win8+wpa81+wp8`)
 
- For legacy PCL profiles, the order of the TFM's in the list does not matter, but the profile must be an exact match to one of the known profiles. If it's not, you'll get a compile error saying it's unknown. You can see the full list of known profiles here: [Portable Library Profiles by Stephen Cleary](https://portablelibraryprofiles.stephencleary.com/).
+For legacy PCL profiles, the order of the TFM's in the list does not matter, but the profile must be an exact match to one of the known profiles. If it's not, you'll get a compile error saying it's unknown. You can see the full list of known profiles here: [Portable Library Profiles by Stephen Cleary](https://portablelibraryprofiles.stephencleary.com/).
 
- If you try to use a framework that you don't have tools installed for, you'll get an error as well saying to check the tools. In some cases this might mean installing an older version of Visual Studio IDE (_like 2015_) to ensure that the necessary targets are installed on the machine.
+If you try to use a framework that you don't have tools installed for, you'll get an error as well saying to check the tools. In some cases this might mean installing an older version of Visual Studio IDE (_like 2015_) to ensure that the necessary targets are installed on the machine.

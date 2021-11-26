@@ -1,27 +1,27 @@
 # MSBuild SDKs
 
-MSBuild SDKs are used to configure and extend your build. MSBuild 15.0 introduced a concept of an SDK which is an upgraded project XML Schema that we commonly refer as 'SDK-style' project. So MSBuild 15.0 and above is needed for the following SDKs
+MSBuild SDKs are used to configure and extend your build. MSBuild v15 introduced a concept of an SDK reference (_similar to an Import_). Any project that references one or more SDKs are commonly referred to as an _SDK-style_ project. So, MSBuild v15+ is required for the _SDK-style_ project to work.
 
 ## Available SDKs
 
-[![NIRIN @ NuGet](https://img.shields.io/badge/NIRIN-NuGet-blue.svg)](https://nuget.org/profiles/NIRIN)
-[![MSBuild-SDKs](https://img.shields.io/badge/msbuild--sdks-myget-brightgreen.svg)](https://myget.org/gallery/msbuild-sdks)
+[![MyGet: MSBuild-SDKs](https://img.shields.io/badge/MyGet-MSBuild--SDKs-brightgreen.svg)](https://myget.org/gallery/msbuild-sdks)
+[![NuGet: NIRIN](https://img.shields.io/badge/NuGet-NIRIN-blue.svg)](https://nuget.org/profiles/NIRIN)
 
 ### [MSBuild.Core.Sdk](Sources/MSBuild.Core.Sdk)
 
-Support projects that do not compile to an assembly. This is usually the base SDK for other SDKs listed here.
+Supports creating projects that do not compile to an assembly. This is usually the base SDK for other SDKs listed here.
 
 [![MSBuild.Core.Sdk](https://img.shields.io/myget/msbuild-sdks/v/MSBuild.Core.Sdk.svg)](https://myget.org/feed/msbuild-sdks/package/nuget/MSBuild.Core.Sdk)
 
 ### [MSBuild.Common.Sdk](Sources/MSBuild.Common.Sdk)
 
-Support projects that do not compile to an assembly. This is usually the base SDK for other SDKs listed here.
+Supports creating projects that do not compile to an assembly. This is usually the base SDK for other SDKs listed here.
 
 [![MSBuild.Common.Sdk](https://img.shields.io/myget/msbuild-sdks/v/MSBuild.Common.Sdk.svg)](https://myget.org/feed/msbuild-sdks/package/nuget/MSBuild.Common.Sdk)
 
 ### [MSBuild.Project.Sdk](Sources/MSBuild.Project.Sdk)
 
-Support projects that do not compile to an assembly. This is usually the base SDK for other SDKs listed here.
+Supports creating projects that do not compile to an assembly. This is usually the base SDK for other SDKs listed here.
 
 [![MSBuild.Project.Sdk](https://img.shields.io/myget/msbuild-sdks/v/MSBuild.Project.Sdk.svg)](https://myget.org/feed/msbuild-sdks/package/nuget/MSBuild.Project.Sdk)
 
@@ -56,15 +56,9 @@ Adds a few extra extensions to the SDK-style projects that are currently not ava
 
 ### [MSBuild.NET.Sdk](Sources/MSBuild.NET.Sdk)
 
-Supports [.NET](Docs/Support.md#net-platform-support) projects that include building for .NET Framework (Windows), .NET Core (Windows, Linux, MacOS), Mono (Windows, Linux, MacOS), Xamarin (based on Mono) runtimes.
+Supports creating .NET projects that include building for .NET Framework (Windows), .NET Core (Windows, Linux, MacOS), Mono (Windows, Linux, MacOS), Xamarin (based on Mono) runtimes.
 
 [![MSBuild.NET.Sdk](https://img.shields.io/myget/msbuild-sdks/v/MSBuild.NET.Sdk.svg)](https://myget.org/feed/msbuild-sdks/package/nuget/MSBuild.NET.Sdk)
-
-### [MSBuild.NET.Legacy.Sdk](Sources/MSBuild.NET.Legacy.Sdk)
-
-Supports only .NET Framework (Windows). Contains the original .NET Framework Build files that were included with MSBuild. Use them to slowly migrate your legacy projects to SDK-style.
-
-[![MSBuild.NET.Legacy.Sdk](https://img.shields.io/myget/msbuild-sdks/v/MSBuild.NET.Legacy.Sdk.svg)](https://myget.org/feed/msbuild-sdks/package/nuget/MSBuild.NET.Legacy.Sdk)
 
 ### [MSBuild.NET.Inbox.Sdk](Sources/MSBuild.NET.Inbox.Sdk)
 
@@ -72,6 +66,12 @@ Supports only .NET Framework (Windows). Redirects to the original MSBuild files 
 
 [![MSBuild.NET.Inbox.Sdk](https://img.shields.io/nuget/v/MSBuild.NET.Inbox.Sdk.svg)](https://nuget.org/packages/MSBuild.NET.Inbox.Sdk)
 [![MSBuild.NET.Inbox.Sdk](https://img.shields.io/myget/msbuild-sdks/v/MSBuild.NET.Inbox.Sdk.svg)](https://myget.org/feed/msbuild-sdks/package/nuget/MSBuild.NET.Inbox.Sdk)
+
+### [MSBuild.NET.Legacy.Sdk](Sources/MSBuild.NET.Legacy.Sdk)
+
+Supports only .NET Framework (Windows). Contains the original .NET Framework Build files that were included with MSBuild. Use them to slowly migrate your legacy projects to SDK-style.
+
+[![MSBuild.NET.Legacy.Sdk](https://img.shields.io/myget/msbuild-sdks/v/MSBuild.NET.Legacy.Sdk.svg)](https://myget.org/feed/msbuild-sdks/package/nuget/MSBuild.NET.Legacy.Sdk)
 
 ### [NuGet.Packaging.Sdk](Sources/NuGet.Packaging.Sdk)
 
@@ -83,19 +83,21 @@ Supports NuGet Restore/Pack Tasks and Package authoring. It's basically an SDK w
 
 ### [MSBuild.Dependencies.Sdk](Sources/MSBuild.Dependencies.Sdk)
 
-Supports managing Native and Managed references via various sources such as packages from a central repository. Also allows global references and central versioning via Solution SDK.
+Supports managing Native and Managed references via various sources such as packages from a central repository. Also supports global references and central versioning via Solution SDK.
 
 ### [MSBuild.Managed.Sdk](Sources/MSBuild.Managed.Sdk)
 
-Supports [Managed](Docs/Support.md#managed-platform-support) projects that include building for Managed Runtime frameworks (_Annex, Mono, .NET, Swift, Java, etc…_). This is usually the base SDK for other specific Managed Runtime SDKs listed here.
+Supports creating Managed runtime targeting projects using Managed frameworks and languages (_Annex, Mono (.NET), Swift, Java, etc…_).
+This is usually the base SDK for other specific Managed Runtime SDKs listed here.
 
 ### [MSBuild.Native.Sdk](Sources/MSBuild.Native.Sdk)
 
-Supports [Native](Docs/Support.md#native-platform-support) projects that include building for Native Runtime targets (_ASM, FORTRAN, C/C++, SLang, Rust, etc…_). This is usually the base SDK for other specific Native Runtime SDKs listed here.
+Supports creating Native runtime targeting projects using Native frameworks and languages (_ASM, FORTRAN, C/C++, SLang, Rust, etc…_).
+This is usually the base SDK for other specific Native Runtime SDKs listed here.
 
 ### [MSBuild.Packaging.Sdk](Sources/MSBuild.Packaging.Sdk)
 
-Supports creating any type of package for any type of project with built-in support for basic Archive (_ZIP, 7Z, RAR, IMG, ISO, etc…_), platform-specific (_MSI, MSU, MSP, MSIX, AppX, etc…_) and platform-agnostic (_NuGet, VCPKG, JAR, JSP, DEP, etc…_) packaging.
+Supports creating ___any type of package___ for ___any type of project___ with built-in support for basic Archives (_ZIP, 7Z, RAR, IMG, ISO, etc…_), platform-specific (_MSI, MSU, MSP, MSIX, AppX, etc…_) and platform-agnostic (_NuGet, VCPKG, JAR, JSP, DEP, etc…_) packaging.
 
 ## Working
 
@@ -125,7 +127,7 @@ At evaluation time, MSBuild adds implicit imports at the top and bottom of the p
 </Project>
 ```
 
-By default, MSBuild requires that the SDKs must be installed prior to using them. But, for MSBuild 15.6 and above, the SDKs can be referenced as NuGet packages instead.
+By default, MSBuild requires that the SDKs must be installed prior to using them. But, for MSBuild v15.6+, the SDKs can be referenced as NuGet packages instead.
 More documentation is available [here](https://docs.microsoft.com/visualstudio/msbuild/how-to-use-project-sdk).
 
 ## Contributing (`TBA`)
