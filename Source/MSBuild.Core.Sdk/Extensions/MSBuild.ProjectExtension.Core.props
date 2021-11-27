@@ -11,7 +11,7 @@
 	-->
 	<PropertyGroup>
 		<ProjectExtensionsFolder Condition="'$(ProjectExtensionsFolder)' == ''">ext</ProjectExtensionsFolder>
-		<MSBuildProjectExtensionsPath Condition="'$(MSBuildProjectExtensionsPath)' == ''">$([System.IO.Path]::Combine('$(BuildPath)', '$(ProjectExtensionsFolder)'))</MSBuildProjectExtensionsPath>
+		<MSBuildProjectExtensionsPath Condition="'$(MSBuildProjectExtensionsPath)' == ''">$([System.IO.Path]::Join('$(BuildPath)', '$(ProjectExtensionsFolder)'))</MSBuildProjectExtensionsPath>
 		<!--
 			Import paths that are relative default to be relative to the importing file. However, since `$(MSBuildProjectExtensionsPath)`
 			defaults to `$(BuildPath)` we expect it to be relative to the `$(BuildPath)` directory. So if the path is relative
