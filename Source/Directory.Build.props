@@ -3,7 +3,7 @@
 	<Import Project="..\$(MSBuildThisFile)"/>
 
 	<PropertyGroup Label="Output">
-		<PublishFolder>~Packages</PublishFolder>
+		<PublishPath>$(RepositoryDirectory)~Packages\</PublishPath>
 	</PropertyGroup>
 
 	<PropertyGroup Label="PackageInfo">

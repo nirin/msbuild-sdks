@@ -11,6 +11,8 @@
 # Build results
 [Bb]in/
 [Oo]bj/
+[Ff]in/
+[Ii]nt/
 [Ee]xt/
 [Ll]og/
 [Ll]ogs/
@@ -33,7 +35,7 @@
 # Visual Studio 15+ auto generated files
 Generated\ Files/
 
-# Backup folder for Package Reference Convert tool in Visual Studio 2017
+# Backup folder for Package Reference Convert tool in Visual Studio 15+
 MigrationBackup/
 
 # Local History for Visual Studio
@@ -168,6 +170,7 @@ PublishScripts/
 *.nuget.targets
 
 # Windows Store app package directories and files
+Publish/
 AppPackages/
 BundleArtifacts/
 Package.StoreAssociation.xml
