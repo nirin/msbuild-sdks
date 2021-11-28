@@ -4,15 +4,21 @@ VisualStudioVersion = 17.0
 MinimumVisualStudioVersion = 15.0
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sdks", "Sdks", "{43CB834E-28D8-4B88-B668-F1388A5D774E}"
 EndProject
-Project("{5DD5E4FA-CB73-4610-85AB-557B54E96AA9}") = "MSBuild.Core.Sdk", "Sources\MSBuild.Core.Sdk\MSBuild.Core.Sdk.nuproj", "{783A4558-BD83-4557-A6BC-A9C5636E82AD}"
+Project("{5DD5E4FA-CB73-4610-85AB-557B54E96AA9}") = "MSBuild.Common.Sdk", "Sources\MSBuild.Common.Sdk\MSBuild.Common.Sdk.nuproj", "{A7EE4057-5228-4D49-A7E3-778B642A66D3}"
+EndProject
+Project("{5DD5E4FA-CB73-4610-85AB-557B54E96AA9}") = "MSBuild.Core.Sdk", "Sources\MSBuild.Core.Sdk\MSBuild.Core.Sdk.nuproj", "{4E8B0C67-EF67-4911-9C0E-7E98F4DD9F94}"
 EndProject
 Project("{5DD5E4FA-CB73-4610-85AB-557B54E96AA9}") = "MSBuild.Dependencies.Sdk", "Sources\MSBuild.Dependencies.Sdk\MSBuild.Dependencies.Sdk.nuproj", "{4D73720F-06D1-4A74-84D6-FE23115F5F96}"
+EndProject
+Project("{5DD5E4FA-CB73-4610-85AB-557B54E96AA9}") = "MSBuild.Managed.Sdk", "Sources\MSBuild.Managed.Sdk\MSBuild.Managed.Sdk.nuproj", "{ACEAD681-9AF6-45A1-BCE0-A893E9EE59BB}"
 EndProject
 Project("{5DD5E4FA-CB73-4610-85AB-557B54E96AA9}") = "MSBuild.Native.Sdk", "Sources\MSBuild.Native.Sdk\MSBuild.Native.Sdk.nuproj", "{B088F8C2-87CE-4A56-B92B-83BF2EF995F7}"
 EndProject
 Project("{5DD5E4FA-CB73-4610-85AB-557B54E96AA9}") = "MSBuild.NET.Sdk", "Sources\MSBuild.NET.Sdk\MSBuild.NET.Sdk.nuproj", "{9B67EF80-5F2B-453E-AB0C-2E3DBE098F22}"
 EndProject
 Project("{5DD5E4FA-CB73-4610-85AB-557B54E96AA9}") = "MSBuild.Packaging.Sdk", "Sources\MSBuild.Packaging.Sdk\MSBuild.Packaging.Sdk.nuproj", "{5E1B574A-7C25-4C51-B25B-6D78F847252F}"
+EndProject
+Project("{5DD5E4FA-CB73-4610-85AB-557B54E96AA9}") = "MSBuild.Project.Sdk", "Sources\MSBuild.Project.Sdk\MSBuild.Project.Sdk.nuproj", "{783A4558-BD83-4557-A6BC-A9C5636E82AD}"
 EndProject
 Project("{5DD5E4FA-CB73-4610-85AB-557B54E96AA9}") = "MSBuild.Sharing.Sdk", "Sources\MSBuild.Sharing.Sdk\MSBuild.Sharing.Sdk.nuproj", "{4E83D386-7C67-465C-9407-1FEA813B1DFA}"
 EndProject
@@ -32,14 +38,22 @@ Global
 		Release|Any = Release|Any
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{783A4558-BD83-4557-A6BC-A9C5636E82AD}.Debug|Any.ActiveCfg = Debug|Any
-		{783A4558-BD83-4557-A6BC-A9C5636E82AD}.Debug|Any.Build.0 = Debug|Any
-		{783A4558-BD83-4557-A6BC-A9C5636E82AD}.Release|Any.ActiveCfg = Release|Any
-		{783A4558-BD83-4557-A6BC-A9C5636E82AD}.Release|Any.Build.0 = Release|Any
+		{A7EE4057-5228-4D49-A7E3-778B642A66D3}.Debug|Any.ActiveCfg = Debug|Any
+		{A7EE4057-5228-4D49-A7E3-778B642A66D3}.Debug|Any.Build.0 = Debug|Any
+		{A7EE4057-5228-4D49-A7E3-778B642A66D3}.Release|Any.ActiveCfg = Release|Any
+		{A7EE4057-5228-4D49-A7E3-778B642A66D3}.Release|Any.Build.0 = Release|Any
+		{4E8B0C67-EF67-4911-9C0E-7E98F4DD9F94}.Debug|Any.ActiveCfg = Debug|Any
+		{4E8B0C67-EF67-4911-9C0E-7E98F4DD9F94}.Debug|Any.Build.0 = Debug|Any
+		{4E8B0C67-EF67-4911-9C0E-7E98F4DD9F94}.Release|Any.ActiveCfg = Release|Any
+		{4E8B0C67-EF67-4911-9C0E-7E98F4DD9F94}.Release|Any.Build.0 = Release|Any
 		{4D73720F-06D1-4A74-84D6-FE23115F5F96}.Debug|Any.ActiveCfg = Debug|Any
 		{4D73720F-06D1-4A74-84D6-FE23115F5F96}.Debug|Any.Build.0 = Debug|Any
 		{4D73720F-06D1-4A74-84D6-FE23115F5F96}.Release|Any.ActiveCfg = Release|Any
 		{4D73720F-06D1-4A74-84D6-FE23115F5F96}.Release|Any.Build.0 = Release|Any
+		{ACEAD681-9AF6-45A1-BCE0-A893E9EE59BB}.Debug|Any.ActiveCfg = Debug|Any
+		{ACEAD681-9AF6-45A1-BCE0-A893E9EE59BB}.Debug|Any.Build.0 = Debug|Any
+		{ACEAD681-9AF6-45A1-BCE0-A893E9EE59BB}.Release|Any.ActiveCfg = Release|Any
+		{ACEAD681-9AF6-45A1-BCE0-A893E9EE59BB}.Release|Any.Build.0 = Release|Any
 		{B088F8C2-87CE-4A56-B92B-83BF2EF995F7}.Debug|Any.ActiveCfg = Debug|Any
 		{B088F8C2-87CE-4A56-B92B-83BF2EF995F7}.Debug|Any.Build.0 = Debug|Any
 		{B088F8C2-87CE-4A56-B92B-83BF2EF995F7}.Release|Any.ActiveCfg = Release|Any
@@ -48,6 +62,10 @@ Global
 		{9B67EF80-5F2B-453E-AB0C-2E3DBE098F22}.Debug|Any.Build.0 = Debug|Any
 		{9B67EF80-5F2B-453E-AB0C-2E3DBE098F22}.Release|Any.ActiveCfg = Release|Any
 		{9B67EF80-5F2B-453E-AB0C-2E3DBE098F22}.Release|Any.Build.0 = Release|Any
+		{783A4558-BD83-4557-A6BC-A9C5636E82AD}.Debug|Any.ActiveCfg = Debug|Any
+		{783A4558-BD83-4557-A6BC-A9C5636E82AD}.Debug|Any.Build.0 = Debug|Any
+		{783A4558-BD83-4557-A6BC-A9C5636E82AD}.Release|Any.ActiveCfg = Release|Any
+		{783A4558-BD83-4557-A6BC-A9C5636E82AD}.Release|Any.Build.0 = Release|Any
 		{5E1B574A-7C25-4C51-B25B-6D78F847252F}.Debug|Any.ActiveCfg = Debug|Any
 		{5E1B574A-7C25-4C51-B25B-6D78F847252F}.Debug|Any.Build.0 = Debug|Any
 		{5E1B574A-7C25-4C51-B25B-6D78F847252F}.Release|Any.ActiveCfg = Release|Any
@@ -89,6 +107,6 @@ Global
 		{9D3A6804-CB5F-48FE-A75A-9F6C359DBDC7} = {A6D598DD-B005-4ECF-B7B4-1CDC7FF3B65B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {59E40B9F-1468-4E2F-BD7B-EFE7B2DDDCF0}
+		SolutionGuid = {26A05CAF-1380-418B-9731-5088DA15AB20}
 	EndGlobalSection
 EndGlobal

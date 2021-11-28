@@ -83,6 +83,8 @@ See [Using MSBuild project SDKs][msbuild-sdk-usage] guide on [Microsoft Docs](ht
 [![MyGet: MSBuild-SDKs](https://img.shields.io/badge/MyGet-MSBuild--SDKs-brightgreen.svg)](https://myget.org/gallery/msbuild-sdks)
 [![NuGet: NIRIN](https://img.shields.io/badge/NuGet-NIRIN-blue.svg)](https://nuget.org/profiles/NIRIN)
 
+## Bare SDKs
+
 ### [MSBuild.Core.Sdk](Sources/MSBuild.Core.Sdk)
 
 Supports creating projects that do not compile to an assembly. This is usually the base SDK for other SDKs listed here.
@@ -94,6 +96,8 @@ Supports creating projects that do not compile to an assembly. This is usually t
 Supports creating projects that do not compile to an assembly. This is usually the base SDK for other SDKs listed here.
 
 [![MSBuild.Common.Sdk](https://img.shields.io/myget/msbuild-sdks/v/MSBuild.Common.Sdk.svg)](https://myget.org/feed/msbuild-sdks/package/nuget/MSBuild.Common.Sdk)
+
+## Basic SDKs
 
 ### [MSBuild.Project.Sdk](Sources/MSBuild.Project.Sdk)
 
@@ -114,6 +118,38 @@ Supports creating MSBuild solutions which are MSBuild projects that indicate wha
 They are an evolution of the classic Visual Studio solution (_.sln_) files.
 
 [![MSBuild.Solution.Sdk](https://img.shields.io/myget/msbuild-sdks/v/MSBuild.Solution.Sdk.svg)](https://myget.org/feed/msbuild-sdks/package/nuget/MSBuild.Solution.Sdk)
+
+## Platform SDKs
+
+### [MSBuild.Managed.Sdk](Sources/MSBuild.Managed.Sdk)
+
+Supports creating Managed runtime targeting projects using Managed frameworks and languages (_Annex, Mono (.NET), Swift, Java, etc…_).
+This is usually the base SDK for other specific Managed Runtime SDKs listed here.
+
+[![MSBuild.Managed.Sdk](https://img.shields.io/myget/msbuild-sdks/v/MSBuild.Managed.Sdk.svg)](https://myget.org/feed/msbuild-sdks/package/nuget/MSBuild.Managed.Sdk)
+
+### [MSBuild.Native.Sdk](Sources/MSBuild.Native.Sdk)
+
+Supports creating Native runtime targeting projects using Native frameworks and languages (_ASM, FORTRAN, C/C++, SLang, Rust, etc…_).
+This is usually the base SDK for other specific Native Runtime SDKs listed here.
+
+[![MSBuild.Native.Sdk](https://img.shields.io/myget/msbuild-sdks/v/MSBuild.Native.Sdk.svg)](https://myget.org/feed/msbuild-sdks/package/nuget/MSBuild.Native.Sdk)
+
+## Support SDKs
+
+### [MSBuild.Dependencies.Sdk](Sources/MSBuild.Dependencies.Sdk)
+
+Supports managing Native and Managed references via various sources such as packages from a central repository. Also supports global references and central versioning via Solution SDK.
+
+[![MSBuild.Dependencies.Sdk](https://img.shields.io/myget/msbuild-sdks/v/MSBuild.Dependencies.Sdk.svg)](https://myget.org/feed/msbuild-sdks/package/nuget/MSBuild.Dependencies.Sdk)
+
+### [MSBuild.Packaging.Sdk](Sources/MSBuild.Packaging.Sdk)
+
+Supports creating ___any type of package___ for ___any type of project___ with built-in support for basic Archives (_ZIP, 7Z, RAR, IMG, ISO, etc…_), platform-specific (_MSI, MSU, MSP, MSIX, AppX, etc…_) and platform-agnostic (_NuGet, VCPKG, JAR, JSP, DEP, etc…_) packaging.
+
+[![MSBuild.Packaging.Sdk](https://img.shields.io/myget/msbuild-sdks/v/MSBuild.Packaging.Sdk.svg)](https://myget.org/feed/msbuild-sdks/package/nuget/MSBuild.Packaging.Sdk)
+
+## .NET SDKs
 
 ### [MSBuild.NET.Sdk](Sources/MSBuild.NET.Sdk)
 
@@ -154,26 +190,6 @@ Supports only .NET Framework (Windows). Contains the original .NET Framework Bui
 Supports NuGet Restore/Pack Tasks and Package authoring. It's basically an SDK wrapper around [NuGet.Build.Packaging](https://github.com/NuGet/NuGet.Build.Packaging) aka NuGetizer-3000 project, with NuGet Restore and Pack targets optimized for SDK-style.
 
 [![NuGet.Packaging.Sdk](https://img.shields.io/myget/msbuild-sdks/v/NuGet.Packaging.Sdk.svg)](https://myget.org/feed/msbuild-sdks/package/nuget/NuGet.Packaging.Sdk)
-
-## Developing
-
-### [MSBuild.Managed.Sdk](Sources/MSBuild.Managed.Sdk)
-
-Supports creating Managed runtime targeting projects using Managed frameworks and languages (_Annex, Mono (.NET), Swift, Java, etc…_).
-This is usually the base SDK for other specific Managed Runtime SDKs listed here.
-
-### [MSBuild.Native.Sdk](Sources/MSBuild.Native.Sdk)
-
-Supports creating Native runtime targeting projects using Native frameworks and languages (_ASM, FORTRAN, C/C++, SLang, Rust, etc…_).
-This is usually the base SDK for other specific Native Runtime SDKs listed here.
-
-### [MSBuild.Dependencies.Sdk](Sources/MSBuild.Dependencies.Sdk)
-
-Supports managing Native and Managed references via various sources such as packages from a central repository. Also supports global references and central versioning via Solution SDK.
-
-### [MSBuild.Packaging.Sdk](Sources/MSBuild.Packaging.Sdk)
-
-Supports creating ___any type of package___ for ___any type of project___ with built-in support for basic Archives (_ZIP, 7Z, RAR, IMG, ISO, etc…_), platform-specific (_MSI, MSU, MSP, MSIX, AppX, etc…_) and platform-agnostic (_NuGet, VCPKG, JAR, JSP, DEP, etc…_) packaging.
 
 ## Contributing
 
