@@ -2,10 +2,16 @@
 
 	<Import Project="..\$(MSBuildThisFile)"/>
 
-	<PropertyGroup>
-		<NoWarn>NU1507;NU1701</NoWarn>
+	<PropertyGroup Label="Build">
+		<NoWarn>NU1507</NoWarn>
 		<ManagePackageVersionsCentrally>True</ManagePackageVersionsCentrally>
 		<RestoreUseStaticGraphEvaluation>True</RestoreUseStaticGraphEvaluation>
+	</PropertyGroup>
+
+	<PropertyGroup Label="Compiler">
+		<Features>Strict</Features>
+		<Nullable>Enable</Nullable>
+		<LangVersion>Latest</LangVersion>
 	</PropertyGroup>
 
 	<Choose>

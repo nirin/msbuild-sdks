@@ -2,7 +2,7 @@ using System;
 
 namespace MSBuild.TestFramework;
 
-public sealed class SdkTest
+public abstract class SdkTest
 {
 	public SdkTest()
 	{

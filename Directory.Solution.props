@@ -1,10 +1,14 @@
 <Project>
 
-	<!-- Disable Solution extensions -->
-	<PropertyGroup>
+	<PropertyGroup Label="Build">
+		<NoWarn>NU1507</NoWarn>
+		<ManagePackageVersionsCentrally>True</ManagePackageVersionsCentrally>
+		<RestoreUseStaticGraphEvaluation>True</RestoreUseStaticGraphEvaluation>
+	</PropertyGroup>
+
+	<PropertyGroup Label="Solution">
 		<ImportByWildcardAfterSolution>False</ImportByWildcardAfterSolution>
 		<ImportByWildcardBeforeSolution>False</ImportByWildcardBeforeSolution>
-		<ImportNuGetRestoreTargetsFromSdk>True</ImportNuGetRestoreTargetsFromSdk>
 	</PropertyGroup>
 
 </Project>

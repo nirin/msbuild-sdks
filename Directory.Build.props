@@ -1,18 +1,10 @@
 <Project>
 
-	<PropertyGroup Label="Output.Folders">
-		<BuildFolder>~Builds</BuildFolder>
-		<PublishFolder>~Publish</PublishFolder>
-		<FinalOutputFolder>Finals</FinalOutputFolder>
-		<InterimOutputFolder>Interims</InterimOutputFolder>
-		<ProjectExtensionsFolder>Extensions</ProjectExtensionsFolder>
-	</PropertyGroup>
-
 	<PropertyGroup Label="Output.Paths">
 		<RepositoryDirectory>$(MSBuildThisFileDirectory)</RepositoryDirectory>
 		<BuildToolsPath>$(RepositoryDirectory)Tools\</BuildToolsPath>
-		<PublishPath>$(RepositoryDirectory)</PublishPath>
-		<BuildPath>$(RepositoryDirectory)</BuildPath>
+		<PublishPath>$(RepositoryDirectory)~Publish\</PublishPath>
+		<BuildPath>$(RepositoryDirectory)~Builds\</BuildPath>
 	</PropertyGroup>
 
 </Project>
