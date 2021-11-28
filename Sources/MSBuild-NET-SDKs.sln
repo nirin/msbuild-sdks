@@ -2,21 +2,21 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0
 MinimumVisualStudioVersion = 15.0
-Project("{5DD5E4FA-CB73-4610-85AB-557B54E96AA9}") = "MSBuild.Core.Sdk", "Sources\MSBuild.Core.Sdk\MSBuild.Core.Sdk.nuproj", "{783A4558-BD83-4557-A6BC-A9C5636E82AD}"
+Project("{5DD5E4FA-CB73-4610-85AB-557B54E96AA9}") = "MSBuild.Core.Sdk", "MSBuild.Core.Sdk\MSBuild.Core.Sdk.nuproj", "{783A4558-BD83-4557-A6BC-A9C5636E82AD}"
 EndProject
-Project("{5DD5E4FA-CB73-4610-85AB-557B54E96AA9}") = "MSBuild.NET.DefaultItems", "Sources\MSBuild.NET.DefaultItems\MSBuild.NET.DefaultItems.nuproj", "{D954D633-9922-4AFF-83F2-BF157E2ED850}"
+Project("{5DD5E4FA-CB73-4610-85AB-557B54E96AA9}") = "MSBuild.NET.DefaultItems", "MSBuild.NET.DefaultItems\MSBuild.NET.DefaultItems.nuproj", "{D954D633-9922-4AFF-83F2-BF157E2ED850}"
 EndProject
-Project("{5DD5E4FA-CB73-4610-85AB-557B54E96AA9}") = "MSBuild.NET.Extras.Sdk", "Sources\MSBuild.NET.Extras.Sdk\MSBuild.NET.Extras.Sdk.nuproj", "{FBA79394-3A96-4BBE-B046-7302181AF10D}"
+Project("{5DD5E4FA-CB73-4610-85AB-557B54E96AA9}") = "MSBuild.NET.Extras.Sdk", "MSBuild.NET.Extras.Sdk\MSBuild.NET.Extras.Sdk.nuproj", "{FBA79394-3A96-4BBE-B046-7302181AF10D}"
 EndProject
-Project("{5DD5E4FA-CB73-4610-85AB-557B54E96AA9}") = "MSBuild.NET.Inbox.Sdk", "Sources\MSBuild.NET.Inbox.Sdk\MSBuild.NET.Inbox.Sdk.nuproj", "{4E58D45C-5E52-4301-A661-C49594094319}"
+Project("{5DD5E4FA-CB73-4610-85AB-557B54E96AA9}") = "MSBuild.NET.Inbox.Sdk", "MSBuild.NET.Inbox.Sdk\MSBuild.NET.Inbox.Sdk.nuproj", "{4E58D45C-5E52-4301-A661-C49594094319}"
 EndProject
-Project("{5DD5E4FA-CB73-4610-85AB-557B54E96AA9}") = "MSBuild.NET.Legacy.Sdk", "Sources\MSBuild.NET.Legacy.Sdk\MSBuild.NET.Legacy.Sdk.nuproj", "{9E0252B6-8815-4E25-8C6E-5838963C8233}"
+Project("{5DD5E4FA-CB73-4610-85AB-557B54E96AA9}") = "MSBuild.NET.Legacy.Sdk", "MSBuild.NET.Legacy.Sdk\MSBuild.NET.Legacy.Sdk.nuproj", "{9E0252B6-8815-4E25-8C6E-5838963C8233}"
 EndProject
-Project("{5DD5E4FA-CB73-4610-85AB-557B54E96AA9}") = "MSBuild.Sharing.Sdk", "Sources\MSBuild.Sharing.Sdk\MSBuild.Sharing.Sdk.nuproj", "{4E83D386-7C67-465C-9407-1FEA813B1DFA}"
+Project("{5DD5E4FA-CB73-4610-85AB-557B54E96AA9}") = "MSBuild.Sharing.Sdk", "MSBuild.Sharing.Sdk\MSBuild.Sharing.Sdk.nuproj", "{4E83D386-7C67-465C-9407-1FEA813B1DFA}"
 EndProject
-Project("{5DD5E4FA-CB73-4610-85AB-557B54E96AA9}") = "MSBuild.Solution.Sdk", "Sources\MSBuild.Solution.Sdk\MSBuild.Solution.Sdk.nuproj", "{6B5DCD27-878E-4D34-ABBA-D2B2CDBC0058}"
+Project("{5DD5E4FA-CB73-4610-85AB-557B54E96AA9}") = "MSBuild.Solution.Sdk", "MSBuild.Solution.Sdk\MSBuild.Solution.Sdk.nuproj", "{6B5DCD27-878E-4D34-ABBA-D2B2CDBC0058}"
 EndProject
-Project("{5DD5E4FA-CB73-4610-85AB-557B54E96AA9}") = "NuGet.Packaging.Sdk", "Sources\NuGet.Packaging.Sdk\NuGet.Packaging.Sdk.nuproj", "{208EC1B3-8458-4382-9C82-E20BDC7A0CAC}"
+Project("{5DD5E4FA-CB73-4610-85AB-557B54E96AA9}") = "NuGet.Packaging.Sdk", "NuGet.Packaging.Sdk\NuGet.Packaging.Sdk.nuproj", "{208EC1B3-8458-4382-9C82-E20BDC7A0CAC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

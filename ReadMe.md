@@ -2,6 +2,82 @@
 
 MSBuild SDKs are used to configure and extend your build. MSBuild v15 introduced a concept of an SDK reference (_similar to an Import_). Any project that references one or more SDKs are commonly referred to as an _SDK-style_ project. So, MSBuild v15+ is required for the _SDK-style_ project to work.
 
+Thus, an MSBuild SDK, in a nutshell, is an encapsulated (_packaged and versioned_) set of MSBuild props, targets and tasks that offer a specific set of functionalities to any project build.
+
+## Using MSBuild SDKs
+
+An MSBuild SDK is referenced through
+
+1. The `Sdk` attribute on the top-level `Project` element.
+
+   ```xml
+   <Project Sdk="My.Custom.Sdk" />
+   <!-- With Version -->
+   <Project Sdk="My.Custom.Sdk/1.0.0" />
+   ```
+
+2. The `Sdk` child element under the `Project` element.
+
+   ```xml
+   <Sdk Name="My.Custom.Sdk" />
+   <!-- With Version -->
+   <Sdk Name="My.Custom.Sdk" Version="1.0.0"/>
+   ```
+
+3. The `Sdk` attribute on the `Import` element.
+
+   ```xml
+   <Import Sdk="My.Custom.Sdk" Project="Sdk.props" />
+   <!-- With Version -->
+   <Import Sdk="My.Custom.Sdk/1.0.0" Project="Sdk.targets" />
+   <!-- With a Custom props/targets within SDK -->
+   <Import Sdk="My.Other.Sdk" Project="Path/To/Custom.targets" />
+   <Import Sdk="My.Other.Sdk" Project="../Path/To/Custom.props" />
+   ```
+
+These SDK-style projects looks like this:
+
+```xml
+<Project Sdk="My.Custom.Sdk">
+    <PropertyGroup>
+        <MyCustomSdkProperty>value</MyCustomSdkProperty>
+    </PropertyGroup>
+</Project>
+```
+
+As you can see, the project file is greatly simplified because of the encapsulation.
+
+At evaluation time, MSBuild implicitly imports the `Sdk.props` at the top and `Sdk.targets` at the bottom of the project like this:
+
+```xml
+<Project>
+  <Import Project="Sdk.props" Sdk="My.Custom.Sdk"/>
+
+    <PropertyGroup>
+        <MyCustomSdkProperty>value</MyCustomSdkProperty>
+    </PropertyGroup>
+
+  <Import Project="Sdk.targets" Sdk="My.Custom.Sdk"/>
+</Project>
+```
+
+By default, MSBuild requires that the SDKs must be installed prior to using them. But, for MSBuild v15.6+, the SDKs can be referenced as NuGet packages instead. In which case, the package (_SDK_) version can also be specified separately in the `global.json` file like this:
+
+```json
+{
+    "msbuild-sdks":
+    {
+        "My.Custom.Sdk": "1.1.0",
+        "My.Other.Sdk": "1.2.0-preview",
+    }
+}
+```
+
+See [Using MSBuild project SDKs][msbuild-sdk-usage] guide on [Microsoft Docs](https://docs.ms) for more information on how project SDKs work and [how project SDKs are resolved][msbuild-sdk-resolver].
+
+[msbuild-sdk-usage]: https://docs.microsoft.com/visualstudio/msbuild/how-to-use-project-sdk
+[msbuild-sdk-resolver]: https://docs.microsoft.com/visualstudio/msbuild/how-to-use-project-sdk#how-project-sdks-are-resolved
+
 ## Available SDKs
 
 [![MyGet: MSBuild-SDKs](https://img.shields.io/badge/MyGet-MSBuild--SDKs-brightgreen.svg)](https://myget.org/gallery/msbuild-sdks)
@@ -39,6 +115,12 @@ They are an evolution of the classic Visual Studio solution (_.sln_) files.
 
 [![MSBuild.Solution.Sdk](https://img.shields.io/myget/msbuild-sdks/v/MSBuild.Solution.Sdk.svg)](https://myget.org/feed/msbuild-sdks/package/nuget/MSBuild.Solution.Sdk)
 
+### [MSBuild.NET.Sdk](Sources/MSBuild.NET.Sdk)
+
+Supports creating .NET projects that include building for .NET Framework (Windows), .NET Core (Windows, Linux, MacOS), Mono (Windows, Linux, MacOS), Xamarin (based on Mono) runtimes.
+
+[![MSBuild.NET.Sdk](https://img.shields.io/myget/msbuild-sdks/v/MSBuild.NET.Sdk.svg)](https://myget.org/feed/msbuild-sdks/package/nuget/MSBuild.NET.Sdk)
+
 ### [MSBuild.NET.DefaultItems](Sources/MSBuild.NET.DefaultItems)
 
 An MSBuild Extension package for including various platforms' (Android, Apple, Tizen, Web, Windows) default build items in .NET projects.
@@ -53,12 +135,6 @@ Adds a few extra extensions to the SDK-style projects that are currently not ava
 
 [![MSBuild.NET.Extras.Sdk](https://img.shields.io/myget/msbuild-sdks/v/MSBuild.NET.Extras.Sdk.svg)](https://myget.org/feed/msbuild-sdks/package/nuget/MSBuild.NET.Extras.Sdk)
 [![MSBuild.NET.Extras.Sdk](https://img.shields.io/nuget/v/MSBuild.NET.Extras.Sdk.svg)](https://nuget.org/packages/MSBuild.NET.Extras.Sdk)
-
-### [MSBuild.NET.Sdk](Sources/MSBuild.NET.Sdk)
-
-Supports creating .NET projects that include building for .NET Framework (Windows), .NET Core (Windows, Linux, MacOS), Mono (Windows, Linux, MacOS), Xamarin (based on Mono) runtimes.
-
-[![MSBuild.NET.Sdk](https://img.shields.io/myget/msbuild-sdks/v/MSBuild.NET.Sdk.svg)](https://myget.org/feed/msbuild-sdks/package/nuget/MSBuild.NET.Sdk)
 
 ### [MSBuild.NET.Inbox.Sdk](Sources/MSBuild.NET.Inbox.Sdk)
 
@@ -98,37 +174,6 @@ Supports managing Native and Managed references via various sources such as pack
 ### [MSBuild.Packaging.Sdk](Sources/MSBuild.Packaging.Sdk)
 
 Supports creating ___any type of package___ for ___any type of project___ with built-in support for basic Archives (_ZIP, 7Z, RAR, IMG, ISO, etc…_), platform-specific (_MSI, MSU, MSP, MSIX, AppX, etc…_) and platform-agnostic (_NuGet, VCPKG, JAR, JSP, DEP, etc…_) packaging.
-
-## Working
-
-An MSBuild SDK, in a nutshell, is a packaged and versioned set of MSBuild tasks, props and targets that offer a specific set of functionalities to any project/solution build.
-
-These SDK-style projects looks like:
-
-```xml
-<Project Sdk="MSBuild.NET.Sdk">
-  <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
-  </PropertyGroup>
-</Project>
-```
-
-At evaluation time, MSBuild adds implicit imports at the top and bottom of the project like this:
-
-```xml
-<Project>
-  <Import Project="Sdk.props" Sdk="MSBuild.NET.Sdk"/>
-
-  <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
-  </PropertyGroup>
-
-  <Import Project="Sdk.targets" Sdk="MSBuild.NET.Sdk"/>
-</Project>
-```
-
-By default, MSBuild requires that the SDKs must be installed prior to using them. But, for MSBuild v15.6+, the SDKs can be referenced as NuGet packages instead.
-More documentation is available [here](https://docs.microsoft.com/visualstudio/msbuild/how-to-use-project-sdk).
 
 ## Contributing
 
