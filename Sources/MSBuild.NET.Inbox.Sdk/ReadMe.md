@@ -2,7 +2,8 @@
 
 ## Summary
 
-An MSBuild SDK package that redirects to props and targets that comes __inbox__ with .NET Framework. This SDK package is mostly used for testing and for compiling exclusively with the Full Framework MSBuild.
+An MSBuild SDK package that redirects to props and targets that comes **inbox** with .NET Framework.
+This SDK package is mostly used for testing and for compiling exclusively with the Full Framework MSBuild.
 
 ### Package Name: `MSBuild.NET.Inbox.Sdk`
 
@@ -11,7 +12,8 @@ An MSBuild SDK package that redirects to props and targets that comes __inbox__ 
 
 ### Getting started
 
-Visual Studio v15.6+ includes support for SDK's resolved from NuGet. That makes using the custom SDKs much easier.
+Visual Studio v15.6+ includes support for SDK's resolved from NuGet.
+That makes using the custom SDKs much easier.
 
 See [Using MSBuild project SDKs][msbuild-sdk-usage] guide on [Microsoft Docs](https://docs.ms) for more information on how project SDKs work and [how project SDKs are resolved][msbuild-sdk-resolver].
 
@@ -26,11 +28,13 @@ See [Using MSBuild project SDKs][msbuild-sdk-usage] guide on [Microsoft Docs](ht
 
 3. Remove the bottom `Import` element that imports `Microsoft.{Common/CSharp/FSharp/VisualBasic}.targets`, probably located just above the root `</Project>` element.
 
-4. You can add the SDK import in two ways, either through the `Sdk` attribute in the `Project` element which implicitly imports the `Sdk.{props/targets}` or through explicit top and bottom imports in the project file. Finally, Remove unnecessary attributes like `xmlns`, `DefaultTargets` (_if it's only `Build`_) and `ToolsVersion`. Keep any the other attributes if you have specified.
+4. You can add the SDK import in four ways…
 
-   Here's the diff between your old and new project file following the above rules should look like...
+   First, Remove unnecessary attributes like `xmlns`, `DefaultTargets` (_if only `Build`_) and `ToolsVersion` (_if only v15+_).
+   Keep any the other attributes if you have specified.
+   Then add the SDK reference as per the following diffs.
 
-   **Using the SDK attribute in project element**
+   **Using the `Sdk` attribute in the `Project` element:**
 
    ```diff
    -<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
@@ -43,11 +47,27 @@ See [Using MSBuild project SDKs][msbuild-sdk-usage] guide on [Microsoft Docs](ht
     </Project>
    ```
 
-   **Using explicit top and bottom imports with auto targets resolution**
+   **Using the `Sdk` element under the `Project` element:**
 
    ```diff
-   -<Project ToolsVersion="4.0" DefaultTargets="Build" InitialTargets="Validate" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-   +<Project InitialTargets="Validate">
+   -<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+   +<Project>
+
+   -  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')"/>
+   +  <Sdk Name="MSBuild.NET.Inbox.Sdk">
+
+      <!-- Properties/Items/Targets -->
+
+   -  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets"/>
+    </Project>
+   ```
+
+   **Using explicit top and bottom imports with auto targets resolution:**
+
+   ```diff
+   -<Project ToolsVersion="4.0" DefaultTargets="Build" InitialTargets="DoWork" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+   +<Project InitialTargets="DoWork">
+
    -  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')"/>
    +  <Import Sdk="MSBuild.NET.Inbox.Sdk" Project="Sdk.props"/>
 
@@ -55,17 +75,19 @@ See [Using MSBuild project SDKs][msbuild-sdk-usage] guide on [Microsoft Docs](ht
 
    -  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets"/>
    +  <Import Sdk="MSBuild.NET.Inbox.Sdk" Project="Sdk.targets"/>
-      <Target Name="Validate">
-      <!-- Your custom target -->
+
+      <Target Name="DoWork">
+        <!-- Custom target logic -->
       </Target>
     </Project>
    ```
 
-   **Using explicit top and bottom imports using named targets**
+   **Using explicit top and bottom imports with named targets:**
 
    ```diff
-   -<Project ToolsVersion="4.0" DefaultTargets="Build" InitialTargets="Validate" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-   +<Project InitialTargets="Validate">
+   -<Project ToolsVersion="4.0" DefaultTargets="Build" InitialTargets="DoWork" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+   +<Project InitialTargets="DoWork">
+
    -  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')"/>
    +  <Import Sdk="MSBuild.NET.Inbox.Sdk" Project="Microsoft.Common.props"/>
 
@@ -73,8 +95,9 @@ See [Using MSBuild project SDKs][msbuild-sdk-usage] guide on [Microsoft Docs](ht
 
    -  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets"/>
    +  <Import Sdk="MSBuild.NET.Inbox.Sdk" Project="Microsoft.CSharp.targets"/>
-      <Target Name="Validate">
-      <!-- Your custom target -->
+
+      <Target Name="DoWork">
+        <!-- Custom target logic -->
       </Target>
     </Project>
    ```
@@ -96,17 +119,15 @@ See [Using MSBuild project SDKs][msbuild-sdk-usage] guide on [Microsoft Docs](ht
    Then, all of your project files, from that directory forward, uses the version from the `global.json` file.
    This would be a preferred solution for all the projects in your solution.
 
-   Then again, you might want to override the version for just one project _OR_ if you have only one project in your solution (without adding `global.json`), you can do so like this:
+   Then again, you might want to override the version for just one project **OR** if you have only one project in your solution (_without adding `global.json`_), you can do so like this:
 
    ```xml
    <Project Sdk="MSBuild.NET.Inbox.Sdk/1.0.0">
-
      <!-- Properties/Items/Targets -->
-
    </Project>
    ```
 
-That's it. After that, you can use the `Build` target to build the projects. E.g.: `msbuild -t:Build ...`
+That's it! After that, you can use the `Build` target to build the projects: e.g., `msbuild -t:Build ...`.
 
 #### Important to Note
 

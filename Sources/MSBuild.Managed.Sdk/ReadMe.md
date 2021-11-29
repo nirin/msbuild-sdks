@@ -11,7 +11,8 @@ This is usually the base SDK for other specific Managed Runtime SDKs listed here
 
 ### Getting started
 
-Visual Studio v15.6+ includes support for SDK's resolved from NuGet. That makes using the custom SDKs much easier.
+Visual Studio v15.6+ includes support for SDK's resolved from NuGet.
+That makes using the custom SDKs much easier.
 
 See [Using MSBuild project SDKs][msbuild-sdk-usage] guide on [Microsoft Docs](https://docs.ms) for more information on how project SDKs work and [how project SDKs are resolved][msbuild-sdk-resolver].
 

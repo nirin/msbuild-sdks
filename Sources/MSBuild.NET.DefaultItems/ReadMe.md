@@ -2,7 +2,7 @@
 
 ## Summary
 
-An MSBuild Extension package for including various platforms' (Android, Apple, Tizen, Web, Windows) default build items etc... in .NET projects.
+An MSBuild Extension package for automatically including various framework-specific (_ASP.NET, UAP, WPF, Xamarin_) and platform-specific (_Android, Apple, Tizen, Windows, Web_) default build items in .NET projects.
 
 ### Package Name: `MSBuild.NET.DefaultItems`
 
@@ -11,7 +11,8 @@ An MSBuild Extension package for including various platforms' (Android, Apple, T
 
 ### Getting started
 
-Visual Studio v15.6+ includes support for SDK's resolved from NuGet. That makes using the custom SDKs much easier.
+Visual Studio v15.6+ includes support for SDK's resolved from NuGet.
+That makes using the custom SDKs much easier.
 
 See [Using MSBuild project SDKs][msbuild-sdk-usage] guide on [Microsoft Docs](https://docs.ms) for more information on how project SDKs work and [how project SDKs are resolved][msbuild-sdk-resolver].
 
@@ -62,7 +63,7 @@ You can put the SDK version in the `global.json` file next to your solution:
 Then, all of your project files, from that directory forward, uses the version from the `global.json` file.
 This would be a preferred solution for all the projects in your solution.
 
-Then again, you might want to override the version for just one project _OR_ if you have only one project in your solution (without adding `global.json`), you can do so like this:
+Then again, you might want to override the version for just one project **OR** if you have only one project in your solution (_without adding `global.json`_), you can do so like this:
 
 ```xml
 <Project Sdk="Microsoft.NET.Sdk">
@@ -79,9 +80,10 @@ Then again, you might want to override the version for just one project _OR_ if 
 </Project>
 ```
 
-That's it. You do not need to specify the .NET or UWP or Tizen framework packages as they'll be automatically included.
-After that, you can use the `Restore`, `Build`, `Pack` targets to restore packages, build the project and create NuGet packages. E.g.: `msbuild -t:Pack ...`
+That's it! You do not need to specify the .NET or UWP or Tizen framework packages as they'll be automatically included.
+After that, you can use the `Restore`, `Build`, `Pack` targets to restore packages, build the project and create NuGet packages: e.g., `msbuild -t:Pack ...`.
 
 #### Important to Note
 
-- This SDK is an Extension/Support SDK that should be in conjunction with other .NET SDKs. Be sure to disable their automatic Default items.
+- This is an Extension/Support SDK that should be in conjunction with other .NET SDKs.
+  So, when using it, be sure to disable their automatic Default items if present and enabled.
