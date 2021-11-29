@@ -170,7 +170,7 @@
 		the IDE generated Configuration/Platform specific 'PropertyGroup' section.
 
 		If 'BaseOutputPath' is specified, we can skip the validation, since, we assume the 'OutputPath' property
-		will be derived (e.g.: from the 'BaseOutputPath' property).
+		will be derived (i.e. from the 'BaseOutputPath' property).
 	-->
 	<PropertyGroup Condition="'$(BaseOutputPathWasSpecified)' != 'true' AND '$(_OutputPathWasMissing)' == 'true'">
 		<!--
@@ -1223,18 +1223,18 @@
 		</PropertyGroup>
 	</Target>
 
-	<!-- Returns target framework moniker. E.g. ".NETFramework,Version=v4.0.1" -->
+	<!-- Returns target framework moniker: e.g., ".NETFramework,Version=v4.0.1" -->
 	<Target Name="GetTargetFrameworkMoniker"
 			Returns="$(TargetFrameworkMoniker)"/>
 
-	<!-- Returns target framework moniker display name. E.g. ".NET Framework 4 Platform Update 1 (KB2478063)" -->
+	<!-- Returns target framework moniker display name: e.g., ".NET Framework 4 Platform Update 1 (KB2478063)" -->
 	<Target Name="GetTargetFrameworkMonikerDisplayName"
 			DependsOnTargets="GetFrameworkPaths;GetReferenceAssemblyPaths"
 			Returns="$(TargetFrameworkMonikerDisplayName)"/>
 
 	<!--
-		Returns semicolon separated list of target framework directories.
-		E.g "C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0.1\;C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\"
+		Returns semicolon separated list of target framework directories:
+		e.g "C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0.1\;C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\"
 	-->
 	<Target Name="GetTargetFrameworkDirectories"
 			DependsOnTargets="GetFrameworkPaths;GetReferenceAssemblyPaths"
@@ -4238,10 +4238,10 @@
 		<!-- Include the following files in clickonce manifest only if single file publish is false -->
 		<ItemGroup Condition="'$(PublishSingleFile)' != 'true'">
 			<!--
-				_ClickOnceRuntimeCopyLocalItems group contains any runtimes folder assets of Nuget packages that are not included in
-				_DeploymentReferencePaths (e.g. pdbs). They are populated from the RuntimeTargetsCopyLocalItems and NativeCopyLocalItems
+				_ClickOnceRuntimeCopyLocalItems group contains any runtimes folder assets of NuGet packages that are not included in
+				_DeploymentReferencePaths (e.g., pdbs). They are populated from the RuntimeTargetsCopyLocalItems and NativeCopyLocalItems
 				group that contain the RID-specific assets that go in runtimes folder on publish. They are output groups of the
-				ResolvePackageAssets target in dotnet/sdk
+				ResolvePackageAssets target in .NET SDK.
 			-->
 			<_ClickOnceRuntimeCopyLocalItems Include="@(RuntimeTargetsCopyLocalItems)"
 				Condition="'%(RuntimeTargetsCopyLocalItems.CopyLocal)' == 'true'"/>

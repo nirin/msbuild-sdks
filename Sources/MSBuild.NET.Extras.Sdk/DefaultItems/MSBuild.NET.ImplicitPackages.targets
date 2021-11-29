@@ -4,7 +4,7 @@
 		Package Version property for Implicit Packages included in the props file
 	-->
 	<PropertyGroup Condition="'$(_ImplicitPlatformPackageVersion)' == '' AND '$(TargetPlatformIdentifier)' == 'UAP'">
-		<!-- The property `TargetPlatformVersion` has a `<major>.<minor>.<build>.<revision>` pattern. E.g.: `10.0.10240.0` -->
+		<!-- The property `TargetPlatformVersion` has a `<major>.<minor>.<build>.<revision>` pattern: e.g., `10.0.10240.0` -->
 		<_TargetPlatformBuildVersion>$(TargetPlatformVersion.Split('.')[2])</_TargetPlatformBuildVersion>
 		<_ImplicitPlatformPackageVersion Condition="'$(_TargetPlatformBuildVersion)' >= '10150'">5.4.7</_ImplicitPlatformPackageVersion>
 		<_ImplicitPlatformPackageVersion Condition="'$(_TargetPlatformBuildVersion)' >= '15138'">6.2.14</_ImplicitPlatformPackageVersion>

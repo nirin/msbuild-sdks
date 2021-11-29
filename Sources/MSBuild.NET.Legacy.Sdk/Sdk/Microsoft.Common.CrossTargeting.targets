@@ -119,9 +119,7 @@
 
 	Inner-build dispatch is a clone of DispatchToInnerBuilds;
 	the only reason it's replicated is that it must be a different
-	target to be run in the same build.
-
-	e.g. by Rebuild or by a /t:Clean;Build invocation.
+	target (e.g, 'Rebuild', 'Clean;Build') to be run in the same build.
 	============================================================
 	-->
 	<Target Name="Clean"

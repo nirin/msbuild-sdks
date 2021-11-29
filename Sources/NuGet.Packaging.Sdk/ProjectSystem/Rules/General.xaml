@@ -184,7 +184,7 @@
 	</BoolProperty>
 
 	<BoolProperty Name="NoDefaultExcludes" DisplayName="No Default Excludes"
-				  Description="Prevent default exclusion of NuGet package files and files and folders starting with a dot e.g. .svn."
+				  Description="Prevent default exclusion of NuGet package files and files and folders starting with a dot (e.g., '.git', '.svn')."
 				  Category="Build">
 		<BoolProperty.DataSource>
 			<DataSource Persistence="ProjectFile" Label="Configuration" HasConfigurationCondition="false"/>

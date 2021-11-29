@@ -9,8 +9,8 @@
 		<PackageId>MSBuild.NET.DefaultItems</PackageId>
 		<PackageVersion>0.8.0</PackageVersion>
 		<PackageTags>$(PackageTags);dotnet;default;items</PackageTags>
-		<Summary>An MSBuild Extension package for including default build items in .NET projects.</Summary>
-		<Description>An MSBuild Extension package for including various platfroms' (Android, Apple, Tizen, Web, Windows) default build items etc... in .NET projects.</Description>
+		<Summary>An MSBuild Extension package for automatically including default build items in .NET projects.</Summary>
+		<Description>An MSBuild Extension package for automatically including various framework-specific (_ASP.NET, UAP, WPF, Xamarin_) and platform-specific (_Android, Apple, Tizen, Windows, Web_) default build items in .NET projects.</Description>
 	</PropertyGroup>
 
 </Project>

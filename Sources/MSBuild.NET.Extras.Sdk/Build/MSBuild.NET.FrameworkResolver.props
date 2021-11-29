@@ -7,7 +7,9 @@
 		before they are imported. In common cases, we infer them from the short names given via 'TargetFramework'
 		to allow for terseness and lack of duplication in project files. For other cases, the user must supply them manually.
 
-		For cases where inference is supported, the user need only specify the targets in 'TargetFrameworks', e.g:
+		For cases where inference is supported, the user need only specify the targets in 'TargetFrameworks'.
+
+		For Example,
 
 		<PropertyGroup>
 			<TargetFrameworks>net472;netstandard2.0;netcoreapp2.0</TargetFrameworks>
