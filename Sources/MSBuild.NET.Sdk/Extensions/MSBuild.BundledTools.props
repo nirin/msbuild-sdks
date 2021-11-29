@@ -1,5 +1,23 @@
 <Project>
 
-
+	<!-- .NET Tools -->
+	<ItemGroup Label=".NET Tools">
+		<KnownToolPackage Include="Microsoft.NET.Analyzer.Tool">
+			<DisplayName>.NET Analyzer Tool</DisplayName>
+			<Versions>1.0|1.1|2.0|2.1|3.0</Versions>
+		</KnownToolPackage>
+		<KnownToolPackage Include="Microsoft.NET.Profiler.Tool">
+			<DisplayName>.NET Profiler Tool</DisplayName>
+			<Versions>1.0|1.1|2.0|2.1|3.0</Versions>
+		</KnownToolPackage>
+		<KnownToolPackage Include="Microsoft.NET.Secrets.Tool">
+			<DisplayName>.NET Secrets Tool</DisplayName>
+			<Versions>1.0|1.1|2.0|2.1|3.0</Versions>
+		</KnownToolPackage>
+		<KnownToolPackage Include="Microsoft.NET.Serve.Tool">
+			<DisplayName>.NET Serve Tool</DisplayName>
+			<Versions>1.0|1.1|2.0|2.1|3.0</Versions>
+		</KnownToolPackage>
+	</ItemGroup>
 
 </Project>

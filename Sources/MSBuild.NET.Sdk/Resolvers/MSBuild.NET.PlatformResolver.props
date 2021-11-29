@@ -23,6 +23,7 @@
 		<TargetPlatform Condition="'$(TargetPlatform)' == 'tvos'">tvos14.0</TargetPlatform>
 		<TargetPlatform Condition="'$(TargetPlatform)' == 'tizen'">tizen6.0</TargetPlatform>
 		<TargetPlatform Condition="'$(TargetPlatform)' == 'playstation'">playstation5.0</TargetPlatform>
+		<TargetPlatform Condition="'$(TargetPlatform)' == 'xbox'">xbox5.0</TargetPlatform>
 	</PropertyGroup>
 
 	<!--
@@ -45,6 +46,7 @@
 		<TargetPlatformIdentifier Condition="'$(_ShortPlatformIdentifier)' == 'tvos'">TVOS</TargetPlatformIdentifier>
 		<TargetPlatformIdentifier Condition="'$(_ShortPlatformIdentifier)' == 'tizen'">Tizen</TargetPlatformIdentifier>
 		<TargetPlatformIdentifier Condition="'$(_ShortPlatformIdentifier)' == 'playstation'">PlayStation</TargetPlatformIdentifier>
+		<TargetPlatformIdentifier Condition="'$(_ShortPlatformIdentifier)' == 'xbox'">Xbox</TargetPlatformIdentifier>
 	</PropertyGroup>
 
 	<!-- Versions with dots are taken as is -->
