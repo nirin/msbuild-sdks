@@ -6,8 +6,8 @@ An MSBuild Extension package for automatically including various framework-speci
 
 ### Package Name: `MSBuild.NET.DefaultItems`
 
-[![MSBuild.NET.DefaultItems](https://img.shields.io/myget/msbuild-sdks/v/MSBuild.NET.DefaultItems.svg)](https://myget.org/feed/msbuild-sdks/package/nuget/MSBuild.NET.DefaultItems)
-[![MSBuild.NET.DefaultItems](https://img.shields.io/nuget/v/MSBuild.NET.DefaultItems.svg)](https://nuget.org/packages/MSBuild.NET.DefaultItems)
+[![MSBuild.NET.DefaultItems](https://img.shields.io/myget/msbuild-sdks/v/MSBuild.NET.DefaultItems?style=flat-square&logo=nuget)](https://myget.org/feed/msbuild-sdks/package/nuget/MSBuild.NET.DefaultItems)
+[![MSBuild.NET.DefaultItems](https://img.shields.io/nuget/v/MSBuild.NET.DefaultItems?style=flat-square&logo=nuget)](https://nuget.org/packages/MSBuild.NET.DefaultItems)
 
 ### Getting started
 

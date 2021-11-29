@@ -7,7 +7,7 @@ This is usually the base SDK for other SDKs in this repository.
 
 ### Package Name: `MSBuild.Common.Sdk`
 
-[![MSBuild.Common.Sdk](https://img.shields.io/myget/msbuild-sdks/v/MSBuild.Common.Sdk.svg)](https://myget.org/feed/msbuild-sdks/package/nuget/MSBuild.Common.Sdk)
+[![MSBuild.Common.Sdk](https://img.shields.io/myget/msbuild-sdks/v/MSBuild.Common.Sdk?style=flat-square&logo=nuget)](https://myget.org/feed/msbuild-sdks/package/nuget/MSBuild.Common.Sdk)
 
 ### Getting started
 

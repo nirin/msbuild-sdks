@@ -7,7 +7,7 @@ This is usually the base SDK for other specific Managed Runtime SDKs listed here
 
 ### Package Name: `MSBuild.Managed.Sdk`
 
-[![MSBuild.Managed.Sdk](https://img.shields.io/myget/msbuild-sdks/v/MSBuild.Managed.Sdk.svg)](https://myget.org/feed/msbuild-sdks/package/nuget/MSBuild.Managed.Sdk)
+[![MSBuild.Managed.Sdk](https://img.shields.io/myget/msbuild-sdks/v/MSBuild.Managed.Sdk?style=flat-square&logo=nuget)](https://myget.org/feed/msbuild-sdks/package/nuget/MSBuild.Managed.Sdk)
 
 ### Getting started
 

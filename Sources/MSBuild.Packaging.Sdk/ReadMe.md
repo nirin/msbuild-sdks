@@ -6,7 +6,7 @@ Supports creating ___any type of package___ for ___any type of project___ with b
 
 ### Package Name: `MSBuild.Packaging.Sdk`
 
-[![MSBuild.Packaging.Sdk](https://img.shields.io/myget/msbuild-sdks/v/MSBuild.Packaging.Sdk.svg)](https://myget.org/feed/msbuild-sdks/package/nuget/MSBuild.Packaging.Sdk)
+[![MSBuild.Packaging.Sdk](https://img.shields.io/myget/msbuild-sdks/v/MSBuild.Packaging.Sdk?style=flat-square&logo=nuget)](https://myget.org/feed/msbuild-sdks/package/nuget/MSBuild.Packaging.Sdk)
 
 ### Getting started
 

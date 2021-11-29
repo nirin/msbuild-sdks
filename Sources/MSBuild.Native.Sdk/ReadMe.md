@@ -7,7 +7,7 @@ This is usually the base SDK for other specific Native Runtime SDKs listed here.
 
 ### Package Name: `MSBuild.Native.Sdk`
 
-[![MSBuild.Native.Sdk](https://img.shields.io/myget/msbuild-sdks/v/MSBuild.Native.Sdk.svg)](https://myget.org/feed/msbuild-sdks/package/nuget/MSBuild.Native.Sdk)
+[![MSBuild.Native.Sdk](https://img.shields.io/myget/msbuild-sdks/v/MSBuild.Native.Sdk?style=flat-square&logo=nuget)](https://myget.org/feed/msbuild-sdks/package/nuget/MSBuild.Native.Sdk)
 
 ### Getting started
 

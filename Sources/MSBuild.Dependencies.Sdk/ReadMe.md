@@ -7,7 +7,7 @@ Also supports global references and central versioning via Solution SDK.
 
 ### Package Name: `MSBuild.Dependencies.Sdk`
 
-[![MSBuild.Dependencies.Sdk](https://img.shields.io/myget/msbuild-sdks/v/MSBuild.Dependencies.Sdk.svg)](https://myget.org/feed/msbuild-sdks/package/nuget/MSBuild.Dependencies.Sdk)
+[![MSBuild.Dependencies.Sdk](https://img.shields.io/myget/msbuild-sdks/v/MSBuild.Dependencies.Sdk?style=flat-square&logo=nuget)](https://myget.org/feed/msbuild-sdks/package/nuget/MSBuild.Dependencies.Sdk)
 
 ### Getting started
 

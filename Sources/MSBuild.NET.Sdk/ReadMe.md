@@ -6,7 +6,7 @@ Supports creating [.NET](#platform-support) projects that include building for .
 
 ### Package Name: `MSBuild.NET.Sdk`
 
-[![MSBuild.NET.Sdk](https://img.shields.io/myget/msbuild-sdks/v/MSBuild.NET.Sdk.svg)](https://myget.org/feed/msbuild-sdks/package/nuget/MSBuild.NET.Sdk)
+[![MSBuild.NET.Sdk](https://img.shields.io/myget/msbuild-sdks/v/MSBuild.NET.Sdk?style=flat-square&logo=nuget)](https://myget.org/feed/msbuild-sdks/package/nuget/MSBuild.NET.Sdk)
 
 ### Getting started
 

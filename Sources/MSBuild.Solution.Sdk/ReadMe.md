@@ -7,7 +7,7 @@ They are an evolution of the classic Visual Studio solution (_.sln_) files.
 
 ### Package Name: `MSBuild.Solution.Sdk`
 
-[![MSBuild.Solution.Sdk](https://img.shields.io/myget/msbuild-sdks/v/MSBuild.Solution.Sdk.svg)](https://myget.org/feed/msbuild-sdks/package/nuget/MSBuild.Solution.Sdk)
+[![MSBuild.Solution.Sdk](https://img.shields.io/myget/msbuild-sdks/v/MSBuild.Solution.Sdk?style=flat-square&logo=nuget)](https://myget.org/feed/msbuild-sdks/package/nuget/MSBuild.Solution.Sdk)
 
 ### Getting started
 

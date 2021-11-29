@@ -10,7 +10,7 @@ It's basically an SDK wrapper around [NuGet.Build.Packaging](https://github.com/
 
 ### Package Name: `NuGet.Packaging.Sdk`
 
-[![NuGet.Packaging.Sdk](https://img.shields.io/myget/msbuild-sdks/v/NuGet.Packaging.Sdk.svg)](https://myget.org/feed/msbuild-sdks/package/nuget/NuGet.Packaging.Sdk)
+[![NuGet.Packaging.Sdk](https://img.shields.io/myget/msbuild-sdks/v/NuGet.Packaging.Sdk?style=flat-square&logo=nuget)](https://myget.org/feed/msbuild-sdks/package/nuget/NuGet.Packaging.Sdk)
 
 ### Getting started
 

@@ -7,7 +7,7 @@ But they themselves remain a separate non-interactive project in the solution tr
 
 ### Package Name: `MSBuild.Sharing.Sdk`
 
-[![MSBuild.Sharing.Sdk](https://img.shields.io/myget/msbuild-sdks/v/MSBuild.Sharing.Sdk.svg)](https://myget.org/feed/msbuild-sdks/package/nuget/MSBuild.Sharing.Sdk)
+[![MSBuild.Sharing.Sdk](https://img.shields.io/myget/msbuild-sdks/v/MSBuild.Sharing.Sdk?style=flat-square&logo=nuget)](https://myget.org/feed/msbuild-sdks/package/nuget/MSBuild.Sharing.Sdk)
 
 ### Getting started
 
