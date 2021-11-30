@@ -1,0 +1,5 @@
+<Project>
+
+	<Import Sdk="MSBuild.NET.Legacy.Sdk" Project="Sdk.Core.props"/>
+
+</Project>

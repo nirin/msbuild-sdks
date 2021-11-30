@@ -4,8 +4,8 @@
 		<_XamlLanguageTargets>$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.$(LanguageSourceName).targets</_XamlLanguageTargets>
 	</PropertyGroup>
 
-	<Import Project="$(_XamlLanguageTargets)" Condition="Exists('$(_XamlLanguageTargets)')"/>
 	<Import Sdk="MSBuild.NET.Legacy.Sdk" Project="Sdk.Core.targets" Condition="!Exists('$(_XamlLanguageTargets)')"/>
+	<Import Project="$(_XamlLanguageTargets)" Condition="Exists('$(_XamlLanguageTargets)')"/>
 
 	<ItemGroup>
 		<PropertyPageSchema Include="$(MSBuildToolsPath)\$(LangName)\SubProject.xaml"/>

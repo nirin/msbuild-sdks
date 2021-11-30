@@ -1,5 +1,6 @@
 <Project>
 
+	<!-- Apply Project System options based on Project Type -->
 	<Choose>
 		<When Condition="'$(MSBuildProjectExtension)' == '.csproj'">
 			<PropertyGroup>
@@ -38,18 +39,17 @@
 	</Choose>
 
 	<PropertyGroup Label="Globals">
-		<MinimumVisualStudioVersion>15.0</MinimumVisualStudioVersion>
-		<VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">17.0</VisualStudioVersion>
-	</PropertyGroup>
-
-	<PropertyGroup>
 		<IsSharingProject>true</IsSharingProject>
 		<DefineCommonItemSchemas>true</DefineCommonItemSchemas>
+		<MinimumVisualStudioVersion>15.0</MinimumVisualStudioVersion>
+		<VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">17.0</VisualStudioVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Label="Legacy">
 		<IsSharedProject>$(IsSharingProject)</IsSharedProject>
 		<IsCodeSharingProject>$(IsSharingProject)</IsCodeSharingProject>
 	</PropertyGroup>
+
+	<Import Project="..\Core\Microsoft.CodeSharing.$(ParentProjectType).props"/>
 
 </Project>
