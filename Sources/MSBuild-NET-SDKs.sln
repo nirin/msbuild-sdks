@@ -12,6 +12,8 @@ Project("{5DD5E4FA-CB73-4610-85AB-557B54E96AA9}") = "MSBuild.NET.Inbox.Sdk", "MS
 EndProject
 Project("{5DD5E4FA-CB73-4610-85AB-557B54E96AA9}") = "MSBuild.NET.Legacy.Sdk", "MSBuild.NET.Legacy.Sdk\MSBuild.NET.Legacy.Sdk.nuproj", "{9E0252B6-8815-4E25-8C6E-5838963C8233}"
 EndProject
+Project("{5DD5E4FA-CB73-4610-85AB-557B54E96AA9}") = "NuGet.Build.Sdk", "NuGet.Build.Sdk\NuGet.Build.Sdk.nuproj", "{687B2E1D-E051-4C47-9175-A558BD23A510}"
+EndProject
 Project("{5DD5E4FA-CB73-4610-85AB-557B54E96AA9}") = "NuGet.Packaging.Sdk", "NuGet.Packaging.Sdk\NuGet.Packaging.Sdk.nuproj", "{208EC1B3-8458-4382-9C82-E20BDC7A0CAC}"
 EndProject
 Global
@@ -40,6 +42,10 @@ Global
 		{9E0252B6-8815-4E25-8C6E-5838963C8233}.Debug|Any.Build.0 = Debug|Any
 		{9E0252B6-8815-4E25-8C6E-5838963C8233}.Release|Any.ActiveCfg = Release|Any
 		{9E0252B6-8815-4E25-8C6E-5838963C8233}.Release|Any.Build.0 = Release|Any
+		{687B2E1D-E051-4C47-9175-A558BD23A510}.Debug|Any.ActiveCfg = Debug|Any
+		{687B2E1D-E051-4C47-9175-A558BD23A510}.Debug|Any.Build.0 = Debug|Any
+		{687B2E1D-E051-4C47-9175-A558BD23A510}.Release|Any.ActiveCfg = Release|Any
+		{687B2E1D-E051-4C47-9175-A558BD23A510}.Release|Any.Build.0 = Release|Any
 		{208EC1B3-8458-4382-9C82-E20BDC7A0CAC}.Debug|Any.ActiveCfg = Debug|Any
 		{208EC1B3-8458-4382-9C82-E20BDC7A0CAC}.Debug|Any.Build.0 = Debug|Any
 		{208EC1B3-8458-4382-9C82-E20BDC7A0CAC}.Release|Any.ActiveCfg = Release|Any

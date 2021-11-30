@@ -8,9 +8,11 @@
 		<Title>NuGet Packaging Sdk</Title>
 		<PackageId>NuGet.Packaging.Sdk</PackageId>
 		<PackageVersion Condition="'$(PackageVersion)' == ''">1.0.0</PackageVersion>
-		<PackageTags>$(PackageTags);nuget;packaging;pack;restore;dependency-management;reference-support</PackageTags>
-		<Summary>An MSBuild SDK package that provides NuGet package authoring, reference support and dependency management to the projects.</Summary>
-		<Description>$(Summary) You use this SDK primarily to author NuGet packages. However, you can also use it directly on your project (_or via the platform SDKs which refer to this SDK internally_) for NuGet Pack and Restore support.</Description>
+		<PackageTags>$(PackageTags);nuget;build;packaging;project;sysytem;nuproj;pkgproj;sfxproj</PackageTags>
+		<Summary>An MSBuild SDK package that provides Project System support for NuGet package authoring.</Summary>
+		<Description>$(Summary) Having a separate Project System makes it possible to author complex NuGet packages, otherwise not possible with Pack targets.</Description>
+		<Description>$(Description) One such need is to create a completely customized package with a custom layout that is different from the standard layout.</Description>
+		<Description>$(Description) One can also pack existing libraries (_via other projects and packages_) into the package or add them to package dependencies.</Description>
 	</PropertyGroup>
 
 </Project>

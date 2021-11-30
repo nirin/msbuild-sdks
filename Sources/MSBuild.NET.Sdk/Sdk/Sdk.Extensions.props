@@ -8,6 +8,6 @@
 
 	<Import Project="..\Extensions\MSBuild.BundledTools.props" Condition="'$(ImportSdkBundledTools)' == 'true'"/>
 	<Import Project="..\Extensions\MSBuild.BundledPacks.props" Condition="'$(ImportSdkBundledPacks)' == 'true'"/>
-	<Import Sdk="NuGet.Packaging.Sdk" Project="Sdk.Extensions.props" Condition="'$(ImportNuGetBuildProps)' == 'true'"/>
+	<Import Sdk="NuGet.Build.Sdk" Project="Sdk.Extensions.props" Condition="'$(ImportNuGetBuildProps)' == 'true'"/>
 
 </Project>

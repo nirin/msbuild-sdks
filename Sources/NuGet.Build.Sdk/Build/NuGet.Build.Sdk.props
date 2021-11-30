@@ -1,0 +1,21 @@
+<Project>
+
+	<PropertyGroup>
+		<EnableNuGetRestore Condition="'$(EnableNuGetRestore)' == ''">true</EnableNuGetRestore>
+		<EnableNuGetPack Condition="'$(EnableNuGetPack)' == ''">true</EnableNuGetPack>
+	</PropertyGroup>
+
+	<!-- Use the '$(ImportDirectoryPackagesProps)' property to enable/disable the following import when needed! -->
+	<PropertyGroup>
+		<ImportDirectoryPackagesProps Condition="'$(ImportDirectoryPackagesProps)' == ''">true</ImportDirectoryPackagesProps>
+		<ImportDirectoryPackagesProps Condition="'$(EnableNuGetRestore)' == 'false'">false</ImportDirectoryPackagesProps>
+	</PropertyGroup>
+
+	<!--
+		Import the 'Directory.Packages.props' file which will contain centralized packages for all the projects and solutions
+		under the directory in which the file is present. This is similar to the 'Directory.Build.props' file import logic
+		which is present in the 'MSBuild.Common.Sdk' which serve a similar purpose.
+	-->
+	<Import Project="..\Extensions\Directory.Packages.props" Condition="'$(ImportDirectoryPackagesProps)' == 'true'"/>
+
+</Project>

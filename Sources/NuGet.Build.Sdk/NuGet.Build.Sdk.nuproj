@@ -1,0 +1,18 @@
+<Project Sdk="NuGet.Packaging.Sdk">
+
+	<PropertyGroup Label="Globals">
+		<ProjectGuid>{687B2E1D-E051-4C47-9175-A558BD23A510}</ProjectGuid>
+	</PropertyGroup>
+
+	<PropertyGroup Label="PackageInfo">
+		<Title>NuGet Build Sdk</Title>
+		<PackageId>NuGet.Build.Sdk</PackageId>
+		<PackageVersion Condition="'$(PackageVersion)' == ''">1.0.0</PackageVersion>
+		<PackageTags>$(PackageTags);nuget;build;pack;package;restore;dependency;reference</PackageTags>
+		<Summary>An MSBuild SDK package that provides package reference support and dependency management to the projects.</Summary>
+		<Description>$(Summary) It adds a `Restore` target which facilitates downloading and referencing shared libraries from a remote server.</Description>
+		<Description>$(Summary) It also adds a `Pack` target which facilitates creation of such packages using project outputs with pre-determined layouts.</Description>
+		<Description>$(Description) It can be used either directly on your project (_via the `<Sdk/>` element_) or in-directly (_via other SDKs which refer to it internally_).</Description>
+	</PropertyGroup>
+
+</Project>

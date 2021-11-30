@@ -1,0 +1,53 @@
+<Project>
+
+	<!--
+		These imports will enable restoration of a project's build references from NuGet packages.
+		Keep in mind that the restore needs to work just before all the build references are resolved.
+		So, import this targets file before all the build-specific imports within a project file.
+		NOTE:
+		When importing this file, also import Extensions props which inturn imports 'Directory.Packages.props'
+		from above the project directory which enables central versioning of multiple projects' dependencies.
+	-->
+	<ImportGroup Condition="'$(EnableNuGetRestore)' == 'true'">
+		<!--
+			The Restore tasks file defines the restore-specific tasks required for the Restore functionality.
+			When adding any new targets containing tasks, please define a `<UsingTask/>` in the tasks file
+			rather than in the targets file unless it's conditional and/or temporary.
+		-->
+		<Import Project="..\Core\NuGet.Restore.tasks"/>
+		<!--
+			The Restore targets file defines default properties and targets implementing the Restore logic.
+			When adding/modifying any targets, please define the properties first and then the targets
+			unless it's required to have the properties inside the target or above (near) it.
+		-->
+		<Import Project="..\Core\NuGet.Restore.targets"/>
+		<!--
+			The following targets file will override the 'Restore' target defined in the above targets
+			if the MSBuild property 'RestoreUseStaticGraphEvaluation' is 'true'. The new 'Restore' target
+			uses the MSBuild's Static Graph feature to load and evaluate projects which is much faster.
+			This feature is not supported for 'NuGet.exe' scenarios.
+		-->
+		<Import Project="..\Core\NuGet.RestoreEx.targets" Condition="'$(RestoreUseStaticGraphEvaluation)' == 'true'"/>
+	</ImportGroup>
+
+	<!--
+		These imports will enable packing of a project's build output into a NuGet package.
+		Keep in mind that the pack needs to work after all the build artifacts are produced.
+		So, import this targets file after all the imports within a project file.
+	-->
+	<ImportGroup Condition="'$(EnableNuGetPack)' == 'true'">
+		<!--
+			The Pack tasks file defines the pack-specific tasks required for the Pack functionality.
+			When adding any new targets containing tasks, please define a `<UsingTask/>` in the tasks file
+			rather than in the targets file unless it's conditional and/or temporary.
+		-->
+		<Import Project="..\Core\NuGet.Pack.tasks"/>
+		<!--
+			The Pack targets file defines default properties and targets implementing the Pack logic.
+			When adding/modifying any targets, please define the properties first and then the targets
+			unless it's required to have the properties inside the target or above (near) it.
+		-->
+		<Import Project="..\Core\NuGet.Pack.targets"/>
+	</ImportGroup>
+
+</Project>

@@ -14,6 +14,6 @@
 	<!-- This will import NuGet common props which then, will import `Directory.Packages.props` which is used for declaring package versions centrally. -->
 	<Import Project="$(NuGetCommonProps)" Condition="'$(ImportNuGetCommonPropsFromSdk)' == 'false' AND Exists('$(NuGetCommonProps)')"/>
 
-	<Import Project="Sdk.Extensions.props" Sdk="NuGet.Packaging.Sdk" Condition="'$(ImportNuGetCommonPropsFromSdk)' == 'true'"/>
+	<Import Project="Sdk.Extensions.props" Sdk="NuGet.Build.Sdk" Condition="'$(ImportNuGetCommonPropsFromSdk)' == 'true'"/>
 
 </Project>

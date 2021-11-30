@@ -13,6 +13,6 @@
 		<IsCloudBuild Condition="'$(IsCloudBuild)' == ''">false</IsCloudBuild>
 	</PropertyGroup>
 
-	<Import Project="$(BuildToolsPath)MSBuild.DevLocal.targets" Condition="'$(IsCloudBuild)' != 'true'"/>
+	<Import Project="$(BuildToolsDirectory)MSBuild.DevLocal.targets" Condition="'$(IsCloudBuild)' != 'true'"/>
 
 </Project>

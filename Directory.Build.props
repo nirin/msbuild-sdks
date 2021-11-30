@@ -2,7 +2,7 @@
 
 	<PropertyGroup Label="Output.Paths">
 		<RepositoryDirectory>$(MSBuildThisFileDirectory)</RepositoryDirectory>
-		<BuildToolsPath>$(RepositoryDirectory)Tools\</BuildToolsPath>
+		<BuildToolsDirectory>$(RepositoryDirectory)Tools\</BuildToolsDirectory>
 		<PublishPath>$(RepositoryDirectory)~Publish\</PublishPath>
 		<BuildPath>$(RepositoryDirectory)~Builds\</BuildPath>
 	</PropertyGroup>

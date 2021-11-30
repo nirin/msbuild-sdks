@@ -2,11 +2,12 @@
 
 ## Summary
 
-An MSBuild SDK package that provides NuGet package authoring, reference support and dependency management to the projects.
-You use this SDK primarily to author NuGet packages, but it also supports NuGet Pack and Restore for common MSBuild projects.
-Thus, you can use it directly on your project (_or via the platform SDKs which refer to this SDK internally_) for NuGet support.
+An MSBuild SDK package that provides Project System support for NuGet package authoring.
+Having a separate Project System makes it possible to author complex NuGet packages, otherwise not possible with Pack targets.
+One such need is to create a completely customized package with a custom layout that is different from the standard layout.
+One can also pack existing libraries (_via other projects and packages_) into the package or add them to package dependencies.
 
-It's basically an SDK wrapper around [NuGet.Build.Packaging](https://github.com/NuGet/NuGet.Build.Packaging) aka NuGetizer-3000 project, with NuGet Restore and Pack targets optimized for SDK-style.
+It's basically an SDK wrapper around [NuGet.Build.Packaging](https://github.com/NuGet/NuGet.Build.Packaging) aka NuGetizer-3000 project, with targets optimized for SDK-style projects.
 
 ### Package Name: `NuGet.Packaging.Sdk`
 

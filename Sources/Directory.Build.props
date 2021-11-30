@@ -39,7 +39,7 @@
 	</PropertyGroup>
 
 	<ItemGroup Label="PackageItems">
-		<PackageFile PackagePath="\" Include="$(BuildToolsPath)$(PackageIcon)"/>
+		<PackageFile PackagePath="\" Include="$(BuildToolsDirectory)$(PackageIcon)"/>
 		<PackageFile PackagePath="\" Include="$(RepositoryDirectory)$(PackageLicenseFile)"/>
 		<PackageFile PackagePath="\" Include="$(MSBuildProjectDirectory)\$(PackageReadMe)"/>
 	</ItemGroup>

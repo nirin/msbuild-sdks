@@ -195,10 +195,20 @@ Use them to slowly migrate your legacy projects to SDK-style.
 
 [![MSBuild.NET.Legacy.Sdk](https://img.shields.io/myget/msbuild-sdks/v/MSBuild.NET.Legacy.Sdk?style=flat-square&logo=nuget)](https://myget.org/feed/msbuild-sdks/package/nuget/MSBuild.NET.Legacy.Sdk)
 
+### [NuGet.Build.Sdk](Sources/NuGet.Build.Sdk)
+
+Supports NuGet Restore and Pack targets for common MSBuild projects.
+It's basically an SDK wrapper around Restore targets ([`NuGet.Build.Tasks`][nuget-restore]) and Pack targets ([`NuGet.Build.Tasks.Pack`][nuget-pack]) optimized for SDK-style projects.
+
+[nuget-restore]: https://github.com/NuGet/NuGet.Client/blob/dev/src/NuGet.Core/NuGet.Build.Tasks
+[nuget-pack]: https://github.com/NuGet/NuGet.Client/tree/dev/src/NuGet.Core/NuGet.Build.Tasks.Pack
+
+[![NuGet.Build.Sdk](https://img.shields.io/myget/msbuild-sdks/v/NuGet.Build.Sdk?style=flat-square&logo=nuget)](https://myget.org/feed/msbuild-sdks/package/nuget/NuGet.Build.Sdk)
+
 ### [NuGet.Packaging.Sdk](Sources/NuGet.Packaging.Sdk)
 
-Supports NuGet Restore/Pack Tasks and Package authoring.
-It's basically an SDK wrapper around [NuGet.Build.Packaging](https://github.com/NuGet/NuGet.Build.Packaging) aka NuGetizer-3000 project, with NuGet Restore and Pack targets optimized for SDK-style.
+Supports NuGet Package authoring with a custom Project System support.
+It's basically an SDK wrapper around [NuGet.Build.Packaging](https://github.com/NuGet/NuGet.Build.Packaging) aka NuGetizer-3000 project, with targets optimized for SDK-style projects.
 
 [![NuGet.Packaging.Sdk](https://img.shields.io/myget/msbuild-sdks/v/NuGet.Packaging.Sdk?style=flat-square&logo=nuget)](https://myget.org/feed/msbuild-sdks/package/nuget/NuGet.Packaging.Sdk)
 
