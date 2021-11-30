@@ -25,11 +25,11 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PropertyPageSchema Include="Rules\$(LanguageSourceName).General.xaml">
+		<PropertyPageSchema Include="$(MSBuildThisFileDirectory)Rules\$(LanguageSourceName).xaml">
 			<Context>Project</Context>
 		</PropertyPageSchema>
 
-		<PropertyPageSchema Include="Rules\$(LanguageSourceName).General.BrowseObject.xaml">
+		<PropertyPageSchema Include="$(MSBuildThisFileDirectory)Rules\$(LanguageSourceName).BrowseObject.xaml">
 			<Context>BrowseObject</Context>
 		</PropertyPageSchema>
 	</ItemGroup>

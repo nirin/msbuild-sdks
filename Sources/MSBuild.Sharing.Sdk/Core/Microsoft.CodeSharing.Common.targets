@@ -4,7 +4,15 @@
 	<Import Sdk="MSBuild.NET.Windows.Sdk" Project="Sdk.Core.targets" Condition="'$(UseMSBuildWindowsSdk)' == 'true'"/>
 
 	<ItemGroup>
-		<PropertyPageSchema Include="$(MSBuildToolsPath)\$(LangName)\SubProject.xaml"/>
+		<PropertyPageSchema Include="$(MSBuildThisFileDirectory)Rules\SubProject.xaml"/>
+
+		<PropertyPageSchema Include="$(MSBuildThisFileDirectory)Rules\General.xaml">
+			<Context>Project</Context>
+		</PropertyPageSchema>
+
+		<PropertyPageSchema Include="$(MSBuildThisFileDirectory)Rules\General.BrowseObject.xaml">
+			<Context>BrowseObject</Context>
+		</PropertyPageSchema>
 	</ItemGroup>
 
 	<ItemGroup>

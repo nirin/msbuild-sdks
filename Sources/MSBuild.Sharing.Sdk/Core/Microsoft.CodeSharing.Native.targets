@@ -7,20 +7,20 @@
 	<Import Project="MSBuild.CodeSharing.Common.targets"/>
 
 	<ItemGroup>
-		<PropertyPageSchema Include="$(MSBuildToolsPath)\$(LangName)\General.xaml">
+		<PropertyPageSchema Include="$(MSBuildThisFileDirectory)Rules\Native.xaml">
 			<Context>Project</Context>
 		</PropertyPageSchema>
 
-		<PropertyPageSchema Include="$(MSBuildToolsPath)\$(LangName)\General.BrowseObject.xaml">
+		<PropertyPageSchema Include="$(MSBuildThisFileDirectory)Rules\Native.BrowseObject.xaml">
 			<Context>BrowseObject</Context>
 		</PropertyPageSchema>
 
-		<PropertyPageSchema Include="$(MSBuildToolsPath)\$(LangName)\SCC.xaml">
+		<PropertyPageSchema Include="$(MSBuildThisFileDirectory)Rules\SourceControl.xaml">
 			<Context>Invisible</Context>
 		</PropertyPageSchema>
 
 		<!-- We don't need this one, except that CPS assumes that the File catalog exists, so it must be non-empty -->
-		<PropertyPageSchema Include="$(MSBuildToolsPath)\$(LangName)\None.xaml">
+		<PropertyPageSchema Include="$(MSBuildThisFileDirectory)Rules\None.xaml">
 			<Context>File</Context>
 		</PropertyPageSchema>
 	</ItemGroup>

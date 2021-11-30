@@ -15,29 +15,35 @@
 
 	<StringProperty Name="ApplicationIcon" DisplayName="Application Icon" Visible="False" />
 	<StringProperty Name="Name" Visible="False" />
+
 	<StringProperty Name="RootNamespace" DisplayName="Root namespace">
 		<StringProperty.DataSource>
 			<DataSource Persistence="ProjectFile" PersistedName="Import_RootNamespace" Label="Configuration" HasConfigurationCondition="false" />
 		</StringProperty.DataSource>
 	</StringProperty>
+
 	<StringProperty Name="DefaultNamespace" DisplayName="Default namespace" Visible="False">
 		<StringProperty.DataSource>
 			<DataSource Persistence="ProjectFile" PersistedName="Import_RootNamespace" Label="Configuration" HasConfigurationCondition="false" />
 		</StringProperty.DataSource>
 	</StringProperty>
+
 	<StringProperty Name="FileName" DisplayName="Project File" ReadOnly="True">
 		<StringProperty.DataSource>
 			<DataSource Persistence="ProjectFile" PersistedName="MSBuildProjectFile" />
 		</StringProperty.DataSource>
 	</StringProperty>
+
 	<StringProperty Name="FullPath" DisplayName="Project Folder" ReadOnly="True">
 		<StringProperty.DataSource>
 			<DataSource Persistence="ProjectFile" PersistedName="MSBuildProjectDirectory" />
 		</StringProperty.DataSource>
 	</StringProperty>
+
 	<StringProperty Name="LocalPath" ReadOnly="True" Visible="False">
 		<StringProperty.DataSource>
 			<DataSource Persistence="ProjectFile" PersistedName="MSBuildProjectDirectory" />
 		</StringProperty.DataSource>
 	</StringProperty>
+
 </Rule>
