@@ -1,9 +1,16 @@
 <Project>
 
+	<!-- TODO: Remove when no longer needed! -->
+	<PropertyGroup>
+		<!-- Disable the built-in Pack targets provided by the 'NuGet.Build.Tasks.Pack' package -->
+		<NuGetBuildTasksPackTargets>NO-SDK-PACK</NuGetBuildTasksPackTargets>
+		<ImportNuGetBuildTasksPackTargetsFromSdk>false</ImportNuGetBuildTasksPackTargetsFromSdk>
+	</PropertyGroup>
+
 	<Import Project="..\Packaging\NuGet.Build.Packaging.targets"/>
 
 	<Target Name="Restore">
-		<Message Importance="High" Text="Restore is not currently supported for NuGet packaging projects (i.e. MSBuild projects with file extension 'nuproj')."/>
+		<Message Importance="High" Text="Restore is not currently supported for NuGet packaging projects (i.e. MSBuild projects with a 'nuproj' file extension)."/>
 	</Target>
 
 </Project>

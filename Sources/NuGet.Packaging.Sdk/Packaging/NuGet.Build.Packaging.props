@@ -2,14 +2,7 @@
 
 	<PropertyGroup>
 		<IsPackagingProject Condition="'$(IsPackagingProject)' == '' AND '$(MSBuildProjectExtension)' == '.nuproj'">true</IsPackagingProject>
-		<!-- Disable built-in Pack -->
-		<NuGetBuildTasksPackTargets>NO-SDK-PACK</NuGetBuildTasksPackTargets>
-		<ImportNuGetBuildTasksPackTargetsFromSdk>false</ImportNuGetBuildTasksPackTargetsFromSdk>
-	</PropertyGroup>
-
-	<PropertyGroup>
-		<ApiIntersectToolPath Condition="'$(ApiIntersectTool)' == ''">$(NuGetPackagingToolsPath)</ApiIntersectToolPath>
-		<ApiIntersectToolExe Condition="'$(ApiIntersectToolExe)' == ''">ApiIntersect.exe</ApiIntersectToolExe>
+		<NuGetPackagingToolsPath Condition="'$(NuGetPackagingToolsPath)' == ''">$([MSBuild]::NormalizeDirectory($(MSBuildThisFileDirectory), '..', 'Tools'))</NuGetPackagingToolsPath>
 	</PropertyGroup>
 
 	<ItemGroup>

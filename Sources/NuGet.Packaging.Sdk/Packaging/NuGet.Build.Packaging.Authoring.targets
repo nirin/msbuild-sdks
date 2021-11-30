@@ -16,7 +16,7 @@
 			 our TF to referenced projects and causes build to fail even if we don't really
 			 need to match up with referenced projects outputs. We're basically using the
 			 documented escape hatch, see
-			 https://github.com/Microsoft/msbuild/blob/master/src/Tasks/Microsoft.Common.CurrentVersion.targets#L1537
+			 https://github.com/dotnet/msbuild/blob/vs17.0/src/Tasks/Microsoft.Common.CurrentVersion.targets#L1780
 		-->
 		<ProjectReference>
 			<SkipGetTargetFrameworkProperties>true</SkipGetTargetFrameworkProperties>

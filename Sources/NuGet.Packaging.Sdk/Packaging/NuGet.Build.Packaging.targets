@@ -2,15 +2,6 @@
 
 	<Import Project="NuGet.Build.Packaging.props" Condition="'$(NuGetBuildPackagingPropsImported)' == ''"/>
 
-	<PropertyGroup>
-		<NuGetPackagingToolsPath>$(MSBuildThisFileDirectory)Tools\</NuGetPackagingToolsPath>
-		<!-- Load NuGet.Build.Packaging.Tasks.dll, this can be overridden to use a different version with 'NuGetPackagingTaskAssemblyFile' property -->
-		<NuGetPackagingTaskAssemblyFile Condition="$(NuGetPackagingTaskAssemblyFile) == ''">$(NuGetPackagingToolsPath)NuGet.Build.Packaging.Tasks.dll</NuGetPackagingTaskAssemblyFile>
-	</PropertyGroup>
-
-	<UsingTask AssemblyFile="$(NuGetPackagingTaskAssemblyFile)" TaskName="NuGet.Build.Packaging.Tasks.AssignPackagePath"/>
-	<UsingTask AssemblyFile="$(NuGetPackagingTaskAssemblyFile)" TaskName="NuGet.Build.Packaging.Tasks.CreatePackage"/>
-
 	<PropertyGroup Label="Globals">
 		<IsOuterBuild Condition="'$(TargetFrameworks)' != '' AND '$(TargetFramework)' == ''">true</IsOuterBuild>
 	</PropertyGroup>
@@ -37,15 +28,13 @@
 		<NuspecOutputPath Condition="'$(NuspecOutputPath)' == ''">$(BaseOutputPath)$(Configuration)\</NuspecOutputPath>
 
 		<!-- This file signals that the Build should actually do a Pack. Supports the IDE solution-wide Build command for authoring projects. -->
-		<PackOnBuildFile>$(MSBuildProjectDirectory)\.packonbuild</PackOnBuildFile>
+		<PackOnBuildFile>$(MSBuildProjectDirectory)\.packOnBuild</PackOnBuildFile>
 
 		<!-- Whether to emit the nuspec that's used to create the final package -->
 		<EmitNuSpec Condition="'$(EmitNuSpec)' == ''">false</EmitNuSpec>
 		<!-- Only default the nuspec file if we are supposed to emit one. -->
 		<NuspecFile Condition="'$(NuspecFile)' == '' AND '$(EmitNuSpec)' == 'true'">$(NuspecOutputPath)$(PackageId).nuspec</NuspecFile>
 	</PropertyGroup>
-
-	<Import Project="NuGet.Build.Packaging.Inference.targets" Condition="'$(InferPackageContents)' != 'false'"/>
 
 	<ItemGroup>
 		<!-- This is the capability that CPS in .NETStandard/.NETCore uses to enable the Pack context menu. Unify with that -->
@@ -60,6 +49,18 @@
 		</TargetPathWithTargetPlatformMoniker>
 	</ItemDefinitionGroup>
 
+	<!-- Load 'NuGet.Build.Packaging.Tasks.dll', this can be overridden to use a different version with '$(NuGetPackagingTaskAssembly)' property -->
+	<PropertyGroup Condition="$(NuGetPackagingTaskAssembly) == ''">
+		<NuGetPackagingTaskAssemblyFile Condition="'$(NuGetPackagingTaskAssemblyFile)' == ''">NuGet.Build.Packaging.Tasks.dll</NuGetPackagingTaskAssemblyFile>
+		<NuGetPackagingTaskAssemblyPath Condition="'$(NuGetPackagingTaskAssemblyPath)' == ''">..\Tasks\$(MSBuildRuntimeType)</NuGetPackagingTaskAssemblyPath>
+		<NuGetPackagingTaskAssembly>$(NuGetPackagingTaskAssemblyPath)\$(NuGetPackagingTaskAssemblyFile)</NuGetPackagingTaskAssembly>
+	</PropertyGroup>
+
+	<UsingTask AssemblyFile="$(NuGetPackagingTaskAssembly)" TaskName="NuGet.Build.Packaging.Tasks.AssignPackagePath"/>
+	<UsingTask AssemblyFile="$(NuGetPackagingTaskAssembly)" TaskName="NuGet.Build.Packaging.Tasks.CreatePackage"/>
+
+	<Import Project="NuGet.Build.Packaging.Inference.targets" Condition="'$(InferPackageContents)' != 'false'"/>
+
 	<!--
 	=================================================================================================
 	GetPackageVersion
@@ -67,10 +68,9 @@
 
 	This target sets the default $(PackageVersion) to $(Version) if empty, and returns it.
 	The $(Version) property is the upcoming default way .NET projects are versioned. See
-	https://github.com/dotnet/sdk/blob/master/src/Tasks/Microsoft.NET.Build.Tasks/build/Microsoft.NET.GenerateAssemblyInfo.targets#L108
+	https://github.com/dotnet/sdk/blob/release/5.0.4xx/src/Tasks/Microsoft.NET.Build.Tasks/targets/Microsoft.NET.GenerateAssemblyInfo.targets#L191
 
-	It can be redefined to change how the package version is
-	determined.
+	It can be redefined to change how the package version is determined.
 
 	OUTPUTS:
 		$(PackageVersion)            The determined package version
@@ -116,8 +116,7 @@
 	<Target Name="GetPackageTargetPath" Condition="'$(IsPackable)' == 'true'" DependsOnTargets="$(GetPackageTargetPathDependsOn)" Returns="@(PackageTargetPath)">
 		<Error Text="The 'PackageVersion' property cannot be empty." Code="NG1002" Condition="'$(PackageVersion)' == ''"/>
 		<ItemGroup>
-			<!-- Ensure we got a full path -->
-			<PackageTargetPath Include="$([System.IO.Path]::GetFullPath('$(PackageTargetPath)'))">
+			<PackageTargetPath Include="$(PackageTargetPath)">
 				<Id>$(PackageId)</Id>
 				<Version>$(PackageVersion)</Version>
 				<Serviceable>$(Serviceable)</Serviceable>
@@ -147,7 +146,8 @@
 	</Target>
 	<Target Name="_SetDefaultPackageTargetPath" Condition="'$(IsPackable)' == 'true' AND '$(PackageTargetPath)' == '' AND '$(PackageVersion)' != ''">
 		<PropertyGroup>
-			<PackageTargetPath Condition="'$(PackageTargetPath)' == ''">$([System.IO.Path]::Combine('$(PackageOutputPath)', '$(PackageId).$(PackageVersion).nupkg'))</PackageTargetPath>
+			<!-- Ensure we got a fully normalized path -->
+			<PackageTargetPath Condition="'$(PackageTargetPath)' == ''">$([MSBuild]::NormalizePath('$(MSBuildProjectDirectory)', '$(PackageOutputPath)', '$(PackageId).$(PackageVersion).nupkg'))</PackageTargetPath>
 		</PropertyGroup>
 	</Target>
 

@@ -1,17 +1,23 @@
 <Project>
 
-	<UsingTask AssemblyFile="$(NuGetPackagingTaskAssemblyFile)" TaskName="NuGet.Build.Packaging.Tasks.ApiIntersect"/>
-	<UsingTask AssemblyFile="$(NuGetPackagingTaskAssemblyFile)" TaskName="NuGet.Build.Packaging.Tasks.GenerateAssemblyInfo"/>
-	<UsingTask AssemblyFile="$(NuGetPackagingTaskAssemblyFile)" TaskName="NuGet.Build.Packaging.Tasks.GetApiIntersectTargetPaths"/>
+	<UsingTask AssemblyFile="$(NuGetPackagingTaskAssembly)" TaskName="NuGet.Build.Packaging.Tasks.ApiIntersect"/>
+	<UsingTask AssemblyFile="$(NuGetPackagingTaskAssembly)" TaskName="NuGet.Build.Packaging.Tasks.GenerateAssemblyInfo"/>
+	<UsingTask AssemblyFile="$(NuGetPackagingTaskAssembly)" TaskName="NuGet.Build.Packaging.Tasks.GetApiIntersectTargetPaths"/>
+
+	<PropertyGroup>
+		<ApiIntersectToolExe Condition="'$(ApiIntersectToolExe)' == ''">ApiIntersect.exe</ApiIntersectToolExe>
+		<ApiIntersectToolPath Condition="'$(ApiIntersectToolPath)' == ''">$(NuGetPackagingToolsPath)</ApiIntersectToolPath>
+		<GenerateReferenceAssemblyProject Condition="'$(GenerateReferenceAssemblyProject)' == ''">$(NuGetPackagingToolsPath)GenerateReferenceAssembly.csproj</GenerateReferenceAssemblyProject>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<CleanDependsOn>$(CleanDependsOn);_CleanReferenceAssemblyInterimOutputs</CleanDependsOn>
+	</PropertyGroup>
 
 	<ItemGroup>
 		<!-- Converts potentially multiple $(ReferenceAssemblyFrameworks) into @(ReferenceAssemblyFramework) -->
 		<ReferenceAssemblyFramework Include="$(ReferenceAssemblyFrameworks)" Condition="'$(ReferenceAssemblyFrameworks)' != ''"/>
 	</ItemGroup>
-
-	<PropertyGroup>
-		<CleanDependsOn>$(CleanDependsOn);_CleanReferenceAssemblyInterimOutputs</CleanDependsOn>
-	</PropertyGroup>
 
 	<Target Name="_GetReferenceAssemblyTargetPaths"
 			BeforeTargets="GetPackageContents"
@@ -83,7 +89,7 @@
 		</GenerateAssemblyInfo>
 
 		<MSBuild
-			Projects="$(NuGetPackagingToolsPath)GenerateReferenceAssembly.csproj"
+			Projects="$(GenerateReferenceAssemblyProject)"
 			Properties="AssemblyName=$(_ReferenceAssemblyName);
 				TargetFrameworkVersion=%(_ReferenceAssemblyBuildInfo.TargetFrameworkVersion);
 				TargetFrameworkProfile=%(_ReferenceAssemblyBuildInfo.TargetFrameworkProfile);

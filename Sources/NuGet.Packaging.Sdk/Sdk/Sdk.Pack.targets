@@ -8,7 +8,7 @@
 	<ImportGroup>
 		<!--
 			The Pack tasks file defines the pack-specific tasks required for the Pack functionality.
-			When adding any new targets containing tasks, please define a `UsingTask` in the tasks file
+			When adding any new targets containing tasks, please define a `<UsingTask/>` in the tasks file
 			rather than in the targets file unless it's conditional and/or temporary.
 		-->
 		<Import Project="..\Extensions\NuGet.Pack.tasks"/>

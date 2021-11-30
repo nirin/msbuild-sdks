@@ -1,8 +1,8 @@
 <Project>
 
 	<!--
-		Determine the path to the directory packages props file, if the user did not disable `ImportDirectoryPackagesProps` and
-		they did not already specify an absolute path to use via `DirectoryPackagesProps`
+		Determine the path to the `Directory.Packages.props` file, if the user did not disable `$(ImportDirectoryPackagesProps)` and
+		they did not already specify an absolute path to use via `$(DirectoryPackagesProps)`
 	-->
 	<PropertyGroup Condition="'$(DirectoryPackagesProps)' == ''">
 		<DirectoryPackagesPropsFile Condition="'$(DirectoryPackagesPropsFile)' == ''">Directory.Packages.props</DirectoryPackagesPropsFile>
@@ -11,9 +11,9 @@
 	</PropertyGroup>
 
 	<!--
-		Import 'Directory.Packages.props' which will contain centralized packages for all the projects and solutions under
-		the directory in which the file is present. This is similar to 'Directory.Build.props/targets' logic which is present
-		in the common props/targets which serve a similar purpose.
+		Import the 'Directory.Packages.props' file which will contain centralized packages for all the projects and solutions
+		under the directory in which the file is present. This is similar to the 'Directory.Build.props' file import logic
+		which is present in the 'MSBuild.Common.Sdk' which serve a similar purpose.
 	-->
 	<Import Project="$(DirectoryPackagesProps)" Condition="Exists('$(DirectoryPackagesProps)')"/>
 
