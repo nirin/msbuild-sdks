@@ -1,7 +1,9 @@
 <Project>
 
-	<Import Sdk="MSBuild.Core.Sdk" Project="Sdk.props"/>
+	<Import Sdk="MSBuild.Core.Sdk" Project="Sdk.Extensions.props"/>
 
 	<Import Project="..\Core\MSBuild.Sharing.Sdk.props"/>
+
+	<Import Sdk="MSBuild.Core.Sdk" Project="Sdk.Core.props"/>
 
 </Project>

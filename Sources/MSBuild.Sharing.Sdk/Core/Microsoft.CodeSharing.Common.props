@@ -1,5 +1,6 @@
 <Project>
 
-	<Import Sdk="MSBuild.NET.Legacy.Sdk" Project="Sdk.Core.props"/>
+	<Import Sdk="MSBuild.NET.Legacy.Sdk" Project="Sdk.Core.props" Condition="'$(UseMSBuildWindowsSdk)' != 'true'"/>
+	<Import Sdk="MSBuild.NET.Windows.Sdk" Project="Sdk.Core.props" Condition="'$(UseMSBuildWindowsSdk)' == 'true'"/>
 
 </Project>

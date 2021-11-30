@@ -2,7 +2,7 @@
 
 	<PropertyGroup>
 		<ParentProjectType Condition="'$(ParentProjectType)' == ''">Common</ParentProjectType>
-		<TargetPlatformVersion Condition="'$(TargetPlatformVersion)' == ''">8.0</TargetPlatformVersion>
+		<VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">17.0</VisualStudioVersion>
 	</PropertyGroup>
 
 	<Import Project="..\Core\Microsoft.CodeSharing.$(ParentProjectType).targets"/>
