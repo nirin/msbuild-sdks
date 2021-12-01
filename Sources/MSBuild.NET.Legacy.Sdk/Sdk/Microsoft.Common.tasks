@@ -11,8 +11,9 @@
 	<!-- NOTE: Using the fully qualified class name in a <UsingTask> tag is faster than using a partially qualified name. -->
 
 	<PropertyGroup Condition="'$(MSBuildCommonTasksAssembly)' == ''">
-		<MSBuildCommonTasksPath>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\Tasks\$(MSBuildRuntimeType)\'))</MSBuildCommonTasksPath>
-		<MSBuildCommonTasksAssembly>$(MSBuildCommonTasksPath)Microsoft.Build.Tasks.Core.dll</MSBuildCommonTasksAssembly>
+		<MSBuildCommonTasksPath Condition="'$(MSBuildCommonTasksPath)' == ''">..\Tasks\$(MSBuildRuntimeType)</MSBuildCommonTasksPath>
+		<MSBuildCommonTasksAssemblyFile Condition="'$(MSBuildCommonTasksAssemblyFile)' == ''">Microsoft.Build.Tasks.Core.dll</MSBuildCommonTasksAssemblyFile>
+		<MSBuildCommonTasksAssembly>$(MSBuildCommonTasksPath)\$(MSBuildCommonTasksAssemblyFile)</MSBuildCommonTasksAssembly>
 	</PropertyGroup>
 
 	<UsingTask AssemblyFile="$(MSBuildCommonTasksAssembly)" TaskName="Microsoft.Build.Tasks.AL"/>
