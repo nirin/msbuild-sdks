@@ -5,7 +5,7 @@
 			<Context>Project</Context>
 		</PropertyPageSchema>
 
-		<PropertyPageSchema Include="Rules\SourceControl.xaml;">
+		<PropertyPageSchema Include="Rules\SourceControl.xaml">
 			<Context>Invisible</Context>
 		</PropertyPageSchema>
 
@@ -27,7 +27,7 @@
 
 		<!-- Project references -->
 		<PropertyPageSchema Include="Rules\ProjectReference.xaml">
-			<Context>;BrowseObject</Context>
+			<Context>BrowseObject</Context>
 		</PropertyPageSchema>
 
 		<PropertyPageSchema Include="Rules\ResolvedProjectReference.xaml">
@@ -36,7 +36,7 @@
 
 		<!-- Assembly references -->
 		<PropertyPageSchema Include="Rules\AssemblyReference.xaml">
-			<Context>;BrowseObject</Context>
+			<Context>BrowseObject</Context>
 		</PropertyPageSchema>
 
 		<PropertyPageSchema Include="Rules\ResolvedAssemblyReference.xaml">

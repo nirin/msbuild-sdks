@@ -646,11 +646,11 @@
 			$(CommonXamlResourcesDirectory)Folder.xaml;
 			$(CommonXamlResourcesDirectory)None.xaml;
 			$(CommonXamlResourcesDirectory)Content.xaml;
-			$(CommonXamlResourcesDirectory)EmbeddedResource.xaml;">
+			$(CommonXamlResourcesDirectory)EmbeddedResource.xaml">
 			<Context>File;BrowseObject</Context>
 		</PropertyPageSchema>
 
-		<PropertyPageSchema Include="$(CommonXamlResourcesDirectory)SpecialFolder.xaml;">
+		<PropertyPageSchema Include="$(CommonXamlResourcesDirectory)SpecialFolder.xaml">
 			<Context>File;ProjectSubscriptionService</Context>
 		</PropertyPageSchema>
 	</ItemGroup>
@@ -662,7 +662,7 @@
 	<ItemGroup Condition="'$(DefineCommonReferenceSchemas)' == 'true'">
 		<!-- Assembly references -->
 		<PropertyPageSchema Include="$(CommonXamlResourcesDirectory)assemblyreference.xaml">
-			<Context>;BrowseObject</Context>
+			<Context>BrowseObject</Context>
 		</PropertyPageSchema>
 		<PropertyPageSchema Include="$(CommonXamlResourcesDirectory)ResolvedAssemblyReference.xaml">
 			<Context>ProjectSubscriptionService;BrowseObject</Context>
@@ -670,7 +670,7 @@
 
 		<!-- COM references -->
 		<PropertyPageSchema Include="$(CommonXamlResourcesDirectory)COMReference.xaml">
-			<Context>;BrowseObject</Context>
+			<Context>BrowseObject</Context>
 		</PropertyPageSchema>
 		<PropertyPageSchema Include="$(CommonXamlResourcesDirectory)ResolvedCOMReference.xaml">
 			<Context>ProjectSubscriptionService;BrowseObject</Context>
@@ -678,7 +678,7 @@
 
 		<!-- Project references -->
 		<PropertyPageSchema Include="$(CommonXamlResourcesDirectory)ProjectReference.xaml">
-			<Context>;BrowseObject</Context>
+			<Context>BrowseObject</Context>
 		</PropertyPageSchema>
 		<PropertyPageSchema Include="$(CommonXamlResourcesDirectory)ResolvedProjectReference.xaml">
 			<Context>ProjectSubscriptionService;BrowseObject</Context>
@@ -696,7 +696,7 @@
 			VisualStudioWellKnownOutputGroups;
 			SingleFileGenerators;
 			DeclaredSourceItems;
-			UserSourceItems;"/>
+			UserSourceItems"/>
 		<ProjectCapability Include="BuildWindowsDesktopTarget"
 			Condition="'$(TargetPlatformIdentifier)' == 'Windows' AND '$(TargetPlatformVersion)' &lt; '8.0'"/>
 	</ItemGroup>
@@ -974,7 +974,7 @@
 			Projects="@(_MSBuildProjectReferenceExistent)"
 			Targets="BuildGenerateSources"
 			BuildInParallel="$(BuildInParallel)"
-			Properties="%(_MSBuildProjectReferenceExistent.SetConfiguration);%(_MSBuildProjectReferenceExistent.SetPlatform);%(_MSBuildProjectReferenceExistent.SetTargetFramework);"
+			Properties="%(_MSBuildProjectReferenceExistent.SetConfiguration);%(_MSBuildProjectReferenceExistent.SetPlatform);%(_MSBuildProjectReferenceExistent.SetTargetFramework)"
 			Condition="'$(BuildPassReferences)' == 'true' AND '@(ProjectReferenceWithConfiguration)' != '' AND '@(_MSBuildProjectReferenceExistent)' != '' AND '%(_MSBuildProjectReferenceExistent.BuildReference)' == 'true'"
 			ContinueOnError="!$(BuildingProject)"
 			RemoveProperties="%(_MSBuildProjectReferenceExistent.GlobalPropertiesToRemove);$(_GlobalPropertiesToRemoveFromProjectReferences)">

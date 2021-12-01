@@ -14,11 +14,11 @@
 	</PropertyGroup>
 
 	<ItemGroup Condition="'$(DefineCSharpItemSchemas)' != 'false'">
-		<PropertyPageSchema Include="$(CommonXamlResourcesDirectory)CSharp.ProjectItemsSchema.xaml;"/>
-		<PropertyPageSchema Include="$(CommonXamlResourcesDirectory)CSharp.xaml;">
+		<PropertyPageSchema Include="$(CommonXamlResourcesDirectory)CSharp.ProjectItemsSchema.xaml"/>
+		<PropertyPageSchema Include="$(CommonXamlResourcesDirectory)CSharp.xaml">
 			<Context>File</Context>
 		</PropertyPageSchema>
-		<PropertyPageSchema Include="$(CommonXamlResourcesDirectory)CSharp.BrowseObject.xaml;">
+		<PropertyPageSchema Include="$(CommonXamlResourcesDirectory)CSharp.BrowseObject.xaml">
 			<Context>BrowseObject</Context>
 		</PropertyPageSchema>
 

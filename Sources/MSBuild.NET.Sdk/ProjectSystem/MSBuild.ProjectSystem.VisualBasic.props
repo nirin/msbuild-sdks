@@ -14,11 +14,11 @@
 	</PropertyGroup>
 
 	<ItemGroup Condition="'$(DefineVisualBasicItemSchemas)' != 'false'">
-		<PropertyPageSchema Include="$(CommonXamlResourcesDirectory)VisualBasic.ProjectItemsSchema.xaml;"/>
-		<PropertyPageSchema Include="$(CommonXamlResourcesDirectory)VisualBasic.xaml;">
+		<PropertyPageSchema Include="$(CommonXamlResourcesDirectory)VisualBasic.ProjectItemsSchema.xaml"/>
+		<PropertyPageSchema Include="$(CommonXamlResourcesDirectory)VisualBasic.xaml">
 			<Context>File</Context>
 		</PropertyPageSchema>
-		<PropertyPageSchema Include="$(CommonXamlResourcesDirectory)VisualBasic.BrowseObject.xaml;">
+		<PropertyPageSchema Include="$(CommonXamlResourcesDirectory)VisualBasic.BrowseObject.xaml">
 			<Context>BrowseObject</Context>
 		</PropertyPageSchema>
 

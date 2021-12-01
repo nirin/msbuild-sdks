@@ -158,7 +158,7 @@
 					@(XamlOutputCodeFilesList);
 					$(IntermediateOutputPath)$(XamlGenCodeFileNames);
 					$(IntermediateOutputPath)$(XamlGenMarkupFileNames);
-					$(IntermediateOutputPath)$(XamlPass2FlagFile);">
+					$(IntermediateOutputPath)$(XamlPass2FlagFile)">
 
 		<Message Text="(in) XamlPage: '@(XamlPage)'" Condition="'$(MSBuildTargetsVerbose)' == 'true'"/>
 		<Message Text="(in) XamlAppDef: '@(XamlAppDef)'" Condition="'$(MSBuildTargetsVerbose)' == 'true'"/>
