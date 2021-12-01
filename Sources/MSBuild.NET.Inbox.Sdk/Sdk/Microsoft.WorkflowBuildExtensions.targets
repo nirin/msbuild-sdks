@@ -10,7 +10,7 @@
 		the shim will internally simply redirect to the real copy of the targets file in the .NET Framework.
 	-->
 
-	<Import Project="$(MSBuildFrameworkToolsPath)\Microsoft.WorkflowBuildExtensions.targets" Condition="Exists('$(MSBuildFrameworkToolsPath)\Microsoft.WorkflowBuildExtensions.targets')"/>
+	<Import Project="$(MSBuildFrameworkToolsPath)Microsoft.WorkflowBuildExtensions.targets" Condition="Exists('$(MSBuildFrameworkToolsPath)Microsoft.WorkflowBuildExtensions.targets')"/>
 
 	<!--
 		The following target in '<MSBuildFrameworkToolsPath>\Microsoft.WorkflowBuildExtensions.targets' does bad

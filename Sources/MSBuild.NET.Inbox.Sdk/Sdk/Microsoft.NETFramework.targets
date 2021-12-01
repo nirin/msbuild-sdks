@@ -13,6 +13,6 @@
 		the shim will internally simply redirect to the real copy of the targets file in the .NET Framework.
 	-->
 
-	<Import Project="$(MSBuildFrameworkToolsPath)\Microsoft.NETFramework.targets"/>
+	<Import Project="$(MSBuildFrameworkToolsPath)Microsoft.NETFramework.targets"/>
 
 </Project>

@@ -21,7 +21,7 @@
 		<CscToolPath Condition="'$(CscToolPath)' == '' AND '$(BuildingInsideVisualStudio)' != 'true'">$(MSBuildFrameworkToolsPath)</CscToolPath>
 	</PropertyGroup>
 
-	<Import Project="$(MSBuildFrameworkToolsPath)\Microsoft.CSharp.targets"/>
+	<Import Project="$(MSBuildFrameworkToolsPath)Microsoft.CSharp.targets"/>
 
 	<!--
 		Fix up 'FrameworkPathOverride', which is primarily used to determine the location of 'mscorlib.dll'

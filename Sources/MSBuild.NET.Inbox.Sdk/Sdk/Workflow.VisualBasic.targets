@@ -11,6 +11,6 @@
 	-->
 
 	<!-- The 'Workflow.VisualBasic.targets' is for VB projects. But, the C# variant is not 'Workflow.CSharp.targets', it is 'Workflow.targets' instead. -->
-	<Import Project="$(MSBuildFrameworkToolsPath)\Workflow.VisualBasic.targets"/>
+	<Import Project="$(MSBuildFrameworkToolsPath)Workflow.VisualBasic.targets"/>
 
 </Project>

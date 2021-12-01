@@ -21,7 +21,7 @@
 		<VbcToolPath Condition="'$(VbcToolPath)' == '' AND '$(BuildingInsideVisualStudio)' != 'true'">$(MSBuildFrameworkToolsPath)</VbcToolPath>
 	</PropertyGroup>
 
-	<Import Project="$(MSBuildFrameworkToolsPath)\Microsoft.VisualBasic.targets"/>
+	<Import Project="$(MSBuildFrameworkToolsPath)Microsoft.VisualBasic.targets"/>
 
 	<!--
 		Fix up 'FrameworkPathOverride', which is primarily used to determine the location of 'mscorlib.dll'

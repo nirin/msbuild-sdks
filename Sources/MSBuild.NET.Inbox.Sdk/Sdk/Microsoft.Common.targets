@@ -15,7 +15,7 @@
 		the shim will internally simply redirect to the real copy of the targets file in the .NET Framework.
 	-->
 
-	<Import Project="$(MSBuildFrameworkToolsPath)\Microsoft.Common.targets"/>
+	<Import Project="$(MSBuildFrameworkToolsPath)Microsoft.Common.targets"/>
 
 	<!--
 		Fix up 'FrameworkPathOverride', which is primarily used to determine the location of 'mscorlib.dll'
