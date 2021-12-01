@@ -14,23 +14,25 @@
 	</PropertyGroup>
 
 	<PropertyGroup>
+		<!-- Generates full paths for the 'File' property in errors, warnings and messages in many targets -->
+		<GenerateFullPaths Condition="'$(GenerateFullPaths)' == ''">true</GenerateFullPaths>
 		<!-- Yield optimization properties -->
 		<YieldDuringToolExecution Condition="'$(YieldDuringToolExecution)' == ''">true</YieldDuringToolExecution>
 	</PropertyGroup>
 
 	<PropertyGroup>
-		<TargetPlatformIdentifier Condition="'$(TargetPlatformIdentifier)' == ''">Windows</TargetPlatformIdentifier>
-		<TargetPlatformVersion Condition="'$(TargetPlatformVersion)' == ''">7.0</TargetPlatformVersion>
+		<TargetPlatformIdentifier Condition="'$(TargetPlatformIdentifier)' == '' AND '$(_EnableDefaultWindowsPlatform)' != 'false'">Windows</TargetPlatformIdentifier>
+		<TargetPlatformVersion Condition="'$(TargetPlatformVersion)' == '' AND '$(_EnableDefaultWindowsPlatform)' != 'false'">7.0</TargetPlatformVersion>
 		<TargetPlatformSdkPath Condition="'$(TargetPlatformSdkPath)' == '' AND '$(TargetPlatformSdkRootOverride)' != ''">$(TargetPlatformSdkRootOverride)\</TargetPlatformSdkPath>
-		<TargetPlatformSdkPath Condition="'$(TargetPlatformSdkPath)' == '' AND '$(TargetPlatformIdentifier)' == 'Windows' AND '$(OS)' == 'Windows_NT' AND '$(MSBuildRuntimeType)' != 'Core'">$([MSBuild]::GetRegistryValueFromView('HKEY_LOCAL_MACHINE\Software\Microsoft\Microsoft SDKs\Windows\v$(TargetPlatformVersion)', InstallationFolder, null, RegistryView.Registry32, RegistryView.Default))</TargetPlatformSdkPath>
+		<TargetPlatformSdkPath Condition="'$(TargetPlatformSdkPath)' == '' AND '$(TargetPlatformIdentifier)' == 'Windows' AND $([MSBuild]::IsOSPlatform('Windows')) AND '$(MSBuildRuntimeType)' != 'Core'">$([MSBuild]::GetRegistryValueFromView('HKEY_LOCAL_MACHINE\Software\Microsoft\Microsoft SDKs\Windows\v$(TargetPlatformVersion)', InstallationFolder, null, RegistryView.Registry32, RegistryView.Default))</TargetPlatformSdkPath>
 		<TargetPlatformSdkPath Condition="'$(TargetPlatformSdkPath)' == ''">$([Microsoft.Build.Utilities.ToolLocationHelper]::GetPlatformSDKLocation($(TargetPlatformIdentifier), $(TargetPlatformVersion)))</TargetPlatformSdkPath>
 		<TargetPlatformSdkMetadataLocation Condition="'$(TargetPlatformSdkMetadataLocation)' == '' AND Exists('$(TargetPlatformSdkPath)')">$(TargetPlatformSdkPath)Windows Metadata</TargetPlatformSdkMetadataLocation>
 		<TargetPlatformSdkMetadataLocation Condition="Exists('$(TargetPlatformSdkPath)') AND ('$(TargetPlatformSdkMetadataLocation)' == '' OR !Exists('$(TargetPlatformSdkMetadataLocation)'))">$(TargetPlatformSdkPath)References\CommonConfiguration\Neutral</TargetPlatformSdkMetadataLocation>
 		<TargetPlatformWinMDLocation Condition="'$(TargetPlatformWinMDLocation)' == '' AND Exists('$(TargetPlatformSdkMetadataLocation)')">$(TargetPlatformSdkMetadataLocation)</TargetPlatformWinMDLocation>
 		<UseOSWinMdReferences Condition="'$(UseOSWinMdReferences)' == '' AND ('$(TargetPlatformWinMDLocation)' == '' AND '$(TargetPlatformIdentifier)' == 'Windows' AND '$(TargetPlatformVersion)' > '7.0')">true</UseOSWinMdReferences>
 		<TargetPlatformWinMDLocation Condition="'$(UseOsWinMdReferences)' == 'true'">$(WinDir)\System32\WinMetadata</TargetPlatformWinMDLocation>
-		<TargetPlatformMoniker Condition="'$(TargetPlatformMoniker)' == ''">$(TargetPlatformIdentifier),Version=$(TargetPlatformVersion)</TargetPlatformMoniker>
-		<TargetPlatformDisplayName Condition="'$(TargetPlatformDisplayName)' == ''">$([Microsoft.Build.Utilities.ToolLocationHelper]::GetPlatformSDKDisplayName($(TargetPlatformIdentifier), $(TargetPlatformVersion)))</TargetPlatformDisplayName>
+		<TargetPlatformMoniker Condition="'$(TargetPlatformMoniker)' == '' AND '$(TargetPlatformIdentifier)' != '' AND '$(TargetPlatformVersion)' != ''">$(TargetPlatformIdentifier),Version=$(TargetPlatformVersion)</TargetPlatformMoniker>
+		<TargetPlatformDisplayName Condition="'$(TargetPlatformDisplayName)' == '' AND '$(TargetPlatformIdentifier)' != '' AND '$(TargetPlatformVersion)' != ''">$([Microsoft.Build.Utilities.ToolLocationHelper]::GetPlatformSDKDisplayName($(TargetPlatformIdentifier), $(TargetPlatformVersion)))</TargetPlatformDisplayName>
 	</PropertyGroup>
 
 	<!--
@@ -41,23 +43,22 @@
 	-->
 
 	<PropertyGroup>
-		<!-- Example, Debug -->
-		<_OriginalConfiguration>$(Configuration)</_OriginalConfiguration>
-		<Configuration Condition="'$(Configuration)' == ''">Debug</Configuration>
-		<_Configuration Condition="'$(_Configuration)' == ''">$(Configuration)</_Configuration>
-
-		<!-- Example, AnyCPU -->
-		<_OriginalPlatform>$(Platform)</_OriginalPlatform>
-		<Platform Condition="'$(Platform)' == ''">AnyCPU</Platform>
-		<_Platform Condition="'$(_Platform)' == ''">$(Platform)</_Platform>
+		<BuildDirName Condition="'$(BuildDirName)' == ''">build</BuildDirName>
+		<BuildDir Condition="'$(BuildDir)' == ''">$(BuildDirName)\</BuildDir>
+		<BuildDir Condition="!HasTrailingSlash('$(BuildDir)')">$(BuildDir)\</BuildDir>
+		<_InitialBuildDir>$(BuildDir)</_InitialBuildDir>
 	</PropertyGroup>
 
 	<PropertyGroup>
-		<OutputType Condition="'$(TargetType)' != ''">$(TargetType)</OutputType>
-		<OutputType Condition="'$(TargetType)' == 'Container' OR '$(TargetType)' == 'DocumentContainer'">library</OutputType>
-		<OutputType Condition="'$(OutputType)' == ''">exe</OutputType>
+		<!-- Example, AnyCPU -->
+		<Platform Condition="'$(Platform)' == ''">AnyCPU</Platform>
+		<!-- Example, Debug -->
+		<Configuration Condition="'$(Configuration)' == ''">Debug</Configuration>
+	</PropertyGroup>
 
-		<DebugSymbols Condition="'$(_Configuration)' == 'Debug' AND '$(DebugSymbols)' == '' AND '$(DebugType)' == ''">true</DebugSymbols>
+	<PropertyGroup>
+		<!-- Generate Debug sysmbols only when the Configuration is Debug -->
+		<DebugSymbols Condition="'$(Configuration)' == 'Debug' AND '$(DebugSymbols)' == '' AND '$(DebugType)' == ''">true</DebugSymbols>
 
 		<!-- Whether or not a .pdb file is produced. -->
 		<DebugType Condition="'$(DebugType)' == ''">portable</DebugType>
@@ -69,16 +70,29 @@
 		<ProduceReferenceAssembly Condition="'$(ProduceReferenceAssembly)' == ''">false</ProduceReferenceAssembly>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(_OriginalConfiguration)' == '' OR '$(_OriginalPlatform)' == ''">
+	<!--
+		For Legacy projects that define properties per Configuration/Platform combination, the validity of an
+		invalid combination is determined by the non-empty value of the 'OutputPath' property specified under
+		the IDE generated Configuration/Platform specific 'PropertyGroup' section.
+
+		If 'BaseOutputPath' is specified, we can skip the validation, since, we assume the 'OutputPath' property
+		will be derived (i.e. from the 'BaseOutputPath' property).
+	-->
+	<PropertyGroup Condition="'$(BaseOutputPathWasSpecified)' != 'true' AND '$(_OutputPathWasMissing)' == 'true'">
 		<!--
-			A blank Configuration/Platform at this point means that the user passed in an invalid Configuration/Platform
-			combination.  Whether this is considered an error or a warning depends on the value of
-			$(SkipInvalidConfigurations).
+			When 'OutputPath' is missing or empty (along with non-existent 'BaseOutputPath') at this point means,
+			we're in legacy mode and we shall assume the current Configuration/Platform combination as invalid.
+			Whether this is considered an error or a warning depends on the value of $(SkipInvalidConfigurations).
 		-->
 		<_InvalidConfigurationError Condition="'$(SkipInvalidConfigurations)' != 'true'">true</_InvalidConfigurationError>
 		<_InvalidConfigurationWarning Condition="'$(SkipInvalidConfigurations)' == 'true'">true</_InvalidConfigurationWarning>
 	</PropertyGroup>
 
+	<!--
+		IDE Macros available from both integrated builds and from command line builds.
+		The following properties are 'macros' that are available via IDE for
+		pre and post build steps.
+	-->
 	<PropertyGroup>
 		<!-- Example, MyAssembly -->
 		<AssemblyName Condition="'$(AssemblyName)' == ''">$(MSBuildProjectName)</AssemblyName>
@@ -91,8 +105,8 @@
 		<!-- Example, C:\MyProjects\MyProject\ -->
 		<ProjectDir Condition="'$(ProjectDir)' == ''">$(MSBuildProjectDirectory)\</ProjectDir>
 		<!-- Example, C:\MyProjects\MyProject\MyProject.csproj -->
-		<ProjectPath Condition="'$(ProjectPath)' == ''">$(MSBuildProjectFullPath)</ProjectPath>
 		<ProjectPath Condition="'$(ProjectPath)' == ''">$(ProjectDir)$(ProjectFileName)</ProjectPath>
+		<ProjectPath Condition="'$(ProjectPath)' == ''">$(MSBuildProjectFullPath)</ProjectPath>
 	</PropertyGroup>
 
 	<PropertyGroup>
@@ -143,8 +157,12 @@
 
 	<PropertyGroup>
 		<!-- It would be a breaking change to automatically turn on binding redirects for existing projects, so turn them on only when opting into a new framework. -->
-		<AutoGenerateBindingRedirects Condition="'$(AutoGenerateBindingRedirects)' == ''">true</AutoGenerateBindingRedirects>
-		<AutoUnifyAssemblyReferences Condition="'$(AutoUnifyAssemblyReferences)' == ''">true</AutoUnifyAssemblyReferences>
+		<AutoGenerateBindingRedirects Condition="'$(AutoGenerateBindingRedirects)' == '' AND '$(TargetFrameworkIdentifier)' == '.NETFramework' AND '$(TargetFrameworkVersion.TrimStart(vV))' >= '4.7.2'">true</AutoGenerateBindingRedirects>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(AutoUnifyAssemblyReferences)' == ''">
+		<AutoUnifyAssemblyReferences>true</AutoUnifyAssemblyReferences>
+		<AutoUnifyAssemblyReferences Condition="'$(GenerateBindingRedirectsOutputType)' == 'true' AND '$(AutoGenerateBindingRedirects)' != 'true'">false</AutoUnifyAssemblyReferences>
 	</PropertyGroup>
 
 	<PropertyGroup>
@@ -195,9 +213,11 @@
 			<TargetPath>$(_DeploymentTargetApplicationManifestFileName)</TargetPath>
 		</ApplicationManifest>
 
-		<!-- Create an item for the final application manifest (Example: WindowsApplication1.exe.manifeset)
-				This item represents the final output application manifest used for project-to-project
-				references and for copying to the publish output location. -->
+		<!--
+			Create an item for the final application manifest (Example: WindowsApplication1.exe.manifeset)
+			This item represents the final output application manifest used for project-to-project
+			references and for copying to the publish output location.
+		-->
 		<_ApplicationManifestFinal Include="$(OutDir)$(_DeploymentTargetApplicationManifestFileName)">
 			<TargetPath>$(_DeploymentTargetApplicationManifestFileName)</TargetPath>
 		</_ApplicationManifestFinal>
@@ -211,9 +231,7 @@
 		<_DeploymentIntermediateTrustInfoFile Include="$(IntermediateOutputPath)$(TargetName).TrustInfo.xml" Condition="'$(TargetZone)' != ''"/>
 	</ItemGroup>
 
-	<!--
-		ProcessorArchitecture is the target processor architecture.
-	-->
+	<!-- ProcessorArchitecture is the target processor architecture. -->
 	<PropertyGroup Condition="'$(ProcessorArchitecture)' == ''">
 		<!--
 			If ProcessorArchitecture is not set, set it to PlatformTarget
@@ -246,17 +264,20 @@
 		<ProcessorArchitecture Condition="'$(ProcessorArchitectureAsPlatform)' == 'x86' OR '$(ProcessorArchitectureAsPlatform)' == 'win32'">x86</ProcessorArchitecture>
 		<ProcessorArchitecture Condition="'$(ProcessorArchitectureAsPlatform)' == 'ARM'">arm</ProcessorArchitecture>
 
-		<!--For compatibility with the 4.0 behavior, if not set above, default to the environment. To override this, set ProcessorArchitecture explicitly. We also need to disable the warning since we do not know if what the environment is set to is correct-->
+		<!--
+			For compatibility with the 4.0 behavior, if not set above, default to the environment. To override this, set ProcessorArchitecture explicitly.
+			We also need to disable the warning since we do not know if what the environment is set to is correct
+		-->
 		<ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch Condition="'$(ProcessorArchitecture)' == ''">None</ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>
 		<ProcessorArchitecture Condition="'$(ProcessorArchitecture)' == ''">$(PROCESSOR_ARCHITECTURE)</ProcessorArchitecture>
 	</PropertyGroup>
 
 
-		<!--
-			Sensible defaults for the most-commonly-desired MSBuildRuntime and MSBuildArchitecture values. The Core and Mono runtimes do not currently support specifying task architecture or runtime.
-			If support for out-of-proc task execution is added on other runtimes, make sure each task's logic is checked against the current state of support.
-		-->
-	<PropertyGroup Condition="'$(DisableOutOfProcTaskHost)' == '' and '$(MSBuildRuntimeType)' == 'Full'">
+	<!--
+		Sensible defaults for the most-commonly-desired MSBuildRuntime and MSBuildArchitecture values. The Core and Mono runtimes do not currently support specifying task architecture or runtime.
+		If support for out-of-proc task execution is added on other runtimes, make sure each task's logic is checked against the current state of support.
+	-->
+	<PropertyGroup Condition="'$(DisableOutOfProcTaskHost)' == '' AND '$(MSBuildRuntimeType)' == 'Full'">
 		<TargetFrameworkAsMSBuildRuntime Condition="'$(TargetFrameworkVersion)' == 'v2.0' OR '$(TargetFrameworkVersion)' == 'v3.0' OR '$(TargetFrameworkVersion)' == 'v3.5'">CLR2</TargetFrameworkAsMSBuildRuntime>
 		<TargetFrameworkAsMSBuildRuntime Condition="'$(TargetFrameworkVersion)' == 'v4.0' OR '$(TargetFrameworkVersion)' == 'v4.5'">CLR4</TargetFrameworkAsMSBuildRuntime>
 		<TargetFrameworkAsMSBuildRuntime Condition="'$(TargetFrameworkAsMSBuildRuntime)' == ''">CurrentRuntime</TargetFrameworkAsMSBuildRuntime>
@@ -264,9 +285,10 @@
 		<PlatformTargetAsMSBuildArchitectureExplicitlySet Condition="'$(PlatformTargetAsMSBuildArchitecture)' != ''">true</PlatformTargetAsMSBuildArchitectureExplicitlySet>
 		<PlatformTargetAsMSBuildArchitectureExplicitlySet Condition="'$(PlatformTargetAsMSBuildArchitecture)' == ''">false</PlatformTargetAsMSBuildArchitectureExplicitlySet>
 
-		<PlatformTargetAsMSBuildArchitecture Condition="'$(PlatformTarget)' == 'x86' OR ('$(PlatformTarget)' == 'x64' AND '$(MSBuildExtensionsPath64)' != '')">$(PlatformTarget)</PlatformTargetAsMSBuildArchitecture>
+		<PlatformTargetAsMSBuildArchitecture Condition="'$(PlatformTarget)' == 'x86' OR '$(PlatformTarget)' == 'x64'">$(PlatformTarget)</PlatformTargetAsMSBuildArchitecture>
 		<PlatformTargetAsMSBuildArchitecture Condition="'$(PlatformTarget)' == 'arm'">x86</PlatformTargetAsMSBuildArchitecture>
-		<PlatformTargetAsMSBuildArchitecture Condition="('$(PlatformTarget)' == 'ia64' AND '$(MSBuildExtensionsPath64)' != '')">x64</PlatformTargetAsMSBuildArchitecture>
+		<PlatformTargetAsMSBuildArchitecture Condition="'$(PlatformTarget)' == 'arm64'">x64</PlatformTargetAsMSBuildArchitecture>
+		<PlatformTargetAsMSBuildArchitecture Condition="'$(PlatformTarget)' == 'ia64'">x64</PlatformTargetAsMSBuildArchitecture>
 		<PlatformTargetAsMSBuildArchitecture Condition="'$(PlatformTargetAsMSBuildArchitecture)' == ''">CurrentArchitecture</PlatformTargetAsMSBuildArchitecture>
 	</PropertyGroup>
 
@@ -302,33 +324,6 @@
 		<TargetPlatformRegistryBase Condition="'$(TargetPlatformRegistryBase)' == ''">Software\Microsoft\Microsoft SDKs\$(TargetPlatformIdentifier)</TargetPlatformRegistryBase>
 		<AssemblyFoldersConfigFile Condition="'$(AssemblyFoldersConfigFile)' == ''">$(MSBuildToolsPath)\AssemblyFolders.config</AssemblyFoldersConfigFile>
 		<AssemblyFoldersConfigFileSearchPath Condition="Exists('$(AssemblyFoldersConfigFile)')">{AssemblyFoldersFromConfig:$(AssemblyFoldersConfigFile),$(TargetFrameworkVersion)};</AssemblyFoldersConfigFileSearchPath>
-		<!--
-			The SearchPaths property is set to find assemblies in the following order:
-
-				(1) Files from current project - indicated by {CandidateAssemblyFiles}
-				(2) $(ReferencePath) - the reference path property, which comes from the .USER file.
-				(3) The hintpath from the referenced item itself, indicated by {HintPathFromItem}.
-				(4) The directory of MSBuild's "target" runtime from GetFrameworkPath.
-					The "target" runtime folder is the folder of the runtime that MSBuild is a part of.
-				(5) Registered assembly folders, indicated by {Registry:*,*,*}
-				(6) Assembly folders from AssemblyFolders.config file (provided by Visual Studio Dev15+).
-				(7) Legacy registered assembly folders, indicated by {AssemblyFolders}
-				(8) Resolve to the GAC.
-				(9) Treat the reference's Include as if it were a real file name.
-				(10) Look in the application's output folder (like bin\debug)
-		-->
-		<AssemblySearchPaths Condition="'$(AssemblySearchPaths)' == ''">
-			{CandidateAssemblyFiles};
-			$(ReferencePath);
-			{HintPathFromItem};
-			{TargetFrameworkDirectory};
-			$(AssemblyFoldersConfigFileSearchPath)
-			{Registry:$(FrameworkRegistryBase),$(TargetFrameworkVersion),$(AssemblyFoldersSuffix)$(AssemblyFoldersExConditions)};
-			{AssemblyFolders};
-			{GAC};
-			{RawFileName};
-			$(OutDir)
-		</AssemblySearchPaths>
 
 		<!--
 			These are the extensions that assembly reference resolution will consider for resolution.
@@ -355,11 +350,18 @@
 		<FullReferenceAssemblyNames Condition="'$(FullReferenceAssemblyNames)' == ''">Full</FullReferenceAssemblyNames>
 	</PropertyGroup>
 
-	<!-- ContinueOnError takes 3 values:  WarnAndContinue (true), ErrorAndStop (false), and ErrorAndContinue.
-			Default to ErrorAndStop, since that matches the behaviour in previous versions, and what users
-			typically expect -->
+	<!--
+		ContinueOnError takes 3 values:  WarnAndContinue (true), ErrorAndStop (false), and ErrorAndContinue.
+		Default to ErrorAndStop, since that matches the behaviour in previous versions, and what users typically expect
+	-->
 	<PropertyGroup>
 		<ContinueOnError Condition="'$(ContinueOnError)' == ''">false</ContinueOnError>
+	</PropertyGroup>
+
+	<!-- Users familiar with how some other repos work try to use NoWarn with MSBuild in place of MSBuildWarningsAsMessages. -->
+	<PropertyGroup>
+		<MSBuildWarningsAsMessages Condition="'$(MSBuildWarningsAsMessages)' == ''">$(NoWarn)</MSBuildWarningsAsMessages>
+		<MSBuildWarningsAsErrors Condition="'$(MSBuildWarningsAsErrors)' == ''">$(WarningsAsErrors)</MSBuildWarningsAsErrors>
 	</PropertyGroup>
 
 	<!-- Common Project System support -->

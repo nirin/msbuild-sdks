@@ -144,6 +144,7 @@
 		<OutputType Condition="'$(TargetType)' == 'Container' OR '$(TargetType)' == 'DocumentContainer'">library</OutputType>
 		<OutputType Condition="'$(OutputType)' == ''">exe</OutputType>
 
+		<!-- Generate Debug sysmbols only when the Configuration is Debug -->
 		<DebugSymbols Condition="'$(Configuration)' == 'Debug' AND '$(DebugSymbols)' == '' AND '$(DebugType)' == ''">true</DebugSymbols>
 
 		<!-- Whether or not a .pdb file is produced. -->
@@ -401,9 +402,11 @@
 			<TargetPath>$(_DeploymentTargetApplicationManifestFileName)</TargetPath>
 		</ApplicationManifest>
 
-		<!-- Create an item for the final application manifest (Example: WindowsApplication1.exe.manifeset)
-				This item represents the final output application manifest used for project-to-project
-				references and for copying to the publish output location. -->
+		<!--
+			Create an item for the final application manifest (Example: WindowsApplication1.exe.manifeset)
+			This item represents the final output application manifest used for project-to-project
+			references and for copying to the publish output location.
+		-->
 		<_ApplicationManifestFinal Include="$(OutDir)$(_DeploymentTargetApplicationManifestFileName)">
 			<TargetPath>$(_DeploymentTargetApplicationManifestFileName)</TargetPath>
 		</_ApplicationManifestFinal>
@@ -452,9 +455,7 @@
 		<PublishDir Condition="!HasTrailingSlash('$(PublishDir)')">$(PublishDir)\</PublishDir>
 	</PropertyGroup>
 
-	<!--
-		ProcessorArchitecture is the target processor architecture.
-	-->
+	<!-- ProcessorArchitecture is the target processor architecture. -->
 	<PropertyGroup Condition="'$(ProcessorArchitecture)' == ''">
 		<!--
 			If ProcessorArchitecture is not set, set it to PlatformTarget
@@ -487,7 +488,10 @@
 		<ProcessorArchitecture Condition="'$(ProcessorArchitectureAsPlatform)' == 'x86' OR '$(ProcessorArchitectureAsPlatform)' == 'win32'">x86</ProcessorArchitecture>
 		<ProcessorArchitecture Condition="'$(ProcessorArchitectureAsPlatform)' == 'ARM'">arm</ProcessorArchitecture>
 
-		<!--For compatibility with the 4.0 behavior, if not set above, default to the environment. To override this, set ProcessorArchitecture explicitly. We also need to disable the warning since we do not know if what the environment is set to is correct-->
+		<!--
+			For compatibility with the 4.0 behavior, if not set above, default to the environment. To override this, set ProcessorArchitecture explicitly.
+			We also need to disable the warning since we do not know if what the environment is set to is correct
+		-->
 		<ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch Condition="'$(ProcessorArchitecture)' == ''">None</ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>
 		<ProcessorArchitecture Condition="'$(ProcessorArchitecture)' == ''">$(PROCESSOR_ARCHITECTURE)</ProcessorArchitecture>
 	</PropertyGroup>
