@@ -505,9 +505,10 @@
 		<PlatformTargetAsMSBuildArchitectureExplicitlySet Condition="'$(PlatformTargetAsMSBuildArchitecture)' != ''">true</PlatformTargetAsMSBuildArchitectureExplicitlySet>
 		<PlatformTargetAsMSBuildArchitectureExplicitlySet Condition="'$(PlatformTargetAsMSBuildArchitecture)' == ''">false</PlatformTargetAsMSBuildArchitectureExplicitlySet>
 
-		<PlatformTargetAsMSBuildArchitecture Condition="'$(PlatformTarget)' == 'x86' OR ('$(PlatformTarget)' == 'x64' AND '$(MSBuildExtensionsPath64)' != '')">$(PlatformTarget)</PlatformTargetAsMSBuildArchitecture>
+		<PlatformTargetAsMSBuildArchitecture Condition="'$(PlatformTarget)' == 'x86' OR '$(PlatformTarget)' == 'x64'">$(PlatformTarget)</PlatformTargetAsMSBuildArchitecture>
 		<PlatformTargetAsMSBuildArchitecture Condition="'$(PlatformTarget)' == 'arm'">x86</PlatformTargetAsMSBuildArchitecture>
-		<PlatformTargetAsMSBuildArchitecture Condition="('$(PlatformTarget)' == 'ia64' AND '$(MSBuildExtensionsPath64)' != '')">x64</PlatformTargetAsMSBuildArchitecture>
+		<PlatformTargetAsMSBuildArchitecture Condition="'$(PlatformTarget)' == 'arm64'">x64</PlatformTargetAsMSBuildArchitecture>
+		<PlatformTargetAsMSBuildArchitecture Condition="'$(PlatformTarget)' == 'ia64'">x64</PlatformTargetAsMSBuildArchitecture>
 		<PlatformTargetAsMSBuildArchitecture Condition="'$(PlatformTargetAsMSBuildArchitecture)' == ''">CurrentArchitecture</PlatformTargetAsMSBuildArchitecture>
 	</PropertyGroup>
 

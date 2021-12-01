@@ -4,10 +4,8 @@
 
 	<!-- Since MSBuild .NETCore build doesn't support registry query yet! -->
 	<PropertyGroup Condition="'$(TargetFrameworkIdentifier)' == '.NETFramework' AND '$(MSBuildRuntimeType)' == 'Core'">
-		<MSBuildFrameworkToolsRoot Condition="'$(MSBuildFrameworkToolsRoot)' == ''">$(FrameworkDir64)</MSBuildFrameworkToolsRoot>
-		<MSBuildFrameworkToolsRoot Condition="'$(MSBuildFrameworkToolsRoot)' == ''">$(FrameworkDir)</MSBuildFrameworkToolsRoot>
-		<MSBuildFrameworkToolsPath Condition="'$(MSBuildFrameworkToolsPath)' == ''">$(MSBuildFrameworkToolsRoot)\$(FrameworkVersion64)</MSBuildFrameworkToolsPath>
-		<MSBuildFrameworkToolsPath Condition="'$(MSBuildFrameworkToolsPath)' == ''">$(MSBuildFrameworkToolsRoot)\$(FrameworkVersion)</MSBuildFrameworkToolsPath>
+		<MSBuildFrameworkToolsRoot Condition="'$(MSBuildFrameworkToolsRoot)' == ''">$(FrameworkDir64)\$(FrameworkVersion64)</MSBuildFrameworkToolsRoot>
+		<MSBuildFrameworkToolsRoot Condition="'$(MSBuildFrameworkToolsRoot)' == '\'">$(FrameworkDir)\$(FrameworkVersion)</MSBuildFrameworkToolsRoot>
 		<MSBuildFrameworkToolsPath Condition="'$(MSBuildFrameworkToolsPath)' == '\'"/>
 	</PropertyGroup>
 
