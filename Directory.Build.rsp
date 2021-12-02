@@ -1,5 +1,4 @@
 -NoLogo
--Restore
 -MaxCPUCount
 -BinaryLogger
 -NodeReuse:False

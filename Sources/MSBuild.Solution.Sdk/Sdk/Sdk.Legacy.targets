@@ -1,0 +1,16 @@
+<Project>
+
+	<Target Name="RemoveUnSupportedProjectsFromRestore"
+			BeforeTargets="Restore;_LoadRestoreGraphEntryPoints;_GenerateProjectRestoreGraphPerFramework;_GenerateRestoreProjectPathItemsPerFramework">
+		<ItemGroup>
+			<UnSupportedProjectReference Include="@(ProjectReference->WithMetadataValue('Extension', '.nuproj'))" />
+			<ProjectReference Remove="@(UnSupportedProjectReference)" />
+		</ItemGroup>
+		<Message Importance="High" Condition="@(UnSupportedProjectReference->Count()) > 0"
+			Text="Restore is not currently supported for NuGet packaging projects (i.e., MSBuild projects with file extension 'nuproj')."/>
+	</Target>
+
+	<!-- Enable Solution-wide Package Restore through our SDK -->
+	<Import Sdk="NuGet.Build.Sdk" Project="Sdk.Restore.targets" />
+
+</Project>

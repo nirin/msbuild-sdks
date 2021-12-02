@@ -1,0 +1,11 @@
+<Project>
+
+	<PropertyGroup Label="Solution">
+		<ImportByWildcardAfterSolution>False</ImportByWildcardAfterSolution>
+		<ImportByWildcardBeforeSolution>False</ImportByWildcardBeforeSolution>
+	</PropertyGroup>
+
+	<!-- Enable Solution-wide Central Package Management through our SDK -->
+	<Import Sdk="NuGet.Build.Sdk" Project="Sdk.Extensions.props"/>
+
+</Project>

@@ -6,9 +6,7 @@
 		<RestoreUseStaticGraphEvaluation>True</RestoreUseStaticGraphEvaluation>
 	</PropertyGroup>
 
-	<PropertyGroup Label="Solution">
-		<ImportByWildcardAfterSolution>False</ImportByWildcardAfterSolution>
-		<ImportByWildcardBeforeSolution>False</ImportByWildcardBeforeSolution>
-	</PropertyGroup>
+	<!-- Integrate with the Solution SDK for Legacy Solution files -->
+	<Import Sdk="MSBuild.Solution.Sdk" Project="Sdk.Legacy.props"/>
 
 </Project>
