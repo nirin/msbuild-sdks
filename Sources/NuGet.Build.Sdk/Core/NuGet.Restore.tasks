@@ -1,32 +1,32 @@
 <Project>
 
-	<!-- Load `NuGet.Build.Tasks.dll`, this can be overridden to use a different version with `NuGetRestoreTaskAssembly` -->
-	<PropertyGroup Condition="$(NuGetRestoreTaskAssembly) == ''">
-		<NuGetRestoreTaskAssemblyFile Condition="'$(NuGetRestoreTaskAssemblyFile)' == ''">NuGet.Build.Tasks.dll</NuGetRestoreTaskAssemblyFile>
-		<NuGetRestoreTaskAssemblyPath Condition="'$(NuGetRestoreTaskAssemblyPath)' == ''">..\Tasks\$(MSBuildRuntimeType)</NuGetRestoreTaskAssemblyPath>
-		<NuGetRestoreTaskAssembly>$(NuGetRestoreTaskAssemblyPath)\$(NuGetRestoreTaskAssemblyFile)</NuGetRestoreTaskAssembly>
+	<!-- Load `NuGet.Build.Tasks.dll`, this can be overridden to use a different version with `NuGetRestoreTasksAssembly` -->
+	<PropertyGroup Condition="$(NuGetRestoreTasksAssembly) == ''">
+		<NuGetRestoreTasksAssemblyFile Condition="'$(NuGetRestoreTasksAssemblyFile)' == ''">NuGet.Build.Tasks.dll</NuGetRestoreTasksAssemblyFile>
+		<NuGetRestoreTasksPath Condition="'$(NuGetRestoreTasksPath)' == ''">..\Tasks\$(MSBuildRuntimeType)</NuGetRestoreTasksPath>
+		<NuGetRestoreTasksAssembly>$(NuGetRestoreTasksPath)\$(NuGetRestoreTasksAssemblyFile)</NuGetRestoreTasksAssembly>
 	</PropertyGroup>
 
 	<!-- NuGet's Common Tasks -->
-	<UsingTask AssemblyFile="$(NuGetRestoreTaskAssembly)" TaskName="NuGet.Build.Tasks.NuGetMessageTask"/>
-	<UsingTask AssemblyFile="$(NuGetRestoreTaskAssembly)" TaskName="NuGet.Build.Tasks.WarnForInvalidProjectsTask"/>
-	<UsingTask AssemblyFile="$(NuGetRestoreTaskAssembly)" TaskName="NuGet.Build.Tasks.GetProjectTargetFrameworksTask"/>
-	<UsingTask AssemblyFile="$(NuGetRestoreTaskAssembly)" TaskName="NuGet.Build.Tasks.GetCentralPackageVersionsTask"/>
-	<UsingTask AssemblyFile="$(NuGetRestoreTaskAssembly)" TaskName="NuGet.Build.Tasks.GetReferenceNearestTargetFrameworkTask"/>
+	<UsingTask AssemblyFile="$(NuGetRestoreTasksAssembly)" TaskName="NuGet.Build.Tasks.NuGetMessageTask"/>
+	<UsingTask AssemblyFile="$(NuGetRestoreTasksAssembly)" TaskName="NuGet.Build.Tasks.WarnForInvalidProjectsTask"/>
+	<UsingTask AssemblyFile="$(NuGetRestoreTasksAssembly)" TaskName="NuGet.Build.Tasks.GetProjectTargetFrameworksTask"/>
+	<UsingTask AssemblyFile="$(NuGetRestoreTasksAssembly)" TaskName="NuGet.Build.Tasks.GetCentralPackageVersionsTask"/>
+	<UsingTask AssemblyFile="$(NuGetRestoreTasksAssembly)" TaskName="NuGet.Build.Tasks.GetReferenceNearestTargetFrameworkTask"/>
 
 	<!-- NuGet's Restore specific Tasks -->
-	<UsingTask AssemblyFile="$(NuGetRestoreTaskAssembly)" TaskName="NuGet.Build.Tasks.RestoreTask"/>
-	<UsingTask AssemblyFile="$(NuGetRestoreTaskAssembly)" TaskName="NuGet.Build.Tasks.WriteRestoreGraphTask"/>
-	<UsingTask AssemblyFile="$(NuGetRestoreTaskAssembly)" TaskName="NuGet.Build.Tasks.GetRestoreSettingsTask"/>
-	<UsingTask AssemblyFile="$(NuGetRestoreTaskAssembly)" TaskName="NuGet.Build.Tasks.GetRestoreProjectStyleTask"/>
-	<UsingTask AssemblyFile="$(NuGetRestoreTaskAssembly)" TaskName="NuGet.Build.Tasks.GetRestoreSolutionProjectsTask"/>
-	<UsingTask AssemblyFile="$(NuGetRestoreTaskAssembly)" TaskName="NuGet.Build.Tasks.GetRestorePackageDownloadsTask"/>
-	<UsingTask AssemblyFile="$(NuGetRestoreTaskAssembly)" TaskName="NuGet.Build.Tasks.GetRestorePackageReferencesTask"/>
-	<UsingTask AssemblyFile="$(NuGetRestoreTaskAssembly)" TaskName="NuGet.Build.Tasks.GetRestoreProjectReferencesTask"/>
-	<UsingTask AssemblyFile="$(NuGetRestoreTaskAssembly)" TaskName="NuGet.Build.Tasks.GetRestoreFrameworkReferencesTask"/>
+	<UsingTask AssemblyFile="$(NuGetRestoreTasksAssembly)" TaskName="NuGet.Build.Tasks.RestoreTask"/>
+	<UsingTask AssemblyFile="$(NuGetRestoreTasksAssembly)" TaskName="NuGet.Build.Tasks.WriteRestoreGraphTask"/>
+	<UsingTask AssemblyFile="$(NuGetRestoreTasksAssembly)" TaskName="NuGet.Build.Tasks.GetRestoreSettingsTask"/>
+	<UsingTask AssemblyFile="$(NuGetRestoreTasksAssembly)" TaskName="NuGet.Build.Tasks.GetRestoreProjectStyleTask"/>
+	<UsingTask AssemblyFile="$(NuGetRestoreTasksAssembly)" TaskName="NuGet.Build.Tasks.GetRestoreSolutionProjectsTask"/>
+	<UsingTask AssemblyFile="$(NuGetRestoreTasksAssembly)" TaskName="NuGet.Build.Tasks.GetRestorePackageDownloadsTask"/>
+	<UsingTask AssemblyFile="$(NuGetRestoreTasksAssembly)" TaskName="NuGet.Build.Tasks.GetRestorePackageReferencesTask"/>
+	<UsingTask AssemblyFile="$(NuGetRestoreTasksAssembly)" TaskName="NuGet.Build.Tasks.GetRestoreProjectReferencesTask"/>
+	<UsingTask AssemblyFile="$(NuGetRestoreTasksAssembly)" TaskName="NuGet.Build.Tasks.GetRestoreFrameworkReferencesTask"/>
 
 	<!-- Obselete Restore specific Tasks -->
-	<UsingTask AssemblyFile="$(NuGetRestoreTaskAssembly)" TaskName="NuGet.Build.Tasks.GetRestoreDotnetCliToolsTask"/>
-	<UsingTask AssemblyFile="$(NuGetRestoreTaskAssembly)" TaskName="NuGet.Build.Tasks.GetRestoreProjectJsonPathTask"/>
+	<UsingTask AssemblyFile="$(NuGetRestoreTasksAssembly)" TaskName="NuGet.Build.Tasks.GetRestoreDotnetCliToolsTask"/>
+	<UsingTask AssemblyFile="$(NuGetRestoreTasksAssembly)" TaskName="NuGet.Build.Tasks.GetRestoreProjectJsonPathTask"/>
 
 </Project>

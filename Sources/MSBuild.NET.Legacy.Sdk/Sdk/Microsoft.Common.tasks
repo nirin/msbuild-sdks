@@ -10,99 +10,99 @@
 
 	<!-- NOTE: Using the fully qualified class name in a <UsingTask> tag is faster than using a partially qualified name. -->
 
-	<PropertyGroup Condition="'$(MSBuildCommonTasksAssembly)' == ''">
-		<MSBuildCommonTasksPath Condition="'$(MSBuildCommonTasksPath)' == ''">..\Tasks\$(MSBuildRuntimeType)</MSBuildCommonTasksPath>
-		<MSBuildCommonTasksAssemblyFile Condition="'$(MSBuildCommonTasksAssemblyFile)' == ''">Microsoft.Build.Tasks.Core.dll</MSBuildCommonTasksAssemblyFile>
-		<MSBuildCommonTasksAssembly>$(MSBuildCommonTasksPath)\$(MSBuildCommonTasksAssemblyFile)</MSBuildCommonTasksAssembly>
+	<PropertyGroup Condition="'$(MicosoftBuildTasksAssembly)' == ''">
+		<MicosoftBuildTasksPath Condition="'$(MicosoftBuildTasksPath)' == ''">..\Tasks\$(MSBuildRuntimeType)</MicosoftBuildTasksPath>
+		<MicosoftBuildTasksAssemblyFile Condition="'$(MicosoftBuildTasksAssemblyFile)' == ''">Microsoft.Build.Tasks.Core.dll</MicosoftBuildTasksAssemblyFile>
+		<MicosoftBuildTasksAssembly>$(MicosoftBuildTasksPath)\$(MicosoftBuildTasksAssemblyFile)</MicosoftBuildTasksAssembly>
 	</PropertyGroup>
 
-	<UsingTask AssemblyFile="$(MSBuildCommonTasksAssembly)" TaskName="Microsoft.Build.Tasks.AL"/>
-	<UsingTask AssemblyFile="$(MSBuildCommonTasksAssembly)" TaskName="Microsoft.Build.Tasks.AspNetCompiler"/>
-	<UsingTask AssemblyFile="$(MSBuildCommonTasksAssembly)" TaskName="Microsoft.Build.Tasks.AssignCulture"/>
-	<UsingTask AssemblyFile="$(MSBuildCommonTasksAssembly)" TaskName="Microsoft.Build.Tasks.AssignLinkMetadata"/>
-	<UsingTask AssemblyFile="$(MSBuildCommonTasksAssembly)" TaskName="Microsoft.Build.Tasks.AssignProjectConfiguration"/>
-	<UsingTask AssemblyFile="$(MSBuildCommonTasksAssembly)" TaskName="Microsoft.Build.Tasks.AssignTargetPath"/>
-	<UsingTask AssemblyFile="$(MSBuildCommonTasksAssembly)" TaskName="Microsoft.Build.Tasks.CallTarget"/>
-	<UsingTask AssemblyFile="$(MSBuildCommonTasksAssembly)" TaskName="Microsoft.Build.Tasks.CombinePath"/>
-	<UsingTask AssemblyFile="$(MSBuildCommonTasksAssembly)" TaskName="Microsoft.Build.Tasks.CombineTargetFrameworkInfoProperties"/>
-	<UsingTask AssemblyFile="$(MSBuildCommonTasksAssembly)" TaskName="Microsoft.Build.Tasks.CombineXmlElements"/>
-	<UsingTask AssemblyFile="$(MSBuildCommonTasksAssembly)" TaskName="Microsoft.Build.Tasks.ConvertToAbsolutePath"/>
-	<UsingTask AssemblyFile="$(MSBuildCommonTasksAssembly)" TaskName="Microsoft.Build.Tasks.Copy"/>
-	<UsingTask AssemblyFile="$(MSBuildCommonTasksAssembly)" TaskName="Microsoft.Build.Tasks.CreateCSharpManifestResourceName"/>
-	<UsingTask AssemblyFile="$(MSBuildCommonTasksAssembly)" TaskName="Microsoft.Build.Tasks.CreateItem"/>
-	<UsingTask AssemblyFile="$(MSBuildCommonTasksAssembly)" TaskName="Microsoft.Build.Tasks.CreateProperty"/>
-	<UsingTask AssemblyFile="$(MSBuildCommonTasksAssembly)" TaskName="Microsoft.Build.Tasks.CreateVisualBasicManifestResourceName"/>
-	<UsingTask AssemblyFile="$(MSBuildCommonTasksAssembly)" TaskName="Microsoft.Build.Tasks.Delete"/>
-	<UsingTask AssemblyFile="$(MSBuildCommonTasksAssembly)" TaskName="Microsoft.Build.Tasks.DownloadFile"/>
-	<UsingTask AssemblyFile="$(MSBuildCommonTasksAssembly)" TaskName="Microsoft.Build.Tasks.Error"/>
-	<UsingTask AssemblyFile="$(MSBuildCommonTasksAssembly)" TaskName="Microsoft.Build.Tasks.ErrorFromResources"/>
-	<UsingTask AssemblyFile="$(MSBuildCommonTasksAssembly)" TaskName="Microsoft.Build.Tasks.Exec"/>
-	<UsingTask AssemblyFile="$(MSBuildCommonTasksAssembly)" TaskName="Microsoft.Build.Tasks.FindAppConfigFile"/>
-	<UsingTask AssemblyFile="$(MSBuildCommonTasksAssembly)" TaskName="Microsoft.Build.Tasks.FindInList"/>
-	<UsingTask AssemblyFile="$(MSBuildCommonTasksAssembly)" TaskName="Microsoft.Build.Tasks.FindInvalidProjectReferences"/>
+	<UsingTask AssemblyFile="$(MicosoftBuildTasksAssembly)" TaskName="Microsoft.Build.Tasks.AL"/>
+	<UsingTask AssemblyFile="$(MicosoftBuildTasksAssembly)" TaskName="Microsoft.Build.Tasks.AspNetCompiler"/>
+	<UsingTask AssemblyFile="$(MicosoftBuildTasksAssembly)" TaskName="Microsoft.Build.Tasks.AssignCulture"/>
+	<UsingTask AssemblyFile="$(MicosoftBuildTasksAssembly)" TaskName="Microsoft.Build.Tasks.AssignLinkMetadata"/>
+	<UsingTask AssemblyFile="$(MicosoftBuildTasksAssembly)" TaskName="Microsoft.Build.Tasks.AssignProjectConfiguration"/>
+	<UsingTask AssemblyFile="$(MicosoftBuildTasksAssembly)" TaskName="Microsoft.Build.Tasks.AssignTargetPath"/>
+	<UsingTask AssemblyFile="$(MicosoftBuildTasksAssembly)" TaskName="Microsoft.Build.Tasks.CallTarget"/>
+	<UsingTask AssemblyFile="$(MicosoftBuildTasksAssembly)" TaskName="Microsoft.Build.Tasks.CombinePath"/>
+	<UsingTask AssemblyFile="$(MicosoftBuildTasksAssembly)" TaskName="Microsoft.Build.Tasks.CombineTargetFrameworkInfoProperties"/>
+	<UsingTask AssemblyFile="$(MicosoftBuildTasksAssembly)" TaskName="Microsoft.Build.Tasks.CombineXmlElements"/>
+	<UsingTask AssemblyFile="$(MicosoftBuildTasksAssembly)" TaskName="Microsoft.Build.Tasks.ConvertToAbsolutePath"/>
+	<UsingTask AssemblyFile="$(MicosoftBuildTasksAssembly)" TaskName="Microsoft.Build.Tasks.Copy"/>
+	<UsingTask AssemblyFile="$(MicosoftBuildTasksAssembly)" TaskName="Microsoft.Build.Tasks.CreateCSharpManifestResourceName"/>
+	<UsingTask AssemblyFile="$(MicosoftBuildTasksAssembly)" TaskName="Microsoft.Build.Tasks.CreateItem"/>
+	<UsingTask AssemblyFile="$(MicosoftBuildTasksAssembly)" TaskName="Microsoft.Build.Tasks.CreateProperty"/>
+	<UsingTask AssemblyFile="$(MicosoftBuildTasksAssembly)" TaskName="Microsoft.Build.Tasks.CreateVisualBasicManifestResourceName"/>
+	<UsingTask AssemblyFile="$(MicosoftBuildTasksAssembly)" TaskName="Microsoft.Build.Tasks.Delete"/>
+	<UsingTask AssemblyFile="$(MicosoftBuildTasksAssembly)" TaskName="Microsoft.Build.Tasks.DownloadFile"/>
+	<UsingTask AssemblyFile="$(MicosoftBuildTasksAssembly)" TaskName="Microsoft.Build.Tasks.Error"/>
+	<UsingTask AssemblyFile="$(MicosoftBuildTasksAssembly)" TaskName="Microsoft.Build.Tasks.ErrorFromResources"/>
+	<UsingTask AssemblyFile="$(MicosoftBuildTasksAssembly)" TaskName="Microsoft.Build.Tasks.Exec"/>
+	<UsingTask AssemblyFile="$(MicosoftBuildTasksAssembly)" TaskName="Microsoft.Build.Tasks.FindAppConfigFile"/>
+	<UsingTask AssemblyFile="$(MicosoftBuildTasksAssembly)" TaskName="Microsoft.Build.Tasks.FindInList"/>
+	<UsingTask AssemblyFile="$(MicosoftBuildTasksAssembly)" TaskName="Microsoft.Build.Tasks.FindInvalidProjectReferences"/>
 
-	<UsingTask AssemblyFile="$(MSBuildCommonTasksAssembly)" TaskName="Microsoft.Build.Tasks.FindUnderPath"/>
-	<UsingTask AssemblyFile="$(MSBuildCommonTasksAssembly)" TaskName="Microsoft.Build.Tasks.FormatUrl"/>
-	<UsingTask AssemblyFile="$(MSBuildCommonTasksAssembly)" TaskName="Microsoft.Build.Tasks.FormatVersion"/>
-	<UsingTask AssemblyFile="$(MSBuildCommonTasksAssembly)" TaskName="Microsoft.Build.Tasks.GenerateApplicationManifest"/>
-	<UsingTask AssemblyFile="$(MSBuildCommonTasksAssembly)" TaskName="Microsoft.Build.Tasks.GenerateBindingRedirects"/>
-	<UsingTask AssemblyFile="$(MSBuildCommonTasksAssembly)" TaskName="Microsoft.Build.Tasks.GenerateBootstrapper"/>
-	<UsingTask AssemblyFile="$(MSBuildCommonTasksAssembly)" TaskName="Microsoft.Build.Tasks.GenerateDeploymentManifest"/>
+	<UsingTask AssemblyFile="$(MicosoftBuildTasksAssembly)" TaskName="Microsoft.Build.Tasks.FindUnderPath"/>
+	<UsingTask AssemblyFile="$(MicosoftBuildTasksAssembly)" TaskName="Microsoft.Build.Tasks.FormatUrl"/>
+	<UsingTask AssemblyFile="$(MicosoftBuildTasksAssembly)" TaskName="Microsoft.Build.Tasks.FormatVersion"/>
+	<UsingTask AssemblyFile="$(MicosoftBuildTasksAssembly)" TaskName="Microsoft.Build.Tasks.GenerateApplicationManifest"/>
+	<UsingTask AssemblyFile="$(MicosoftBuildTasksAssembly)" TaskName="Microsoft.Build.Tasks.GenerateBindingRedirects"/>
+	<UsingTask AssemblyFile="$(MicosoftBuildTasksAssembly)" TaskName="Microsoft.Build.Tasks.GenerateBootstrapper"/>
+	<UsingTask AssemblyFile="$(MicosoftBuildTasksAssembly)" TaskName="Microsoft.Build.Tasks.GenerateDeploymentManifest"/>
 
-	<UsingTask AssemblyFile="$(MSBuildCommonTasksAssembly)" TaskName="Microsoft.Build.Tasks.GenerateResource"/>
+	<UsingTask AssemblyFile="$(MicosoftBuildTasksAssembly)" TaskName="Microsoft.Build.Tasks.GenerateResource"/>
 
-	<UsingTask AssemblyFile="$(MSBuildCommonTasksAssembly)" TaskName="Microsoft.Build.Tasks.GenerateTrustInfo"/>
-	<UsingTask AssemblyFile="$(MSBuildCommonTasksAssembly)" TaskName="Microsoft.Build.Tasks.GetFileHash"/>
-	<UsingTask AssemblyFile="$(MSBuildCommonTasksAssembly)" TaskName="Microsoft.Build.Tasks.GetAssemblyIdentity"/>
-	<UsingTask AssemblyFile="$(MSBuildCommonTasksAssembly)" TaskName="Microsoft.Build.Tasks.GetCompatiblePlatform"/>
-	<UsingTask AssemblyFile="$(MSBuildCommonTasksAssembly)" TaskName="Microsoft.Build.Tasks.GetFrameworkPath"/>
-	<UsingTask AssemblyFile="$(MSBuildCommonTasksAssembly)" TaskName="Microsoft.Build.Tasks.GetFrameworkSdkPath"/>
-	<UsingTask AssemblyFile="$(MSBuildCommonTasksAssembly)" TaskName="Microsoft.Build.Tasks.GetReferenceAssemblyPaths"/>
-	<UsingTask AssemblyFile="$(MSBuildCommonTasksAssembly)" TaskName="Microsoft.Build.Tasks.Hash"/>
-	<UsingTask AssemblyFile="$(MSBuildCommonTasksAssembly)" TaskName="Microsoft.Build.Tasks.LC"/>
-	<UsingTask AssemblyFile="$(MSBuildCommonTasksAssembly)" TaskName="Microsoft.Build.Tasks.MakeDir"/>
-	<UsingTask AssemblyFile="$(MSBuildCommonTasksAssembly)" TaskName="Microsoft.Build.Tasks.Message"/>
-	<UsingTask AssemblyFile="$(MSBuildCommonTasksAssembly)" TaskName="Microsoft.Build.Tasks.Move"/>
-	<UsingTask AssemblyFile="$(MSBuildCommonTasksAssembly)" TaskName="Microsoft.Build.Tasks.MSBuild"/>
-	<UsingTask AssemblyFile="$(MSBuildCommonTasksAssembly)" TaskName="Microsoft.Build.Tasks.ReadLinesFromFile"/>
+	<UsingTask AssemblyFile="$(MicosoftBuildTasksAssembly)" TaskName="Microsoft.Build.Tasks.GenerateTrustInfo"/>
+	<UsingTask AssemblyFile="$(MicosoftBuildTasksAssembly)" TaskName="Microsoft.Build.Tasks.GetFileHash"/>
+	<UsingTask AssemblyFile="$(MicosoftBuildTasksAssembly)" TaskName="Microsoft.Build.Tasks.GetAssemblyIdentity"/>
+	<UsingTask AssemblyFile="$(MicosoftBuildTasksAssembly)" TaskName="Microsoft.Build.Tasks.GetCompatiblePlatform"/>
+	<UsingTask AssemblyFile="$(MicosoftBuildTasksAssembly)" TaskName="Microsoft.Build.Tasks.GetFrameworkPath"/>
+	<UsingTask AssemblyFile="$(MicosoftBuildTasksAssembly)" TaskName="Microsoft.Build.Tasks.GetFrameworkSdkPath"/>
+	<UsingTask AssemblyFile="$(MicosoftBuildTasksAssembly)" TaskName="Microsoft.Build.Tasks.GetReferenceAssemblyPaths"/>
+	<UsingTask AssemblyFile="$(MicosoftBuildTasksAssembly)" TaskName="Microsoft.Build.Tasks.Hash"/>
+	<UsingTask AssemblyFile="$(MicosoftBuildTasksAssembly)" TaskName="Microsoft.Build.Tasks.LC"/>
+	<UsingTask AssemblyFile="$(MicosoftBuildTasksAssembly)" TaskName="Microsoft.Build.Tasks.MakeDir"/>
+	<UsingTask AssemblyFile="$(MicosoftBuildTasksAssembly)" TaskName="Microsoft.Build.Tasks.Message"/>
+	<UsingTask AssemblyFile="$(MicosoftBuildTasksAssembly)" TaskName="Microsoft.Build.Tasks.Move"/>
+	<UsingTask AssemblyFile="$(MicosoftBuildTasksAssembly)" TaskName="Microsoft.Build.Tasks.MSBuild"/>
+	<UsingTask AssemblyFile="$(MicosoftBuildTasksAssembly)" TaskName="Microsoft.Build.Tasks.ReadLinesFromFile"/>
 
-	<UsingTask AssemblyFile="$(MSBuildCommonTasksAssembly)" TaskName="Microsoft.Build.Tasks.RegisterAssembly"/>
+	<UsingTask AssemblyFile="$(MicosoftBuildTasksAssembly)" TaskName="Microsoft.Build.Tasks.RegisterAssembly"/>
 
-	<UsingTask AssemblyFile="$(MSBuildCommonTasksAssembly)" TaskName="Microsoft.Build.Tasks.RemoveDir"/>
-	<UsingTask AssemblyFile="$(MSBuildCommonTasksAssembly)" TaskName="Microsoft.Build.Tasks.RemoveDuplicates"/>
-	<UsingTask AssemblyFile="$(MSBuildCommonTasksAssembly)" TaskName="Microsoft.Build.Tasks.RequiresFramework35SP1Assembly"/>
-	<UsingTask AssemblyFile="$(MSBuildCommonTasksAssembly)" TaskName="Microsoft.Build.Tasks.ResolveAssemblyReference"/>
-	<UsingTask AssemblyFile="$(MSBuildCommonTasksAssembly)" TaskName="Microsoft.Build.Tasks.ResolveCodeAnalysisRuleSet"/>
-	<UsingTask AssemblyFile="$(MSBuildCommonTasksAssembly)" TaskName="Microsoft.Build.Tasks.ResolveSDKReference"/>
-	<UsingTask AssemblyFile="$(MSBuildCommonTasksAssembly)" TaskName="Microsoft.Build.Tasks.GetInstalledSDKLocations"/>
-	<UsingTask AssemblyFile="$(MSBuildCommonTasksAssembly)" TaskName="Microsoft.Build.Tasks.GetSDKReferenceFiles"/>
-	<UsingTask AssemblyFile="$(MSBuildCommonTasksAssembly)" TaskName="Microsoft.Build.Tasks.ResolveComReference"/>
-	<UsingTask AssemblyFile="$(MSBuildCommonTasksAssembly)" TaskName="Microsoft.Build.Tasks.ResolveKeySource"/>
-	<UsingTask AssemblyFile="$(MSBuildCommonTasksAssembly)" TaskName="Microsoft.Build.Tasks.ResolveManifestFiles"/>
-	<UsingTask AssemblyFile="$(MSBuildCommonTasksAssembly)" TaskName="Microsoft.Build.Tasks.ResolveNativeReference"/>
-	<UsingTask AssemblyFile="$(MSBuildCommonTasksAssembly)" TaskName="Microsoft.Build.Tasks.ResolveNonMSBuildProjectOutput"/>
-	<UsingTask AssemblyFile="$(MSBuildCommonTasksAssembly)" TaskName="Microsoft.Build.Tasks.SGen"/>
-	<UsingTask AssemblyFile="$(MSBuildCommonTasksAssembly)" TaskName="Microsoft.Build.Tasks.SignFile"/>
-	<UsingTask AssemblyFile="$(MSBuildCommonTasksAssembly)" TaskName="Microsoft.Build.Tasks.Telemetry"/>
-	<UsingTask AssemblyFile="$(MSBuildCommonTasksAssembly)" TaskName="Microsoft.Build.Tasks.Touch"/>
+	<UsingTask AssemblyFile="$(MicosoftBuildTasksAssembly)" TaskName="Microsoft.Build.Tasks.RemoveDir"/>
+	<UsingTask AssemblyFile="$(MicosoftBuildTasksAssembly)" TaskName="Microsoft.Build.Tasks.RemoveDuplicates"/>
+	<UsingTask AssemblyFile="$(MicosoftBuildTasksAssembly)" TaskName="Microsoft.Build.Tasks.RequiresFramework35SP1Assembly"/>
+	<UsingTask AssemblyFile="$(MicosoftBuildTasksAssembly)" TaskName="Microsoft.Build.Tasks.ResolveAssemblyReference"/>
+	<UsingTask AssemblyFile="$(MicosoftBuildTasksAssembly)" TaskName="Microsoft.Build.Tasks.ResolveCodeAnalysisRuleSet"/>
+	<UsingTask AssemblyFile="$(MicosoftBuildTasksAssembly)" TaskName="Microsoft.Build.Tasks.ResolveSDKReference"/>
+	<UsingTask AssemblyFile="$(MicosoftBuildTasksAssembly)" TaskName="Microsoft.Build.Tasks.GetInstalledSDKLocations"/>
+	<UsingTask AssemblyFile="$(MicosoftBuildTasksAssembly)" TaskName="Microsoft.Build.Tasks.GetSDKReferenceFiles"/>
+	<UsingTask AssemblyFile="$(MicosoftBuildTasksAssembly)" TaskName="Microsoft.Build.Tasks.ResolveComReference"/>
+	<UsingTask AssemblyFile="$(MicosoftBuildTasksAssembly)" TaskName="Microsoft.Build.Tasks.ResolveKeySource"/>
+	<UsingTask AssemblyFile="$(MicosoftBuildTasksAssembly)" TaskName="Microsoft.Build.Tasks.ResolveManifestFiles"/>
+	<UsingTask AssemblyFile="$(MicosoftBuildTasksAssembly)" TaskName="Microsoft.Build.Tasks.ResolveNativeReference"/>
+	<UsingTask AssemblyFile="$(MicosoftBuildTasksAssembly)" TaskName="Microsoft.Build.Tasks.ResolveNonMSBuildProjectOutput"/>
+	<UsingTask AssemblyFile="$(MicosoftBuildTasksAssembly)" TaskName="Microsoft.Build.Tasks.SGen"/>
+	<UsingTask AssemblyFile="$(MicosoftBuildTasksAssembly)" TaskName="Microsoft.Build.Tasks.SignFile"/>
+	<UsingTask AssemblyFile="$(MicosoftBuildTasksAssembly)" TaskName="Microsoft.Build.Tasks.Telemetry"/>
+	<UsingTask AssemblyFile="$(MicosoftBuildTasksAssembly)" TaskName="Microsoft.Build.Tasks.Touch"/>
 
-	<UsingTask AssemblyFile="$(MSBuildCommonTasksAssembly)" TaskName="Microsoft.Build.Tasks.UnregisterAssembly"/>
+	<UsingTask AssemblyFile="$(MicosoftBuildTasksAssembly)" TaskName="Microsoft.Build.Tasks.UnregisterAssembly"/>
 
-	<UsingTask AssemblyFile="$(MSBuildCommonTasksAssembly)" TaskName="Microsoft.Build.Tasks.UpdateManifest"/>
-	<UsingTask AssemblyFile="$(MSBuildCommonTasksAssembly)" TaskName="Microsoft.Build.Tasks.Unzip"/>
-	<UsingTask AssemblyFile="$(MSBuildCommonTasksAssembly)" TaskName="Microsoft.Build.Tasks.VerifyFileHash"/>
-	<UsingTask AssemblyFile="$(MSBuildCommonTasksAssembly)" TaskName="Microsoft.Build.Tasks.Warning"/>
-	<UsingTask AssemblyFile="$(MSBuildCommonTasksAssembly)" TaskName="Microsoft.Build.Tasks.WriteCodeFragment"/>
-	<UsingTask AssemblyFile="$(MSBuildCommonTasksAssembly)" TaskName="Microsoft.Build.Tasks.WriteLinesToFile"/>
-	<UsingTask AssemblyFile="$(MSBuildCommonTasksAssembly)" TaskName="Microsoft.Build.Tasks.XmlPeek"/>
-	<UsingTask AssemblyFile="$(MSBuildCommonTasksAssembly)" TaskName="Microsoft.Build.Tasks.XmlPoke"/>
-	<UsingTask AssemblyFile="$(MSBuildCommonTasksAssembly)" TaskName="Microsoft.Build.Tasks.XslTransformation"/>
-	<UsingTask AssemblyFile="$(MSBuildCommonTasksAssembly)" TaskName="Microsoft.Build.Tasks.WinMDExp"/>
-	<UsingTask AssemblyFile="$(MSBuildCommonTasksAssembly)" TaskName="Microsoft.Build.Tasks.ZipDirectory"/>
+	<UsingTask AssemblyFile="$(MicosoftBuildTasksAssembly)" TaskName="Microsoft.Build.Tasks.UpdateManifest"/>
+	<UsingTask AssemblyFile="$(MicosoftBuildTasksAssembly)" TaskName="Microsoft.Build.Tasks.Unzip"/>
+	<UsingTask AssemblyFile="$(MicosoftBuildTasksAssembly)" TaskName="Microsoft.Build.Tasks.VerifyFileHash"/>
+	<UsingTask AssemblyFile="$(MicosoftBuildTasksAssembly)" TaskName="Microsoft.Build.Tasks.Warning"/>
+	<UsingTask AssemblyFile="$(MicosoftBuildTasksAssembly)" TaskName="Microsoft.Build.Tasks.WriteCodeFragment"/>
+	<UsingTask AssemblyFile="$(MicosoftBuildTasksAssembly)" TaskName="Microsoft.Build.Tasks.WriteLinesToFile"/>
+	<UsingTask AssemblyFile="$(MicosoftBuildTasksAssembly)" TaskName="Microsoft.Build.Tasks.XmlPeek"/>
+	<UsingTask AssemblyFile="$(MicosoftBuildTasksAssembly)" TaskName="Microsoft.Build.Tasks.XmlPoke"/>
+	<UsingTask AssemblyFile="$(MicosoftBuildTasksAssembly)" TaskName="Microsoft.Build.Tasks.XslTransformation"/>
+	<UsingTask AssemblyFile="$(MicosoftBuildTasksAssembly)" TaskName="Microsoft.Build.Tasks.WinMDExp"/>
+	<UsingTask AssemblyFile="$(MicosoftBuildTasksAssembly)" TaskName="Microsoft.Build.Tasks.ZipDirectory"/>
 
 	<!-- Managed Compiler tasks -->
-	<UsingTask AssemblyFile="$(MSBuildCommonTasksAssembly)" TaskName="Microsoft.Build.Tasks.Csc"/>
-	<UsingTask AssemblyFile="$(MSBuildCommonTasksAssembly)" TaskName="Microsoft.Build.Tasks.Vbc"/>
+	<UsingTask AssemblyFile="$(MicosoftBuildTasksAssembly)" TaskName="Microsoft.Build.Tasks.Csc"/>
+	<UsingTask AssemblyFile="$(MicosoftBuildTasksAssembly)" TaskName="Microsoft.Build.Tasks.Vbc"/>
 
 	<PropertyGroup>
 		<!-- TODO: Remove when no longer needed! -->

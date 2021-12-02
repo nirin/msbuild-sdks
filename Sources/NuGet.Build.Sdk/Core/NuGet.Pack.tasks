@@ -1,19 +1,19 @@
 <Project>
 
-	<!-- Load `NuGet.Build.Tasks.Pack.dll`, this can be overridden to use a different version with `NuGetPackTaskAssembly` -->
-	<PropertyGroup Condition="$(NuGetPackTaskAssembly) == ''">
-		<NuGetPackTaskAssemblyFile Condition="'$(NuGetPackTaskAssemblyFile)' == ''">NuGet.Build.Tasks.Pack.dll</NuGetPackTaskAssemblyFile>
-		<NuGetPackTaskAssemblyPath Condition="'$(NuGetPackTaskAssemblyPath)' == ''">..\Tasks\$(MSBuildRuntimeType)</NuGetPackTaskAssemblyPath>
-		<NuGetPackTaskAssembly>$(NuGetPackTaskAssemblyPath)\$(NuGetPackTaskAssemblyFile)</NuGetPackTaskAssembly>
+	<!-- Load `NuGet.Build.Tasks.Pack.dll`, this can be overridden to use a different version with `NuGetPackTasksAssembly` -->
+	<PropertyGroup Condition="$(NuGetPackTasksAssembly) == ''">
+		<NuGetPackTasksAssemblyFile Condition="'$(NuGetPackTasksAssemblyFile)' == ''">NuGet.Build.Tasks.Pack.dll</NuGetPackTasksAssemblyFile>
+		<NuGetPackTasksPath Condition="'$(NuGetPackTasksPath)' == ''">..\Tasks\$(MSBuildRuntimeType)</NuGetPackTasksPath>
+		<NuGetPackTasksAssembly>$(NuGetPackTasksPath)\$(NuGetPackTasksAssemblyFile)</NuGetPackTasksAssembly>
 	</PropertyGroup>
 
 	<!-- NuGet's Common Tasks -->
-	<UsingTask AssemblyFile="$(NuGetPackTaskAssembly)" TaskName="NuGet.Build.Tasks.GetProjectTargetFrameworksTask"/>
+	<UsingTask AssemblyFile="$(NuGetPackTasksAssembly)" TaskName="NuGet.Build.Tasks.GetProjectTargetFrameworksTask"/>
 
 	<!-- NuGet's Pack specific Tasks -->
-	<UsingTask AssemblyFile="$(NuGetPackTaskAssembly)" TaskName="NuGet.Build.Tasks.Pack.PackTask"/>
-	<UsingTask AssemblyFile="$(NuGetPackTaskAssembly)" TaskName="NuGet.Build.Tasks.Pack.GetPackOutputItemsTask"/>
-	<UsingTask AssemblyFile="$(NuGetPackTaskAssembly)" TaskName="NuGet.Build.Tasks.Pack.IsPackableFalseWarningTask"/>
-	<UsingTask AssemblyFile="$(NuGetPackTaskAssembly)" TaskName="NuGet.Build.Tasks.Pack.GetProjectReferencesFromAssetsFileTask"/>
+	<UsingTask AssemblyFile="$(NuGetPackTasksAssembly)" TaskName="NuGet.Build.Tasks.Pack.PackTask"/>
+	<UsingTask AssemblyFile="$(NuGetPackTasksAssembly)" TaskName="NuGet.Build.Tasks.Pack.GetPackOutputItemsTask"/>
+	<UsingTask AssemblyFile="$(NuGetPackTasksAssembly)" TaskName="NuGet.Build.Tasks.Pack.IsPackableFalseWarningTask"/>
+	<UsingTask AssemblyFile="$(NuGetPackTasksAssembly)" TaskName="NuGet.Build.Tasks.Pack.GetProjectReferencesFromAssetsFileTask"/>
 
 </Project>
