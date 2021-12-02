@@ -1,7 +1,10 @@
 <Project>
 
 	<PropertyGroup Label="Core">
+		<!-- .NET Standard -->
 		<NETStandardImplicitPackageVersion>2.0.3</NETStandardImplicitPackageVersion>
+		<!-- MSTest -->
+		<MSTestImplicitPackageVersion>2.2.8</MSTestImplicitPackageVersion>
 	</PropertyGroup>
 
 	<ItemGroup Label="Core">
@@ -9,13 +12,6 @@
 		<PackageVersion Version="17.0.0" Include="Microsoft.Build" />
 		<PackageVersion Version="17.0.0" Include="Microsoft.Build.Tasks.Core" />
 		<PackageVersion Version="17.0.0" Include="Microsoft.Build.Utilities.Core" />
-	</ItemGroup>
-
-	<ItemGroup Label="Test">
-		<!-- MSTest -->
-		<PackageVersion Version="2.2.8"  Include="MSTest.TestAdapter" />
-		<PackageVersion Version="2.2.8"  Include="MSTest.TestFramework" />
-		<PackageVersion Version="17.0.0" Include="Microsoft.NET.Test.Sdk" />
 	</ItemGroup>
 
 </Project>

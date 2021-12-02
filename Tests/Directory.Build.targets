@@ -1,8 +1,7 @@
 <Project>
 
 	<PropertyGroup Condition="'$(IsTestProject)' == 'true' AND '$(TargetFrameworkIdentifier)' == '.NETCoreApp'">
-		<GenerateProgramFile>false</GenerateProgramFile>
-		<GeneratedProgramFile>Program$(DefaultLanguageSourceExtension)</GeneratedProgramFile>
+		<EnableDefaultProgramFile>false</EnableDefaultProgramFile>
 	</PropertyGroup>
 
 	<Import Project="..\$(MSBuildThisFile)"/>

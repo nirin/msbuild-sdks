@@ -6,6 +6,7 @@
 		"MSBuild.Solution.Sdk": "1.0.0-dev.*",
 
 		"MSBuild.NET.Sdk": "1.0.0-dev.*",
+		"MSBuild.NET.Test.Sdk": "1.0.0-dev.*",
 		"MSBuild.NET.Legacy.Sdk": "1.0.0-dev.*",
 
 		"NuGet.Build.Sdk": "1.0.0-dev.*",

@@ -1,4 +1,4 @@
-<Project Sdk="MSBuild.NET.Sdk">
+<Project Sdk="MSBuild.NET.Test.Sdk">
 
 	<PropertyGroup>
 		<TargetFrameworks>net6.0;net472</TargetFrameworks>

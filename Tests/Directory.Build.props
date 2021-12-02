@@ -2,36 +2,12 @@
 
 	<Import Project="..\$(MSBuildThisFile)"/>
 
-	<PropertyGroup Label="Build">
-		<NoWarn>NU1507</NoWarn>
-		<ManagePackageVersionsCentrally>True</ManagePackageVersionsCentrally>
-		<RestoreUseStaticGraphEvaluation>True</RestoreUseStaticGraphEvaluation>
-	</PropertyGroup>
-
-	<PropertyGroup Label="Compiler">
-		<Features>Strict</Features>
-		<Nullable>Enable</Nullable>
-		<LangVersion>Latest</LangVersion>
-	</PropertyGroup>
-
 	<Choose>
 		<When Condition="$(MSBuildProjectName.EndsWith('Tests'))">
-			<PropertyGroup>
-				<IsPackable>false</IsPackable>
-			</PropertyGroup>
-
 			<ItemGroup>
 				<ProjectReference Include="..\MSBuild.TestFramework\MSBuild.TestFramework.csproj" />
 			</ItemGroup>
-
-			<ItemGroup>
-				<PackageReference Include="MSTest.TestAdapter" />
-				<PackageReference Include="MSTest.TestFramework" />
-				<PackageReference Include="Microsoft.NET.Test.Sdk" />
-			</ItemGroup>
 		</When>
-
-		<Otherwise/>
 	</Choose>
 
 </Project>

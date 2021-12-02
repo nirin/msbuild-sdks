@@ -18,6 +18,7 @@
 	<Import Project="$(DirectoryPackagesProps)" Condition="Exists('$(DirectoryPackagesProps)')"/>
 
 	<PropertyGroup Condition="Exists('$(DirectoryPackagesProps)')">
+		<ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
 		<CentralPackageVersionsFileImported>true</CentralPackageVersionsFileImported>
 	</PropertyGroup>
 
