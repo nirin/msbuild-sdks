@@ -3,22 +3,6 @@
 	<!-- Disable MSBuild imports from various extension points -->
 	<Import Project="DisableExtensions\Microsoft.Common.props"/>
 
-	<!-- Backup Project Extensions and Directory Build props import properties and disable them -->
-	<PropertyGroup>
-		<_Backup_ImportDirectoryBuildProps>$(ImportDirectoryBuildProps)</_Backup_ImportDirectoryBuildProps>
-		<_Backup_ImportProjectExtensionProps>$(ImportProjectExtensionProps)</_Backup_ImportProjectExtensionProps>
-		<ImportDirectoryBuildProps>false</ImportDirectoryBuildProps>
-		<ImportProjectExtensionProps>false</ImportProjectExtensionProps>
-	</PropertyGroup>
-
 	<Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props"/>
-
-	<!-- Restore Project Extensions and Directory Build props import properties -->
-	<PropertyGroup>
-		<ImportDirectoryBuildProps>$(_Backup_ImportDirectoryBuildProps)</ImportDirectoryBuildProps>
-		<ImportProjectExtensionProps>$(_Backup_ImportProjectExtensionProps)</ImportProjectExtensionProps>
-		<_Backup_ImportDirectoryBuildProps/>
-		<_Backup_ImportProjectExtensionProps/>
-	</PropertyGroup>
 
 </Project>

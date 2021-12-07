@@ -18,6 +18,28 @@
 	<Import Project="$(MSBuildFrameworkToolsPath)Microsoft.Common.targets"/>
 
 	<!--
+		Import Project Extensions and Directory Build targets. The Common props already imports corresponding props but legacy Common targets do not.
+		So, we add this here instead. This ensures that we import targets along side props when MSBuild v15+ Common props is being used.
+	-->
+	<PropertyGroup>
+		<_UsingProjectExtensions Condition="'$(DirectoryBuildPropsPath)' != '' OR '$(MSBuildProjectExtensionsPath)' != ''">true</_UsingProjectExtensions>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(_UsingProjectExtensions)' == 'true'">
+		<ImportProjectExtensionTargets Condition="'$(ImportProjectExtensionTargets)' == ''">true</ImportProjectExtensionTargets>
+		<ImportDirectoryBuildTargets Condition="'$(ImportDirectoryBuildTargets)' == ''">true</ImportDirectoryBuildTargets>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(ImportDirectoryBuildTargets)' == 'true' AND '$(DirectoryBuildTargetsPath)' == ''">
+		<_DirectoryBuildTargetsFile Condition="'$(_DirectoryBuildTargetsFile)' == ''">Directory.Build.targets</_DirectoryBuildTargetsFile>
+		<_DirectoryBuildTargetsBasePath Condition="'$(_DirectoryBuildTargetsBasePath)' == ''">$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildProjectDirectory), '$(_DirectoryBuildTargetsFile)'))</_DirectoryBuildTargetsBasePath>
+		<DirectoryBuildTargetsPath Condition="'$(_DirectoryBuildTargetsBasePath)' != '' AND '$(_DirectoryBuildTargetsFile)' != ''">$([System.IO.Path]::Combine('$(_DirectoryBuildTargetsBasePath)', '$(_DirectoryBuildTargetsFile)'))</DirectoryBuildTargetsPath>
+	</PropertyGroup>
+
+	<Import Project="$(MSBuildProjectExtensionsPath)$(MSBuildProjectFile).*.targets" Condition="'$(ImportProjectExtensionTargets)' == 'true' AND Exists('$(MSBuildProjectExtensionsPath)')"/>
+	<Import Project="$(DirectoryBuildTargetsPath)" Condition="'$(ImportDirectoryBuildTargets)' == 'true' AND Exists('$(DirectoryBuildTargetsPath)')"/>
+
+	<!--
 		Fix up 'FrameworkPathOverride', which is primarily used to determine the location of 'mscorlib.dll'
 		in the (relatively uncommon) situation where the reference assemblies, in which it's usually found, are not installed.
 	-->
