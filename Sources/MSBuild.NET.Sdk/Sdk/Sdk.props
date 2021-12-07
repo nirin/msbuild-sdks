@@ -1,6 +1,9 @@
 <Project>
 
 	<PropertyGroup Label="Globals">
+		<!-- Indicate whether `MSBuild.Core.Sdk` is being used -->
+		<UsingMSBuildCoreSdk>true</UsingMSBuildCoreSdk>
+
 		<!-- Indicate whether `MSBuild.NET.Sdk` is being used -->
 		<UsingMSBuildNETSdk>true</UsingMSBuildNETSdk>
 		<!--

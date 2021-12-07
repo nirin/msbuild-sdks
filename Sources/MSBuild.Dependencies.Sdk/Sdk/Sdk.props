@@ -1,5 +1,10 @@
 <Project>
 
+	<PropertyGroup Label="Globals">
+		<!-- Indicate whether `MSBuild.Dependencies.Sdk` is being used -->
+		<UsingMSBuildDependenciesSdk>true</UsingMSBuildDependenciesSdk>
+	</PropertyGroup>
+
 	<Import Project="..\Build\MSBuild.Dependencies.Sdk.props"/>
 
 </Project>

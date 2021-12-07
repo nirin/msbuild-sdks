@@ -1,5 +1,13 @@
 <Project>
 
+	<PropertyGroup Label="Globals">
+		<!-- Indicate whether `MSBuild.Project.Sdk` is being used -->
+		<UsingMSBuildProjectSdk>true</UsingMSBuildProjectSdk>
+
+		<!-- Indicate whether `MSBuild.Managed.Sdk` is being used -->
+		<UsingMSBuildManagedSdk>true</UsingMSBuildManagedSdk>
+	</PropertyGroup>
+
 	<Import Sdk="MSBuild.Project.Sdk" Project="Sdk.Extensions.props"/>
 
 	<Import Project="Sdk.Core.props"/>

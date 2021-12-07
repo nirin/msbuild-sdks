@@ -1,5 +1,10 @@
 <Project>
 
+	<PropertyGroup Label="Globals">
+		<!-- Indicate whether `MSBuild.Packaging.Sdk` is being used -->
+		<UsingMSBuildPackagingSdk>true</UsingMSBuildPackagingSdk>
+	</PropertyGroup>
+
 	<Import Project="..\Build\MSBuild.Packaging.Sdk.props"/>
 
 </Project>

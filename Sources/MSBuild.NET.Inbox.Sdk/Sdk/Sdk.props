@@ -1,5 +1,13 @@
 <Project>
 
+	<PropertyGroup Label="Globals">
+		<!-- Indicate whether `MSBuild.Common.Sdk` is being used -->
+		<UsingMSBuildCommonSdk>true</UsingMSBuildCommonSdk>
+
+		<!-- Indicate whether `MSBuild.NET.Inbox.Sdk` is being used -->
+		<UsingMSBuildNETInboxSdk>true</UsingMSBuildNETInboxSdk>
+	</PropertyGroup>
+
 	<Import Sdk="MSBuild.Common.Sdk" Project="Sdk.Extensions.props"/>
 
 	<PropertyGroup>

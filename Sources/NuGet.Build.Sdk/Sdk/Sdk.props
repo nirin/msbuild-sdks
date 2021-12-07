@@ -1,5 +1,10 @@
 <Project>
 
+	<PropertyGroup Label="Globals">
+		<!-- Indicate whether `NuGet.Build.Sdk` is being used -->
+		<UsingNuGetBuildSdk>true</UsingNuGetBuildSdk>
+	</PropertyGroup>
+
 	<Import Project="..\Build\NuGet.Build.Sdk.props"/>
 
 </Project>

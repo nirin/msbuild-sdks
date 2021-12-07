@@ -1,5 +1,10 @@
 <Project>
 
+	<PropertyGroup Label="Globals">
+		<!-- Indicate whether `MSBuild.Project.Sdk` is being used -->
+		<UsingMSBuildProjectSdk>true</UsingMSBuildProjectSdk>
+	</PropertyGroup>
+
 	<!--
 		Right now, MSBuild doesn't have solution specific properties.
 		Hence, the new *Solution* properties are based on Macros available

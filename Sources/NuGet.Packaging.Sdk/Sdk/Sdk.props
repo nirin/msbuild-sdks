@@ -1,5 +1,16 @@
 <Project>
 
+	<PropertyGroup Label="Globals">
+		<!-- Indicate whether `MSBuild.Core.Sdk` is being used -->
+		<UsingMSBuildCoreSdk>true</UsingMSBuildCoreSdk>
+
+		<!-- Indicate whether `MSBuild.NET.Legacy.Sdk` is being used -->
+		<UsingMSBuildNETLegacySdk>true</UsingMSBuildNETLegacySdk>
+
+		<!-- Indicate whether `NuGet.Packaging.Sdk` is being used -->
+		<UsingNuGetPackagingSdk>true</UsingNuGetPackagingSdk>
+	</PropertyGroup>
+
 	<Import Sdk="MSBuild.Core.Sdk" Project="Sdk.Extensions.props"/>
 
 	<Import Project="..\Build\NuGet.Packaging.Sdk.props"/>
