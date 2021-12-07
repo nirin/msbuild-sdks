@@ -1,7 +1,13 @@
 <Project>
 
+	<!-- Do not append `ProjectName` to `PublishPath` for non-publishable and package-only projects -->
+	<PropertyGroup Label="Globals">
+		<AppendProjectNameToPublishPath>false</AppendProjectNameToPublishPath>
+	</PropertyGroup>
+
 	<Import Sdk="MSBuild.Core.Sdk" Project="Sdk.Core.targets"/>
 
+	<!-- TODO: Remove when no longer needed! -->
 	<PropertyGroup Label="Legacy">
 		<BaseIntermediateOutputPath>$(InterimOutputPath)</BaseIntermediateOutputPath>
 		<BaseOutputPath>$(FinalOutputPath)</BaseOutputPath>

@@ -1,11 +1,11 @@
 <Project>
 
 	<PropertyGroup Label="Globals">
-		<!-- Indicate whether 'MSBuild.NET.Sdk' is being used. -->
+		<!-- Indicate whether `MSBuild.NET.Sdk` is being used -->
 		<UsingMSBuildNETSdk>true</UsingMSBuildNETSdk>
 		<!--
-			Indicate whether the set of SDK defaults that makes SDK style project concise are being used.
-			For example: globbing, generating assembly info, etc...
+			Indicate whether the set of SDK defaults that makes SDK-style project concise are being used.
+			For Example: Globbing, Generating Assembly Info, etc...
 		-->
 		<UsingNETSdkDefaults>true</UsingNETSdkDefaults>
 	</PropertyGroup>
