@@ -300,6 +300,11 @@
 			Condition="'$(DisableWarnForInvalidRestoreProjects)' != 'true' AND '$(HideWarningsAndErrors)' != 'true'"
 			AllProjects="@(FilteredRestoreGraphProjectInputItemsWithoutDuplicates)"
 			ValidProjects="@(FilteredRestoreGraphProjectInputItems)"/>
+
+		<!-- Clean-up temporary variable -->
+		<ItemGroup>
+			<FilteredRestoreGraphProjectInputItemsWithoutDuplicates/>
+		</ItemGroup>
 	</Target>
 
 	<!--
@@ -711,6 +716,8 @@
 				<NuGetLockFilePath>$(NuGetLockFilePath)</NuGetLockFilePath>
 				<RestoreLockedMode>$(RestoreLockedMode)</RestoreLockedMode>
 				<_CentralPackageVersionsEnabled>$(_CentralPackageVersionsEnabled)</_CentralPackageVersionsEnabled>
+				<CentralPackageVersionOverrideEnabled>$(CentralPackageVersionOverrideEnabled)</CentralPackageVersionOverrideEnabled>
+				<CentralPackageTransitivePinningEnabled>$(CentralPackageTransitivePinningEnabled)</CentralPackageTransitivePinningEnabled>
 			</_RestoreGraphEntry>
 		</ItemGroup>
 
