@@ -1,12 +1,10 @@
 <Project>
 
-	<PropertyGroup Label="Build">
-		<NoWarn>NU1507</NoWarn>
-		<ManagePackageVersionsCentrally>True</ManagePackageVersionsCentrally>
-		<RestoreUseStaticGraphEvaluation>True</RestoreUseStaticGraphEvaluation>
-	</PropertyGroup>
-
 	<!-- Integrate with the Solution SDK for Legacy Solution files -->
 	<Import Sdk="MSBuild.Solution.Sdk" Project="Sdk.Legacy.props"/>
+
+	<PropertyGroup Label="Build">
+		<NoWarn Condition="'$(ManagePackageVersionsCentrally)' == 'true'">NU1507</NoWarn>
+	</PropertyGroup>
 
 </Project>

@@ -10,8 +10,8 @@
 	<!-- NuGet's Common Tasks -->
 	<UsingTask AssemblyFile="$(NuGetRestoreTasksAssembly)" TaskName="NuGet.Build.Tasks.NuGetMessageTask"/>
 	<UsingTask AssemblyFile="$(NuGetRestoreTasksAssembly)" TaskName="NuGet.Build.Tasks.WarnForInvalidProjectsTask"/>
-	<UsingTask AssemblyFile="$(NuGetRestoreTasksAssembly)" TaskName="NuGet.Build.Tasks.GetProjectTargetFrameworksTask"/>
 	<UsingTask AssemblyFile="$(NuGetRestoreTasksAssembly)" TaskName="NuGet.Build.Tasks.GetCentralPackageVersionsTask"/>
+	<UsingTask AssemblyFile="$(NuGetRestoreTasksAssembly)" TaskName="NuGet.Build.Tasks.GetProjectTargetFrameworksTask"/>
 	<UsingTask AssemblyFile="$(NuGetRestoreTasksAssembly)" TaskName="NuGet.Build.Tasks.GetReferenceNearestTargetFrameworkTask"/>
 
 	<!-- NuGet's Restore specific Tasks -->

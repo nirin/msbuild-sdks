@@ -25,7 +25,7 @@
 <Project>
 
 	<PropertyGroup>
-		<!-- Mark that this target file has been loaded.  -->
+		<!-- Mark that this target file has been loaded -->
 		<IsRestoreTargetsFileLoaded>true</IsRestoreTargetsFileLoaded>
 		<!-- Do not hide errors and warnings by default -->
 		<HideWarningsAndErrors Condition="'$(HideWarningsAndErrors)' == ''">false</HideWarningsAndErrors>
@@ -41,9 +41,9 @@
 		<RestoreBuildInParallel Condition="'$(RestoreBuildInParallel)' == ''">true</RestoreBuildInParallel>
 		<!-- Check if the restore target was executed on a sln file -->
 		<_RestoreSolutionFileUsed Condition="'$(_RestoreSolutionFileUsed)' == '' AND '$(SolutionDir)' != '' AND '$(MSBuildProjectExtension)' == '.metaproj'">true</_RestoreSolutionFileUsed>
-		<!-- We default to MSBuildInteractive. -->
+		<!-- We default to MSBuildInteractive -->
 		<NuGetInteractive Condition="'$(NuGetInteractive)' == ''">$(MSBuildInteractive)</NuGetInteractive>
-		<!-- Mark that this targets file supports package download. -->
+		<!-- Mark that this targets file supports package download -->
 		<PackageDownloadSupported>true</PackageDownloadSupported>
 		<!-- Mark that this targets file GetReferenceNearestTargetFrameworkTask task supports the TargetPlatformMoniker -->
 		<GetReferenceNearestTargetFrameworkTaskSupportsTargetPlatformParameter>true</GetReferenceNearestTargetFrameworkTaskSupportsTargetPlatformParameter>
@@ -52,7 +52,7 @@
 	</PropertyGroup>
 
 	<PropertyGroup>
-		<!-- Exclude packages from changing restore inputs. -->
+		<!-- Exclude packages from changing restore inputs -->
 		<_GenerateRestoreGraphProjectEntryInputProperties>ExcludeRestorePackageImports=true</_GenerateRestoreGraphProjectEntryInputProperties>
 
 		<!--
@@ -70,7 +70,7 @@
 			CustomAfterMicrosoftCommonCrossTargetingTargets=$(MSBuildThisFileFullPath);
 		</_GenerateRestoreGraphProjectEntryInputProperties>
 
-		<!-- Include SolutionDir and SolutionName for solution restores and persist these properties during the walk. -->
+		<!-- Include SolutionDir and SolutionName for solution restores and persist these properties during the walk -->
 		<_GenerateRestoreGraphProjectEntryInputProperties Condition="'$(_RestoreSolutionFileUsed)' == 'true'">
 			$(_GenerateRestoreGraphProjectEntryInputProperties);
 			_RestoreSolutionFileUsed=true;
@@ -119,8 +119,8 @@
 	============================================================
 	-->
 	<Target Name="GenerateRestoreGraphFile" DependsOnTargets="_GenerateRestoreGraph">
-		<!-- Validate  -->
-		<Error Condition="$(RestoreGraphOutputPath) == ''" Text="Please specify where to write the restore graph output files with the 'RestoreGraphOutputPath' property!"/>
+		<!-- Validate -->
+		<Error Condition="$(RestoreGraphOutputPath) == ''" Text="Please specify where to write the restore graph output files using the 'RestoreGraphOutputPath' property!"/>
 
 		<!-- Drop any duplicate items -->
 		<RemoveDuplicates
@@ -189,21 +189,22 @@
 		Find project entry points and load them into items.
 	============================================================
 	-->
-	<Target Name="_LoadRestoreGraphEntryPoints" Returns="@(RestoreGraphProjectInputItems)">
+	<Target Name="_LoadRestoreGraphEntryPoints"
+			Returns="@(RestoreGraphProjectInputItems)">
 
 		<!-- Allow overriding items with RestoreGraphProjectInput -->
-		<ItemGroup Condition=" @(RestoreGraphProjectInputItems) == ''">
+		<ItemGroup Condition="@(RestoreGraphProjectInputItems) == ''">
 			<RestoreGraphProjectInputItems Include="$(RestoreGraphProjectInput)"/>
 		</ItemGroup>
 
 		<!-- Project case -->
-		<ItemGroup Condition=" $(MSBuildProjectFullPath.EndsWith('.metaproj')) != 'true' AND @(RestoreGraphProjectInputItems) == ''">
+		<ItemGroup Condition="'$(MSBuildProjectExtension)' != '.metaproj' AND @(RestoreGraphProjectInputItems) == ''">
 			<RestoreGraphProjectInputItems Include="$(MSBuildProjectFullPath)"/>
 		</ItemGroup>
 
 		<!-- Solution case -->
 		<GetRestoreSolutionProjectsTask
-			Condition=" $(MSBuildProjectFullPath.EndsWith('.metaproj')) == 'true' AND @(RestoreGraphProjectInputItems) == ''"
+			Condition="'$(MSBuildProjectExtension)' == '.metaproj' AND @(RestoreGraphProjectInputItems) == ''"
 			ProjectReferences="@(ProjectReference)"
 			SolutionFilePath="$(MSBuildProjectFullPath)">
 			<Output
@@ -218,7 +219,8 @@
 		Filter out unsupported project entry points.
 	============================================================
 	-->
-	<Target Name="_FilterRestoreGraphProjectInputItems" DependsOnTargets="_LoadRestoreGraphEntryPoints"
+	<Target Name="_FilterRestoreGraphProjectInputItems"
+			DependsOnTargets="_LoadRestoreGraphEntryPoints"
 			Returns="@(FilteredRestoreGraphProjectInputItems)">
 
 		<PropertyGroup>
@@ -267,9 +269,9 @@
 			<_FilteredRestoreGraphProjectInputItems/>
 		</ItemGroup>
 
-		<!-- Remove projects that do not support restore. -->
+		<!-- Remove projects that do not support restore -->
 		<!-- With SkipNonExistentTargets support -->
-		<MSBuild Condition=" '$(RestoreUseSkipNonExistentTargets)' == 'true' "
+		<MSBuild Condition="'$(RestoreUseSkipNonExistentTargets)' == 'true'"
 			BuildInParallel="$(RestoreBuildInParallel)"
 			Projects="@(FilteredRestoreGraphProjectInputItemsWithoutDuplicates)"
 			Targets="_IsProjectRestoreSupported"
@@ -293,7 +295,7 @@
 				ItemName="FilteredRestoreGraphProjectInputItems"/>
 		</MSBuild>
 
-		<!-- Warn for projects that do not support restore. -->
+		<!-- Warn for projects that do not support restore -->
 		<WarnForInvalidProjectsTask
 			Condition="'$(DisableWarnForInvalidRestoreProjects)' != 'true' AND '$(HideWarningsAndErrors)' != 'true'"
 			AllProjects="@(FilteredRestoreGraphProjectInputItemsWithoutDuplicates)"
@@ -309,16 +311,16 @@
 	<Target Name="_GenerateRestoreGraph"
 			DependsOnTargets="_FilterRestoreGraphProjectInputItems;_GetAllRestoreProjectPathItems"
 			Returns="@(_RestoreGraphEntry)">
-		<Message Text="Generating dg file" Importance="low"/>
-		<Message Text="%(_RestoreProjectPathItems.Identity)" Importance="low"/>
+		<Message Importance="Low" Text="Generating directed graph spec file"/>
+		<Message Importance="Low" Text="%(_RestoreProjectPathItems.Identity)"/>
 
-		<!-- Use all projects if RestoreRecursive is true. Otherwise use only the top level projects. -->
+		<!-- Use all projects if RestoreRecursive is true. Otherwise use only the top level projects -->
 		<ItemGroup>
 			<_GenerateRestoreGraphProjectEntryInput Include="@(FilteredRestoreGraphProjectInputItems)" Condition="'$(RestoreRecursive)' != 'true'"/>
 			<_GenerateRestoreGraphProjectEntryInput Include="@(_RestoreProjectPathItems)" Condition="'$(RestoreRecursive)' == 'true'"/>
 		</ItemGroup>
 
-		<!-- Add top level entries to the direct restore list. These projects will also restore tools. -->
+		<!-- Add top level entries to the direct restore list. These projects will also restore tools -->
 		<MSBuild
 			BuildInParallel="$(RestoreBuildInParallel)"
 			Projects="@(_GenerateRestoreGraphProjectEntryInput)"
@@ -330,7 +332,7 @@
 				ItemName="_RestoreGraphEntry"/>
 		</MSBuild>
 
-		<!-- Generate a spec for every project including dependencies. -->
+		<!-- Generate a spec for every project including dependencies -->
 		<MSBuild
 			BuildInParallel="$(RestoreBuildInParallel)"
 			Projects="@(_RestoreProjectPathItems)"
@@ -364,7 +366,7 @@
 	<Target Name="_GenerateRestoreSpecs"
 			DependsOnTargets="_GetRestoreProjectStyle"
 			Returns="@(_RestoreGraphEntry)">
-		<Message Text="Restore entry point $(MSBuildProjectFullPath)" Importance="low"/>
+		<Message Importance="Low" Text="Restore entry point $(MSBuildProjectFullPath)"/>
 
 		<!-- Mark entry point -->
 		<ItemGroup Condition="'$(RestoreProjects)' == '' OR '$(RestoreProjects)' == 'true'">
@@ -416,7 +418,7 @@
 	<Target Name="_GetProjectJsonPath"
 			Returns="$(_CurrentProjectJsonPath)">
 			<!-- Get project.json path -->
-			<!-- Skip this if the project style is already set. -->
+			<!-- Skip this if the project style is already set -->
 			<GetRestoreProjectJsonPathTask
 				ProjectPath="$(MSBuildProjectFullPath)"
 				Condition="'$(RestoreProjectStyle)' == 'ProjectJson' OR '$(RestoreProjectStyle)' == ''">
@@ -433,7 +435,7 @@
 	<Target Name="_GetRestoreProjectStyle"
 			DependsOnTargets="_GetProjectJsonPath;CollectPackageReferences"
 			Returns="$(RestoreProjectStyle);$(PackageReferenceCompatibleProjectStyle)">
-		<!-- This may be overridden by setting RestoreProjectStyle in the project. -->
+		<!-- This may be overridden by setting RestoreProjectStyle in the project -->
 		<PropertyGroup>
 			<_HasPackageReferenceItems Condition="@(PackageReference->Count()) > 0">true</_HasPackageReferenceItems>
 		</PropertyGroup>
@@ -487,7 +489,7 @@
 			<_RestoreProjectFramework/>
 		</PropertyGroup>
 
-		<!-- For project.json projects target frameworks will be read from project.json. -->
+		<!-- For project.json projects target frameworks will be read from project.json -->
 		<GetProjectTargetFrameworksTask
 			Condition="'$(RestoreProjectStyle)' != 'ProjectJson'"
 			ProjectPath="$(MSBuildProjectFullPath)"
@@ -586,7 +588,7 @@
 	<!--
 	============================================================
 				_GetRestoreSettingsAllFrameworks
-		Generate items for a single framework.
+		Generate items for all frameworks.
 	============================================================
 	-->
 	<Target Name="_GetRestoreSettingsAllFrameworks"
@@ -594,7 +596,7 @@
 			DependsOnTargets="_GetRestoreTargetFrameworksAsItems;_GetRestoreProjectStyle"
 			Returns="@(_RestoreSettingsPerFramework)">
 
-		<!-- Read additional sources and fallback folders for each framework  -->
+		<!-- Read additional sources and fallback folders for each framework -->
 		<MSBuild
 			BuildInParallel="$(RestoreBuildInParallel)"
 			Projects="$(MSBuildProjectFullPath)"
@@ -708,7 +710,7 @@
 				<RestorePackagesWithLockFile>$(RestorePackagesWithLockFile)</RestorePackagesWithLockFile>
 				<NuGetLockFilePath>$(NuGetLockFilePath)</NuGetLockFilePath>
 				<RestoreLockedMode>$(RestoreLockedMode)</RestoreLockedMode>
-				<CentralPackageVersionsEnabled>$(_CentralPackageVersionsEnabled)</CentralPackageVersionsEnabled>
+				<_CentralPackageVersionsEnabled>$(_CentralPackageVersionsEnabled)</_CentralPackageVersionsEnabled>
 			</_RestoreGraphEntry>
 		</ItemGroup>
 
@@ -802,7 +804,7 @@
 			DependsOnTargets="_GetRestoreTargetFrameworksAsItems"
 			Returns="@(_RestoreGraphEntry)">
 
-		<!-- Get project and package references  -->
+		<!-- Get project and package references -->
 		<!-- Evaluate for each framework -->
 		<MSBuild
 			BuildInParallel="$(RestoreBuildInParallel)"
@@ -981,7 +983,7 @@
 			DependsOnTargets="_GetRestoreTargetFrameworksAsItems"
 			Returns="@(_RestoreProjectPathItems)">
 
-		<!-- Get all project references for the current project  -->
+		<!-- Get all project references for the current project -->
 		<!-- With SkipNonExistentTargets support -->
 		<MSBuild
 			Condition="'$(RestoreUseSkipNonExistentTargets)' == 'true'"
@@ -1023,7 +1025,7 @@
 			DependsOnTargets="_GenerateRestoreProjectPathItems"
 			Returns="@(_RestoreProjectPathItems)">
 
-		<!-- Walk project references  -->
+		<!-- Walk project references -->
 		<!-- With SkipNonExistentTargets -->
 		<MSBuild
 			Condition="'$(RestoreUseSkipNonExistentTargets)' == 'true'"
@@ -1078,7 +1080,7 @@
 			DependsOnTargets="_FilterRestoreGraphProjectInputItems"
 			Returns="@(_RestoreProjectPathItems)">
 
-		<NuGetMessageTask Name="DeterminingProjectsToRestore" Importance="High" />
+		<NuGetMessageTask Importance="High" Name="DeterminingProjectsToRestore"/>
 
 		<!-- Walk projects -->
 		<!-- With SkipNonExistentTargets -->
@@ -1117,7 +1119,7 @@
 				ItemName="_RestoreProjectPathItemsWithoutDupes"/>
 		</RemoveDuplicates>
 
-		<!-- Remove projects that do not support restore. -->
+		<!-- Remove projects that do not support restore -->
 		<!-- With SkipNonExistentTargets -->
 		<MSBuild
 			Condition="'$(RestoreUseSkipNonExistentTargets)' == 'true'"

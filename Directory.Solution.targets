@@ -1,5 +1,9 @@
 <Project>
 
+	<PropertyGroup Label="Build">
+		<RestoreUseStaticGraphEvaluation>True</RestoreUseStaticGraphEvaluation>
+	</PropertyGroup>
+
 	<!-- Integrate with the Solution SDK for Legacy Solution files -->
 	<Import Sdk="MSBuild.Solution.Sdk" Project="Sdk.Legacy.targets"/>
 
