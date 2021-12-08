@@ -597,18 +597,20 @@
 	============================================================
 	-->
 	<Target Name="_GetRestoreTargetFrameworksOutput"
-			DependsOnTargets="_GetRestoreProjectStyle"
+			DependsOnTargets="_GetRestoreProjectStyle;_CheckIfGlobalTargetFramework"
 			Returns="@(_RestoreTargetFrameworksOutputFiltered)">
 
 		<PropertyGroup>
 			<_RestoreProjectFramework/>
+			<_PreferredTargetFrameworks Condition="'$(_IsGlobalTargetFramework)' == 'true'">$(TargetFramework)</_PreferredTargetFrameworks>
+			<_PreferredTargetFrameworks Condition="'$(_IsGlobalTargetFramework)' != 'true'">$(TargetFrameworks)</_PreferredTargetFrameworks>
 		</PropertyGroup>
 
 		<!-- For project.json projects target frameworks will be read from project.json -->
 		<GetProjectTargetFrameworksTask
 			Condition="'$(RestoreProjectStyle)' != 'ProjectJson'"
 			ProjectPath="$(MSBuildProjectFullPath)"
-			TargetFrameworks="$(TargetFrameworks)"
+			TargetFrameworks="$(_PreferredTargetFrameworks)"
 			TargetFramework="$(TargetFramework)"
 			TargetFrameworkMoniker="$(TargetFrameworkMoniker)"
 			TargetPlatformIdentifier="$(TargetPlatformIdentifier)"
@@ -630,13 +632,16 @@
 
 		Read $(TargetFrameworks) from the project as items.
 		Projects that do not have $(TargetFrameworks) will noop.
+		If $(TargetFramework) is specified globally, it'll be preferred over $(TargetFrameworks)
 	============================================================
 	-->
 	<Target Name="_GetRestoreTargetFrameworksAsItems"
-			DependsOnTargets="_GetRestoreProjectStyle"
+			DependsOnTargets="_GetRestoreProjectStyle;_CheckIfGlobalTargetFramework"
 			Returns="@(_RestoreTargetFrameworkItems)">
 		<ItemGroup Condition="'$(TargetFrameworks)' != ''">
-			<_RestoreTargetFrameworkItems Include="$(TargetFrameworks.Split(';'))"/>
+			<_RestoreTargetFrameworkItems Include="$(TargetFrameworks.Split(';'))" Condition="'$(_IsGlobalTargetFramework)' != 'true'"/>
+			<!-- Use $(TargetFramework) instead of $(TargetFrameworks) when it is specified globally (i.e., on the command-line) -->
+			<_RestoreTargetFrameworkItems Include="$(TargetFramework)" Condition="'$(_IsGlobalTargetFramework)' == 'true'"/>
 		</ItemGroup>
 	</Target>
 
@@ -1373,6 +1378,27 @@
 			Returns="$(_RestoreFallbackFoldersOverride)">
 		<PropertyGroup>
 			<_RestoreFallbackFoldersOverride>$(RestoreFallbackFolders)</_RestoreFallbackFoldersOverride>
+		</PropertyGroup>
+	</Target>
+
+	<!--
+	============================================================
+				_CheckIfGlobalTargetFramework
+	============================================================
+	-->
+	<Target Name="_CheckIfGlobalTargetFramework"
+			Condition="'$(_DisableNuGetRestoreTargetFrameworksOverride)' != 'true'"
+			Returns="$(_IsGlobalTargetFramework)">
+
+		<!-- Check if $(TargetFramework) is a global property (i.e., specified on the command-line) -->
+		<GetGlobalPropertyValueTask
+			PropertyName="TargetFramework"
+			Condition="'$(TargetFramework)' != ''">
+			<Output TaskParameter="GlobalPropertyValue" PropertyName="_GlobalTargetFramework"/>
+		</GetGlobalPropertyValueTask>
+
+		<PropertyGroup Condition="'$(_GlobalTargetFramework)' != ''">
+			<_IsGlobalTargetFramework Condition="'$(_GlobalTargetFramework)' == '$(TargetFramework)'">true</_IsGlobalTargetFramework>
 		</PropertyGroup>
 	</Target>
 
