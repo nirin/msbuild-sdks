@@ -184,6 +184,7 @@
 		<!-- Design-Time builds should not produce a build error. So, we need to ensure that we continue on error -->
 		<PropertyGroup>
 			<CollectPackageReferencesContinueOnError>$([MSBuild]::ValueOrDefault($(ContinueOnError), 'false'))</CollectPackageReferencesContinueOnError>
+			<DisableCheckingDuplicatePackageReferences>$([MSBuild]::ValueOrDefault($(DisableCheckingDuplicateNuGetItems), $(DisableCheckingDuplicatePackageReferences)))</DisableCheckingDuplicatePackageReferences>
 		</PropertyGroup>
 
 		<CheckForDuplicateNuGetItemsTask
@@ -195,7 +196,7 @@
 			TreatWarningsAsErrors="$(TreatWarningsAsErrors)"
 			MSBuildProjectFullPath="$(MSBuildProjectFullPath)"
 			ContinueOnError="$(CollectPackageReferencesContinueOnError)"
-			Condition="'$(DisableCheckingDuplicateNuGetItems)' != 'true'">
+			Condition="'$(DisableCheckingDuplicatePackageReferences)' != 'true'">
 			<Output TaskParameter="DeduplicatedItems" ItemName="DeduplicatedPackageReference"/>
 		</CheckForDuplicateNuGetItemsTask>
 
@@ -220,6 +221,7 @@
 		<!-- Design-Time builds should not produce a build error. So, we need to ensure that we continue on error -->
 		<PropertyGroup>
 			<CollectCentralPackageVersionsContinueOnError>$([MSBuild]::ValueOrDefault($(ContinueOnError), 'false'))</CollectCentralPackageVersionsContinueOnError>
+			<DisableCheckingDuplicatePackageVersions>$([MSBuild]::ValueOrDefault($(DisableCheckingDuplicateNuGetItems), $(DisableCheckingDuplicatePackageVersions)))</DisableCheckingDuplicatePackageVersions>
 		</PropertyGroup>
 
 		<CheckForDuplicateNuGetItemsTask
@@ -231,7 +233,7 @@
 			TreatWarningsAsErrors="$(TreatWarningsAsErrors)"
 			MSBuildProjectFullPath="$(MSBuildProjectFullPath)"
 			ContinueOnError="$(CollectCentralPackageVersionsContinueOnError)"
-			Condition="'$(DisableCheckingDuplicateNuGetItems)' != 'true'">
+			Condition="'$(DisableCheckingDuplicatePackageVersions)' != 'true'">
 			<Output TaskParameter="DeduplicatedItems" ItemName="DeduplicatedPackageVersion"/>
 		</CheckForDuplicateNuGetItemsTask>
 
@@ -256,6 +258,7 @@
 		<!-- Design-Time builds should not produce a build error. So, we need to ensure that we continue on error -->
 		<PropertyGroup>
 			<CollectPackageDownloadsContinueOnError>$([MSBuild]::ValueOrDefault($(ContinueOnError), 'false'))</CollectPackageDownloadsContinueOnError>
+			<DisableCheckingDuplicatePackageDownloads>$([MSBuild]::ValueOrDefault($(DisableCheckingDuplicateNuGetItems), $(DisableCheckingDuplicatePackageDownloads)))</DisableCheckingDuplicatePackageDownloads>
 		</PropertyGroup>
 
 		<CheckForDuplicateNuGetItemsTask
@@ -267,7 +270,7 @@
 			TreatWarningsAsErrors="$(TreatWarningsAsErrors)"
 			MSBuildProjectFullPath="$(MSBuildProjectFullPath)"
 			ContinueOnError="$(CollectPackageDownloadsContinueOnError)"
-			Condition="'$(DisableCheckingDuplicateNuGetItems)' != 'true'">
+			Condition="'$(DisableCheckingDuplicatePackageDownloads)' != 'true'">
 			<Output TaskParameter="DeduplicatedItems" ItemName="DeduplicatedPackageDownload"/>
 		</CheckForDuplicateNuGetItemsTask>
 
