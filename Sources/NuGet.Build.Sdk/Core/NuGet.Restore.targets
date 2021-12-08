@@ -174,33 +174,108 @@
 					CollectPackageReferences
 
 		Gathers all PackageReference items from the project.
-		This target may be used as an extension point to modify
-		package references before NuGet reads them.
+		This target may be used as a pivot point for 'BeforeTargets'
+		extension point (do not use 'AfterTargets') to modify
+		package downloads before NuGet reads them.
 	============================================================
 	-->
-	<Target Name="CollectPackageReferences" Returns="@(PackageReference)"/>
+	<Target Name="CollectPackageReferences" Returns="@(PackageReference)">
+
+		<!-- Design-Time builds should not produce a build error. So, we need to ensure that we continue on error -->
+		<PropertyGroup>
+			<CollectPackageReferencesContinueOnError>$([MSBuild]::ValueOrDefault($(ContinueOnError), 'false'))</CollectPackageReferencesContinueOnError>
+		</PropertyGroup>
+
+		<CheckForDuplicateNuGetItemsTask
+			LogCode="NU1504"
+			NoWarn="$(NoWarn)"
+			Items="@(PackageReference)"
+			ItemName="PackageReference"
+			WarningsAsErrors="$(WarningsAsErrors)"
+			TreatWarningsAsErrors="$(TreatWarningsAsErrors)"
+			MSBuildProjectFullPath="$(MSBuildProjectFullPath)"
+			ContinueOnError="$(CollectPackageReferencesContinueOnError)"
+			Condition="'$(DisableCheckingDuplicateNuGetItems)' != 'true'">
+			<Output TaskParameter="DeduplicatedItems" ItemName="DeduplicatedPackageReference"/>
+		</CheckForDuplicateNuGetItemsTask>
+
+		<ItemGroup Condition="'@(DeduplicatedPackageReference)' != ''">
+			<PackageReference Remove="@(PackageReference)"/>
+			<PackageReference Include="@(DeduplicatedPackageReference)"/>
+		</ItemGroup>
+	</Target>
 
 	<!--
 	============================================================
 					CollectCentralPackageVersions
 
 		Gathers all PackageVersion items from the central package versions file.
-		This target may be used as an extension point to modify
-		package versions before NuGet reads them.
+		This target may be used as a pivot point for 'BeforeTargets'
+		extension point (do not use 'AfterTargets') to modify
+		package downloads before NuGet reads them.
 	============================================================
 	-->
-	<Target Name="CollectCentralPackageVersions" Returns="@(PackageVersion)"/>
+	<Target Name="CollectCentralPackageVersions" Returns="@(PackageVersion)">
+
+		<!-- Design-Time builds should not produce a build error. So, we need to ensure that we continue on error -->
+		<PropertyGroup>
+			<CollectCentralPackageVersionsContinueOnError>$([MSBuild]::ValueOrDefault($(ContinueOnError), 'false'))</CollectCentralPackageVersionsContinueOnError>
+		</PropertyGroup>
+
+		<CheckForDuplicateNuGetItemsTask
+			LogCode="NU1505"
+			NoWarn="$(NoWarn)"
+			Items="@(PackageVersion)"
+			ItemName="PackageVersion"
+			WarningsAsErrors="$(WarningsAsErrors)"
+			TreatWarningsAsErrors="$(TreatWarningsAsErrors)"
+			MSBuildProjectFullPath="$(MSBuildProjectFullPath)"
+			ContinueOnError="$(CollectCentralPackageVersionsContinueOnError)"
+			Condition="'$(DisableCheckingDuplicateNuGetItems)' != 'true'">
+			<Output TaskParameter="DeduplicatedItems" ItemName="DeduplicatedPackageVersion"/>
+		</CheckForDuplicateNuGetItemsTask>
+
+		<ItemGroup Condition="'@(DeduplicatedPackageVersion)' != ''">
+			<PackageVersion Remove="@(PackageVersion)"/>
+			<PackageVersion Include="@(DeduplicatedPackageVersion)"/>
+		</ItemGroup>
+	</Target>
 
 	<!--
 	============================================================
 					CollectPackageDownloads
 
 		Gathers all PackageDownload items from the project.
-		This target may be used as an extension point to modify
+		This target may be used as a pivot point for 'BeforeTargets'
+		extension point (do not use 'AfterTargets') to modify
 		package downloads before NuGet reads them.
 	============================================================
 	-->
-	<Target Name="CollectPackageDownloads" Returns="@(PackageDownload)"/>
+	<Target Name="CollectPackageDownloads" Returns="@(PackageDownload)">
+
+		<!-- Design-Time builds should not produce a build error. So, we need to ensure that we continue on error -->
+		<PropertyGroup>
+			<CollectPackageDownloadsContinueOnError>$([MSBuild]::ValueOrDefault($(ContinueOnError), 'false'))</CollectPackageDownloadsContinueOnError>
+		</PropertyGroup>
+
+		<CheckForDuplicateNuGetItemsTask
+			LogCode="NU1505"
+			NoWarn="$(NoWarn)"
+			Items="@(PackageDownload)"
+			ItemName="PackageDownload"
+			WarningsAsErrors="$(WarningsAsErrors)"
+			TreatWarningsAsErrors="$(TreatWarningsAsErrors)"
+			MSBuildProjectFullPath="$(MSBuildProjectFullPath)"
+			ContinueOnError="$(CollectPackageDownloadsContinueOnError)"
+			Condition="'$(DisableCheckingDuplicateNuGetItems)' != 'true'">
+			<Output TaskParameter="DeduplicatedItems" ItemName="DeduplicatedPackageDownload"/>
+		</CheckForDuplicateNuGetItemsTask>
+
+		<ItemGroup Condition="'@(DeduplicatedPackageDownload)' != ''">
+			<PackageDownload Remove="@(PackageDownload)"/>
+			<PackageDownload Include="@(DeduplicatedPackageDownload)"/>
+		</ItemGroup>
+	</Target>
 
 	<!--
 	============================================================
