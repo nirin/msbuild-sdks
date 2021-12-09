@@ -1,8 +1,5 @@
 <Project>
 
-	<UsingTask AssemblyFile="$(NuGetPackagingTasksAssembly)" TaskName="NuGet.Build.Packaging.Tasks.ReadLegacyJsonDependencies"/>
-	<UsingTask AssemblyFile="$(NuGetPackagingTasksAssembly)" TaskName="NuGet.Build.Packaging.Tasks.ReadLegacyConfigDependencies"/>
-
 	<PropertyGroup>
 		<!-- Infer PackageReference elements from packages.config/project.json files in the project -->
 		<InferLegacyPackageReferences Condition="'$(InferLegacyPackageReferences)' == ''">true</InferLegacyPackageReferences>

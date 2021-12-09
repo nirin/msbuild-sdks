@@ -1,15 +1,5 @@
 <Project>
 
-	<UsingTask AssemblyFile="$(NuGetPackagingTasksAssembly)" TaskName="NuGet.Build.Packaging.Tasks.ApiIntersect"/>
-	<UsingTask AssemblyFile="$(NuGetPackagingTasksAssembly)" TaskName="NuGet.Build.Packaging.Tasks.GenerateAssemblyInfo"/>
-	<UsingTask AssemblyFile="$(NuGetPackagingTasksAssembly)" TaskName="NuGet.Build.Packaging.Tasks.GetApiIntersectTargetPaths"/>
-
-	<PropertyGroup>
-		<ApiIntersectToolExe Condition="'$(ApiIntersectToolExe)' == ''">ApiIntersect.exe</ApiIntersectToolExe>
-		<ApiIntersectToolPath Condition="'$(ApiIntersectToolPath)' == ''">$(NuGetPackagingToolsPath)</ApiIntersectToolPath>
-		<GenerateReferenceAssemblyProject Condition="'$(GenerateReferenceAssemblyProject)' == ''">$(NuGetPackagingToolsPath)GenerateReferenceAssembly.csproj</GenerateReferenceAssemblyProject>
-	</PropertyGroup>
-
 	<PropertyGroup>
 		<CleanDependsOn>$(CleanDependsOn);_CleanReferenceAssemblyInterimOutputs</CleanDependsOn>
 	</PropertyGroup>

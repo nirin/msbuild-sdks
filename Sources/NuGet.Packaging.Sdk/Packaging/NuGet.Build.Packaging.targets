@@ -49,16 +49,6 @@
 		</TargetPathWithTargetPlatformMoniker>
 	</ItemDefinitionGroup>
 
-	<!-- Load 'NuGet.Build.Packaging.Tasks.dll', this can be overridden to use a different version with '$(NuGetPackagingTasksAssembly)' property -->
-	<PropertyGroup Condition="$(NuGetPackagingTasksAssembly) == ''">
-		<NuGetPackagingTasksAssemblyFile Condition="'$(NuGetPackagingTasksAssemblyFile)' == ''">NuGet.Build.Packaging.Tasks.dll</NuGetPackagingTasksAssemblyFile>
-		<NuGetPackagingTasksPath Condition="'$(NuGetPackagingTasksPath)' == ''">..\Tasks\$(MSBuildRuntimeType)</NuGetPackagingTasksPath>
-		<NuGetPackagingTasksAssembly>$(NuGetPackagingTasksPath)\$(NuGetPackagingTasksAssemblyFile)</NuGetPackagingTasksAssembly>
-	</PropertyGroup>
-
-	<UsingTask AssemblyFile="$(NuGetPackagingTasksAssembly)" TaskName="NuGet.Build.Packaging.Tasks.AssignPackagePath"/>
-	<UsingTask AssemblyFile="$(NuGetPackagingTasksAssembly)" TaskName="NuGet.Build.Packaging.Tasks.CreatePackage"/>
-
 	<Import Project="NuGet.Build.Packaging.Inference.targets" Condition="'$(InferPackageContents)' != 'false'"/>
 
 	<!--

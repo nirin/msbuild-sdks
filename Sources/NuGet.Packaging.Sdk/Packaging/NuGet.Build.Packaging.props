@@ -2,7 +2,6 @@
 
 	<PropertyGroup>
 		<IsPackagingProject Condition="'$(IsPackagingProject)' == '' AND '$(MSBuildProjectExtension)' == '.nuproj'">true</IsPackagingProject>
-		<NuGetPackagingToolsPath Condition="'$(NuGetPackagingToolsPath)' == ''">$([MSBuild]::NormalizeDirectory($(MSBuildThisFileDirectory), '..', 'Tools'))</NuGetPackagingToolsPath>
 	</PropertyGroup>
 
 	<ItemGroup>
