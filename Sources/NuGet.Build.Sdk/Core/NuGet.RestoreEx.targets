@@ -7,8 +7,8 @@
 		<RestoreCleanupAssetsForUnsupportedProjects Condition="'$(RestoreCleanupAssetsForUnsupportedProjects)' == ''">true</RestoreCleanupAssetsForUnsupportedProjects>
 	</PropertyGroup>
 
-	<UsingTask AssemblyFile="$(NuGetRestoreTasksAssembly)" TaskName="NuGet.Build.Tasks.RestoreTaskEx"/>
-	<UsingTask AssemblyFile="$(NuGetRestoreTasksAssembly)" TaskName="NuGet.Build.Tasks.GenerateRestoreGraphFileTask"/>
+	<UsingTask AssemblyFile="$(NuGetRestoreTasksAssemblyFile)" TaskName="NuGet.Build.Tasks.RestoreTaskEx"/>
+	<UsingTask AssemblyFile="$(NuGetRestoreTasksAssemblyFile)" TaskName="NuGet.Build.Tasks.GenerateRestoreGraphFileTask"/>
 
 	<!--
 	====================================================================================================

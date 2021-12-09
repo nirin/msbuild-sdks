@@ -1,23 +1,23 @@
 <Project>
 
-	<!-- Load 'NuGet.Build.Packaging.Tasks.dll', this can be overridden to use a different version with '$(NuGetPackagingTasksAssembly)' property -->
-	<PropertyGroup Condition="$(NuGetPackagingTasksAssembly) == ''">
-		<NuGetPackagingTasksAssemblyFile Condition="'$(NuGetPackagingTasksAssemblyFile)' == ''">NuGet.Build.Packaging.Tasks.dll</NuGetPackagingTasksAssemblyFile>
-		<NuGetPackagingTasksPath Condition="'$(NuGetPackagingTasksPath)' == ''">$(MSBuildThisFileDirectory)</NuGetPackagingTasksPath>
-		<NuGetPackagingTasksAssembly>$(NuGetPackagingTasksPath)$(NuGetPackagingTasksAssemblyFile)</NuGetPackagingTasksAssembly>
+	<!-- Load 'NuGet.Build.Packaging.Tasks.dll', this can be overridden to use a different version with '$(NuGetPackagingTasksAssemblyFile)' property -->
+	<PropertyGroup Condition="$(NuGetPackagingTasksAssemblyFile) == ''">
+		<NuGetPackagingTasksAssembly Condition="'$(NuGetPackagingTasksAssembly)' == ''">NuGet.Build.Packaging.Tasks.dll</NuGetPackagingTasksAssembly>
+		<NuGetPackagingTasksDirectory Condition="'$(NuGetPackagingTasksDirectory)' == ''">$(MSBuildThisFileDirectory)</NuGetPackagingTasksDirectory>
+		<NuGetPackagingTasksAssemblyFile>$(NuGetPackagingTasksDirectory)$(NuGetPackagingTasksAssembly)</NuGetPackagingTasksAssemblyFile>
 	</PropertyGroup>
 
 	<!-- Packaging Tasks -->
-	<UsingTask AssemblyFile="$(NuGetPackagingTasksAssembly)" TaskName="NuGet.Build.Packaging.Tasks.AssignPackagePath"/>
-	<UsingTask AssemblyFile="$(NuGetPackagingTasksAssembly)" TaskName="NuGet.Build.Packaging.Tasks.CreatePackage"/>
+	<UsingTask AssemblyFile="$(NuGetPackagingTasksAssemblyFile)" TaskName="NuGet.Build.Packaging.Tasks.AssignPackagePath"/>
+	<UsingTask AssemblyFile="$(NuGetPackagingTasksAssemblyFile)" TaskName="NuGet.Build.Packaging.Tasks.CreatePackage"/>
 
 	<!-- Packaging Inference Tasks -->
-	<UsingTask AssemblyFile="$(NuGetPackagingTasksAssembly)" TaskName="NuGet.Build.Packaging.Tasks.ReadLegacyJsonDependencies"/>
-	<UsingTask AssemblyFile="$(NuGetPackagingTasksAssembly)" TaskName="NuGet.Build.Packaging.Tasks.ReadLegacyConfigDependencies"/>
+	<UsingTask AssemblyFile="$(NuGetPackagingTasksAssemblyFile)" TaskName="NuGet.Build.Packaging.Tasks.ReadLegacyJsonDependencies"/>
+	<UsingTask AssemblyFile="$(NuGetPackagingTasksAssemblyFile)" TaskName="NuGet.Build.Packaging.Tasks.ReadLegacyConfigDependencies"/>
 
 	<!-- Packaging Reference Assembly Tasks -->
-	<UsingTask AssemblyFile="$(NuGetPackagingTasksAssembly)" TaskName="NuGet.Build.Packaging.Tasks.ApiIntersect"/>
-	<UsingTask AssemblyFile="$(NuGetPackagingTasksAssembly)" TaskName="NuGet.Build.Packaging.Tasks.GenerateAssemblyInfo"/>
-	<UsingTask AssemblyFile="$(NuGetPackagingTasksAssembly)" TaskName="NuGet.Build.Packaging.Tasks.GetApiIntersectTargetPaths"/>
+	<UsingTask AssemblyFile="$(NuGetPackagingTasksAssemblyFile)" TaskName="NuGet.Build.Packaging.Tasks.ApiIntersect"/>
+	<UsingTask AssemblyFile="$(NuGetPackagingTasksAssemblyFile)" TaskName="NuGet.Build.Packaging.Tasks.GenerateAssemblyInfo"/>
+	<UsingTask AssemblyFile="$(NuGetPackagingTasksAssemblyFile)" TaskName="NuGet.Build.Packaging.Tasks.GetApiIntersectTargetPaths"/>
 
 </Project>

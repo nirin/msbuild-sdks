@@ -6,6 +6,7 @@
 	<PropertyGroup>
 		<RoslynToolsPath Condition="'$(RoslynToolsPath)' == ''">$(RoslynTargetsPath)</RoslynToolsPath>
 		<RoslynToolsPath Condition="'$(RoslynToolsPath)' == ''">$(MSBuildExtensionsPath)Roslyn</RoslynToolsPath>
+		<MicrosoftCompilerTasksDirectory Condition="'$(MicrosoftCompilerTasksDirectory)' == ''">$(RoslynToolsPath)</MicrosoftCompilerTasksDirectory>
 	</PropertyGroup>
 
 	<Import Project="..\Tasks\Microsoft.Build.Compiler.tasks"/>

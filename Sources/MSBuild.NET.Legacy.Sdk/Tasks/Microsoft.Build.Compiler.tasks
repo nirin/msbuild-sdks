@@ -1,12 +1,14 @@
 <Project>
 
-	<PropertyGroup>
-		<RoslynBuildTasksAssembly Condition="'$(RoslynBuildTasksAssembly)' == ''">$(RoslynToolsPath)\Microsoft.Build.Tasks.CodeAnalysis.dll</RoslynBuildTasksAssembly>
+	<PropertyGroup Condition="'$(MicrosoftCompilerTasksAssemblyFile)' == ''">
+		<MicrosoftCompilerTasksAssembly Condition="'$(MicrosoftCompilerTasksAssembly)' == ''">Microsoft.Build.Tasks.CodeAnalysis.dll</MicrosoftCompilerTasksAssembly>
+		<MicrosoftCompilerTasksDirectory Condition="'$(MicrosoftCompilerTasksDirectory)' == ''">$([MSBuild]::EnsureTrailingSlash('$(MSBuildThisFileDirectory)$(MSBuildRuntimeType)'))</MicrosoftCompilerTasksDirectory>
+		<MicrosoftCompilerTasksAssemblyFile>$(MicrosoftCompilerTasksDirectory)$(MicrosoftCompilerTasksAssembly)</MicrosoftCompilerTasksAssemblyFile>
 	</PropertyGroup>
 
-	<!-- Roslyn tasks are now in an assembly owned and shipped by Roslyn -->
-	<UsingTask AssemblyFile="$(RoslynBuildTasksAssembly)" TaskName="Microsoft.CodeAnalysis.BuildTasks.Csc"/>
-	<UsingTask AssemblyFile="$(RoslynBuildTasksAssembly)" TaskName="Microsoft.CodeAnalysis.BuildTasks.Vbc"/>
-	<UsingTask AssemblyFile="$(RoslynBuildTasksAssembly)" TaskName="Microsoft.CodeAnalysis.BuildTasks.CopyRefAssembly"/>
+	<!-- Both C# and VB Compiler tasks are now in an assembly owned and shipped by Roslyn -->
+	<UsingTask AssemblyFile="$(MicrosoftCompilerTasksAssemblyFile)" TaskName="Microsoft.CodeAnalysis.BuildTasks.Csc"/>
+	<UsingTask AssemblyFile="$(MicrosoftCompilerTasksAssemblyFile)" TaskName="Microsoft.CodeAnalysis.BuildTasks.Vbc"/>
+	<UsingTask AssemblyFile="$(MicrosoftCompilerTasksAssemblyFile)" TaskName="Microsoft.CodeAnalysis.BuildTasks.CopyRefAssembly"/>
 
 </Project>

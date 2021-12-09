@@ -1,13 +1,14 @@
 <Project>
 
 	<PropertyGroup>
-		<NuGetPackagingToolsPath Condition="'$(NuGetPackagingToolsPath)' == ''">$(MSBuildThisFileDirectory)</NuGetPackagingToolsPath>
+		<NuGetPackagingToolsDirectory Condition="'$(NuGetPackagingToolsDirectory)' == ''">$(MSBuildThisFileDirectory)</NuGetPackagingToolsDirectory>
 	</PropertyGroup>
 
 	<PropertyGroup>
 		<ApiIntersectToolExe Condition="'$(ApiIntersectToolExe)' == ''">ApiIntersect.exe</ApiIntersectToolExe>
-		<ApiIntersectToolPath Condition="'$(ApiIntersectToolPath)' == ''">$(NuGetPackagingToolsPath)</ApiIntersectToolPath>
-		<GenerateReferenceAssemblyProject Condition="'$(GenerateReferenceAssemblyProject)' == ''">$(NuGetPackagingToolsPath)GenerateReferenceAssembly.csproj</GenerateReferenceAssemblyProject>
+		<ApiIntersectToolPath Condition="'$(ApiIntersectToolPath)' == ''">$(NuGetPackagingToolsDirectory)</ApiIntersectToolPath>
+		<ApiIntersectToolPath Condition="HasTrailingSlash($(ApiIntersectToolPath))">$(ApiIntersectToolPath.TrimEnd('\/'))</ApiIntersectToolPath>
+		<GenerateReferenceAssemblyProject Condition="'$(GenerateReferenceAssemblyProject)' == ''">$(NuGetPackagingToolsDirectory)GenerateReferenceAssembly.csproj</GenerateReferenceAssemblyProject>
 	</PropertyGroup>
 
 </Project>

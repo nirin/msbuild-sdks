@@ -10,11 +10,5 @@
 
 	<!-- NOTE: Using the fully qualified class name in a <UsingTask> tag is faster than using a partially qualified name. -->
 
-	<PropertyGroup Condition="'$(MicosoftBuildTasksAssembly)' == ''">
-		<MicosoftBuildTasksPath Condition="'$(MicosoftBuildTasksPath)' == ''">..\Tasks\$(MSBuildRuntimeType)</MicosoftBuildTasksPath>
-		<MicosoftBuildTasksAssemblyFile Condition="'$(MicosoftBuildTasksAssemblyFile)' == ''">Microsoft.Build.Tasks.Core.dll</MicosoftBuildTasksAssemblyFile>
-		<MicosoftBuildTasksAssembly>$(MicosoftBuildTasksPath)\$(MicosoftBuildTasksAssemblyFile)</MicosoftBuildTasksAssembly>
-	</PropertyGroup>
-
 
 </Project>
