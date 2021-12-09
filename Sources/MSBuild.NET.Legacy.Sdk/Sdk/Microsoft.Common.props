@@ -45,7 +45,7 @@
 		<MicrosoftCommonPropsHasBeenImported>true</MicrosoftCommonPropsHasBeenImported>
 	</PropertyGroup>
 
-	<Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.VisualStudioVersion.v*.Common.props" Condition="'$(VisualStudioVersion)' == ''"/>
+	<Import Project="Microsoft.VisualStudio.props"/>
 
 	<Import Project="$(CustomAfterMicrosoftCommonProps)" Condition="Exists('$(CustomAfterMicrosoftCommonProps)')"/>
 
