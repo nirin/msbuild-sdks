@@ -139,6 +139,38 @@
 
 	<!--
 	============================================================
+					AddGlobalPackageReferences
+
+		Gathers all GlobalPackageReference items from the project.
+		Then it add them to the 'PackageReference' and 'PackageVersion'
+		items depending on whether central package versioning is used.
+	============================================================
+	-->
+	<Target Name="AddGlobalPackageReferences"
+			Condition="'$(RestoreEnableGlobalPackageReference)' == 'true'"
+			BeforeTargets="CollectPackageReferences;CollectCentralPackageVersions">
+
+		<!--
+			Add 'GlobalPackageReference' items to the 'PackageReference' item group
+			without version when using Central Package Versioning and with version otherwise.
+		-->
+		<ItemGroup>
+			<PackageReference Include="@(GlobalPackageReference)" Condition="'$(ManagePackageVersionsCentrally)' != 'true'"/>
+			<PackageReference Include="@(GlobalPackageReference)" Version="" Condition="'$(ManagePackageVersionsCentrally)' == 'true'"/>
+		</ItemGroup>
+
+		<!--
+			Add 'GlobalPackageReference' items to the 'PackageVersion' item group
+			with the version only when using Central Package Versioning.
+		-->
+		<ItemGroup>
+			<PackageVersion Include="@(GlobalPackageReference->ClearMetadata())" Version="%(Version)" Condition="'$(ManagePackageVersionsCentrally)' == 'true'"/>
+		</ItemGroup>
+
+	</Target>
+
+	<!--
+	============================================================
 					CollectPackageReferences
 
 		Gathers all PackageReference items from the project.
@@ -300,6 +332,11 @@
 			Condition="'$(DisableWarnForInvalidRestoreProjects)' != 'true' AND '$(HideWarningsAndErrors)' != 'true'"
 			AllProjects="@(FilteredRestoreGraphProjectInputItemsWithoutDuplicates)"
 			ValidProjects="@(FilteredRestoreGraphProjectInputItems)"/>
+
+		<!-- Clean-up temporary variable -->
+		<ItemGroup>
+			<FilteredRestoreGraphProjectInputItemsWithoutDuplicates/>
+		</ItemGroup>
 	</Target>
 
 	<!--
@@ -711,6 +748,8 @@
 				<NuGetLockFilePath>$(NuGetLockFilePath)</NuGetLockFilePath>
 				<RestoreLockedMode>$(RestoreLockedMode)</RestoreLockedMode>
 				<_CentralPackageVersionsEnabled>$(_CentralPackageVersionsEnabled)</_CentralPackageVersionsEnabled>
+				<CentralPackageVersionOverrideEnabled>$(CentralPackageVersionOverrideEnabled)</CentralPackageVersionOverrideEnabled>
+				<CentralPackageTransitivePinningEnabled>$(CentralPackageTransitivePinningEnabled)</CentralPackageTransitivePinningEnabled>
 			</_RestoreGraphEntry>
 		</ItemGroup>
 

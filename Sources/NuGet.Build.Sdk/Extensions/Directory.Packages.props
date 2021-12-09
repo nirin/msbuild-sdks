@@ -1,5 +1,32 @@
 <Project>
 
+	<ItemDefinitionGroup Condition="'$(RestoreEnableGlobalPackageReference)' == 'true'">
+		<GlobalPackageReference>
+			<!-- We don't need to pack or publish the dev-only dependencies -->
+			<Pack>false</Pack>
+			<Publish>false</Publish>
+			<!--
+				Default global package references should only consume Development Dependency assets.
+				This helps to ensure that other package assets are not passed to the compiler or copied to output.
+				Having a compile-time reference to a package for all projects in a tree is not recommended.
+				You should only have "global" references to packages that are used only in build-time.
+			-->
+			<IncludeAssets>Analyzers;Build;BuildMultitargeting;ContentFiles</IncludeAssets>
+			<!--
+				These assets are not recommended to be required at all, so they are excluded explicitly.
+				This is because "global" package references are generally stuff like versioning, signing, etc
+				and they should not flow to downstream dependencies. Also, they are already referenced by every
+				project in the tree; so, we don't need them to be transitive.
+			-->
+			<ExcludeAssets>BuildTransitive;Compile;Native;Runtime</ExcludeAssets>
+			<!--
+				Default global package references should have all assets private to the project.
+				This is because "global" package references are generally development dependencies.
+			-->
+			<PrivateAssets>All</PrivateAssets>
+		</GlobalPackageReference>
+	</ItemDefinitionGroup>
+
 	<!--
 		Determine the path to the `Directory.Packages.props` file, if the user did not disable `$(ImportDirectoryPackagesProps)` and
 		they did not already specify an absolute path to use via `$(DirectoryPackagesProps)`
@@ -20,6 +47,7 @@
 	<PropertyGroup Condition="Exists('$(DirectoryPackagesProps)')">
 		<ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
 		<CentralPackageVersionsFileImported>true</CentralPackageVersionsFileImported>
+		<RestoreEnableGlobalPackageReference>true</RestoreEnableGlobalPackageReference>
 	</PropertyGroup>
 
 </Project>

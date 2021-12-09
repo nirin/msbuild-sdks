@@ -15,7 +15,7 @@
 		<ContentTargetFolders Condition="'$(ContentTargetFolders)' == ''">content;contentFiles</ContentTargetFolders>
 		<PackDependsOn>$(BeforePack);_IntermediatePack;GenerateNuspec;$(PackDependsOn)</PackDependsOn>
 		<IsInnerBuild Condition="'$(TargetFramework)' != '' AND '$(TargetFrameworks)' != ''">true</IsInnerBuild>
-		<SymbolPackageFormat Condition="'$(SymbolPackageFormat)' == ''">symbols.nupkg</SymbolPackageFormat>
+		<SymbolPackageFormat Condition="'$(SymbolPackageFormat)' == ''">snupkg</SymbolPackageFormat>
 		<AddPriFileDependsOn Condition="'$(MicrosoftPortableCurrentVersionPropsHasBeenImported)' == 'true'">DeterminePortableBuildCapabilities</AddPriFileDependsOn>
 		<WarnOnPackingNonPackableProject Condition="'$(WarnOnPackingNonPackableProject)' == ''">false</WarnOnPackingNonPackableProject>
 		<ImportNuGetBuildTasksPackTargetsFromSdk Condition="'$(ImportNuGetBuildTasksPackTargetsFromSdk)' == ''">false</ImportNuGetBuildTasksPackTargetsFromSdk>
@@ -27,11 +27,11 @@
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(NoBuild)' == 'true' OR '$(GeneratePackageOnBuild)' == 'true'">
-		<GenerateNuspecDependsOn>$(GenerateNuspecDependsOn)</GenerateNuspecDependsOn>
+		<PackDependsOn>$(PackDependsOn)</PackDependsOn>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(NoBuild)' != 'true' AND '$(GeneratePackageOnBuild)' != 'true'">
-		<GenerateNuspecDependsOn>Build;$(GenerateNuspecDependsOn)</GenerateNuspecDependsOn>
+		<PackDependsOn>Build;$(PackDependsOn)</PackDependsOn>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -141,7 +141,7 @@
 	<Target Name="_CleanPackageFiles"
 			DependsOnTargets="_GetOutputItemsFromPack"
 			AfterTargets="Clean"
-			Condition="'$(GeneratePackageOnBuild)' == 'true'">
+			Condition="'$(GeneratePackageOnBuild)' == 'true' AND '$(IsInnerBuild)' != 'true'">
 		<ItemGroup>
 			<_PackageFilesToDelete Include="@(_OutputPackItems)"/>
 		</ItemGroup>
@@ -178,7 +178,7 @@
 	</Target>
 
 	<Target Name="_IntermediatePack">
-		<PropertyGroup>
+		<PropertyGroup Condition="$(ContinuePackingAfterGeneratingNuspec) == ''">
 			<ContinuePackingAfterGeneratingNuspec>true</ContinuePackingAfterGeneratingNuspec>
 		</PropertyGroup>
 	</Target>
