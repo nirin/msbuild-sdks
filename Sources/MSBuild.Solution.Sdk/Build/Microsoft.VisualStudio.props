@@ -8,11 +8,12 @@
 		<VisualStudioVersion Condition="Exists('$(BaseVSToolsPath)\v16.0')">16.0</VisualStudioVersion>
 		<VisualStudioVersion Condition="Exists('$(BaseVSToolsPath)\v17.0')">17.0</VisualStudioVersion>
 
-		<VSToolsPath>$(BaseVSToolsPath)\v$(VisualStudioVersion)</VSToolsPath>
+		<VSToolsPath Condition="'$(VisualStudioVersion)' != '' AND Exists('$(BaseVSToolsPath)')">$(BaseVSToolsPath)\v$(VisualStudioVersion)</VSToolsPath>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(BuildingInsideVisualStudio)' == ''">
-		<BuildingInsideVisualStudio>$([MSBuild]::IsRunningFromVisualStudio())</BuildingInsideVisualStudio>
+	<PropertyGroup>
+		<BuildingInsideVisualStudio Condition="'$(BuildingInsideVisualStudio)' == ''">$([MSBuild]::IsRunningFromVisualStudio())</BuildingInsideVisualStudio>
+		<UseVisualStudioTelemetry Condition="'$(UseVisualStudioTelemetry)' == ''">$(BuildingInsideVisualStudio)</UseVisualStudioTelemetry>
 	</PropertyGroup>
 
 </Project>
