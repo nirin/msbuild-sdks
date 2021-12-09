@@ -8,7 +8,7 @@
 	</PropertyGroup>
 
 	<Import Project="..\Tasks\NuGet.Packaging.tasks"/>
-	<Import Project="..\Packaging\NuGet.Build.Packaging.targets"/>
+	<Import Project="..\Packaging\NuGet.Packaging.targets"/>
 	<Import Project="..\ProjectSystem\NuGet.Packaging.ProjectSystem.targets"/>
 
 	<Target Name="Restore">

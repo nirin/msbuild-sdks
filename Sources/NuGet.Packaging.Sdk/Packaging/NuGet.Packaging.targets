@@ -1,14 +1,12 @@
 <Project InitialTargets="_SetPropertiesFromCapabilities">
 
-	<Import Project="NuGet.Build.Packaging.props" Condition="'$(NuGetBuildPackagingPropsImported)' == ''"/>
-
 	<PropertyGroup Label="Globals">
 		<IsOuterBuild Condition="'$(TargetFrameworks)' != '' AND '$(TargetFramework)' == ''">true</IsOuterBuild>
 	</PropertyGroup>
 
 	<!-- Adds compatibility targets with Pack SDK -->
-	<Import Project="NuGet.Build.Packaging.Compatibility.props"/>
-	<Import Project="NuGet.Build.Packaging.Legacy.props"/>
+	<Import Project="NuGet.Packaging.Compatibility.props"/>
+	<Import Project="NuGet.Packaging.Legacy.props"/>
 
 	<PropertyGroup>
 		<!-- Whether include referenced projects' contents the package -->
@@ -49,7 +47,7 @@
 		</TargetPathWithTargetPlatformMoniker>
 	</ItemDefinitionGroup>
 
-	<Import Project="NuGet.Build.Packaging.Inference.targets" Condition="'$(InferPackageContents)' != 'false'"/>
+	<Import Project="NuGet.Packaging.Inference.targets" Condition="'$(InferPackageContents)' != 'false'"/>
 
 	<!--
 	=================================================================================================
@@ -416,9 +414,9 @@
 		</PropertyGroup>
 	</Target>
 
-	<Import Project="NuGet.Build.Packaging.ReferenceAssembly.targets"/>
-	<Import Project="NuGet.Build.Packaging.Authoring.targets" Condition="'$(IsPackagingProject)' == 'true'"/>
-	<Import Project="NuGet.Build.Packaging.MultiTargeting.targets" Condition="'$(IsOuterBuild)' == 'true' AND '$(FromPackagingProject)' == 'true'"/>
-	<Import Project="NuGet.Build.Packaging.Legacy.targets"/>
+	<Import Project="NuGet.Packaging.ReferenceAssembly.targets"/>
+	<Import Project="NuGet.Packaging.Authoring.targets" Condition="'$(IsPackagingProject)' == 'true'"/>
+	<Import Project="NuGet.Packaging.MultiTargeting.targets" Condition="'$(IsOuterBuild)' == 'true' AND '$(FromPackagingProject)' == 'true'"/>
+	<Import Project="NuGet.Packaging.Legacy.targets"/>
 
 </Project>

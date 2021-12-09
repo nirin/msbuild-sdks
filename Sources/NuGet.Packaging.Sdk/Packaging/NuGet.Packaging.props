@@ -113,10 +113,9 @@
 	<PropertyGroup>
 		<!-- Flag this project as having been "NuGetized" -->
 		<IsNuGetized>true</IsNuGetized>
-		<NuGetBuildPackagingPropsImported>true</NuGetBuildPackagingPropsImported>
 	</PropertyGroup>
 
-	<Import Project="NuGet.Build.Packaging.Version.props"/>
-	<Import Project="NuGet.Build.Packaging.Authoring.props" Condition="'$(IsPackagingProject)' == 'true'"/>
+	<Import Project="NuGet.Packaging.Version.props"/>
+	<Import Project="NuGet.Packaging.Authoring.props" Condition="'$(IsPackagingProject)' == 'true'"/>
 
 </Project>

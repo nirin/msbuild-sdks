@@ -132,8 +132,7 @@
 			</_InferredPackageFile>
 
 			<_InferredPackageFile Include="@(PackageReference)"
-				Condition="'%(PackageReference.Identity)' != 'NuGet.Build.Packaging' AND
-					'%(PackageReference.Identity)' != 'NETStandard.Library' AND
+				Condition="'%(PackageReference.Identity)' != 'NETStandard.Library' AND
 					'%(PackageReference.PrivateAssets)' != 'all' AND
 					'%(PackageReference.Pack)' != 'false'">
 				<Kind>Dependency</Kind>
