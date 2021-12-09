@@ -1,5 +1,6 @@
 <Project>
 
+	<!-- Remove projects that does not support NuGet Restore or even consume its assets -->
 	<Target Name="RemoveUnSupportedProjectsFromRestore"
 			BeforeTargets="Restore;_LoadRestoreGraphEntryPoints;_GenerateProjectRestoreGraphPerFramework;_GenerateRestoreProjectPathItemsPerFramework">
 		<ItemGroup>

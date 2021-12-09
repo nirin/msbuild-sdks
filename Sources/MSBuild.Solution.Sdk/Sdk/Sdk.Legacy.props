@@ -1,5 +1,12 @@
 <Project>
 
+	<!-- Use 'Any' instead of 'AnyCPU' -->
+	<PropertyGroup Label="Globals">
+		<Platform Condition="'$(Platform)' == ''">Any</Platform>
+		<Platforms Condition="'$(Platforms)' == ''">Any</Platforms>
+	</PropertyGroup>
+
+	<!-- Disable Legacy solution extensions import -->
 	<PropertyGroup Label="Solution">
 		<ImportByWildcardAfterSolution>False</ImportByWildcardAfterSolution>
 		<ImportByWildcardBeforeSolution>False</ImportByWildcardBeforeSolution>
