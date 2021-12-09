@@ -1,50 +1,50 @@
 <Project>
 
 	<ItemGroup>
-		<PropertyPageSchema Include="Rules\ProjectItemsSchema.xaml">
+		<PropertyPageSchema Include="$(NuGetPackagingProjectSystemRulesDirectory)ProjectItemsSchema.xaml">
 			<Context>Project</Context>
 		</PropertyPageSchema>
 
-		<PropertyPageSchema Include="Rules\SourceControl.xaml">
+		<PropertyPageSchema Include="$(NuGetPackagingProjectSystemRulesDirectory)SourceControl.xaml">
 			<Context>Invisible</Context>
 		</PropertyPageSchema>
 
-		<PropertyPageSchema Include="Rules\General.xaml">
+		<PropertyPageSchema Include="$(NuGetPackagingProjectSystemRulesDirectory)General.xaml">
 			<Context>Project;File</Context>
 		</PropertyPageSchema>
 
-		<PropertyPageSchema Include="Rules\General.BrowseObject.xaml">
+		<PropertyPageSchema Include="$(NuGetPackagingProjectSystemRulesDirectory)General.BrowseObject.xaml">
 			<Context>BrowseObject</Context>
 		</PropertyPageSchema>
 
 		<PropertyPageSchema Include="
-				Rules\PackageFile.xaml;
-				Rules\Folder.xaml;
-				Rules\None.xaml;
-				Rules\Content.xaml">
+				$(NuGetPackagingProjectSystemRulesDirectory)PackageFile.xaml;
+				$(NuGetPackagingProjectSystemRulesDirectory)Folder.xaml;
+				$(NuGetPackagingProjectSystemRulesDirectory)None.xaml;
+				$(NuGetPackagingProjectSystemRulesDirectory)Content.xaml">
 			<Context>File;BrowseObject</Context>
 		</PropertyPageSchema>
 
 		<!-- Project references -->
-		<PropertyPageSchema Include="Rules\ProjectReference.xaml">
+		<PropertyPageSchema Include="$(NuGetPackagingProjectSystemRulesDirectory)ProjectReference.xaml">
 			<Context>BrowseObject</Context>
 		</PropertyPageSchema>
 
-		<PropertyPageSchema Include="Rules\ResolvedProjectReference.xaml">
+		<PropertyPageSchema Include="$(NuGetPackagingProjectSystemRulesDirectory)ResolvedProjectReference.xaml">
 			<Context>ProjectSubscriptionService;BrowseObject</Context>
 		</PropertyPageSchema>
 
 		<!-- Assembly references -->
-		<PropertyPageSchema Include="Rules\AssemblyReference.xaml">
+		<PropertyPageSchema Include="$(NuGetPackagingProjectSystemRulesDirectory)AssemblyReference.xaml">
 			<Context>BrowseObject</Context>
 		</PropertyPageSchema>
 
-		<PropertyPageSchema Include="Rules\ResolvedAssemblyReference.xaml">
+		<PropertyPageSchema Include="$(NuGetPackagingProjectSystemRulesDirectory)ResolvedAssemblyReference.xaml">
 			<Context>ProjectSubscriptionService;BrowseObject</Context>
 		</PropertyPageSchema>
 
 		<!-- Package references -->
-		<PropertyPageSchema Include="Rules\PackageReference.xaml">
+		<PropertyPageSchema Include="$(NuGetPackagingProjectSystemRulesDirectory)PackageReference.xaml">
 			<Context>ProjectSubscriptionService;BrowseObject</Context>
 		</PropertyPageSchema>
 	</ItemGroup>

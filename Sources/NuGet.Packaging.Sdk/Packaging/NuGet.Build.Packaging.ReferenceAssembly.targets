@@ -83,14 +83,14 @@
 			Properties="AssemblyName=$(_ReferenceAssemblyName);
 				TargetFrameworkVersion=%(_ReferenceAssemblyBuildInfo.TargetFrameworkVersion);
 				TargetFrameworkProfile=%(_ReferenceAssemblyBuildInfo.TargetFrameworkProfile);
-				SrcDir=%(_ReferenceAssemblyBuildInfo.FullPath);
+				SourcesDirectory=%(_ReferenceAssemblyBuildInfo.FullPath);
 				FinalOutputPath=%(_ReferenceAssemblyBuildInfo.FullPath)$(FinalOutputFolder)\;
 				InterimOutputPath=%(_ReferenceAssemblyBuildInfo.FullPath)$(InterimOutputFolder)\"/>
 	</Target>
 
-	<Target Name="_CleanReferenceAssemblyInterimOutputs" Condition="'@(ReferenceAssemblyFramework)' != '' AND Exists('$(InterimOutputPath)')">
+	<Target Name="_CleanReferenceAssemblyInterimOutputs" Condition="'@(ReferenceAssemblyFramework)' != '' AND Exists($(InterimOutputPath))">
 		<PropertyGroup>
-			<_ReferenceAssemblyInterimOutputDirectories>$([System.IO.Directory]::GetDirectories('$(InterimOutputPath)'))</_ReferenceAssemblyInterimOutputDirectories>
+			<_ReferenceAssemblyInterimOutputDirectories>$([System.IO.Directory]::GetDirectories($(InterimOutputPath)))</_ReferenceAssemblyInterimOutputDirectories>
 		</PropertyGroup>
 
 		<ItemGroup>

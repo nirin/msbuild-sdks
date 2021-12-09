@@ -1,0 +1,7 @@
+<Project>
+
+	<PropertyGroup>
+		<NuGetPackagingProjectSystemRulesDirectory Condition="'$(NuGetPackagingProjectSystemRulesDirectory)' == ''">$([MSBuild]::NormalizeDirectory($(MSBuildThisFileDirectory), 'Rules'))</NuGetPackagingProjectSystemRulesDirectory>
+	</PropertyGroup>
+
+</Project>

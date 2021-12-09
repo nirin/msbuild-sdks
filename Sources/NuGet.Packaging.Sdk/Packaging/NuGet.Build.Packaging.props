@@ -12,9 +12,11 @@
 		<PackageFile>
 			<!-- See @(PackageItemKind) below -->
 			<Kind>None</Kind>
-			<!-- By default, we consider all PackageFile items to be explicitly added by the user
-				 the automatic discovery will annotate those with Implicit instead.
-				 This allows the duplicate item detection to either warn (Implicit) or error (Explicit). -->
+			<!--
+				By default, we consider all PackageFile items to be explicitly added by the user
+				the automatic discovery will annotate those with Implicit instead.
+				This allows the duplicate item detection to either warn (Implicit) or error (Explicit).
+			-->
 			<Source>Explicit</Source>
 		</PackageFile>
 		<PackageReference>
@@ -37,22 +39,23 @@
 	<ItemGroup>
 		<PackageItemKind Include="Content;ContentFiles">
 			<!--
-					Plain "content" is deprecated as of NuGet v3+
-					See https://docs.nuget.org/ndocs/schema/nuspec#using-the-contentfiles-element-for-content-files
-					Additional optional metadata for ContentFiles:
-						* CodeLanguage: any (default), cs, fs, vb
-						* BuildAction: Compile (default), None, EmbeddedResource
-						* CopyToOutput: false (default) / true
-						* Flatten: false (default) / true
+				Plain "content" is deprecated as of NuGet v3+
+				See https://docs.nuget.org/ndocs/schema/nuspec#using-the-contentfiles-element-for-content-files
+				Additional optional metadata for ContentFiles:
+
+				* CodeLanguage: any (default), cs, fs, vb
+				* BuildAction: Compile (default), None, EmbeddedResource
+				* CopyToOutput: false (default) / true
+				* Flatten: false (default) / true
 			-->
 			<PackageFolder>contentFiles</PackageFolder>
 			<FrameworkSpecific>true</FrameworkSpecific>
 		</PackageItemKind>
 		<PackageItemKind Include="None"/>
 		<!--
-				NOTE: these aren't strictly necessary since we turn any custom
-				Kind metadata into a PackageFolder by making the first char lowercase
-				We also add singular form of the built-in plural form folders where it makes sense.
+			NOTE: these aren't strictly necessary since we turn any custom
+			Kind metadata into a PackageFolder by making the first char lowercase
+			We also add singular form of the built-in plural form folders where it makes sense.
 		-->
 		<PackageItemKind Include="Lib">
 			<PackageFolder>lib</PackageFolder>
@@ -80,8 +83,10 @@
 			<PackageFolder>source</PackageFolder>
 		</PackageItemKind>
 
-		<!-- For unknown Kind we apply the heuristics of turning the metadata value into pascalCase
-             and using that as the package folder (i.e. 'Workbooks' -> 'workbooks') -->
+		<!--
+			For unknown Kind we apply the heuristics of turning the metadata value into pascalCase
+			and using that as the package folder (i.e. 'Workbooks' -> 'workbooks')
+		-->
 
 		<!-- Finally, specially treated items that we include here for completeness and documentation -->
 
@@ -106,7 +111,7 @@
 	<Target Name="AllProjectOutputGroups"/>
 
 	<PropertyGroup>
-		<!-- Flag this project as having been "nugetized" -->
+		<!-- Flag this project as having been "NuGetized" -->
 		<IsNuGetized>true</IsNuGetized>
 		<NuGetBuildPackagingPropsImported>true</NuGetBuildPackagingPropsImported>
 	</PropertyGroup>

@@ -9,7 +9,7 @@
 
 	<Target Name="_CollectCompileFiles">
 		<ItemGroup>
-			<Compile Include="$(SrcDir)Contract\**\*.cs"/>
+			<Compile Include="$(SourcesDirectory)Contract\**\*.cs"/>
 		</ItemGroup>
 	</Target>
 

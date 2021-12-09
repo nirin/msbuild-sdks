@@ -6,7 +6,7 @@
 			BeforeTargets="InferPackageContents"
 			DependsOnTargets="$(InferPackageContentsDependsOn)">
 		<ItemGroup>
-			<!-- For InferPackageContents -->
+			<!-- For 'InferPackageContents' -->
 			<Content Condition="'%(Content.IncludeInPackage)' != ''">
 				<Pack>%(Content.IncludeInPackage)</Pack>
 			</Content>
@@ -19,7 +19,7 @@
 	<Target Name="_RenameIncludeInPackageToPackReferences"
 			BeforeTargets="AssignProjectConfiguration">
 		<ItemGroup>
-			<!-- From _GetReferencedPackageContents and _GetReferenceAssemblyTargetPaths -->
+			<!-- From '_GetReferencedPackageContents' and '_GetReferenceAssemblyTargetPaths' -->
 			<ProjectReference Condition="'%(ProjectReference.IncludeInPackage)' != ''">
 				<Pack>%(ProjectReference.IncludeInPackage)</Pack>
 			</ProjectReference>

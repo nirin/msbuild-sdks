@@ -12,11 +12,13 @@
 	</PropertyGroup>
 
 	<ItemDefinitionGroup>
-		<!-- This turns off _GetProjectReferenceTargetFrameworkProperties which passes down
-			 our TF to referenced projects and causes build to fail even if we don't really
-			 need to match up with referenced projects outputs. We're basically using the
-			 documented escape hatch, see
-			 https://github.com/dotnet/msbuild/blob/vs17.0/src/Tasks/Microsoft.Common.CurrentVersion.targets#L1780
+		<!--
+			This turns off '_GetProjectReferenceTargetFrameworkProperties' which passes down
+			our TF to referenced projects and causes build to fail even if we don't really
+			need to match up with referenced projects outputs.
+
+			We're basically using the documented escape hatch,
+			see https://github.com/dotnet/msbuild/blob/vs17.0/src/Tasks/Microsoft.Common.CurrentVersion.targets#L1780
 		-->
 		<ProjectReference>
 			<SkipGetTargetFrameworkProperties>true</SkipGetTargetFrameworkProperties>
@@ -25,8 +27,10 @@
 		</ProjectReference>
 	</ItemDefinitionGroup>
 
-	<!-- Just to make it easy for consumers to request the TargetPath as usual but get the
-		 actual package file, which contains the PackageVersion and will be dynamic therefore. -->
+	<!--
+		Just to make it easy for consumers to request the 'TargetPath' as usual but get the
+		actual package file, which contains the 'PackageVersion' and will be dynamic therefore.
+	-->
 	<Target Name="UpdateTargetPath"
 			BeforeTargets="GetTargetPath;GetTargetPathWithTargetPlatformMoniker"
 			DependsOnTargets="GetPackageTargetPath">

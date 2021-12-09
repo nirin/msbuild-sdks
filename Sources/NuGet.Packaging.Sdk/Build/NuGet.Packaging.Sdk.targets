@@ -7,7 +7,9 @@
 		<ImportNuGetBuildTasksPackTargetsFromSdk>false</ImportNuGetBuildTasksPackTargetsFromSdk>
 	</PropertyGroup>
 
+	<Import Project="..\Tasks\NuGet.Packaging.tasks"/>
 	<Import Project="..\Packaging\NuGet.Build.Packaging.targets"/>
+	<Import Project="..\ProjectSystem\NuGet.Packaging.ProjectSystem.targets"/>
 
 	<Target Name="Restore">
 		<Message Importance="High" Text="Restore is not currently supported for NuGet packaging projects (i.e. MSBuild projects with a 'nuproj' file extension)."/>

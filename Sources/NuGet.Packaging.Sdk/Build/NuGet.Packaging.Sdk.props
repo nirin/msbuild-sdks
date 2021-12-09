@@ -1,12 +1,13 @@
 <Project>
 
-	<Import Project="..\ProjectSystem\NuGet.Packaging.ProjectSystem.props"/>
-	<Import Project="..\Packaging\NuGet.Build.Packaging.props"/>
-
 	<PropertyGroup Label="Globals">
 		<Configuration Condition="'$(Configuration)' == ''">Debug</Configuration>
 		<Platform Condition="'$(Platform)' == ''">Any</Platform>
 	</PropertyGroup>
+
+	<Import Project="..\ProjectSystem\NuGet.Packaging.ProjectSystem.props"/>
+	<Import Project="..\Packaging\NuGet.Build.Packaging.props"/>
+	<Import Project="..\Tools\NuGet.Packaging.Tools.props"/>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|Any'"/>
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|Any'"/>

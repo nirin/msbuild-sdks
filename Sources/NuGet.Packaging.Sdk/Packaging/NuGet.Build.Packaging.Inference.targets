@@ -1,15 +1,15 @@
 <Project>
 
 	<PropertyGroup>
-		<!-- Infer PackageReference elements from packages.config/project.json files in the project -->
+		<!-- Infer 'PackageReference' elements from 'packages.config'/'project.json' files in the project -->
 		<InferLegacyPackageReferences Condition="'$(InferLegacyPackageReferences)' == ''">true</InferLegacyPackageReferences>
 
-		<!-- The Kind of primary output (build, symbols and doc) set if IncludeOutputsInPackage = true -->
+		<!-- The Kind of primary output (build, symbols and doc) set if 'IncludeOutputsInPackage=true' -->
 		<PrimaryOutputKind Condition="'$(PrimaryOutputKind)' == ''">Lib</PrimaryOutputKind>
 
-		<!-- Whether to include @(Content) items with CopyToOutputDirectory != '' in the package -->
+		<!-- Whether to include @(Content) items with `CopyToOutputDirectory != ''` in the package -->
 		<IncludeContentInPackage Condition="'$(IncludeContentInPackage)' == ''">true</IncludeContentInPackage>
-		<!-- Whether to include @(None) items with CopyToOutputDirectory != '' in the package -->
+		<!-- Whether to include @(None) items with `CopyToOutputDirectory != ''` in the package -->
 		<IncludeNoneInPackage Condition="'$(IncludeNoneInPackage)' == ''">false</IncludeNoneInPackage>
 		<!-- Whether to include @(BuiltProjectOutputGroupOutput), @(DocumentationProjectOutputGroupOutput) AND @(SatelliteDllsProjectOutputGroupOutput) items in the package -->
 		<IncludeOutputsInPackage Condition="'$(IncludeOutputsInPackage)' == ''">true</IncludeOutputsInPackage>
@@ -58,10 +58,12 @@
 		</PropertyGroup>
 	</Target>
 
-	<Target Name="InferPackageContents" DependsOnTargets="$(InferPackageContentsDependsOn)" Returns="@(PackageFile)">
+	<Target Name="InferPackageContents"
+		DependsOnTargets="$(InferPackageContentsDependsOn)"
+		Returns="@(PackageFile)">
 
 		<PropertyGroup>
-			<_FinalOutputPath Condition="!$([System.IO.Path]::IsPathRooted('$(FinalOutputPath)'))">$(MSBuildProjectDirectory)\$(FinalOutputPath)</_FinalOutputPath>
+			<_FinalOutputPath>$([System.IO.Path]::Combine($(MSBuildProjectDirectory), $(FinalOutputPath)))</_FinalOutputPath>
 		</PropertyGroup>
 
 		<!-- Ensure TargetPath -->
@@ -104,7 +106,7 @@
 				<FrameworkSpecific>$(PrimaryOutputFrameworkSpecific)</FrameworkSpecific>
 			</_InferredPackageFile>
 
-			<!-- NOTE: Content is opt-out (must have Pack=false to exclude if IncludeContentInPackage=true) -->
+			<!-- NOTE: Content is opt-out (must have Pack=false to exclude if 'IncludeContentInPackage=true') -->
 			<!-- Stuff that is copied to output should be included from that output location -->
 			<_InferredPackageFile Include="@(_ContentToInfer->'$(_FinalOutputPath)\%(TargetPath)')"
 				Condition="'%(_ContentToInfer.CopyToOutputDirectory)' != '' AND '%(_ContentToInfer.CopyToOutputDirectory)' != 'Never'">
@@ -117,7 +119,7 @@
 				<Kind Condition="'%(_ContentToInfer.Kind)' == ''">Content</Kind>
 			</_InferredPackageFile>
 
-			<!-- NOTE: None is also opt-out (must have Pack=false to exclude if IncludeNoneInPackage=true, but this property defaults to false) -->
+			<!-- NOTE: None is also opt-out (must have Pack=false to exclude if 'IncludeNoneInPackage=true', but this property defaults to false) -->
 			<!-- Likewise, include from target path if it's copied, from source path otherwise -->
 			<_InferredPackageFile Include="@(_NoneToInfer->'$(_FinalOutputPath)\%(TargetPath)')"
 				Condition="'%(_NoneToInfer.CopyToOutputDirectory)' != '' AND '%(_NoneToInfer.CopyToOutputDirectory)' != 'Never'">
@@ -138,9 +140,9 @@
 			</_InferredPackageFile>
 
 			<!--
-				We can't use %(FrameworkFile)==true because it's not defined for raw file references.
-				It also includes mscorlib which we don't need
-				TBD: maybe include ResolvedFrom=ImplicitlyExpandDesignTimeFacades too?
+				We cannot use '%(FrameworkFile)==true' because it is not defined for raw file references.
+				It also includes mscorlib which we don't need!
+				TODO: maybe include 'ResolvedFrom=ImplicitlyExpandDesignTimeFacades' too?
 			-->
 			<_InferredPackageFile Include="@(ReferencePath->'%(OriginalItemSpec)')"
 				Condition="'$(IncludeFrameworkReferencesInPackage)' == 'true' AND '%(ReferencePath.ResolvedFrom)' == '{TargetFrameworkDirectory}'">
@@ -150,9 +152,8 @@
 
 		<ItemGroup>
 			<!--
-				PackageId metadata on all PackageFile items means we can tell appart which ones came from which dependencies
-				NOTE: if PackageId is empty, we won't generate a manifest and it means the files need to be packed with the
-				current project.
+				The 'PackageId' metadata on all 'PackageFile' items means we can tell appart which ones came from which dependencies
+				NOTE: if 'PackageId' is empty, we won't generate a manifest and it means the files need to be packed with the current project.
 			-->
 			<PackageFile Include="@(_InferredPackageFile->Distinct())">
 				<Source>Implicit</Source>
@@ -163,7 +164,9 @@
 		</ItemGroup>
 	</Target>
 
-	<Target Name="_CollectPrimaryOutputRelatedFiles" DependsOnTargets="BuildOnlySettings;ResolveReferences" Returns="@(_PrimaryOutputRelatedFile)">
+	<Target Name="_CollectPrimaryOutputRelatedFiles"
+		DependsOnTargets="BuildOnlySettings;ResolveReferences"
+		Returns="@(_PrimaryOutputRelatedFile)">
 		<ItemGroup>
 			<_PrimaryOutputRelatedFile Include="@(ReferencePath);@(_ReferenceRelatedPaths)"
 				Condition="'%(NuGetPackageId)' != 'NETStandard.Library' AND  '%(Facade)' != 'true' AND  '%(FrameworkFile)' != 'true' AND  '%(Pack)' != 'false'"/>
@@ -175,6 +178,7 @@
 			Outputs="%(_PrimaryOutputRelatedFile.NuGetPackageId)"
 			Returns="@(_InferredPackageFile)"
 			DependsOnTargets="_CollectPrimaryOutputRelatedFiles">
+
 		<ItemGroup>
 			<_NuGetPackageId Include="@(_PrimaryOutputRelatedFile->'%(NuGetPackageId)')" Condition="'%(NuGetPackageId)' != 'NETStandard.Library'"/>
 		</ItemGroup>
@@ -202,7 +206,7 @@
 		<ItemGroup Condition="'$(_PrivateAssets)' != 'all' AND '$(_PrivateAssets)' != 'none' AND '$(_PrivateAssets)' != ''">
 			<!--
 				In this case, we only add files that have a matching path to the private assets value.
-				i.e. for Mono.Options, PrivateAssets=lib, we'll include the file if its full path contains
+				i.e. for 'Mono.Options', 'PrivateAssets=lib', we'll include the file if its full path contains
 				'Mono.Options\*\lib\*', meaning the file is a lib.
 			-->
 			<_InferredPackageFile Include="@(_PrimaryOutputRelatedFile)" Condition="$([System.Text.RegularExpressions.Regex]::IsMatch('%(_PrimaryOutputRelatedFile.FullPath)', '$(_ShouldIncludeAssetsRegex)', 'RegexOptions.IgnoreCase')) == 'true'">
@@ -215,13 +219,14 @@
 	<Target Name="_SetInferPackageContentsDependsOn" AfterTargets="_SetPropertiesFromCapabilities">
 		<PropertyGroup>
 			<!-- NOTE: this avoids taking dependencies on targets that are only available when the project supports the concept of references -->
-			<_SupportsReferences
-				Condition="$(_AllProjectCapabilities.Contains('AssemblyReferences')) OR
-					$(_AllProjectCapabilities.Contains('COMReferences')) OR
-					$(_AllProjectCapabilities.Contains('ProjectReferences')) OR
-					$(_AllProjectCapabilities.Contains('PackageReferences')) OR
-					$(_AllProjectCapabilities.Contains('WinRTReferences')) OR
-					$(_AllProjectCapabilities.Contains('SDKReferences'))">true</_SupportsReferences>
+			<_SupportsReferences Condition="$(_AllProjectCapabilities.Contains('AssemblyReferences')) OR
+				$(_AllProjectCapabilities.Contains('COMReferences')) OR
+				$(_AllProjectCapabilities.Contains('ProjectReferences')) OR
+				$(_AllProjectCapabilities.Contains('PackageReferences')) OR
+				$(_AllProjectCapabilities.Contains('WinRTReferences')) OR
+				$(_AllProjectCapabilities.Contains('SDKReferences'))">
+				true
+			</_SupportsReferences>
 
 			<InferPackageContentsDependsOn Condition="'$(_SupportsReferences)' == 'true'">
 				ResolveReferences;
@@ -238,7 +243,10 @@
 		</PropertyGroup>
 	</Target>
 
-	<Target Name="ReadLegacyDependencies" BeforeTargets="InferPackageContents" Condition="'$(InferLegacyPackageReferences)' == 'true'">
+	<Target Name="ReadLegacyDependencies"
+		BeforeTargets="InferPackageContents"
+		Condition="'$(InferLegacyPackageReferences)' == 'true'">
+
 		<PropertyGroup>
 			<_ProjectJson>$(MSBuildProjectDirectory)\project.json</_ProjectJson>
 			<_PackagesConfig>$(MSBuildProjectDirectory)\packages.config</_PackagesConfig>
