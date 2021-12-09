@@ -1,0 +1,12 @@
+<Project>
+
+	<PropertyGroup>
+		<RoslynBuildTasksAssembly Condition="'$(RoslynBuildTasksAssembly)' == ''">$(RoslynToolsPath)\Microsoft.Build.Tasks.CodeAnalysis.dll</RoslynBuildTasksAssembly>
+	</PropertyGroup>
+
+	<!-- Roslyn tasks are now in an assembly owned and shipped by Roslyn -->
+	<UsingTask AssemblyFile="$(RoslynBuildTasksAssembly)" TaskName="Microsoft.CodeAnalysis.BuildTasks.Csc"/>
+	<UsingTask AssemblyFile="$(RoslynBuildTasksAssembly)" TaskName="Microsoft.CodeAnalysis.BuildTasks.Vbc"/>
+	<UsingTask AssemblyFile="$(RoslynBuildTasksAssembly)" TaskName="Microsoft.CodeAnalysis.BuildTasks.CopyRefAssembly"/>
+
+</Project>
