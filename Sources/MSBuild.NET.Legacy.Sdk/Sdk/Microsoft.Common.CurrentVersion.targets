@@ -3029,10 +3029,10 @@
 		Name="SplitResourcesByCulture"
 		DependsOnTargets="AssignTargetPaths">
 
-		<Warning Condition="'@(ResxWithNoCulture)' != ''" Code="MSB9000" Text="ResxWithNoCulture item type is deprecated. Use EmbeddedResource items instead."/>
-		<Warning Condition="'@(ResxWithCulture)' != ''" Code="MSB9001" Text="ResxWithCulture item type is deprecated. Use EmbeddedResource items instead."/>
-		<Warning Condition="'@(NonResxWithCulture)' != ''" Code="MSB9002" Text="NonResxWithCulture item type is deprecated. Use EmbeddedResource items instead."/>
-		<Warning Condition="'@(NonResxWithNoCulture)' != ''" Code="MSB9003" Text="NonResxWithNoCulture item type is deprecated. Use EmbeddedResource items instead."/>
+		<Warning Code="MSB9000" Condition="'@(ResxWithNoCulture)' != ''" Text="The 'ResxWithNoCulture' item type is deprecated. Use 'EmbeddedResource' item type instead."/>
+		<Warning Code="MSB9001" Condition="'@(ResxWithCulture)' != ''" Text="The 'ResxWithCulture' item type is deprecated. Use 'EmbeddedResource' item type instead."/>
+		<Warning Code="MSB9002" Condition="'@(NonResxWithCulture)' != ''" Text="The 'NonResxWithCulture' item type is deprecated. Use 'EmbeddedResource' item type instead."/>
+		<Warning Code="MSB9003" Condition="'@(NonResxWithNoCulture)' != ''" Text="The 'NonResxWithNoCulture' item type is deprecated. Use 'EmbeddedResource' item type instead."/>
 
 		<ItemGroup>
 			<_LicxFile Include="@(EmbeddedResource)" Condition="'%(Extension)' == '.licx'"/>
@@ -3054,12 +3054,12 @@
 		</AssignCulture>
 
 		<ItemGroup>
-			<!-- Remove EmbeddedResource items that we have processed already (i.e. either Licx, or resources that don't have culture info) -->
+			<!-- Remove EmbeddedResource items that we have processed already (i.e. either licx file, or resources that don't have culture info) -->
 			<EmbeddedResource Remove="@(_MixedResourceWithCulture)"/>
 			<EmbeddedResource Remove="@(_MixedResourceWithNoCulture)"/>
 			<EmbeddedResource Remove="@(_LicxFile)"/>
 
-			<!-- Add back everything except Licx, so that we have culture info -->
+			<!-- Add back everything except licx file, so that we have culture info -->
 			<EmbeddedResource Include="@(_MixedResourceWithNoCulture);@(_MixedResourceWithCulture)" Condition="'%(Extension)' == '.resx' OR '%(Extension)' == '.restext'">
 				<Type Condition="'%(_MixedResourceWithNoCulture.Type)' == '' AND '%(_MixedResourceWithCulture.Type)' == ''">Resx</Type>
 			</EmbeddedResource>

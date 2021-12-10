@@ -43,8 +43,8 @@
 	</PropertyGroup>
 
 	<ItemGroup Condition="'$(EnableDefaultItems)' == 'true' AND '$(EnableDefaultNoneItems)' == 'true'">
-		<None Remove="@(ProjectItem)" Condition="'@(ProjectItem)' != ''"/>
-		<None Remove="@(SolutionItem)" Condition="'@(SolutionItem)' != ''"/>
+		<None Remove="@(ProjectItem)"/>
+		<None Remove="@(SolutionItem)"/>
 	</ItemGroup>
 
 </Project>

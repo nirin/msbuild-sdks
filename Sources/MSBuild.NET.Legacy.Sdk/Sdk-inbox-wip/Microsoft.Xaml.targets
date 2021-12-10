@@ -220,16 +220,15 @@
 			AfterTargets="XamlMarkupCompilePass1">
 
 		<ItemGroup>
-			<XamlGeneratedCodeFiles Condition="'@(XamlGeneratedCodeFiles)' == ''"
-									Include="@(XamlOutputCodeFilesList)"/>
+			<XamlGeneratedCodeFiles Include="@(XamlOutputCodeFilesList)"
+				Condition="'@(XamlGeneratedCodeFiles)' == ''"/>
 
-			<XamlGeneratedResources Condition="'@(XamlGeneratedResources)' == ''"
-									Include="@(XamlOutputMarkupFilesList)"/>
+			<XamlGeneratedResources Include="@(XamlOutputMarkupFilesList)"
+				Condition="'@(XamlGeneratedResources)' == ''"/>
 
-			<FileWrites Include="@(XamlGeneratedResources);
-								@(XamlGeneratedCodeFiles);
-								$(IntermediateOutputPath)$(XamlGenCodeFileNames);
-								$(IntermediateOutputPath)$(XamlGenMarkupFileNames)"/>
+			<FileWrites Include="@(XamlGeneratedResources);@(XamlGeneratedCodeFiles);
+				$(IntermediateOutputPath)$(XamlGenCodeFileNames);
+				$(IntermediateOutputPath)$(XamlGenMarkupFileNames)"/>
 
 			<Compile Include="@(XamlGeneratedCodeFiles)"/>
 
@@ -261,7 +260,7 @@
 	================================================================
 	-->
 	<Target Name="XamlTemporaryAssemblyGeneration"
-			Condition="'$(XamlRequiresCompilationPass2)' == 'true' "
+			Condition="'$(XamlRequiresCompilationPass2)' == 'true'"
 			Inputs="@(XamlAppDef);@(Compile);$(MSBuildAllProjects);@(XamlGeneratedCodeFiles);@(ReferencePath)"
 			Outputs="$(IntermediateOutputPath)$(XamlTemporaryAssemblyName).dll;
 					$(IntermediateOutputPath)$(XamlTemporaryAssemblyName).pdb"
@@ -300,7 +299,7 @@
 	================================================================
 	-->
 	<Target Name="XamlMarkupCompilePass2"
-			Condition="'$(XamlRequiresCompilationPass2)' == 'true' "
+			Condition="'$(XamlRequiresCompilationPass2)' == 'true'"
 			Outputs="@(ExtensionGeneratedCodeFiles)"
 			DependsOnTargets="XamlTemporaryAssemblyGeneration">
 

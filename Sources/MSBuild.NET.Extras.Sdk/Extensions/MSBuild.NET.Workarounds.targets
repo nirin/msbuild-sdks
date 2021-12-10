@@ -8,6 +8,7 @@
 	<Target Name="_IncludeWindowsLibraryLayoutItems"
 			Condition="'$(GenerateLibraryLayout)' == 'true' AND '$(SDKIdentifier)' == 'Windows'"
 			DependsOnTargets="PrepareLibraryLayout">
+
 		<ItemGroup>
 			<TfmSpecificPackageFile Include="@(_LayoutFile)" PackagePath="lib\$(TargetFramework)\%(_LayoutFile.TargetPath)"/>
 		</ItemGroup>
@@ -20,6 +21,7 @@
 	<Target Name="_SatelliteDeploymentOldSdkWorkaround"
 			AfterTargets="ResolveLockFileCopyLocalProjectDeps"
 			Condition="'$(NETSdkVersion)' &lt; '2.0'">
+
 		<ItemGroup>
 			<ReferenceCopyLocalPaths Remove="@(ResourceCopyLocalItems)"/>
 			<ReferenceCopyLocalPaths Include="@(ResourceCopyLocalItems)" Condition="'@(ResourceCopyLocalItems)' != ''">

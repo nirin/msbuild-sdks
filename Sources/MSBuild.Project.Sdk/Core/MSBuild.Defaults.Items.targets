@@ -44,10 +44,10 @@
 	</PropertyGroup>
 
 	<ItemGroup Condition="'$(EnableDefaultItems)' == 'true' AND '$(EnableDefaultNoneItems)' == 'true'">
-		<None Remove="@(File)" Condition="'@(File)' != ''"/>
-		<None Remove="@(Folder)" Condition="'@(Folder)' != ''"/>
-		<None Remove="@(Content)" Condition="'@(Content)' != ''"/>
-		<None Remove="@(Resource)" Condition="'@(Resource)' != ''"/>
+		<None Remove="@(File)"/>
+		<None Remove="@(Folder)"/>
+		<None Remove="@(Content)"/>
+		<None Remove="@(Resource)"/>
 	</ItemGroup>
 
 </Project>
