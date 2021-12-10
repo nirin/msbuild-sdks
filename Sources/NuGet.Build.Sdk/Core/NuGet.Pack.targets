@@ -122,7 +122,7 @@
 		</GetProjectTargetFrameworksTask>
 
 		<ItemGroup Condition="'$(_ProjectFrameworks)' != ''">
-			<_TargetFrameworks Include="$(_ProjectFrameworks.Split(';'))"/>
+			<_TargetFrameworks Include="$(_ProjectFrameworks)"/>
 		</ItemGroup>
 	</Target>
 

@@ -523,7 +523,7 @@
 			Returns="@(_RestoreTargetFrameworksOutputFiltered)">
 
 		<PropertyGroup>
-			<_RestoreProjectFramework/>
+			<_RestoreProjectFrameworks/>
 		</PropertyGroup>
 
 		<!-- For project.json projects target frameworks will be read from project.json -->
@@ -538,11 +538,11 @@
 			TargetPlatformMinVersion="$(TargetPlatformMinVersion)">
 			<Output
 				TaskParameter="ProjectTargetFrameworks"
-				PropertyName="_RestoreProjectFramework"/>
+				PropertyName="_RestoreProjectFrameworks"/>
 		</GetProjectTargetFrameworksTask>
 
-		<ItemGroup Condition="'$(_RestoreProjectFramework)' != ''">
-			<_RestoreTargetFrameworksOutputFiltered Include="$(_RestoreProjectFramework.Split(';'))"/>
+		<ItemGroup Condition="'$(_RestoreProjectFrameworks)' != ''">
+			<_RestoreTargetFrameworksOutputFiltered Include="$(_RestoreProjectFrameworks)"/>
 		</ItemGroup>
 	</Target>
 
@@ -558,7 +558,7 @@
 			DependsOnTargets="_GetRestoreProjectStyle"
 			Returns="@(_RestoreTargetFrameworkItems)">
 		<ItemGroup Condition="'$(TargetFrameworks)' != ''">
-			<_RestoreTargetFrameworkItems Include="$(TargetFrameworks.Split(';'))"/>
+			<_RestoreTargetFrameworkItems Include="$(TargetFrameworks)"/>
 		</ItemGroup>
 	</Target>
 

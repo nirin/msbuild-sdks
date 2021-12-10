@@ -1203,15 +1203,15 @@
 		</PropertyGroup>
 
 		<!--
-			Remove the AssemblyFolders if no target framework directories could be found. This is to prevent us from
-			resolving from the assemblyfolders global location if we are not acutally targeting a framework
+			Remove the AssemblyFolders if no target framework directories could be found. This is to prevent
+			resolving assemblies from the AssemblyFolders global location when not targeting a framework.
 		-->
 		<PropertyGroup>
 			<RemoveAssemblyFoldersIfNoTargetFramework Condition="'$(RemoveAssemblyFoldersIfNoTargetFramework)' == ''">true</RemoveAssemblyFoldersIfNoTargetFramework>
 		</PropertyGroup>
 
 		<PropertyGroup Condition="'$(_TargetFrameworkDirectories)' == '' AND '$(AssemblySearchPaths)' != '' AND '$(RemoveAssemblyFoldersIfNoTargetFramework)' == 'true'">
-			<AssemblySearchPaths>$(AssemblySearchPaths.Replace('{AssemblyFolders}', '').Split(';'))</AssemblySearchPaths>
+			<AssemblySearchPaths>$(AssemblySearchPaths.Replace('{AssemblyFolders}', '').Split(';', StringSplitOptions.RemoveEmptyEntries))</AssemblySearchPaths>
 		</PropertyGroup>
 
 		<ItemGroup Condition="'$(ImplicitlyExpandDesignTimeFacades)' == 'true'">

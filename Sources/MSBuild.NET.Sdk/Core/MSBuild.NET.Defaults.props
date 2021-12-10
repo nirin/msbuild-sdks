@@ -32,7 +32,7 @@
 	-->
 	<PropertyGroup>
 		<SupportedPlatforms>Any;x64;x86;ARM;ARM64</SupportedPlatforms>
-		<PlatformTarget Condition="'$(PlatformTarget)' == '' AND $(SupportedPlatforms.Split(';').Contains('$(Platform)'))">$(Platform)</PlatformTarget>
+		<PlatformTarget Condition="'$(PlatformTarget)' == '' AND $(SupportedPlatforms.Split(';').Contains($(Platform)))">$(Platform)</PlatformTarget>
 	</PropertyGroup>
 
 	<!-- Default settings for all projects built with this Sdk package -->
