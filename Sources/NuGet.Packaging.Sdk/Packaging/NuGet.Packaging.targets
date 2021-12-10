@@ -248,7 +248,7 @@
 		Returns="@(PackageFile)">
 
 		<Error Code="NG0011"
-			Condition="'@(_NonNuGetizedProjectReference)' != ''"
+			Condition="@(_NonNuGetizedProjectReference->Count()) != 0"
 			Text="Some project references cannot be properly packaged. Please use `NuGet.Packaging.Sdk` on the following projects: @(_NonNuGetizedProjectReference)."/>
 
 		<!--
@@ -261,7 +261,7 @@
 			Targets="GetPackageContents"
 			BuildInParallel="$(BuildInParallel)"
 			Properties="%(_NuGetizedProjectReference.SetConfiguration); %(_NuGetizedProjectReference.SetPlatform); BuildingPackage=$(BuildingPackage)"
-			Condition="'@(ProjectReferenceWithConfiguration)' != '' AND '@(_NuGetizedProjectReference)' != ''"
+			Condition="@(ProjectReferenceWithConfiguration->Count()) != 0 AND @(_NuGetizedProjectReference->Count()) != 0"
 			RemoveProperties="%(_NuGetizedProjectReference.GlobalPropertiesToRemove)">
 			<Output TaskParameter="TargetOutputs" ItemName="_ReferencedPackageContent"/>
 		</MSBuild>
@@ -282,7 +282,7 @@
 
 		<!-- Always annotate package contents with the original target framework and moniker -->
 		<CreateItem Include="@(_ReferencedPackageContent)" PreserveExistingMetadata="true"
-			Condition="'@(_ReferencedPackageContent)' != ''"
+			Condition="@(_ReferencedPackageContent->Count()) != 0"
 			AdditionalMetadata="OriginalTargetFramework=%(_ReferencedPackageContent.TargetFramework);OriginalTargetFrameworkMoniker=%(_ReferencedPackageContent.TargetFrameworkMoniker)">
 			<Output TaskParameter="Include" ItemName="_ReferencedPackageContentWithOriginalValues"/>
 		</CreateItem>
@@ -332,7 +332,7 @@
 
 	<!-- This target separates project references that have the packaging targets from those that don't -->
 	<Target Name="_SplitProjectReferencesByIsNuGetized"
-		Condition="'@(ProjectReferenceWithConfiguration)' != '' AND '@(_MSBuildProjectReferenceExistent)' != ''"
+		Condition="@(ProjectReferenceWithConfiguration->Count()) != 0 AND @(_MSBuildProjectReferenceExistent->Count()) != 0"
 		Inputs="@(_MSBuildProjectReferenceExistent)"
 		Outputs="%(_MSBuildProjectReferenceExistent.Identity)-BATCH">
 

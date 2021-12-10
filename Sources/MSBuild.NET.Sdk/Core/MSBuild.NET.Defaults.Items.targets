@@ -128,17 +128,17 @@
 			<Output TaskParameter="DeduplicatedItems" ItemName="DeduplicatedEmbeddedResourceItems"/>
 		</CheckForDuplicateItems>
 
-		<ItemGroup Condition="'$(DesignTimeBuild)' == 'true' AND '@(DeduplicatedContentItems)' != ''">
+		<ItemGroup Condition="'$(DesignTimeBuild)' == 'true' AND @(DeduplicatedContentItems->Count()) != 0">
 			<Content Remove="@(Content)"/>
 			<Content Include="@(DeduplicatedContentItems)"/>
 		</ItemGroup>
 
-		<ItemGroup Condition="'$(DesignTimeBuild)' == 'true' AND '@(DeduplicatedCompileItems)' != ''">
+		<ItemGroup Condition="'$(DesignTimeBuild)' == 'true' AND @(DeduplicatedCompileItems->Count()) != 0">
 			<Compile Remove="@(Compile)"/>
 			<Compile Include="@(DeduplicatedCompileItems)"/>
 		</ItemGroup>
 
-		<ItemGroup Condition="'$(DesignTimeBuild)' == 'true' AND '@(DeduplicatedEmbeddedResourceItems)' != ''">
+		<ItemGroup Condition="'$(DesignTimeBuild)' == 'true' AND @(DeduplicatedEmbeddedResourceItems->Count()) != 0">
 			<EmbeddedResource Remove="@(EmbeddedResource)"/>
 			<EmbeddedResource Include="@(DeduplicatedEmbeddedResourceItems)"/>
 		</ItemGroup>

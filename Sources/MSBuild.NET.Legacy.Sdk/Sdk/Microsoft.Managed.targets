@@ -16,7 +16,7 @@
 	-->
 	<ItemGroup Condition="'$(IsGraphBuild)' == 'true'">
 		<GraphIsolationExemptReference
-			Condition="'$(UseWPF)' == 'true' OR '@(Page)' != '' OR '@(ApplicationDefinition)' != '' OR '@(XamlPage)' != '' OR '@(XamlAppDef)' != ''"
+			Condition="'$(UseWPF)' == 'true' OR @(Page->Count()) != 0 OR @(ApplicationDefinition->Count()) != 0 OR @(XamlPage->Count()) != 0 OR @(XamlAppDef->Count()) != 0"
 			Include="$([MSBuild]::Escape('$(MSBuildProjectDirectory)\$(MSBuildProjectName)*_wpftmp$(MSBuildProjectExtension)'))"/>
 	</ItemGroup>
 

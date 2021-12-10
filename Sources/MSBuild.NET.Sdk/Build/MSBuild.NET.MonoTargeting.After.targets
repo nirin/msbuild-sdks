@@ -270,7 +270,7 @@
 				Condition="'%(NativeCopyLocalItems.FileName)%(NativeCopyLocalItems.Extension)' == '$(_DotNetAppHostExecutableName)'"/>
 		</ItemGroup>
 
-		<PropertyGroup Condition="'@(NativeRestoredAppHostNETCore)' != ''">
+		<PropertyGroup Condition="@(NativeRestoredAppHostNETCore->Count()) != 0">
 			<AppHostDestinationDirectoryPath>$(BaseIntermediateOutputPath)\$(TargetFramework)\$(RuntimeIdentifier)\host</AppHostDestinationDirectoryPath>
 		</PropertyGroup>
 
@@ -281,12 +281,12 @@
 		<EmbedAppNameInHost AppHostSourcePath="@(NativeRestoredAppHostNETCore)"
 							AppHostDestinationDirectoryPath="$(AppHostDestinationDirectoryPath)"
 							AppBinaryName="$(AssemblyName)$(TargetExt)"
-							Condition="'@(NativeRestoredAppHostNETCore)' != ''">
+							Condition="@(NativeRestoredAppHostNETCore->Count()) != 0">
 
 			<Output TaskParameter="ModifiedAppHostPath" ItemName="NativeAppHostNETCore"/>
 		</EmbedAppNameInHost>
 
-		<ItemGroup Condition="'@(NativeAppHostNETCore)' == ''">
+		<ItemGroup Condition="@(NativeAppHostNETCore->Count()) == 0">
 			<NativeAppHostNETCore Include="@(NativeCopyLocalItems)"
 				Condition="'%(NativeCopyLocalItems.FileName)%(NativeCopyLocalItems.Extension)' == '$(_DotNetHostExecutableName)'"/>
 		</ItemGroup>
@@ -295,7 +295,7 @@
 			ResourceName="MultipleFilesResolved"
 			FormatArguments="@(NativeAppHostNETCore)"/>
 
-		<ItemGroup Condition="'@(NativeAppHostNETCore)' != ''">
+		<ItemGroup Condition="@(NativeAppHostNETCore->Count()) != 0">
 			<NativeNETCoreCopyLocalItems Include="@(NativeAppHostNETCore)">
 				<!-- Rename the host executable to the app's name -->
 				<Link>$(AssemblyName)%(NativeAppHostNETCore.Extension)</Link>
@@ -413,7 +413,7 @@
 			DependsOnTargets="ResolveAssemblyReferences;_GetAssemblyInfoFromTemplateFile"
 			Inputs="$(MSBuildAllProjects);@(_SatelliteAssemblyResourceInputs);$(IntermediateOutputPath)$(TargetName)$(TargetExt)"
 			Outputs="$(IntermediateOutputPath)%(Culture)\$(TargetName).resources.dll"
-			Condition="'@(_SatelliteAssemblyResourceInputs)' != '' AND '$(GenerateSatelliteAssembliesForCore)' == 'true'">
+			Condition="@(_SatelliteAssemblyResourceInputs->Count()) != 0 AND '$(GenerateSatelliteAssembliesForCore)' == 'true'">
 
 		<MakeDir Directories="@(_SatelliteAssemblyResourceInputs->'$(IntermediateOutputPath)%(Culture)')"/>
 

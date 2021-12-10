@@ -75,9 +75,9 @@
 
 	<Target Name="DesignTimeXamlMarkupCompilation">
 		<!-- Make sure the directory exists. -->
-		<MakeDir Directories="$(DesignTimeIntermediateOutputPath)" Condition="'@(XamlAppDef)' != ''"/>
+		<MakeDir Directories="$(DesignTimeIntermediateOutputPath)" Condition="@(XamlAppDef->Count()) != 0"/>
 
-		<CallTarget Condition="'$(BuildingProject)' != 'true' AND '@(XamlAppDef)' != ''"
+		<CallTarget Condition="'$(BuildingProject)' != 'true' AND @(XamlAppDef->Count()) != 0"
 			Targets="InProcessXamlMarkupCompilePass1"/>
 	</Target>
 
@@ -87,7 +87,7 @@
 	================================================================
 	-->
 	<Target Name="InProcessXamlMarkupCompilePass1"
-			Condition="'@(XamlAppDef)' != '' AND '$(BuildingProject)' != 'true'">
+			Condition="@(XamlAppDef->Count()) != 0 AND '$(BuildingProject)' != 'true'">
 
 		<PartialClassGenerationTask
 			BuildTaskPath="$(XamlBuildTaskPath)"
@@ -120,7 +120,7 @@
 	================================================================
 	-->
 	<Target Name="CleanInProcessXamlGeneratedFiles"
-			Condition="'@(XamlAppDef)' != '' And '$(BuildingInsideVisualStudio)' != 'true'"
+			Condition="@(XamlAppDef->Count()) != 0 And '$(BuildingInsideVisualStudio)' != 'true'"
 			AfterTargets="DesignTimeXamlMarkupCompilation">
 
 		<ItemGroup>
@@ -134,7 +134,7 @@
 	================================================================
 	-->
 	<Target Name="XamlMarkupCompileReadGeneratedFileList"
-			Condition="'@(XamlPage)' != '' OR '@(XamlAppDef)' != ''"
+			Condition="@(XamlPage->Count()) != 0 OR @(XamlAppDef->Count()) != 0"
 			BeforeTargets="XamlMarkupCompilePass1">
 
 		<ReadLinesFromFile File="$(IntermediateOutputPath)$(XamlGenCodeFileNames)">
@@ -152,7 +152,7 @@
 	================================================================
 	-->
 	<Target Name="XamlMarkupCompilePass1"
-			Condition="'@(XamlPage)' != '' OR '@(XamlAppDef)' != ''"
+			Condition="@(XamlPage->Count()) != 0 OR @(XamlAppDef->Count()) != 0"
 			Inputs="@(XamlAppDef);@(Compile);$(MSBuildAllProjects);@(ReferencePath)"
 			Outputs="@(XamlOutputMarkupFilesList);
 					@(XamlOutputCodeFilesList);
@@ -216,15 +216,15 @@
 	================================================================
 	-->
 	<Target Name="XamlMarkupCompileAddFilesGenerated"
-			Condition="'@(XamlPage)' != '' OR '@(XamlAppDef)' != ''"
+			Condition="@(XamlPage->Count()) != 0 OR @(XamlAppDef->Count()) != 0"
 			AfterTargets="XamlMarkupCompilePass1">
 
 		<ItemGroup>
 			<XamlGeneratedCodeFiles Include="@(XamlOutputCodeFilesList)"
-				Condition="'@(XamlGeneratedCodeFiles)' == ''"/>
+				Condition="@(XamlGeneratedCodeFiles->Count()) == 0"/>
 
 			<XamlGeneratedResources Include="@(XamlOutputMarkupFilesList)"
-				Condition="'@(XamlGeneratedResources)' == ''"/>
+				Condition="@(XamlGeneratedResources->Count()) == 0"/>
 
 			<FileWrites Include="@(XamlGeneratedResources);@(XamlGeneratedCodeFiles);
 				$(IntermediateOutputPath)$(XamlGenCodeFileNames);
@@ -246,7 +246,7 @@
 	================================================================
 	-->
 	<Target Name="XamlMarkupCompileReadPass2Flag"
-			Condition="'@(XamlPage)' != '' OR '@(XamlAppDef)' != ''"
+			Condition="@(XamlPage->Count()) != 0 OR @(XamlAppDef->Count()) != 0"
 			BeforeTargets="XamlMarkupCompilePass2;XamlTemporaryAssemblyGeneration">
 
 		<ReadLinesFromFile File="$(IntermediateOutputPath)$(XamlPass2FlagFile)">
@@ -346,7 +346,7 @@
 	================================================================
 	-->
 	<Target Name="XamlMarkupCompileAddExtensionFilesGenerated"
-			Condition="'@(XamlPage)' != '' OR '@(XamlAppDef)' != ''"
+			Condition="@(XamlPage->Count()) != 0 OR @(XamlAppDef->Count()) != 0"
 			AfterTargets="XamlMarkupCompilePass2">
 
 		<ItemGroup>

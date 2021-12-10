@@ -122,7 +122,7 @@
 	Report deferred validation extension errors through a XML log file.
 	================================================================
 	-->
-	<Target Name="ReportValidationBuildExtensionErrors" AfterTargets="XamlMarkupCompilePass2" Condition="'$(SkipWorkflowValidation)' != 'true' AND ('@(XamlPage)' != '' OR '@(XamlAppDef)' != '')">
+	<Target Name="ReportValidationBuildExtensionErrors" AfterTargets="XamlMarkupCompilePass2" Condition="'$(SkipWorkflowValidation)' != 'true' AND (@(XamlPage->Count()) != 0 OR @(XamlAppDef->Count()) != 0)">
 		<ReportDeferredValidationErrorsTask DeferredValidationErrorsFilePath="$(DeferredValidationErrorsFilePath)"/>
 	</Target>
 
@@ -134,7 +134,7 @@
 	been previously reported, but after Compile succeeded.
 	==================================================================
 	-->
-	<Target Name="DeferredValidation" AfterTargets="Compile" Condition="'$(SkipWorkflowValidation)' != 'true' AND ('@(XamlPage)' != '' OR '@(XamlAppDef)' != '')">
+	<Target Name="DeferredValidation" AfterTargets="Compile" Condition="'$(SkipWorkflowValidation)' != 'true' AND (@(XamlPage->Count()) != 0 OR @(XamlAppDef->Count()) != 0)">
 		<DeferredValidationTask DeferredValidationErrorsFilePath="$(DeferredValidationErrorsFilePath)"/>
 	</Target>
 

@@ -38,7 +38,7 @@
 
 	<Target Name="EntityDeploy"
 			DependsOnTargets="$(EntityDeployDependsOn)"
-			Condition="'@(EntityDeploy)' != ''">
+			Condition="@(EntityDeploy->Count()) != 0">
 
 		<CallTarget Targets="EntityDeployNonEmbeddedResources"/>
 		<CallTarget Targets="EntityDeployEmbeddedResources"/>
@@ -97,7 +97,7 @@
 		</EntityDeploy>
 	</Target>
 
-	<Target Name="EntityClean" Condition="'@(EntityDeploy)' != ''">
+	<Target Name="EntityClean" Condition="@(EntityDeploy->Count()) != 0">
 		<EntityClean
 			Sources="@(EntityDeploy)"
 			OutputPath="$(OutputPath)"

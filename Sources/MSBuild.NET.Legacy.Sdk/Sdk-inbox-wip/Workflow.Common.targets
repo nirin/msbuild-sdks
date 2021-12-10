@@ -63,7 +63,7 @@
 		<!-- Create WF specific resource names for non-culture non-resx files. -->
 
 		<CreateWorkflowManifestResourceName
-			Condition="'@(WFNonResxWithNoCulture)' != ''"
+			Condition="@(WFNonResxWithNoCulture->Count()) != 0"
 			ResourceFiles="@(WFNonResxWithNoCulture)"
 			RootNamespace="$(RootNamespace)">
 
@@ -71,7 +71,7 @@
 		</CreateWorkflowManifestResourceName>
 
 		<CreateWorkflowManifestResourceName
-			Condition="'@(WFNonResxWithCulture)' != ''"
+			Condition="@(WFNonResxWithCulture->Count()) != 0"
 			ResourceFiles="@(WFNonResxWithCulture)"
 			RootNamespace="$(RootNamespace)">
 
@@ -122,7 +122,7 @@
 				Condition="'%(EmbeddedResource.Type)' == 'resx' AND '%(EmbeddedResource.WithCulture)' == ''"/>
 
 			<WFCompilationResourcesWithNoCulture Include="@(WFCompilationResourcesWithUnknownCulture)"
-				Condition="'@(WFCompilationResourcesWithNoCulture)' == '' AND '@(WFCompilationResourcesWithUnknownCulture)' != ''"/>
+				Condition="@(WFCompilationResourcesWithNoCulture->Count()) == 0 AND @(WFCompilationResourcesWithUnknownCulture->Count()) != 0"/>
 		</ItemGroup>
 
 		<ItemGroup>
@@ -165,7 +165,7 @@
 	</Target>
 
 	<Target Name="WorkflowCompilationCleanup" Condition="'$(KeepWinWFTempFiles)' == 'False'">
-		<CompileWorkflowCleanupTask TemporaryFiles="@(WinWFTempFiles)" Condition="'@(WinWFTempFiles)' != ''"/>
+		<CompileWorkflowCleanupTask TemporaryFiles="@(WinWFTempFiles)" Condition="@(WinWFTempFiles->Count()) != 0"/>
 	</Target>
 
 </Project>

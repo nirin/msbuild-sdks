@@ -57,7 +57,7 @@
 
 	<Target
 		Name="CreateManifestResourceNames"
-		Condition="'@(EmbeddedResource)' != ''"
+		Condition="@(EmbeddedResource->Count()) != 0"
 		DependsOnTargets="$(CreateManifestResourceNamesDependsOn)">
 
 		<ItemGroup>
@@ -158,7 +158,7 @@
 			@(_DebugSymbolsIntermediatePath);
 			$(NonExistentFile);
 			@(CustomAdditionalCompileOutputs)"
-		Condition="'@(Page)' != '' OR '@(ApplicationDefinition)' != ''"
+		Condition="@(Page->Count()) != 0 OR @(ApplicationDefinition->Count()) != 0"
 		Returns=""
 		DependsOnTargets="$(CoreCompileDependsOn);GenerateMSBuildEditorConfigFile">
 

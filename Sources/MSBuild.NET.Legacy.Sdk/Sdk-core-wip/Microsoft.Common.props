@@ -185,14 +185,14 @@
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(ProduceReferenceAssembly)' == 'true'">
-		<IntermediateRefAssembly Include="$(IntermediateOutputPath)ref\$(TargetName)$(TargetExt)" Condition="'@(IntermediateRefAssembly)' == ''"/>
+		<IntermediateRefAssembly Include="$(IntermediateOutputPath)ref\$(TargetName)$(TargetExt)" Condition="@(IntermediateRefAssembly->Count()) == 0"/>
 		<CreateDirectory Include="@(IntermediateRefAssembly->'%(RootDir)%(Directory)')"/>
 		<CreateDirectory Include="$(OutDir)ref"/>
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(_DebugSymbolsProduced)' == 'true'">
-		<_DebugSymbolsIntermediatePath Include="$(IntermediateOutputPath)$(TargetName).compile.pdb" Condition="'$(OutputType)' == 'winmdobj' AND '@(_DebugSymbolsIntermediatePath)' == ''"/>
-		<_DebugSymbolsIntermediatePath Include="$(IntermediateOutputPath)$(TargetName).pdb" Condition="'$(OutputType)' != 'winmdobj' AND '@(_DebugSymbolsIntermediatePath)' == ''"/>
+		<_DebugSymbolsIntermediatePath Include="$(IntermediateOutputPath)$(TargetName).compile.pdb" Condition="'$(OutputType)' == 'winmdobj' AND @(_DebugSymbolsIntermediatePath->Count()) == 0"/>
+		<_DebugSymbolsIntermediatePath Include="$(IntermediateOutputPath)$(TargetName).pdb" Condition="'$(OutputType)' != 'winmdobj' AND @(_DebugSymbolsIntermediatePath->Count()) == 0"/>
 		<_DebugSymbolsOutputPath Include="@(_DebugSymbolsIntermediatePath->'$(OutDir)%(Filename)%(Extension)')"/>
 	</ItemGroup>
 

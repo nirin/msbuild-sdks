@@ -50,7 +50,7 @@
 			DependsOnTargets="_ComputeTargetFrameworkItems">
 
 		<MSBuild Projects="@(_InnerBuildProjects)"
-			Condition="'@(_InnerBuildProjects)' != ''"
+			Condition="@(_InnerBuildProjects->Count()) != 0"
 			Targets="GetTargetFrameworksWithPlatformForSingleTargetFramework"
 			BuildInParallel="$(BuildInParallel)">
 			<Output ItemName="_TargetFrameworkInfo" TaskParameter="TargetOutputs"/>
@@ -78,7 +78,7 @@
 			Returns="@(InnerOutput)">
 		<!-- If this logic is changed, also update Clean -->
 		<MSBuild Projects="@(_InnerBuildProjects)"
-				 Condition="'@(_InnerBuildProjects)' != ''"
+				 Condition="@(_InnerBuildProjects->Count()) != 0"
 				 Targets="$(InnerTargets)"
 				 BuildInParallel="$(BuildInParallel)">
 			<Output ItemName="InnerOutput" TaskParameter="TargetOutputs"/>
@@ -126,7 +126,7 @@
 			DependsOnTargets="_ComputeTargetFrameworkItems">
 		<!-- If this logic is changed, also update DispatchToInnerBuilds -->
 		<MSBuild Projects="@(_InnerBuildProjects)"
-				 Condition="'@(_InnerBuildProjects)' != ''"
+				 Condition="@(_InnerBuildProjects->Count()) != 0"
 				 Targets="Clean"
 				 BuildInParallel="$(BuildInParallel)"/>
 	</Target>

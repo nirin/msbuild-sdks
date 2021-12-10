@@ -11,7 +11,7 @@
 	<Import Project="$(MicrosoftWorkflowTargets)"/>
 
 	<Target Name="WorkflowCompilationCleanup" Condition="'$(KeepWinWFTempFiles)' == 'False'">
-		<Delete Files="@(WinWFTempFiles)" Condition="'@(WinWFTempFiles)' != ''"/>
+		<Delete Files="@(WinWFTempFiles)" Condition="@(WinWFTempFiles->Count()) != 0"/>
 	</Target>
 
 	<!-- Import Workflow Build Extensions -->

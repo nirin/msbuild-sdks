@@ -9,7 +9,7 @@
 			Condition="'$(GenerateLibraryLayout)' == 'true' AND '$(SDKIdentifier)' == 'Windows'"
 			DependsOnTargets="PrepareLibraryLayout">
 
-		<ItemGroup>
+		<ItemGroup Condition="@(_LayoutFile->Count()) != 0">
 			<TfmSpecificPackageFile Include="@(_LayoutFile)" PackagePath="lib\$(TargetFramework)\%(_LayoutFile.TargetPath)"/>
 		</ItemGroup>
 	</Target>
@@ -22,9 +22,9 @@
 			AfterTargets="ResolveLockFileCopyLocalProjectDeps"
 			Condition="'$(NETSdkVersion)' &lt; '2.0'">
 
-		<ItemGroup>
+		<ItemGroup Condition="@(ResourceCopyLocalItems->Count()) != 0">
 			<ReferenceCopyLocalPaths Remove="@(ResourceCopyLocalItems)"/>
-			<ReferenceCopyLocalPaths Include="@(ResourceCopyLocalItems)" Condition="'@(ResourceCopyLocalItems)' != ''">
+			<ReferenceCopyLocalPaths Include="@(ResourceCopyLocalItems)">
 				<DestinationSubDirectory>$([System.IO.Directory]::GetParent(%(ResourceCopyLocalItems.FullPath)).Name)\</DestinationSubDirectory>
 			</ReferenceCopyLocalPaths>
 		</ItemGroup>

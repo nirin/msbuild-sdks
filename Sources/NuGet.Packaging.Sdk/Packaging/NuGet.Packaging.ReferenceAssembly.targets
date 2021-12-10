@@ -12,7 +12,7 @@
 	<Target Name="_GetReferenceAssemblyTargetPaths"
 			BeforeTargets="GetPackageContents"
 			DependsOnTargets="AssignProjectConfiguration;_SplitProjectReferencesByFileExistence"
-			Condition="'@(ReferenceAssemblyFramework)' != ''">
+			Condition="@(ReferenceAssemblyFramework->Count()) != 0">
 		<ItemGroup>
 			<_ReferenceAssemblyProjects Include="@(_MSBuildProjectReferenceExistent)" Condition="'%(_MSBuildProjectReferenceExistent.Pack)' != 'false'"/>
 		</ItemGroup>
@@ -42,7 +42,7 @@
 	<Target Name="_GenerateReferenceAssemblies"
 			BeforeTargets="Pack"
 			DependsOnTargets="_GetReferenceAssemblyTargetPaths"
-			Condition="'@(ReferenceAssemblyFramework)' != ''"
+			Condition="@(ReferenceAssemblyFramework->Count()) != 0"
 			Inputs="@(IntersectionAssembly)"
 			Outputs="@(_ReferenceAssemblyTargetPath)">
 
@@ -88,7 +88,7 @@
 				InterimOutputPath=%(_ReferenceAssemblyBuildInfo.FullPath)$(InterimOutputFolder)\"/>
 	</Target>
 
-	<Target Name="_CleanReferenceAssemblyInterimOutputs" Condition="'@(ReferenceAssemblyFramework)' != '' AND Exists($(InterimOutputPath))">
+	<Target Name="_CleanReferenceAssemblyInterimOutputs" Condition="@(ReferenceAssemblyFramework->Count()) != 0 AND Exists($(InterimOutputPath))">
 		<PropertyGroup>
 			<_ReferenceAssemblyInterimOutputDirectories>$([System.IO.Directory]::GetDirectories($(InterimOutputPath)))</_ReferenceAssemblyInterimOutputDirectories>
 		</PropertyGroup>

@@ -20,7 +20,7 @@
 
 		<PropertyGroup>
 			<XsdCodeGenPreCondition>False</XsdCodeGenPreCondition>
-			<XsdCodeGenPreCondition Condition="'$(TargetFrameworkVersion)' != 'v2.0' AND '$(TargetFrameworkVersion)' != 'v3.0' AND '$(TargetFrameworkVersion)' != 'v3.5' AND '$(TargetFrameworkVersion)' != 'v4.0' AND ('$(TargetFrameworkIdentifier)' == '.NETFramework' OR '$(TargetFrameworkIdentifier)' == 'Silverlight') AND '$(XsdCodeGenEnabled)' == 'True' AND '@(XsdCodeGenInputXsdFiles)' != ''">True</XsdCodeGenPreCondition>
+			<XsdCodeGenPreCondition Condition="'$(TargetFrameworkVersion)' != 'v2.0' AND '$(TargetFrameworkVersion)' != 'v3.0' AND '$(TargetFrameworkVersion)' != 'v3.5' AND '$(TargetFrameworkVersion)' != 'v4.0' AND ('$(TargetFrameworkIdentifier)' == '.NETFramework' OR '$(TargetFrameworkIdentifier)' == 'Silverlight') AND '$(XsdCodeGenEnabled)' == 'True' AND @(XsdCodeGenInputXsdFiles->Count()) != 0">True</XsdCodeGenPreCondition>
 		</PropertyGroup>
 
 		<CallTarget Targets="CleanXsdCodeGen" Condition="'$(XsdCodeGenPreCondition)' != 'True'"/>
@@ -84,8 +84,8 @@
 		<MakeDir Directories="$(IntermediateOutputPath)\XsdGeneratedCode"/>
 
 		<ItemGroup>
-			<XsdCodeGenGeneratedFile Condition="'@(XsdCodeGenGeneratedFile)' == '' AND '$(Language)' == 'C#'" Include="$(IntermediateOutputPath)\XsdGeneratedCode\GeneratedXsdTypes.cs"/>
-			<XsdCodeGenGeneratedFile Condition="'@(XsdCodeGenGeneratedFile)' == '' AND '$(Language)' == 'VB'" Include="$(IntermediateOutputPath)\XsdGeneratedCode\GeneratedXsdTypes.vb"/>
+			<XsdCodeGenGeneratedFile Condition="@(XsdCodeGenGeneratedFile->Count()) == 0 AND '$(Language)' == 'C#'" Include="$(IntermediateOutputPath)\XsdGeneratedCode\GeneratedXsdTypes.cs"/>
+			<XsdCodeGenGeneratedFile Condition="@(XsdCodeGenGeneratedFile->Count()) == 0 AND '$(Language)' == 'VB'" Include="$(IntermediateOutputPath)\XsdGeneratedCode\GeneratedXsdTypes.vb"/>
 		</ItemGroup>
 
 		<Touch Files="@(XsdCodeGenGeneratedFile)" AlwaysCreate="true"/>

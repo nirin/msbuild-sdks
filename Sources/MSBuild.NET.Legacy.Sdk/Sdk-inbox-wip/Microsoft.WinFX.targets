@@ -193,7 +193,7 @@
 	-->
 	<Target Name="MarkupCompilePass1"
 			DependsOnTargets="$(MarkupCompilePass1DependsOn);SplashScreenValidation"
-			Condition="'@(Page)' != '' OR '@(ApplicationDefinition)' != ''">
+			Condition="@(Page->Count()) != 0 OR @(ApplicationDefinition->Count()) != 0">
 
 		<Message Text="(in) Page: '@(Page)'" Condition="'$(MSBuildTargetsVerbose)' == 'true'"/>
 		<Message Text="(in) ApplicationDefinition: '@(ApplicationDefinition)'" Condition="'$(MSBuildTargetsVerbose)' == 'true'"/>
@@ -489,7 +489,7 @@
 			Text="Cannot build a platform-specific XAML Browser Application. If HostInBrowser property is set to 'True', either do not set the PlatformTarget property or set it to 'AnyCPU'."/>
 	</Target>
 
-	<Target Name="SplashScreenValidation" Condition="'@(SplashScreen)' != ''">
+	<Target Name="SplashScreenValidation" Condition="@(SplashScreen->Count()) != 0">
 		<Error Condition="'$(TargetFrameworkIdentifier)' == '.NETFramework' AND
 						'$(TargetFrameworkVersion)' == 'v3.0'"
 			Text="The SplashScreen Build Action is not supported on $(TargetFrameworkIdentifier) $(TargetFrameworkVersion)."/>
@@ -536,7 +536,7 @@
 	-->
 	<Target Name="FileClassification">
 
-		<FileClassifier Condition="'@(GeneratedBaml)' != '' OR '@(Resource)' != '' OR '@(Font)' != ''"
+		<FileClassifier Condition="@(GeneratedBaml->Count()) != 0 OR @(Resource->Count()) != 0 OR @(Font->Count()) != 0"
 						SourceFiles="@(SplashScreen);@(GeneratedBaml);@(Resource);@(Font)"
 						Culture="$(UICulture)"
 						OutputType="$(OutputType)"
@@ -577,7 +577,7 @@
 		<_ResourceNameInMainAssembly Condition="'$(UICulture)' != ''">$(AssemblyName).unlocalizable.g.resources</_ResourceNameInMainAssembly>
 	</PropertyGroup>
 
-	<Target Name="MainResourcesGeneration" Inputs="@(MainEmbeddedFiles)" Outputs="$(IntermediateOutputPath)$(_ResourceNameInMainAssembly)" Condition="'@(MainEmbeddedFiles)' != ''">
+	<Target Name="MainResourcesGeneration" Inputs="@(MainEmbeddedFiles)" Outputs="$(IntermediateOutputPath)$(_ResourceNameInMainAssembly)" Condition="@(MainEmbeddedFiles->Count()) != 0">
 
 		<!--
 			This generates .resources file containing all the resources that are to be
@@ -590,7 +590,7 @@
 			ResourceFiles="@(MainEmbeddedFiles)"
 			OutputPath="$(IntermediateOutputPath)"
 			OutputResourcesFile="$(IntermediateOutputPath)$(_ResourceNameInMainAssembly)"
-			Condition="'@(MainEmbeddedFiles)' != ''">
+			Condition="@(MainEmbeddedFiles->Count()) != 0">
 
 			<!-- Put the generated files in item FileWrites so that they can be cleaned up appropriately in a next Rebuild -->
 			<Output ItemName="FileWrites" TaskParameter="OutputResourcesFile"/>
@@ -636,7 +636,7 @@
 			ResourceFiles="@(SatelliteEmbeddedFiles)"
 			OutputPath="$(IntermediateOutputPath)"
 			OutputResourcesFile="$(IntermediateOutputPath)$(AssemblyName).g.$(UICulture).resources"
-			Condition="'@(SatelliteEmbeddedFiles)' != ''">
+			Condition="@(SatelliteEmbeddedFiles->Count()) != 0">
 
 			<Output ItemName="_SatelliteResourceFile" TaskParameter="OutputResourcesFile"/>
 			<!-- Put the generated files in item FileWrites so that they can be cleaned up appropriately in a next Rebuild -->
@@ -713,7 +713,7 @@
 			<CreateItem
 				Include="$(IntermediateOutputPath)%(ResxWithCulture.Culture)\$(TargetName).resources.dll"
 				AdditionalMetadata="TargetPath=%(ResxWithCulture.Culture)\$(TargetName).resources.dll"
-				Condition="'@(ResxWithCulture)' != ''">
+				Condition="@(ResxWithCulture->Count()) != 0">
 
 				<Output ItemName="SatelliteDllsProjectOutputGroupOutputIntermediate" TaskParameter="Include"/>
 			</CreateItem>
@@ -733,7 +733,7 @@
 			<CreateItem
 				Include="$(IntermediateOutputPath)%(NonResxWithCulture.Culture)\$(TargetName).resources.dll"
 				AdditionalMetadata="TargetPath=%(NonResxWithCulture.Culture)\$(TargetName).resources.dll"
-				Condition="'@(NonResxWithCulture)' != ''">
+				Condition="@(NonResxWithCulture->Count()) != 0">
 
 				<Output ItemName="SatelliteDllsProjectOutputGroupOutputIntermediate" TaskParameter="Include"/>
 			</CreateItem>
@@ -750,13 +750,13 @@
 
 	<!-- Other Targets -->
 	<Target Name="CheckUid"
-			Condition="'@(Page)' != '' OR '@(ApplicationDefinition)' != ''">
+			Condition="@(Page->Count()) != 0 OR @(ApplicationDefinition->Count()) != 0">
 
 		<UidManager MarkupFiles="@(Page);@(ApplicationDefinition)" Task="Check"/>
 	</Target>
 
 	<Target Name="UpdateUid"
-			Condition="'@(Page)' != '' OR '@(ApplicationDefinition)' != ''">
+			Condition="@(Page->Count()) != 0 OR @(ApplicationDefinition->Count()) != 0">
 
 		<UidManager MarkupFiles="@(Page);
 								@(ApplicationDefinition)"
@@ -765,7 +765,7 @@
 	</Target>
 
 	<Target Name="RemoveUid"
-			Condition="'@(Page)' != '' OR '@(ApplicationDefinition)' != ''">
+			Condition="@(Page->Count()) != 0 OR @(ApplicationDefinition->Count()) != 0">
 
 		<UidManager MarkupFiles="@(Page);
 								@(ApplicationDefinition)"
@@ -781,7 +781,7 @@
 		================================================================
 	-->
 	<Target Name="MergeLocalizationDirectives"
-			Condition="'@(GeneratedLocalizationFiles)' !=''"
+			Condition="@(GeneratedLocalizationFiles->Count()) != 0"
 			Inputs="@(GeneratedLocalizationFiles)"
 			Outputs="$(IntermediateOutputPath)$(AssemblyName).loc">
 
@@ -809,7 +809,7 @@
 		and handle the resource correctly.
 	-->
 	<Target Name="AssignWinFXEmbeddedResource"
-			Condition="'@(WinFXEmbeddedResource)' != ''">
+			Condition="@(WinFXEmbeddedResource->Count()) != 0">
 
 		<ItemGroup>
 			<_Temporary Remove="@(_Temporary)"/>
@@ -840,7 +840,7 @@
 		This target and the properties are deprecated because multi-targeting for reference assemblies is handled in the framework specific targets
 	-->
 	<Target Name="GetWinFXPath"
-			Condition="('@(Page)' != '' OR '@(ApplicationDefinition)' != '' OR '@(Resource)' != '') AND ('$(GetWinFXNativePath)' != '' OR '$(GetWinFXWoWPath)' != '')">
+			Condition="(@(Page->Count()) != 0 OR @(ApplicationDefinition->Count()) != 0 OR @(Resource->Count()) != 0) AND ('$(GetWinFXNativePath)' != '' OR '$(GetWinFXWoWPath)' != '')">
 
 		<GetWinFXPath
 			WinFXNativePath="$(WinFXNativePath)"

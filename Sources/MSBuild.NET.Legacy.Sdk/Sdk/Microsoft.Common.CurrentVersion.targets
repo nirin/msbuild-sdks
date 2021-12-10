@@ -359,14 +359,14 @@
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(ProduceReferenceAssembly)' == 'true'">
-		<IntermediateRefAssembly Include="$(IntermediateOutputPath)ref\$(TargetName)$(TargetExt)" Condition="'@(IntermediateRefAssembly)' == ''"/>
+		<IntermediateRefAssembly Include="$(IntermediateOutputPath)ref\$(TargetName)$(TargetExt)" Condition="@(IntermediateRefAssembly->Count()) == 0"/>
 		<CreateDirectory Include="@(IntermediateRefAssembly->'%(RootDir)%(Directory)')"/>
 		<CreateDirectory Include="$(OutDir)ref"/>
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(_DebugSymbolsProduced)' == 'true'">
-		<_DebugSymbolsIntermediatePath Include="$(IntermediateOutputPath)$(TargetName).compile.pdb" Condition="'$(OutputType)' == 'winmdobj' AND '@(_DebugSymbolsIntermediatePath)' == ''"/>
-		<_DebugSymbolsIntermediatePath Include="$(IntermediateOutputPath)$(TargetName).pdb" Condition="'$(OutputType)' != 'winmdobj' AND '@(_DebugSymbolsIntermediatePath)' == ''"/>
+		<_DebugSymbolsIntermediatePath Include="$(IntermediateOutputPath)$(TargetName).compile.pdb" Condition="'$(OutputType)' == 'winmdobj' AND @(_DebugSymbolsIntermediatePath->Count()) == 0"/>
+		<_DebugSymbolsIntermediatePath Include="$(IntermediateOutputPath)$(TargetName).pdb" Condition="'$(OutputType)' != 'winmdobj' AND @(_DebugSymbolsIntermediatePath->Count()) == 0"/>
 		<_DebugSymbolsOutputPath Include="@(_DebugSymbolsIntermediatePath->'$(OutDir)%(Filename)%(Extension)')"/>
 	</ItemGroup>
 
@@ -980,7 +980,7 @@
 			Targets="BuildGenerateSources"
 			BuildInParallel="$(BuildInParallel)"
 			Properties="%(_MSBuildProjectReferenceExistent.SetConfiguration);%(_MSBuildProjectReferenceExistent.SetPlatform);%(_MSBuildProjectReferenceExistent.SetTargetFramework)"
-			Condition="'$(BuildPassReferences)' == 'true' AND '@(ProjectReferenceWithConfiguration)' != '' AND '@(_MSBuildProjectReferenceExistent)' != '' AND '%(_MSBuildProjectReferenceExistent.BuildReference)' == 'true'"
+			Condition="'$(BuildPassReferences)' == 'true' AND @(ProjectReferenceWithConfiguration->Count()) != 0 AND @(_MSBuildProjectReferenceExistent->Count()) != 0 AND '%(_MSBuildProjectReferenceExistent.BuildReference)' == 'true'"
 			ContinueOnError="!$(BuildingProject)"
 			RemoveProperties="%(_MSBuildProjectReferenceExistent.GlobalPropertiesToRemove);$(_GlobalPropertiesToRemoveFromProjectReferences)">
 		</MSBuild>
@@ -1005,7 +1005,7 @@
 			Targets="BuildCompile"
 			BuildInParallel="$(BuildInParallel)"
 			Properties="%(_MSBuildProjectReferenceExistent.SetConfiguration);%(_MSBuildProjectReferenceExistent.SetPlatform);%(_MSBuildProjectReferenceExistent.SetTargetFramework)"
-			Condition="'$(BuildPassReferences)' == 'true' AND '@(ProjectReferenceWithConfiguration)' != '' AND '@(_MSBuildProjectReferenceExistent)' != '' AND '%(_MSBuildProjectReferenceExistent.BuildReference)' == 'true'"
+			Condition="'$(BuildPassReferences)' == 'true' AND @(ProjectReferenceWithConfiguration->Count()) != 0 AND @(_MSBuildProjectReferenceExistent->Count()) != 0 AND '%(_MSBuildProjectReferenceExistent.BuildReference)' == 'true'"
 			ContinueOnError="!$(BuildingProject)"
 			RemoveProperties="%(_MSBuildProjectReferenceExistent.GlobalPropertiesToRemove);$(_GlobalPropertiesToRemoveFromProjectReferences)">
 		</MSBuild>
@@ -1030,7 +1030,7 @@
 			Targets="BuildLink"
 			BuildInParallel="$(BuildInParallel)"
 			Properties="%(_MSBuildProjectReferenceExistent.SetConfiguration);%(_MSBuildProjectReferenceExistent.SetPlatform);%(_MSBuildProjectReferenceExistent.SetTargetFramework)"
-			Condition="'$(BuildPassReferences)' == 'true' AND '@(ProjectReferenceWithConfiguration)' != '' AND '@(_MSBuildProjectReferenceExistent)' != '' AND '%(_MSBuildProjectReferenceExistent.BuildReference)' == 'true'"
+			Condition="'$(BuildPassReferences)' == 'true' AND @(ProjectReferenceWithConfiguration->Count()) != 0 AND @(_MSBuildProjectReferenceExistent->Count()) != 0 AND '%(_MSBuildProjectReferenceExistent.BuildReference)' == 'true'"
 			ContinueOnError="!$(BuildingProject)"
 			RemoveProperties="%(_MSBuildProjectReferenceExistent.GlobalPropertiesToRemove);$(_GlobalPropertiesToRemoveFromProjectReferences)">
 		</MSBuild>
@@ -1219,7 +1219,7 @@
 			<DesignTimeFacadeDirectories Include="%(DesignTimeFacadeDirectoryRoots.Identity)Facades\" Condition="Exists('%(DesignTimeFacadeDirectoryRoots.Identity)Facades\')"/>
 		</ItemGroup>
 
-		<PropertyGroup Condition="'@(DesignTimeFacadeDirectories)' != ''">
+		<PropertyGroup Condition="@(DesignTimeFacadeDirectories->Count()) != 0">
 			<TargetFrameworkDirectory>$(TargetFrameworkDirectory);@(DesignTimeFacadeDirectories)</TargetFrameworkDirectory>
 		</PropertyGroup>
 
@@ -1258,7 +1258,7 @@
 
 		<!-- NONE ITEMS -->
 		<AssignLinkMetadata Items="@(None)"
-							Condition="'@(None)' != '' AND '%(None.DefiningProjectFullPath)' != '$(MSBuildProjectFullPath)'">
+							Condition="@(None->Count()) != 0 AND '%(None.DefiningProjectFullPath)' != '$(MSBuildProjectFullPath)'">
 			<Output TaskParameter="OutputItems" ItemName="_Temp"/>
 		</AssignLinkMetadata>
 
@@ -1270,7 +1270,7 @@
 
 		<!-- CONTENT ITEMS -->
 		<AssignLinkMetadata Items="@(Content)"
-							Condition="'@(Content)' != '' AND '%(Content.DefiningProjectFullPath)' != '$(MSBuildProjectFullPath)'">
+							Condition="@(Content->Count()) != 0 AND '%(Content.DefiningProjectFullPath)' != '$(MSBuildProjectFullPath)'">
 			<Output TaskParameter="OutputItems" ItemName="_Temp"/>
 		</AssignLinkMetadata>
 
@@ -1282,7 +1282,7 @@
 
 		<!-- PAGE ITEMS -->
 		<AssignLinkMetadata Items="@(Page)"
-							Condition="'@(Page)' != '' AND '%(Page.DefiningProjectFullPath)' != '$(MSBuildProjectFullPath)'">
+							Condition="@(Page->Count()) != 0 AND '%(Page.DefiningProjectFullPath)' != '$(MSBuildProjectFullPath)'">
 			<Output TaskParameter="OutputItems" ItemName="_Temp"/>
 		</AssignLinkMetadata>
 
@@ -1294,7 +1294,7 @@
 
 		<!-- APPLICATIONDEFINITION ITEMS -->
 		<AssignLinkMetadata Items="@(ApplicationDefinition)"
-							Condition="'@(ApplicationDefinition)' != '' AND '%(ApplicationDefinition.DefiningProjectFullPath)' != '$(MSBuildProjectFullPath)'">
+							Condition="@(ApplicationDefinition->Count()) != 0 AND '%(ApplicationDefinition.DefiningProjectFullPath)' != '$(MSBuildProjectFullPath)'">
 			<Output TaskParameter="OutputItems" ItemName="_Temp"/>
 		</AssignLinkMetadata>
 
@@ -1306,7 +1306,7 @@
 
 		<!-- EMBEDDEDRESOURCE ITEMS -->
 		<AssignLinkMetadata Items="@(EmbeddedResource)"
-							Condition="'@(EmbeddedResource)' != '' AND '%(EmbeddedResource.DefiningProjectFullPath)' != '$(MSBuildProjectFullPath)'">
+							Condition="@(EmbeddedResource->Count()) != 0 AND '%(EmbeddedResource.DefiningProjectFullPath)' != '$(MSBuildProjectFullPath)'">
 			<Output TaskParameter="OutputItems" ItemName="_Temp"/>
 		</AssignLinkMetadata>
 
@@ -1475,7 +1475,7 @@
 	-->
 	<Target
 		Name="AssignProjectConfiguration"
-		Condition="'$(CurrentSolutionConfigurationContents)' != '' OR '@(ProjectReference)' != ''">
+		Condition="'$(CurrentSolutionConfigurationContents)' != '' OR @(ProjectReference->Count()) != 0">
 
 		<PropertyGroup>
 			<OnlyReferenceAndBuildProjectsEnabledInSolutionConfiguration Condition="'$(OnlyReferenceAndBuildProjectsEnabledInSolutionConfiguration)' == ''">true</OnlyReferenceAndBuildProjectsEnabledInSolutionConfiguration>
@@ -1550,7 +1550,7 @@
 		<ResolveNonMSBuildProjectOutput
 			ProjectReferences="@(ProjectReferenceWithConfiguration)"
 			PreresolvedProjectOutputs="$(VSIDEResolvedNonMSBuildProjectOutputs)"
-			Condition="'$(BuildingInsideVisualStudio)' == 'true' AND '@(ProjectReferenceWithConfiguration)' != ''">
+			Condition="'$(BuildingInsideVisualStudio)' == 'true' AND @(ProjectReferenceWithConfiguration->Count()) != 0">
 
 			<Output TaskParameter="ResolvedOutputPaths" ItemName="_ResolvedProjectReferencePaths"/>
 			<Output TaskParameter="UnresolvedProjectReferences" ItemName="_MSBuildProjectReference"/>
@@ -1563,7 +1563,7 @@
 			VSIP (3rd party) projects from the command line.
 		-->
 		<ItemGroup>
-			<_MSBuildProjectReference Include="@(ProjectReferenceWithConfiguration)" Condition="'$(BuildingInsideVisualStudio)' != 'true' AND '@(ProjectReferenceWithConfiguration)' != ''"/>
+			<_MSBuildProjectReference Include="@(ProjectReferenceWithConfiguration)" Condition="'$(BuildingInsideVisualStudio)' != 'true' AND @(ProjectReferenceWithConfiguration->Count()) != 0"/>
 		</ItemGroup>
 
 		<!-- Break the project list into two lists: those that exist on disk and those that don't. -->
@@ -1592,7 +1592,7 @@
 	<Target Name="_GetProjectReferencePlatformProperties"
 			Condition="'$(EnableDynamicPlatformResolution)' == 'true'
 						AND '$(BuildingInsideVisualStudio)' != 'true'
-						AND '@(_MSBuildProjectReferenceExistent)' != ''">
+						AND @(_MSBuildProjectReferenceExistent->Count()) != 0">
 
 		<!-- Allow preset SetPlatform to override this operation -->
 		<ItemGroup>
@@ -1623,7 +1623,7 @@
 		<GetCompatiblePlatform AnnotatedProjects="@(_ProjectReferencePlatformPossibilities)"
 			CurrentProjectPlatform="$(Platform)"
 			PlatformLookupTable="$(PlatformLookupTable)"
-			Condition="'@(_ProjectReferencePlatformPossibilities)' != ''">
+			Condition="@(_ProjectReferencePlatformPossibilities->Count()) != 0">
 			<Output ItemName="_ProjectsWithPlatformAssignment" TaskParameter="AssignedProjectsWithPlatform"/>
 		</GetCompatiblePlatform>
 
@@ -1631,7 +1631,7 @@
 			If 'GetCompatiblePlatform' didn't run, @(ProjectsWithPlatformAssignment) will be empty.
 			Don't do anything in this case. Ex: A project may reference many projects that won't be multi-platform.
 		-->
-		<ItemGroup Condition="'@(_ProjectsWithPlatformAssignment)' != ''">
+		<ItemGroup Condition="@(_ProjectsWithPlatformAssignment->Count()) != 0">
 			<ProjectsWithNearestPlatform Include="@(_ProjectsWithPlatformAssignment)"/>
 			<ProjectsWithNearestPlatform Condition="'@(ProjectsWithNearestPlatform)' == '%(Identity)' AND '%(ProjectsWithNearestPlatform.NearestPlatform)' != ''">
 				<SetPlatform>Platform=%(ProjectsWithNearestPlatform.NearestPlatform)</SetPlatform>
@@ -1767,7 +1767,7 @@
 												CurrentProjectTargetPlatform="$(TargetPlatformMoniker)"
 												CurrentProjectName="$(MSBuildProjectName)"
 												FallbackTargetFrameworks="$(AssetTargetFallback)"
-												Condition="'@(_ProjectReferenceTargetFrameworkPossibilities)' != '' AND '$(ReferringTargetFrameworkForProjectReferences)' != ''
+												Condition="@(_ProjectReferenceTargetFrameworkPossibilities->Count()) != 0 AND '$(ReferringTargetFrameworkForProjectReferences)' != ''
 															AND '$(GetReferenceNearestTargetFrameworkTaskSupportsTargetPlatformParameter)' == 'true' AND '%(_ProjectReferenceTargetFrameworkPossibilities.IsVcxOrNativeProj)' != 'true'">
 			<Output ItemName="AnnotatedProjects" TaskParameter="AssignedProjects"/>
 		</GetReferenceNearestTargetFrameworkTask>
@@ -1776,7 +1776,7 @@
 												CurrentProjectTargetFramework="$(ReferringTargetFrameworkForProjectReferences)"
 												CurrentProjectName="$(MSBuildProjectName)"
 												FallbackTargetFrameworks="$(AssetTargetFallback)"
-												Condition="'@(_ProjectReferenceTargetFrameworkPossibilities)' != '' AND '$(ReferringTargetFrameworkForProjectReferences)' != ''
+												Condition="@(_ProjectReferenceTargetFrameworkPossibilities->Count()) != 0 AND '$(ReferringTargetFrameworkForProjectReferences)' != ''
 															AND '$(GetReferenceNearestTargetFrameworkTaskSupportsTargetPlatformParameter)' != 'true' AND '%(_ProjectReferenceTargetFrameworkPossibilities.IsVcxOrNativeProj)' != 'true'">
 			<Output ItemName="AnnotatedProjects" TaskParameter="AssignedProjects"/>
 		</GetReferenceNearestTargetFrameworkTask>
@@ -1849,7 +1849,7 @@
 				<IsVcxOrNativeProj Condition="'$(MSBuildProjectExtension)' == '.vcxproj' OR '$(MSBuildProjectExtension)' == '.nativeproj'">true</IsVcxOrNativeProj>
 				<Platforms>$(Platforms)</Platforms>
 				<!-- The 'vcxproj' and 'nativeproj' projects contain a `ProjectConfiguration` item that have `Platform` metadata within. Build the `Platforms` property from that. -->
-				<Platforms Condition="'@(ProjectConfiguration)' != '' AND ('$(MSBuildProjectExtension)' == '.vcxproj' OR '$(MSBuildProjectExtension)' == '.nativeproj')">@(ProjectConfiguration->'%(Platform)'->Distinct())</Platforms>
+				<Platforms Condition="@(ProjectConfiguration->Count()) != 0 AND ('$(MSBuildProjectExtension)' == '.vcxproj' OR '$(MSBuildProjectExtension)' == '.nativeproj')">@(ProjectConfiguration->'%(Platform)'->Distinct())</Platforms>
 			</_ThisProjectBuildMetadata>
 		</ItemGroup>
 	</Target>
@@ -1964,7 +1964,7 @@
 			Targets="GetTargetPath"
 			BuildInParallel="$(BuildInParallel)"
 			Properties="%(_MSBuildProjectReferenceExistent.SetConfiguration);%(_MSBuildProjectReferenceExistent.SetPlatform);%(_MSBuildProjectReferenceExistent.SetTargetFramework)"
-			Condition="'%(_MSBuildProjectReferenceExistent.BuildReference)' == 'true' AND '@(ProjectReferenceWithConfiguration)' != '' AND ('$(BuildingInsideVisualStudio)' == 'true' OR '$(BuildProjectReferences)' != 'true') AND '$(VisualStudioVersion)' != '10.0' AND '@(_MSBuildProjectReferenceExistent)' != ''"
+			Condition="'%(_MSBuildProjectReferenceExistent.BuildReference)' == 'true' AND @(ProjectReferenceWithConfiguration->Count()) != 0 AND ('$(BuildingInsideVisualStudio)' == 'true' OR '$(BuildProjectReferences)' != 'true') AND '$(VisualStudioVersion)' != '10.0' AND @(_MSBuildProjectReferenceExistent->Count()) != 0"
 			ContinueOnError="!$(BuildingProject)"
 			RemoveProperties="%(_MSBuildProjectReferenceExistent.GlobalPropertiesToRemove);$(_GlobalPropertiesToRemoveFromProjectReferences)">
 
@@ -1980,7 +1980,7 @@
 			Targets="%(_MSBuildProjectReferenceExistent.Targets)"
 			BuildInParallel="$(BuildInParallel)"
 			Properties="%(_MSBuildProjectReferenceExistent.SetConfiguration);%(_MSBuildProjectReferenceExistent.SetPlatform);  %(_MSBuildProjectReferenceExistent.SetTargetFramework)"
-			Condition="'%(_MSBuildProjectReferenceExistent.BuildReference)' == 'true' AND '@(ProjectReferenceWithConfiguration)' != '' AND '$(BuildingInsideVisualStudio)' != 'true' AND '$(BuildProjectReferences)' == 'true' AND '@(_MSBuildProjectReferenceExistent)' != ''"
+			Condition="'%(_MSBuildProjectReferenceExistent.BuildReference)' == 'true' AND @(ProjectReferenceWithConfiguration->Count()) != 0 AND '$(BuildingInsideVisualStudio)' != 'true' AND '$(BuildProjectReferences)' == 'true' AND @(_MSBuildProjectReferenceExistent->Count()) != 0"
 			ContinueOnError="$(ContinueOnError)"
 			RemoveProperties="%(_MSBuildProjectReferenceExistent.GlobalPropertiesToRemove);$(_GlobalPropertiesToRemoveFromProjectReferences)">
 
@@ -1996,7 +1996,7 @@
 			Targets="GetNativeManifest"
 			BuildInParallel="$(BuildInParallel)"
 			Properties="%(_MSBuildProjectReferenceExistent.SetConfiguration);%(_MSBuildProjectReferenceExistent.SetPlatform);%(_MSBuildProjectReferenceExistent.SetTargetFramework)"
-			Condition="'%(_MSBuildProjectReferenceExistent.BuildReference)' == 'true' AND '@(ProjectReferenceWithConfiguration)' != '' AND '$(BuildingProject)' == 'true' AND '@(_MSBuildProjectReferenceExistent)' != ''"
+			Condition="'%(_MSBuildProjectReferenceExistent.BuildReference)' == 'true' AND @(ProjectReferenceWithConfiguration->Count()) != 0 AND '$(BuildingProject)' == 'true' AND @(_MSBuildProjectReferenceExistent->Count()) != 0"
 			ContinueOnError="$(ContinueOnError)"
 			SkipNonexistentTargets="true"
 			RemoveProperties="%(_MSBuildProjectReferenceExistent.GlobalPropertiesToRemove);$(_GlobalPropertiesToRemoveFromProjectReferences)">
@@ -2019,7 +2019,7 @@
 		<!-- Issue a warning for each non-existent project. -->
 		<Warning
 			Text="The referenced project '%(_MSBuildProjectReferenceNonExistent.Identity)' does not exist."
-			Condition="'@(ProjectReferenceWithConfiguration)' != '' AND '@(_MSBuildProjectReferenceNonExistent)' != ''"/>
+			Condition="@(ProjectReferenceWithConfiguration->Count()) != 0 AND @(_MSBuildProjectReferenceNonExistent->Count()) != 0"/>
 	</Target>
 
 	<Target
@@ -2140,7 +2140,7 @@
 	-->
 	<Target
 		Name="ResolveNativeReferences"
-		Condition="'@(NativeReference)' != ''"
+		Condition="@(NativeReference->Count()) != 0"
 		DependsOnTargets="ResolveProjectReferences">
 
 		<ResolveNativeReference
@@ -2295,7 +2295,7 @@
 			FindDependenciesOfExternallyResolvedReferences="$(FindDependenciesOfExternallyResolvedReferences)"
 			ContinueOnError="$(ContinueOnError)"
 			OutputUnresolvedAssemblyConflicts="$(ResolveAssemblyReferenceOutputUnresolvedAssemblyConflicts)"
-			Condition="'@(Reference)' != '' OR '@(_ResolvedProjectReferencePaths)' != '' OR '@(_ExplicitReference)' != ''">
+			Condition="@(Reference->Count()) != 0 OR @(_ResolvedProjectReferencePaths->Count()) != 0 OR @(_ExplicitReference->Count()) != 0">
 
 			<Output TaskParameter="ResolvedFiles" ItemName="ReferencePath"/>
 			<Output TaskParameter="ResolvedFiles" ItemName="_ResolveAssemblyReferenceResolvedFiles"/>
@@ -2427,7 +2427,7 @@
 
 	<Target
 		Name="GetInstalledSDKLocations"
-		Condition="'@(SDKReference)' != ''"
+		Condition="@(SDKReference->Count()) != 0"
 		DependsOnTargets="$(GetInstalledSDKLocationsDependsOn)"
 		Returns="@(InstalledSDKLocations)">
 
@@ -2526,7 +2526,7 @@
 			LogResolutionErrorsAsWarnings="$(LogSDKReferenceResolutionErrorsAsWarnings)"
 			Prefer32Bit="$(Prefer32Bit)"
 			ContinueOnError="$(ContinueOnError)"
-			Condition="'@(SDKReference)' != ''">
+			Condition="@(SDKReference->Count()) != 0">
 			<Output TaskParameter="ResolvedSDKReferences" ItemName="ResolvedSDKReference"/>
 		</ResolveSDKReference>
 	</Target>
@@ -2626,7 +2626,7 @@
 			LogReferenceConflictBetweenSDKsAsWarning="$(GetSDKReferenceFilesLogReferenceConflictsBetweenSDKsAsWarning)"
 			CacheFileFolderPath="$(GetSDKReferenceFilesCacheFolder)"
 			LogCacheFileExceptions="$(GetSDKReferenceFilesLogCacheFileExceptions)"
-			Condition="'@(ResolvedSDKReference)' != ''">
+			Condition="@(ResolvedSDKReference->Count()) != 0">
 
 			<Output TaskParameter="References" ItemName="ReferencePath"/>
 			<Output TaskParameter="References" ItemName="ReferencesFromSDK"/>
@@ -2832,7 +2832,7 @@
 
 	<Target
 		Name="ResolveComReferences"
-		Condition="'@(COMReference)' != '' OR '@(COMFileReference)' != ''"
+		Condition="@(COMReference->Count()) != 0 OR @(COMFileReference->Count()) != 0"
 		Returns="@(ReferencePath)"
 		DependsOnTargets="PrepareForBuild;ResolveKeySource;ResolveAssemblyReferences">
 
@@ -2989,7 +2989,7 @@
 			<Output TaskParameter="AssignedFiles" ItemName="_DeploymentBaseManifestWithTargetPath"/>
 		</AssignTargetPath>
 
-		<AssignTargetPath Files="@(None)" RootFolder="$(MSBuildProjectDirectory)" Condition="'@(_DeploymentBaseManifestWithTargetPath)' == '' AND '%(None.Extension)' == '.manifest'">
+		<AssignTargetPath Files="@(None)" RootFolder="$(MSBuildProjectDirectory)" Condition="@(_DeploymentBaseManifestWithTargetPath->Count()) == 0 AND '%(None.Extension)' == '.manifest'">
 			<Output TaskParameter="AssignedFiles" ItemName="_DeploymentBaseManifestWithTargetPath"/>
 		</AssignTargetPath>
 	</Target>
@@ -3029,10 +3029,10 @@
 		Name="SplitResourcesByCulture"
 		DependsOnTargets="AssignTargetPaths">
 
-		<Warning Code="MSB9000" Condition="'@(ResxWithNoCulture)' != ''" Text="The 'ResxWithNoCulture' item type is deprecated. Use 'EmbeddedResource' item type instead."/>
-		<Warning Code="MSB9001" Condition="'@(ResxWithCulture)' != ''" Text="The 'ResxWithCulture' item type is deprecated. Use 'EmbeddedResource' item type instead."/>
-		<Warning Code="MSB9002" Condition="'@(NonResxWithCulture)' != ''" Text="The 'NonResxWithCulture' item type is deprecated. Use 'EmbeddedResource' item type instead."/>
-		<Warning Code="MSB9003" Condition="'@(NonResxWithNoCulture)' != ''" Text="The 'NonResxWithNoCulture' item type is deprecated. Use 'EmbeddedResource' item type instead."/>
+		<Warning Code="MSB9000" Condition="@(ResxWithNoCulture->Count()) != 0" Text="The 'ResxWithNoCulture' item type is deprecated. Use 'EmbeddedResource' item type instead."/>
+		<Warning Code="MSB9001" Condition="@(ResxWithCulture->Count()) != 0" Text="The 'ResxWithCulture' item type is deprecated. Use 'EmbeddedResource' item type instead."/>
+		<Warning Code="MSB9002" Condition="@(NonResxWithCulture->Count()) != 0" Text="The 'NonResxWithCulture' item type is deprecated. Use 'EmbeddedResource' item type instead."/>
+		<Warning Code="MSB9003" Condition="@(NonResxWithNoCulture->Count()) != 0" Text="The 'NonResxWithNoCulture' item type is deprecated. Use 'EmbeddedResource' item type instead."/>
 
 		<ItemGroup>
 			<_LicxFile Include="@(EmbeddedResource)" Condition="'%(Extension)' == '.licx'"/>
@@ -3277,7 +3277,7 @@
 
 	<Target
 		Name="CompileLicxFiles"
-		Condition="'@(_LicxFile)' != ''"
+		Condition="@(_LicxFile->Count()) != 0"
 		DependsOnTargets="$(CompileLicxFilesDependsOn)"
 		Inputs="$(MSBuildAllProjects);@(_LicxFile);@(ReferencePathWithRefAssemblies);@(ReferenceDependencyPaths)"
 		Outputs="$(IntermediateOutputPath)$(TargetFileName).licenses">
@@ -3391,8 +3391,8 @@
 	-->
 	<Target Name="_GenerateCompileInputs">
 
-		<Warning Condition="'@(ManifestResourceWithNoCulture)' != '' AND '%(ManifestResourceWithNoCulture.EmittedForCompatibilityOnly)' == ''" Code="MSB9004" Text="ManifestResourceWithNoCulture item type is deprecated. Emit EmbeddedResource items instead, with metadata WithCulture='false', Type='Resx', and optional LogicalName."/>
-		<Warning Condition="'@(ManifestNonResxWithNoCultureOnDisk)' != '' AND '%(ManifestNonResxWithNoCultureOnDisk.EmittedForCompatibilityOnly)' == ''" Code="MSB9005" Text="ManifestNonResxWithNoCultureOnDisk item type is deprecated. Emit EmbeddedResource items instead, with metadata WithCulture='false', Type='Non-Resx', and optional LogicalName."/>
+		<Warning Condition="@(ManifestResourceWithNoCulture->Count()) != 0 AND '%(ManifestResourceWithNoCulture.EmittedForCompatibilityOnly)' == ''" Code="MSB9004" Text="ManifestResourceWithNoCulture item type is deprecated. Emit EmbeddedResource items instead, with metadata WithCulture='false', Type='Resx', and optional LogicalName."/>
+		<Warning Condition="@(ManifestNonResxWithNoCultureOnDisk->Count()) != 0 AND '%(ManifestNonResxWithNoCultureOnDisk.EmittedForCompatibilityOnly)' == ''" Code="MSB9005" Text="ManifestNonResxWithNoCultureOnDisk item type is deprecated. Emit EmbeddedResource items instead, with metadata WithCulture='false', Type='Non-Resx', and optional LogicalName."/>
 
 		<ItemGroup>
 			<!-- _CoreCompileResourceInputs is the list of TLDA inputs that should trigger CoreCompile, and are listed as inputs to that target -->
@@ -3454,9 +3454,9 @@
 			Lines="$(TargetFrameworkMonikerAssemblyAttributeText)"
 			Overwrite="true"
 			ContinueOnError="true"
-			Condition="'@(Compile)' != '' AND '$(TargetFrameworkMonikerAssemblyAttributeText)' != ''"/>
+			Condition="@(Compile->Count()) != 0 AND '$(TargetFrameworkMonikerAssemblyAttributeText)' != ''"/>
 
-		<ItemGroup Condition="'@(Compile)' != '' AND '$(TargetFrameworkMonikerAssemblyAttributeText)' != ''">
+		<ItemGroup Condition="@(Compile->Count()) != 0 AND '$(TargetFrameworkMonikerAssemblyAttributeText)' != ''">
 			<!-- Do not put in FileWrites: this is a file shared between projects in %temp%, and cleaning it would create a race between projects during rebuild -->
 			<Compile Include="$(TargetFrameworkMonikerAssemblyAttributesPath)"/>
 		</ItemGroup>
@@ -3482,7 +3482,7 @@
 			DependsOnTargets="PrepareForBuild;GetReferenceAssemblyPaths"
 			Inputs="$(MSBuildAllProjects)"
 			Outputs="$(AssemblyAttributesPath)"
-			Condition="'@(AssemblyAttributes)' != '' AND '$(GenerateAdditionalSources)' == 'true'">
+			Condition="@(AssemblyAttributes->Count()) != 0 AND '$(GenerateAdditionalSources)' == 'true'">
 
 		<WriteCodeFragment
 			AssemblyAttributes="@(AssemblyAttributes)"
@@ -3675,7 +3675,7 @@
 	-->
 	<Target
 		Name="GenerateSerializationAssemblies"
-		Condition="'$(_SGenGenerateSerializationAssembliesConfig)' == 'On' OR ('@(WebReferenceUrl)' != '' AND '$(_SGenGenerateSerializationAssembliesConfig)' == 'Auto')"
+		Condition="'$(_SGenGenerateSerializationAssembliesConfig)' == 'On' OR (@(WebReferenceUrl->Count()) != 0 AND '$(_SGenGenerateSerializationAssembliesConfig)' == 'Auto')"
 		DependsOnTargets="AssignTargetPaths;Compile;ResolveKeySource"
 		Inputs="$(MSBuildAllProjects);@(IntermediateAssembly)"
 		Outputs="$(IntermediateOutputPath)$(_SGenDllName)">
@@ -3742,8 +3742,8 @@
 	-->
 	<Target Name="_GenerateSatelliteAssemblyInputs">
 
-		<Warning Condition="'@(ManifestResourceWithCulture)' != '' AND '%(ManifestResourceWithCulture.EmittedForCompatibilityOnly)' == ''" Code="MSB9006" Text="ManifestResourceWithCulture item type is deprecated. Emit EmbeddedResource items instead, with metadata WithCulture='true', Type='Resx', and optional LogicalName."/>
-		<Warning Condition="'@(ManifestNonResxWithCultureOnDisk)' != '' AND '%(ManifestNonResxWithCultureOnDisk.EmittedForCompatibilityOnly)' == ''" Code="MSB9007" Text="ManifestNonResxWithCultureOnDisk item type is deprecated. Emit EmbeddedResource items instead, with metadata WithCulture='true', Type='Non-Resx', and optional LogicalName."/>
+		<Warning Condition="@(ManifestResourceWithCulture->Count()) != 0 AND '%(ManifestResourceWithCulture.EmittedForCompatibilityOnly)' == ''" Code="MSB9006" Text="ManifestResourceWithCulture item type is deprecated. Emit EmbeddedResource items instead, with metadata WithCulture='true', Type='Resx', and optional LogicalName."/>
+		<Warning Condition="@(ManifestNonResxWithCultureOnDisk->Count()) != 0 AND '%(ManifestNonResxWithCultureOnDisk.EmittedForCompatibilityOnly)' == ''" Code="MSB9007" Text="ManifestNonResxWithCultureOnDisk item type is deprecated. Emit EmbeddedResource items instead, with metadata WithCulture='true', Type='Non-Resx', and optional LogicalName."/>
 
 		<ItemGroup>
 			<!-- _SatelliteAssemblyResourceInputs is the list of TLDA inputs that should trigger CreateSatelliteAssemblies, so listed as inputs to that target -->
@@ -3772,7 +3772,7 @@
 	<Target Name="GenerateSatelliteAssemblies"
 			Inputs="$(MSBuildAllProjects);@(_SatelliteAssemblyResourceInputs);$(IntermediateOutputPath)$(TargetName)$(TargetExt)"
 			Outputs="$(IntermediateOutputPath)%(Culture)\$(TargetName).resources.dll"
-			Condition="'@(_SatelliteAssemblyResourceInputs)' != '' AND '$(GenerateSatelliteAssembliesForCore)' != 'true'">
+			Condition="@(_SatelliteAssemblyResourceInputs->Count()) != 0 AND '$(GenerateSatelliteAssembliesForCore)' != 'true'">
 
 		<MakeDir
 			Directories="@(EmbeddedResource->'$(IntermediateOutputPath)%(Culture)')"/>
@@ -3870,7 +3870,7 @@
 
 	<Target
 		Name="_SetExternalWin32ManifestProperties"
-		Condition="'$(GenerateClickOnceManifests)' == 'true' OR '@(NativeReference)' != '' OR '@(ResolvedIsolatedComModules)' != ''">
+		Condition="'$(GenerateClickOnceManifests)' == 'true' OR @(NativeReference->Count()) != 0 OR @(ResolvedIsolatedComModules->Count()) != 0">
 
 		<PropertyGroup>
 			<!--
@@ -3894,7 +3894,7 @@
 
 	<Target
 		Name="_SetEmbeddedWin32ManifestProperties"
-		Condition="'$(GenerateClickOnceManifests)' != 'true' AND '@(NativeReference)' == '' AND '@(ResolvedIsolatedComModules)' == ''">
+		Condition="'$(GenerateClickOnceManifests)' != 'true' AND @(NativeReference->Count()) == 0 AND @(ResolvedIsolatedComModules->Count()) == 0">
 
 		<PropertyGroup>
 			<EmbeddedWin32Manifest>$(ApplicationManifest)</EmbeddedWin32Manifest>
@@ -3959,7 +3959,7 @@
 
 	<Target
 		Name="GenerateManifests"
-		Condition="'$(GenerateClickOnceManifests)' == 'true' OR '@(NativeReference)' != '' OR '@(ResolvedIsolatedComModules)' != '' OR '$(GenerateAppxManifest)' == 'true'"
+		Condition="'$(GenerateClickOnceManifests)' == 'true' OR @(NativeReference->Count()) != 0 OR @(ResolvedIsolatedComModules->Count()) != 0 OR '$(GenerateAppxManifest)' == 'true'"
 		DependsOnTargets="$(GenerateManifestsDependsOn)"/>
 
 	<!--
@@ -4557,7 +4557,7 @@
 			RetryDelayMilliseconds="$(CopyRetryDelayMilliseconds)"
 			UseHardlinksIfPossible="$(CreateHardLinksForCopyAdditionalFilesIfPossible)"
 			UseSymboliclinksIfPossible="$(CreateSymbolicLinksForCopyAdditionalFilesIfPossible)"
-			Condition="'@(AddModules)' != ''">
+			Condition="@(AddModules->Count()) != 0">
 
 			<Output TaskParameter="DestinationFiles" ItemName="FileWrites"/>
 		</Copy>
@@ -4621,7 +4621,7 @@
 			UseHardlinksIfPossible="$(CreateHardLinksForCopyFilesToOutputDirectoryIfPossible)"
 			UseSymboliclinksIfPossible="$(CreateSymbolicLinksForCopyFilesToOutputDirectoryIfPossible)"
 			ErrorIfLinkFails="$(ErrorIfLinkFailsForCopyFilesToOutputDirectory)"
-			Condition="'@(IntermediateSatelliteAssembliesWithTargetPath)' != ''">
+			Condition="@(IntermediateSatelliteAssembliesWithTargetPath->Count()) != 0">
 
 			<Output TaskParameter="DestinationFiles" ItemName="FileWrites"/>
 		</Copy>
@@ -4639,7 +4639,7 @@
 			RetryDelayMilliseconds="$(CopyRetryDelayMilliseconds)"
 			UseHardlinksIfPossible="$(CreateHardLinksForCopyAdditionalFilesIfPossible)"
 			UseSymboliclinksIfPossible="$(CreateSymbolicLinksForCopyAdditionalFilesIfPossible)"
-			Condition="'@(ReferenceComWrappersToCopyLocal)' != '' OR '@(ResolvedIsolatedComModules)' != '' OR '@(_DeploymentLooseManifestFile)' != '' OR '@(NativeReferenceFile)' != ''">
+			Condition="@(ReferenceComWrappersToCopyLocal->Count()) != 0 OR @(ResolvedIsolatedComModules->Count()) != 0 OR @(_DeploymentLooseManifestFile->Count()) != 0 OR @(NativeReferenceFile->Count()) != 0">
 
 			<Output TaskParameter="DestinationFiles" ItemName="FileWritesShareable"/>
 		</Copy>
@@ -4655,7 +4655,7 @@
 			UseHardlinksIfPossible="$(CreateHardLinksForCopyFilesToOutputDirectoryIfPossible)"
 			UseSymboliclinksIfPossible="$(CreateSymbolicLinksForCopyFilesToOutputDirectoryIfPossible)"
 			ErrorIfLinkFails="$(ErrorIfLinkFailsForCopyFilesToOutputDirectory)"
-			Condition="'$(SkipCopyWinMDArtifact)' != 'true' AND '@(WinMDExpArtifacts)' != ''">
+			Condition="'$(SkipCopyWinMDArtifact)' != 'true' AND @(WinMDExpArtifacts->Count()) != 0">
 			<Output TaskParameter="DestinationFiles" ItemName="FileWrites"/>
 			<Output TaskParameter="DestinationFiles" ItemName="FinalWinmdExpArtifacts"/>
 		</Copy>
@@ -4672,7 +4672,7 @@
 	-->
 	<Target
 		Name="_CopyFilesMarkedCopyLocal"
-		Condition="'@(ReferenceCopyLocalPaths)' != ''">
+		Condition="@(ReferenceCopyLocalPaths->Count()) != 0">
 
 		<PropertyGroup>
 			<!-- By default we're not using Hard Links to copy to the output directory, and never when building in VS -->
@@ -4704,7 +4704,7 @@
 		-->
 		<Touch Files="@(CopyUpToDateMarker)"
 			AlwaysCreate="true"
-			Condition="'@(ReferencesCopiedInThisBuild)' != '' and '$(WroteAtLeastOneFile)' == 'true'"/>
+			Condition="@(ReferencesCopiedInThisBuild->Count()) != 0 and '$(WroteAtLeastOneFile)' == 'true'"/>
 
 		<ItemGroup>
 			<FileWrites Include="@(CopyUpToDateMarker)"/>
@@ -4794,7 +4794,7 @@
 			Targets="$(_RecursiveTargetForContentCopying)"
 			BuildInParallel="$(BuildInParallel)"
 			Properties="%(_MSBuildProjectReferenceExistent.SetConfiguration);%(_MSBuildProjectReferenceExistent.SetPlatform);%(_MSBuildProjectReferenceExistent.SetTargetFramework)"
-			Condition="'@(_MSBuildProjectReferenceExistent)' != '' AND '$(_GetChildProjectCopyToOutputDirectoryItems)' == 'true' AND '%(_MSBuildProjectReferenceExistent.Private)' != 'false' AND '$(UseCommonOutputDirectory)' != 'true'"
+			Condition="@(_MSBuildProjectReferenceExistent->Count()) != 0 AND '$(_GetChildProjectCopyToOutputDirectoryItems)' == 'true' AND '%(_MSBuildProjectReferenceExistent.Private)' != 'false' AND '$(UseCommonOutputDirectory)' != 'true'"
 			ContinueOnError="$(ContinueOnError)"
 			SkipNonexistentTargets="true"
 			RemoveProperties="%(_MSBuildProjectReferenceExistent.GlobalPropertiesToRemove);$(_GlobalPropertiesToRemoveFromProjectReferences)">
@@ -4961,7 +4961,7 @@
 	-->
 	<Target
 		Name="_CopyOutOfDateSourceItemsToOutputDirectory"
-		Condition="'@(_SourceItemsToCopyToOutputDirectory)' != ''"
+		Condition="@(_SourceItemsToCopyToOutputDirectory->Count()) != 0"
 		Inputs="@(_SourceItemsToCopyToOutputDirectory)"
 		Outputs="@(_SourceItemsToCopyToOutputDirectory->'$(OutDir)%(TargetPath)')">
 
@@ -4992,7 +4992,7 @@
 	-->
 	<Target
 		Name="_CopyOutOfDateSourceItemsToOutputDirectoryAlways"
-		Condition="'@(_SourceItemsToCopyToOutputDirectoryAlways)' != ''">
+		Condition="@(_SourceItemsToCopyToOutputDirectoryAlways->Count()) != 0">
 
 		<!--
 			Not using SkipUnchangedFiles="true" because the application may want to change
@@ -5020,7 +5020,7 @@
 	-->
 	<Target
 		Name="_CopyAppConfigFile"
-		Condition="'@(AppConfigWithTargetPath)' != ''"
+		Condition="@(AppConfigWithTargetPath->Count()) != 0"
 		Inputs="@(AppConfigWithTargetPath)"
 		Outputs="@(AppConfigWithTargetPath->'$(OutDir)%(TargetPath)')">
 
@@ -5135,7 +5135,7 @@
 	-->
 	<Target
 		Name="_SGenCheckForOutputs"
-		Condition="'$(_SGenGenerateSerializationAssembliesConfig)' == 'On' OR ('@(WebReferenceUrl)' != '' AND '$(_SGenGenerateSerializationAssembliesConfig)' == 'Auto')">
+		Condition="'$(_SGenGenerateSerializationAssembliesConfig)' == 'On' OR (@(WebReferenceUrl->Count()) != 0 AND '$(_SGenGenerateSerializationAssembliesConfig)' == 'Auto')">
 
 		<!-- Record the serializer .dll if one was produced.-->
 		<PropertyGroup>
@@ -5404,7 +5404,7 @@
 			Targets="Clean"
 			Properties="%(_MSBuildProjectReferenceExistent.SetConfiguration);%(_MSBuildProjectReferenceExistent.SetPlatform);%(_MSBuildProjectReferenceExistent.SetTargetFramework)"
 			BuildInParallel="$(BuildInParallel)"
-			Condition="'$(BuildingInsideVisualStudio)' != 'true' AND '$(BuildProjectReferences)' == 'true' AND '@(_MSBuildProjectReferenceExistent)' != ''"
+			Condition="'$(BuildingInsideVisualStudio)' != 'true' AND '$(BuildProjectReferences)' == 'true' AND @(_MSBuildProjectReferenceExistent->Count()) != 0"
 			ContinueOnError="$(ContinueOnError)"
 			RemoveProperties="%(_MSBuildProjectReferenceExistent.GlobalPropertiesToRemove);$(_GlobalPropertiesToRemoveFromProjectReferences)"/>
 	</Target>
@@ -5943,7 +5943,7 @@
 
 		<!-- This item represents the native manifest, example: WindowsApplication1.exe.manifest or Native.ClassLibrary1.manifest -->
 		<ItemGroup>
-			<_BuiltProjectOutputGroupOutputIntermediate Include="$(OutDir)$(_DeploymentTargetApplicationManifestFileName)" Condition="'@(NativeReference)' != '' OR '@(_IsolatedComReference)' != ''">
+			<_BuiltProjectOutputGroupOutputIntermediate Include="$(OutDir)$(_DeploymentTargetApplicationManifestFileName)" Condition="@(NativeReference->Count()) != 0 OR @(_IsolatedComReference->Count()) != 0">
 				<TargetPath>$(_DeploymentTargetApplicationManifestFileName)</TargetPath>
 				<!-- For compatibility with 2.0 -->
 				<OriginalItemSpec>$(OutDir)$(_DeploymentTargetApplicationManifestFileName)</OriginalItemSpec>
@@ -6130,7 +6130,7 @@
 	</PropertyGroup>
 
 	<ItemGroup
-		Condition="'$(_SGenGenerateSerializationAssembliesConfig)' == 'On' OR ('@(WebReferenceUrl)' != '' AND '$(_SGenGenerateSerializationAssembliesConfig)' == 'Auto')">
+		Condition="'$(_SGenGenerateSerializationAssembliesConfig)' == 'On' OR (@(WebReferenceUrl->Count()) != 0 AND '$(_SGenGenerateSerializationAssembliesConfig)' == 'Auto')">
 		<SGenFilesOutputGroupOutput Include="@(_OutputPathItem->'%(FullPath)$(_SGenDllName)')">
 			<FinalOutputPath>@(_OutputPathItem->'%(FullPath)$(_SGenDllName)')</FinalOutputPath>
 			<TargetPath>$(_SGenDllName)</TargetPath>
@@ -6169,7 +6169,7 @@
 	-->
 	<Target
 		Name="PriFilesOutputGroup"
-		Condition="'@(_ReferenceRelatedPaths)' != ''"
+		Condition="@(_ReferenceRelatedPaths->Count()) != 0"
 		DependsOnTargets="BuildOnlySettings;PrepareForBuild;AssignTargetPaths;ResolveReferences"
 		Returns="@(PriFilesOutputGroupOutput)">
 

@@ -225,18 +225,18 @@
 			Returns="@(RestoreGraphProjectInputItems)">
 
 		<!-- Allow overriding items with RestoreGraphProjectInput -->
-		<ItemGroup Condition="@(RestoreGraphProjectInputItems) == ''">
+		<ItemGroup Condition="@(RestoreGraphProjectInputItems->Count()) == 0">
 			<RestoreGraphProjectInputItems Include="$(RestoreGraphProjectInput)"/>
 		</ItemGroup>
 
 		<!-- Project case -->
-		<ItemGroup Condition="'$(MSBuildProjectExtension)' != '.metaproj' AND @(RestoreGraphProjectInputItems) == ''">
+		<ItemGroup Condition="'$(MSBuildProjectExtension)' != '.metaproj' AND @(RestoreGraphProjectInputItems->Count()) == 0">
 			<RestoreGraphProjectInputItems Include="$(MSBuildProjectFullPath)"/>
 		</ItemGroup>
 
 		<!-- Solution case -->
 		<GetRestoreSolutionProjectsTask
-			Condition="'$(MSBuildProjectExtension)' == '.metaproj' AND @(RestoreGraphProjectInputItems) == ''"
+			Condition="'$(MSBuildProjectExtension)' == '.metaproj' AND @(RestoreGraphProjectInputItems->Count()) == 0"
 			ProjectReferences="@(ProjectReference)"
 			SolutionFilePath="$(MSBuildProjectFullPath)">
 			<Output

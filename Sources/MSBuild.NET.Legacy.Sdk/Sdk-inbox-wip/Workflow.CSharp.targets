@@ -12,7 +12,7 @@
 		<!-- Create WF specific resource names for non-culture non-resx files. -->
 
 		<CreateWorkflowManifestResourceNameForCSharp
-			Condition="'@(WFNonResxWithNoCulture)' != ''"
+			Condition="@(WFNonResxWithNoCulture->Count()) != 0"
 			ResourceFiles="@(WFNonResxWithNoCulture)"
 			RootNamespace="$(RootNamespace)">
 
@@ -20,7 +20,7 @@
 		</CreateWorkflowManifestResourceNameForCSharp>
 
 		<CreateWorkflowManifestResourceNameForCSharp
-			Condition="'@(WFNonResxWithCulture)' != ''"
+			Condition="@(WFNonResxWithCulture->Count()) != 0"
 			ResourceFiles="@(WFNonResxWithCulture)"
 			RootNamespace="$(RootNamespace)">
 

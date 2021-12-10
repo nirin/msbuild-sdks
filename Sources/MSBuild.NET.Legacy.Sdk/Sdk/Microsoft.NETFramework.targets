@@ -15,7 +15,7 @@
 
 			<_TargetedFrameworkDirectoryItem Include="@(_TargetFramework20DirectoryItem)" Condition="'$(TargetFrameworkVersion)' == 'v2.0'"/>
 			<_TargetedFrameworkDirectoryItem Include="$(MSBuildFrameworkToolsRoot)\$(TargetFrameworkVersion)" Condition="'$(TargetFrameworkVersion)' == 'v3.0' OR '$(TargetFrameworkVersion)' == 'v3.5'"/>
-			<_TargetedFrameworkDirectoryItem Include="@(_TargetFramework40DirectoryItem)" Condition="'@(_TargetedFrameworkDirectoryItem)' == ''"/>
+			<_TargetedFrameworkDirectoryItem Include="@(_TargetFramework40DirectoryItem)" Condition="@(_TargetedFrameworkDirectoryItem->Count()) == 0"/>
 		</ItemGroup>
 
 		<ItemGroup>
@@ -23,7 +23,7 @@
 			<_CombinedTargetFrameworkDirectoriesItem Include="@(_TargetFramework35DirectoryItem)" Condition="'$(TargetFrameworkVersion)' == 'v3.5'"/>
 			<_CombinedTargetFrameworkDirectoriesItem Include="@(_TargetFramework30DirectoryItem)" Condition="'$(TargetFrameworkVersion)' == 'v3.0' OR '$(TargetFrameworkVersion)' == 'v3.5'"/>
 			<_CombinedTargetFrameworkDirectoriesItem Include="@(_TargetFramework20DirectoryItem)" Condition="'$(TargetFrameworkVersion)' == 'v2.0' OR '$(TargetFrameworkVersion)' == 'v3.0' OR '$(TargetFrameworkVersion)' == 'v3.5'"/>
-			<_CombinedTargetFrameworkDirectoriesItem Include="@(_TargetedFrameworkDirectoryItem)" Condition="'@(_CombinedTargetFrameworkDirectoriesItem)' == ''"/>
+			<_CombinedTargetFrameworkDirectoriesItem Include="@(_TargetedFrameworkDirectoryItem)" Condition="@(_CombinedTargetFrameworkDirectoriesItem->Count()) == 0"/>
 		</ItemGroup>
 
 		<PropertyGroup>
